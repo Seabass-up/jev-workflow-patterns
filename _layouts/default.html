@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ page.description | default: site.description | escape }}">
+    <meta name="color-scheme" content="light">
+    <title>{{ page.title | escape }} · {{ site.title | escape }}</title>
+    <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="{{ '/' | relative_url }}" aria-label="Jev Workflow Patterns home">
+          <span class="brand-mark" aria-hidden="true">J</span>
+          <span>Jev Workflow Patterns</span>
+        </a>
+        <nav aria-label="Main navigation">
+          <a href="{{ '/' | relative_url }}">Overview</a>
+          <a href="{{ '/patterns/evidence-directed-allowlist-controller/' | relative_url }}">Evidence loop</a>
+          <a href="{{ '/patterns/lineage-aware-corroboration/' | relative_url }}">Lineage</a>
+          <a href="{{ '/patterns/dependency-dag-selective-recomputation/' | relative_url }}">DAG recompute</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="page-shell">
+      <article class="page-content">
+        {% if page.kicker %}<p class="kicker">{{ page.kicker | escape }}</p>{% endif %}
+        <h1>{{ page.title | escape }}</h1>
+        {% if page.description %}<p class="page-lede">{{ page.description | escape }}</p>{% endif %}
+        {{ content }}
+      </article>
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>Typed judgments in; code-controlled outcomes out.</span>
+        <span><a href="https://docs.typesafe.ai/concepts/system-one">TypeSafe System One docs</a> · <a href="https://github.com/Seabass-up/jev-workflow-patterns">Source and Skills</a></span>
+      </div>
+    </footer>
+  </body>
+</html>

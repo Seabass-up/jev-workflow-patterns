@@ -34,6 +34,22 @@ Source IDs/revisions needed for the judgment may appear in state; expectations,
 credentials, and unrelated records do not. Define precedence where it changes the
 result: missing source, contradictory evidence, no matching label, or unresolved intent.
 
+## Setting confidence thresholds
+
+Choice confidence depends on the option count. Stored jev-1.13.0 answers follow
+`(n × top probability − 1) / (n − 1)` within 0.02, so one fixed threshold demands
+different top probabilities: 0.8 needs 0.90 with two options, 0.85 with four, and
+0.833 with six. At the same top probability, adding an option such as `insufficient`
+raises confidence. Record each threshold with the option set it was tuned on, re-tune
+after adding or removing an option, or gate on top probability in code;
+`scripts/check_confidence.py` converts between the two.
+
+Confidence does not say where the remaining probability went. When a runner-up
+would lead to the same action, sum probabilities per action in code before gating.
+When only the best option matters, take the highest-probability option without a
+threshold. Score confidence is ordinal-aware and not interchangeable with Choice
+confidence; Noul has none.
+
 ## Asking for more detail
 
 Suppose the first Choice identifies a delivery issue but no delivery event is supplied.

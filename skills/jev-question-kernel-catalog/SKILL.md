@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
 ---
 
 # Jev Question Kernel v2
@@ -63,8 +63,13 @@ Run the portable structural check from the installed skill folder:
 
 ```sh
 python3 scripts/check_contract.py assets/contract-example.json assets/fixtures-example.json
+python3 scripts/check_confidence.py RECEIPT_JSON_OR_DIRECTORY
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
+
+`check_confidence.py` checks stored Choice confidence against its probabilities and
+converts a confidence threshold into the top probability it requires for a given
+option count. Consistency is not correctness.
 
 The helper checks the local authoring envelope shape shown in the two examples
 (`contract_id`, `request`, `consumer`, `uncertainty_policy`, `evaluation_scope`). The

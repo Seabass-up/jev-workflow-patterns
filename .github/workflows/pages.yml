@@ -23,6 +23,14 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v7
+      - name: Verify iteration receipts and controller tests
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          for iteration in iterations/[0-9][0-9]; do
+            python3 "$iteration/evaluate.py"
+            python3 -m unittest discover -s "$iteration" -p 'test_*.py' -v
+          done
       - name: Configure Pages
         uses: actions/configure-pages@v6
       - name: Build site with Jekyll
@@ -36,6 +44,7 @@ jobs:
           test -f ./_site/patterns/evidence-directed-allowlist-controller/index.html
           test -f ./_site/patterns/lineage-aware-corroboration/index.html
           test -f ./_site/patterns/dependency-dag-selective-recomputation/index.html
+          python3 scripts/verify_site.py ./_site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:

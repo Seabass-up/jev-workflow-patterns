@@ -1,5 +1,13 @@
 # Lessons learned
 
+## 2026-09-22 — Iteration 1 question contracts and guarded controllers
+
+- **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”
+- **Confirmed cause/boundary:** B01's written criteria overlapped. B02's wording suggested a personal name requirement and left cross-dimension independence unclear; the model's internal cause is unknown. L05's fixture target was genuinely underspecified. H01 demonstrates that plausibility does not establish an actual task target.
+- **Repair:** Versioned B01/B02 questions, preserving initial contracts, labels and failures. Added caller-owned target binding and exact authorized read/argument checks to the H01 demonstration controller; H01 remains held for grounding redesign. Preserved L05/H09 disputed labels instead of silently relabeling them.
+- **Verification:** 15 targeted live checks matched (8 regression + 7 new diagnostic cases). 136/136 raw request hashes reproduce from frozen state/questions. 31 offline tests passed, including the actual H01 high-probability failure being blocked with an unbound target. The first offline test's mistaken all-branches-labeled assumption was corrected to allow only explicitly unused E01 impact scores.
+- **Prevention:** Separate no request from unresolved intent, separate evidence dimensions, freeze expected labels, and never treat model plausibility/confidence as grounding or authority. Current checks are local/synthetic; production integration and domain qualification remain unperformed. See [the full evaluation](../iterations/01/evaluation.md). Publication is verified separately after deployment.
+
 ## 2026-09-21 — GitHub Pages workflow runtime compatibility
 
 - **Component:** `.github/workflows/pages.yml`.

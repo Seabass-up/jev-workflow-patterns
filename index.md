@@ -16,7 +16,20 @@ kicker: A practical pattern catalog
 [Start with the kernel]({{ '/kernel/' | relative_url }}) to design a typed question,
 check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
-local structural checker. Domain profiles connect it to all 120 catalog patterns.
+local structural checker. Domain profiles connect it to all 120 research-catalog
+patterns plus 12 email profiles in skill version 2.1.0.
+
+## New: 12 email patterns
+
+[Browse the email catalog]({{ '/email/' | relative_url }}) for reply ownership,
+current versus quoted requests, thread changes, commitments, date meaning,
+scheduling, attachment claims, draft coverage, waiting responsibility, automatic
+replies, invoice disputes, and closure/reopening evidence.
+
+The current versions match 36/36 synthetic examples after two empty-input
+refinements; all 42 live screening receipts and original misses are preserved.
+[Read the email evaluation]({{ '/email/evaluation/' | relative_url }}).
+These are advisory question profiles, not an inbox integration or an accuracy guarantee.
 
 ## Current question catalog
 

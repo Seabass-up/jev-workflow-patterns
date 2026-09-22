@@ -10,6 +10,15 @@
 - **Jev consultation:** A two-question design check returned coherent (confidence 0.97) and resolved repeat-audit exception (1.0), model jev-1.13.0, request digest `1cdab42a2e606ec00b0ab17fcd08efa9aa03f3363d3773c881f949b420e8f494`; 605 input/90 output tokens and 430.191 ms. This was advisory design review, not a live test of the new example contract.
 - **Prevention:** Package required guidance inside the skill and distinguish structural validation, semantic evaluation, and installed/runtime status.
 
+## 2026-09-22 — Email missing-input precedence and confidence validation
+
+- **Component:** Email profiles EM07/EM08 and the email receipt evaluator.
+- **Symptom:** Initial screening matched 34/36. Empty evidence selected no_document_claim (EM07) and omitted (EM08) rather than unknown. The first evaluator also rejected valid receipts because it equated confidence with the chosen category probability.
+- **Confirmed cause/boundary:** The two question contracts did not explicitly prioritize missing input over negative categories. The model's internal cause is unknown. The evaluator assumption contradicted TypeSafe's documented confidence-as-distribution-summary contract.
+- **Repair:** Versioned EM07/EM08 to v2 with explicit missing-input precedence, preserving original state, labels, contracts and receipts. Validate confidence independently from category probability. Recommend deterministic required-field preflight before operational inference.
+- **Verification:** Six targeted live reruns matched 6/6; current selection matches 36/36. The evaluator verifies 42 request digests and preserves both initial misses. Thirteen offline tests and Skill Creator validation pass; the original low-confidence miss is explicitly accepted as a valid but incorrect response in a regression test. See [email evaluation](../email/evaluation.md).
+- **Prevention and limits:** Freeze expectations outside provider inputs; preserve misses and version repairs. Do not infer source completeness from a negative label or equate different statistics. These are synthetic design checks, not held-out accuracy, mailbox integration, or delivery verification. Public deployment is checked separately.
+
 ## 2026-09-22 — Iteration 4 literal precedence and numeric-boundary repairs
 
 - **Component:** Iteration 4 H37 citation controller and H38 feature-evaluation controller.

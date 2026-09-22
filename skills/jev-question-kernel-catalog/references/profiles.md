@@ -1,7 +1,7 @@
 # Domain profiles
 
 Choose by state relationship, typed output, consumer, and limitation. Similar nouns
-alone do not establish a match. Four catalogs total 120 patterns:
+alone do not establish a match. Four research catalogs total 120 patterns:
 
 | Catalog | Business | Engineering | LLM | Harness |
 | --- | --- | --- | --- | --- |
@@ -24,6 +24,12 @@ modules/example and mark uninspected external patterns as unverified.
   L21/H36 risk judgments cannot establish prompt-injection safety.
 - **Harness:** select compositions required by actual dependencies: batching,
   retrieval, candidate binding, repeat audits, or drift checks.
+
+An additional [email catalog](https://seabass-up.github.io/jev-workflow-patterns/email/)
+adds EM01–EM12: twelve email-specific profiles with three synthetic cases each.
+Read the local [email module](email.md) for source boundaries, question-handle
+composition, draft coverage, and action controls. These supplement rather than
+replace the four historical catalogs.
 
 The [three foundations](https://seabass-up.github.io/jev-workflow-patterns/) retain
 their dedicated skills for evidence-directed retrieval, lineage-aware corroboration,

@@ -6,6 +6,9 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [Twelve email question patterns](https://seabass-up.github.io/jev-workflow-patterns/email/)
+- [Email evaluation and preserved misses](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/)
+
 - [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
 
 - [Iteration 1: 20 useful questions plus 10 experimental harness designs](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/)
@@ -26,6 +29,12 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 The foundational patterns have dedicated skills. All four catalogs share the [Jev Question Kernel v2 skill](skills/jev-question-kernel-catalog/SKILL.md), whose existing folder name remains compatible. Copy the entire skill folder through a compatible skill installation workflow; its modules, examples, and helper are self-contained. The website does not install it or change harness settings.
 
 ## Boundaries
+
+The email extension adds 12 profiles to the existing 120 research questions, with
+the email module packaged in kernel skill version 2.1.0. Initial screening matched
+34/36; two versioned missing-input refinements matched 6/6 reruns and select 36/36
+current fixtures. All 42 live screening receipts remain replayable. No mailbox
+connection or email action is installed or authorized by the catalog.
 
 The iteration catalog is a separate evidence track from the three foundational patterns. Iteration 4's initial 58/60 screen preserves both misses; four v2 reruns selected 60/60 current synthetic fixtures. See each iteration's exact versions, failures and scope; these are not production-accuracy claims.
 

@@ -40,6 +40,17 @@ def verify(site):
                 raise ValueError("missing supporting page: " + str(page))
             pages.append(page)
     iteration_count = len(pages)
+    email_catalog = json.loads((ROOT / "email/catalog.json").read_text())
+    if len(email_catalog["patterns"]) < 10:
+        raise ValueError("expected at least ten email profiles")
+    for p in email_catalog["patterns"]:
+        page = site / "email/patterns" / p["id"].lower() / "index.html"
+        if not page.is_file() or p["id"] not in page.read_text():
+            raise ValueError("missing email pattern or identifier: " + str(page))
+        pages.append(page)
+    for name in ("index.html", "evaluation/index.html", "sources/index.html"):
+        pages.append(site / "email" / name)
+    email_count = len(pages) - iteration_count
     pages.extend([site / "index.html", site / "kernel" / "index.html"])
     for page in pages:
         if not page.is_file():
@@ -60,9 +71,10 @@ def verify(site):
                 raise ValueError("broken internal link from " + str(page) + ": " + link)
     if not pages:
         raise ValueError("no iteration pages found")
-    return iteration_count
+    return {"iteration_pages_verified": iteration_count,
+            "email_pages_verified": email_count,
+            "kernel_and_home_pages_verified": 2}
 
 
 if __name__ == "__main__":
-    print(json.dumps({"iteration_pages_verified": verify(Path(sys.argv[1])),
-                      "kernel_and_home_pages_verified": 2}))
+    print(json.dumps(verify(Path(sys.argv[1]))))

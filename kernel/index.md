@@ -74,6 +74,12 @@ question quality, or performance on new data.
 
 ## Choose from all four catalogs
 
+[Twelve email profiles]({{ '/email/' | relative_url }}) now extend the kernel in
+skill version 2.1.0. They cover email ownership, quotes, changes, commitments,
+scheduling, attachments, draft coverage, waiting, automatic responses, invoice
+questions, and closure. The [email module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/email.md)
+keeps mailbox evidence and action controls explicit.
+
 [Iteration 1]({{ '/iterations/01/' | relative_url }}) ·
 [Iteration 2]({{ '/iterations/02/' | relative_url }}) ·
 [Iteration 3]({{ '/iterations/03/' | relative_url }}) ·

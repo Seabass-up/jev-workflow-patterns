@@ -1,5 +1,15 @@
 # Lessons learned
 
+## 2026-09-22 — Portable Jev Question Kernel v2
+
+- **Symptom:** The shared skill indexed only Iteration 3 and referenced a file outside its installable folder. It could not carry its core guide when installed alone.
+- **Cause:** The catalog skill was packaged around the repository layout and a single historical iteration.
+- **Repair:** Kept the existing skill name and added local authoring, evidence/provenance, evaluation/drift, and domain references covering all four catalogs. Added separate contract/fixture examples and a standard-library structural checker. Repeated identical calls are explicitly allowed for bounded repeatability audits; ordinary drill-down retains its evidence dependency rule.
+- **Verification scope:** The helper tests version binding, expectation coverage, invalid intervals, required state, candidate labels, and transport construction. Passing structural checks does not establish semantic quality or performance. The historical research fixtures and four-cycle completion state are unchanged.
+- **Local results:** Nine helper tests and the example structural check passed, including from a copied standalone skill folder. Skill Creator validation passed using an isolated uv environment with PyYAML because the existing interpreters lacked that validator dependency. The helper itself requires only Python's standard library. GitHub CI now runs the kernel checks and verifies the rendered kernel/home links alongside the 136 iteration pages.
+- **Jev consultation:** A two-question design check returned coherent (confidence 0.97) and resolved repeat-audit exception (1.0), model jev-1.13.0, request digest `1cdab42a2e606ec00b0ab17fcd08efa9aa03f3363d3773c881f949b420e8f494`; 605 input/90 output tokens and 430.191 ms. This was advisory design review, not a live test of the new example contract.
+- **Prevention:** Package required guidance inside the skill and distinguish structural validation, semantic evaluation, and installed/runtime status.
+
 ## 2026-09-22 — Iteration 4 literal precedence and numeric-boundary repairs
 
 - **Component:** Iteration 4 H37 citation controller and H38 feature-evaluation controller.

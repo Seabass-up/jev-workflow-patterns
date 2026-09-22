@@ -39,7 +39,11 @@ def verify(site):
             if not page.is_file():
                 raise ValueError("missing supporting page: " + str(page))
             pages.append(page)
+    iteration_count = len(pages)
+    pages.extend([site / "index.html", site / "kernel" / "index.html"])
     for page in pages:
+        if not page.is_file():
+            raise ValueError("missing page: " + str(page))
         parser = Links()
         text = page.read_text()
         if "{{" in text or "{%" in text:
@@ -56,8 +60,9 @@ def verify(site):
                 raise ValueError("broken internal link from " + str(page) + ": " + link)
     if not pages:
         raise ValueError("no iteration pages found")
-    return len(pages)
+    return iteration_count
 
 
 if __name__ == "__main__":
-    print(json.dumps({"iteration_pages_verified": verify(Path(sys.argv[1]))}))
+    print(json.dumps({"iteration_pages_verified": verify(Path(sys.argv[1])),
+                      "kernel_and_home_pages_verified": 2}))

@@ -1,0 +1,37 @@
+{
+  "contract_id": "refund-request-evidence",
+  "version": 1,
+  "consumer": "Prepare a support review category; never execute a refund.",
+  "required_state_fields": [
+    "message"
+  ],
+  "request": {
+    "state": {
+      "message": "Please refund the duplicate charge."
+    },
+    "questions": {
+      "request_kind": {
+        "type": "choice",
+        "instructions": "Classify the request in `message`. Evaluate the sender's request, not eligibility. Use insufficient for empty, contradictory, or unresolved intent; no_refund_request for explicit negation or information only; refund_requested for an explicit request to return money.",
+        "criteria": {
+          "refund_requested": "Explicitly asks for money to be returned.",
+          "no_refund_request": "Clearly does not request money back, including negation or information only.",
+          "insufficient": "No usable message, contradictory request, or unclear intent."
+        }
+      }
+    }
+  },
+  "uncertainty_policy": "Insufficient, contradictory, invalid, or failed results go to support review. Confidence thresholds require local evaluation.",
+  "code_owned_checks": [
+    "Bind message and revision",
+    "Validate response shape and candidate membership",
+    "Apply existing permissions"
+  ],
+  "follow_up": {
+    "trigger": "Request intent is unresolved",
+    "new_evidence": "Authorized clarification from the sender",
+    "max_calls": 1,
+    "stop_condition": "Stop after one clarification or when evidence is unavailable; retain review."
+  },
+  "evaluation_scope": "Synthetic authoring example; no live accuracy claim."
+}

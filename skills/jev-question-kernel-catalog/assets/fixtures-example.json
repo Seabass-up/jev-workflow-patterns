@@ -1,0 +1,42 @@
+{
+  "contract_id": "refund-request-evidence",
+  "version": 1,
+  "fixtures": [
+    {
+      "id": "explicit",
+      "state": {
+        "message": "Please refund the duplicate charge."
+      },
+      "expected": {
+        "request_kind": "refund_requested"
+      }
+    },
+    {
+      "id": "negation",
+      "state": {
+        "message": "Do not refund me; I only need a receipt."
+      },
+      "expected": {
+        "request_kind": "no_refund_request"
+      }
+    },
+    {
+      "id": "missing",
+      "state": {
+        "message": ""
+      },
+      "expected": {
+        "request_kind": "insufficient"
+      }
+    },
+    {
+      "id": "conflict",
+      "state": {
+        "message": "Refund the payment. Do not refund the payment. I have not decided."
+      },
+      "expected": {
+        "request_kind": "insufficient"
+      }
+    }
+  ]
+}

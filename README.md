@@ -2,9 +2,11 @@
 
 Public documentation pages, foundational Codex skills, and growing synthetic-screened question catalogs for composing Jev's typed judgments into bounded application workflows.
 
-The project site is built from the Markdown pages in this repository with GitHub Pages and GitHub Actions. The skills directory contains the three foundational installable sources plus the Iteration 3 question-kernel catalog skill. Iteration directories add question contracts, synthetic fixtures/receipts, and pure demonstration controllers. This is not a TypeSafe SDK or a maintained production runtime library.
+The project site is built from Markdown with GitHub Pages and GitHub Actions. The skills directory contains three foundational skills plus Jev Question Kernel v2, covering authoring, evidence/provenance, and evaluation/drift with portable references, example JSON, and a structural checker. Iteration directories retain their historical contracts, synthetic receipts, and demonstration controllers. This is not a TypeSafe SDK or production runtime library.
 
 ## Pages
+
+- [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
 
 - [Iteration 1: 20 useful questions plus 10 experimental harness designs](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/)
 - [Iteration 1 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/evaluation/)
@@ -21,7 +23,7 @@ The project site is built from the Markdown pages in this repository with GitHub
 
 ## Use the skills
 
-The foundational patterns have dedicated installable skills. The Iteration 3 public pages share the [Jev Question Kernel Catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md), which helps choose and adapt an exact contract without installing a production integration. Use skills with a compatible Codex skill installation workflow; the site does not install anything into a visitor's environment.
+The foundational patterns have dedicated skills. All four catalogs share the [Jev Question Kernel v2 skill](skills/jev-question-kernel-catalog/SKILL.md), whose existing folder name remains compatible. Copy the entire skill folder through a compatible skill installation workflow; its modules, examples, and helper are self-contained. The website does not install it or change harness settings.
 
 ## Boundaries
 

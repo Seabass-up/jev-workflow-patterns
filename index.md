@@ -11,6 +11,13 @@ kicker: A practical pattern catalog
   <p>Jev evaluates the state you provide and returns typed judgments such as Choice, Score, or Noul. These patterns show how to shape that input, decide when to ask a follow-up, preserve evidence lineage, and avoid recomputing unchanged judgments.</p>
 </div>
 
+## Jev Question Kernel v2
+
+[Start with the kernel]({{ '/kernel/' | relative_url }}) to design a typed question,
+check its evidence, and test changes. One portable skill now contains authoring,
+evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
+local structural checker. Domain profiles connect it to all 120 catalog patterns.
+
 ## Current question catalog
 
 [Iteration 4: 30 final-cycle question contracts]({{ '/iterations/04/' | relative_url }}) adds buyer-role, purchase-intent, competitive-context, communication-preference, churn, claim-substantiation, and disclosure-evidence decisions; field-support, label/value association, test-double, trace, lint-tier, repair-impact, and upgrade-intent checks; answer-work, fidelity, retrieval-posture, answer-directness, primitive-fit, and feature-validity questions; plus repeatability, extraction, candidate-binding, canary, ingress/egress, citation, feature, fixture, and drift harness controllers.

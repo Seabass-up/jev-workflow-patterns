@@ -31,6 +31,12 @@ jobs:
             python3 "$iteration/evaluate.py"
             python3 -m unittest discover -s "$iteration" -p 'test_*.py' -v
           done
+      - name: Verify portable question kernel
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 skills/jev-question-kernel-catalog/scripts/check_contract.py skills/jev-question-kernel-catalog/assets/contract-example.json skills/jev-question-kernel-catalog/assets/fixtures-example.json
+          python3 -m unittest discover -s skills/jev-question-kernel-catalog/scripts -p 'test_*.py' -v
       - name: Configure Pages
         uses: actions/configure-pages@v6
       - name: Build site with Jekyll

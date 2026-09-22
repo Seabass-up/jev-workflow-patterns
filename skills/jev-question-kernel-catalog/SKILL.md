@@ -1,55 +1,73 @@
 ---
 name: jev-question-kernel-catalog
-description: Select, adapt, or evaluate a bounded Jev question pattern from the public catalog when typed JSON judgments need clear state, criteria, follow-ups, and code-owned safeguards.
+description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
+metadata:
+  version: "2.0.0"
 ---
 
-# Jev Question Kernel Catalog
+# Jev Question Kernel v2
 
-Use this skill when a task needs one bounded semantic judgment with a typed Jev result—not an open-ended recommendation, a calculation, a permission decision, or an autonomous action.
+One entry point for authoring and checking Jev question contracts. Keep the existing
+skill name for compatibility. The four research catalogs supply 120 examples;
+their synthetic results do not qualify a new application automatically.
 
-The public pattern catalog is a set of synthetic-screened examples, not a production
-runtime or an accuracy guarantee. Start with the question kernel at
-../../iterations/03/question-kernel.md, then open the individual public pattern page
-whose input relation and controller outcome actually match the task.
+## Select the work needed
 
-## Choose the smallest fitting pattern
+Read only the references relevant to the task:
 
-- **Business B15–B21:** commercial identity, pricing language, delivery evidence, project dependencies, billing support, renewal, and recurring-service rules.
-- **Engineering E15–E21:** diagnostic evidence, configuration precedence, migration disposition, replay evidence, cache freshness, cancellation, and error ownership.
-- **LLM L13–L18:** entity alignment, RAG lanes, text continuation, corpus answerability, detailed skill re-checks, and decision-depth routing.
-- **Harness H21–H30:** snapshot binding, candidate coverage, two-stage re-checking, score/veto composition, structure recovery, retrieval routing, merge holds, bounded fan-out, numeric boundaries, and RAG ledgers.
+| Need | Reference | Deliverable |
+| --- | --- | --- |
+| Create or repair a question; choose a primitive; design drill-down | [Authoring](references/authoring.md) | Versioned request, consumer, uncertainty policy, and follow-up plan |
+| Check an extraction, quotation, association, or claim against sources | [Evidence and provenance](references/evidence.md) | Exact preflight results, bounded semantic checks, and unresolved evidence |
+| Test a contract, investigate disagreement, or assess a change | [Evaluation and drift](references/evaluation.md) | Frozen fixtures, receipts, failure report, and reevaluation decision |
+| Find a domain example | [Domain profiles](references/profiles.md) | Smallest matching pattern with its version and limitations |
 
-Do not pick a pattern merely because the nouns sound similar. Compare its:
+For a new contract intended for repeated workflow use, combine authoring with a
+proportionate evaluation. Existing qualified contracts need reevaluation when their
+meaning, evidence assumptions, model, or consuming policy changes. Ordinary invocation
+does not require repeating a benchmark.
 
-1. named state relation;
-2. typed output meaning;
-3. caller-owned follow-up; and
-4. stated limitation.
+## Shared rules
 
-If none fit, write a new narrow contract rather than relabeling an existing one.
+- Work backward from the JSON consumer to one coherent semantic judgment per
+  question. Use Choice for competing labels, Score for a concrete ordered dimension,
+  and Noul for probability of one proposition. A Noul near 0.5 is uncertainty, not
+  medium intensity; it has no separate confidence field.
+- State supplies relevant evidence. Prefer named fields when relationships matter;
+  strings remain suitable for simple inputs. Instructions must carry the complete
+  question because its ID is only a code handle. Define exclusions and missing or
+  conflicting evidence behavior explicitly. Do not turn unknown evidence into false.
+- Batch independent questions over the same state. Dependent requests follow after
+  code constructs required evidence or candidates. Declared repeatability experiments
+  are a separate, budgeted use of repeated identical requests.
+- Code owns exact matches, candidate membership, IDs, revisions, calculations, dates,
+  policy thresholds, permissions, execution, and outcome verification. Model results
+  remain advisory. Confidence neither authenticates a source nor grants authority.
+- Send only task-authorized material through the existing approved provider path.
+  Keep credentials server-side and out of templates and receipts. On provider failure,
+  return the error and use the declared fallback; never synthesize a passing result.
+- Preserve question versions and original misses. Freeze expectations outside provider
+  inputs. Report model judgment, code checks, and observed outcome separately.
 
-## Implement the question, not a chat prompt
+## Start a contract
 
-- Supply named JSON fields containing only the evidence needed for the judgment.
-- Put every answer label's complete meaning in instructions and criteria. Include an explicit insufficient, no-match, ambiguous, or review path whenever the state can fail to establish a result.
-- Choose Choice for a bounded branch, Score for an ordered concrete dimension, or Noul for one narrow proposition. Batch only independent questions against the same immutable state.
-- Keep expected labels outside the state in a synthetic fixture. Keep source IDs, revisions, candidate membership, calculations, permissions, writes, and external actions in code.
-- If a later question needs an earlier answer, make a second request after code retrieves or constructs the new state.
+Copy [the contract example](assets/contract-example.json) and
+[fixture example](assets/fixtures-example.json) into the user's scoped project.
+These are local authoring envelopes, **not TypeSafe API payloads**. Only the request's
+`state` and `questions` belong in the provider call; the configured client owns
+model/settings. Fixture inputs replace `request.state`; expectations never enter it.
 
-## Use the result safely
+Run the portable structural check from the installed skill folder:
 
-Treat every result as advisory. A Choice confidence measures distribution concentration, not truth or authorization; a middle Noul probability is uncertainty, not a silent decision.
+```sh
+python3 scripts/check_contract.py assets/contract-example.json assets/fixtures-example.json
+python3 -m unittest discover -s scripts -p 'test_*.py'
+```
 
-Before consuming a result, code should bind it to the current state/revision and check
-the declared candidate set. Use deterministic code for dates, arithmetic, IDs,
-thresholds, routing policy, and all side effects. Escalate missing, contradictory,
-low-confidence, out-of-scope, or consequential cases through the task's authorized path.
+The helper catches selected packaging/schema mistakes. It does not prove semantic
+clarity, privacy, candidate completeness, authenticity, or accuracy. Review those
+against source material and consuming code using the relevant module.
 
-## Test and record
-
-Freeze synthetic ordinary, missing, conflict, and boundary cases before a live call. Save
-the exact state, question contract, model, response, request digest, and match result.
-If a case misses, retain it; alter the question or fixture only with a documented
-semantic reason, version an altered contract, and rerun the affected cases. A passing
-synthetic regression set is not production accuracy, calibration, security, or global
-novelty.
+Before API integration, refresh the relevant official
+[TypeSafe documentation](https://docs.typesafe.ai/llms.txt) and installed SDK schema.
+Local bridge limits must not be presented as provider-wide limits.

@@ -1,5 +1,15 @@
 # Lessons learned
 
+## 2026-09-22 — Choice confidence depends on option count
+
+- **Component:** Kernel skill 2.2.0, CI receipt checks, and the introduction review in `discovery/introduction-review/`.
+- **Observation:** Stored jev-1.13.0 Choice confidence follows `(n × top probability − 1) / (n − 1)` within 0.020 across all 447 preserved answers (2–6 options). The confidence page presents this only as a three-option approximation. Score confidence does not follow it; an even split between extreme levels had confidence 0.
+- **Consequence:** 53 Iteration 1–2 patterns share a 0.8 floor across 2–6 options, so the floor demands top probabilities from 0.833 to 0.90. Adding a no-match option raises confidence at the same top probability. Historical contracts, thresholds, and receipts were left unchanged.
+- **Repair:** Added `check_confidence.py` with eight tests. It checks stored Choice confidence against probabilities and converts thresholds between option counts. Added threshold guidance to the authoring module and a receipt check plus returned-model-version drift trigger to the evaluation module. CI runs the checker over every preserved receipt and replays the discovery measurements.
+- **Verification:** 17 kernel helper tests pass; the checker reports 0 failures over 456 Choice answers, including 9 from a fresh 18-question duplicate screen (request digest `25754fc54d748f8ef0f810b31a2f4bc74648e1a7f5d0335bc9e0cda5236c8d50`, 6,383 input tokens, 762 ms). Measurements replay from 25 hash-pinned inputs.
+- **Limits:** The formula is an observed approximation on one model version, not the provider's definition; a few differences exceed pure two-decimal rounding. Consistency is not correctness. The nine candidates are unscreened designs, and the duplicate screen compared only reviewer-chosen shortlists. A later kernel review found the screen's overlap Score asked two hops and lacked an insufficient-description outcome.
+- **Prevention:** Store each confidence threshold with the option set it was tuned on, and recheck the relationship after any model or API change.
+
 ## 2026-09-22 — Portable Jev Question Kernel v2
 
 - **Symptom:** The shared skill indexed only Iteration 3 and referenced a file outside its installable folder. It could not carry its core guide when installed alone.

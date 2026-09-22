@@ -10,6 +10,8 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 - [Email evaluation and preserved misses](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/)
 
 - [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
+- [Pattern discovery intake](https://seabass-up.github.io/jev-workflow-patterns/discovery/)
+- [TypeSafe introduction review and pattern candidates](https://seabass-up.github.io/jev-workflow-patterns/discovery/introduction-review/)
 
 - [Iteration 1: 20 useful questions plus 10 experimental harness designs](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/)
 - [Iteration 1 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/evaluation/)
@@ -35,6 +37,12 @@ the email module packaged in kernel skill version 2.1.0. Initial screening match
 34/36; two versioned missing-input refinements matched 6/6 reruns and select 36/36
 current fixtures. All 42 live screening receipts remain replayable. No mailbox
 connection or email action is installed or authorized by the catalog.
+
+Patterns found while using Jev in other work are recorded as candidates in
+`discovery/candidates.json` and checked by `discovery/check_candidates.py`. The
+introduction review supplies the first nine, with an advisory Jev duplicate screen
+and offline measurements of preserved receipts. Candidates have no contracts,
+fixtures, or screening receipts and do not activate a fifth iteration.
 
 The iteration catalog is a separate evidence track from the three foundational patterns. Iteration 4's initial 58/60 screen preserves both misses; four v2 reruns selected 60/60 current synthetic fixtures. See each iteration's exact versions, failures and scope; these are not production-accuracy claims.
 

@@ -1,0 +1,686 @@
+{
+  "kind": "candidate_duplicate_screen",
+  "purpose": "Advisory comparison of nine discovery candidates with reviewer-chosen shortlists of the nearest prior catalog patterns.",
+  "request": {
+    "state": {
+      "candidates": {
+        "C1": {
+          "title": "Confidence gate adjusted for Choice option count",
+          "mechanism": "Code converts a confidence threshold into the top-probability it implies for each option count (confidence = (n*p_max-1)/(n-1)), versions thresholds with the option set, and checks stored confidence against probabilities, because a flat threshold demands different top probabilities as options are added or removed."
+        },
+        "C2": {
+          "title": "Tool-call trace audit split between code and Jev",
+          "mechanism": "Code validates call/result ID binding, argument schema conformance, and exact value equality between request fields, arguments and earlier tool outputs; Jev judges only whether each tool suits the request and whether a free-text argument refers to the requested entity."
+        },
+        "C3": {
+          "title": "Compound-request split and re-ask",
+          "mechanism": "A Noul detects a request containing several distinct actions; an LLM splits it into atomic commands; code caps the split count; Jev checks that the commands jointly cover the request and add nothing; each command is then re-evaluated with the ordinary routing questions before any execution."
+        },
+        "C4": {
+          "title": "Email phishing signal profile with veto",
+          "mechanism": "Separate Nouls for credential request, unexpected reward, time pressure, display-name organization claim and link-text destination claim, while code parses sender and link domains; a credential request is a veto to quarantine instead of one term in a weighted average."
+        },
+        "C5": {
+          "title": "Language-aware confidence gate",
+          "mechanism": "Code detects the input language before inference; non-English inputs receive stricter thresholds, a human-review route, or a translate-then-ask path with the translation kept as provenance, because the provider states English accuracy is best."
+        },
+        "C6": {
+          "title": "Model-alias movement canary",
+          "mechanism": "Code records the versioned model ID returned with every answer; when a floating alias resolves to a new version, threshold-gated automation is held and the frozen fixture set is rerun before thresholds are re-qualified."
+        },
+        "C7": {
+          "title": "Reasoning-model ensemble label bootstrap",
+          "mechanism": "When no labels exist, several reasoning models label a sample; code keeps only agreed labels with provenance, measures label noise on a small human-labelled holdout, then trains a classical model on Jev probability features."
+        },
+        "C8": {
+          "title": "Two-budget question packer",
+          "mechanism": "Code packs speculative questions into requests under two provider limits, total state plus all questions and state plus the single longest question, splitting batches deterministically and recording the limit version."
+        },
+        "C9": {
+          "title": "Question/negation pair ambiguity probe",
+          "mechanism": "At design time only, the same proposition and its literal negation are asked as two Nouls; a large deviation of their sum from one flags the wording for literal rewrite, never as a runtime correctness signal."
+        }
+      },
+      "shortlists": {
+        "C1": {
+          "H11": {
+            "title": "Confidence-backed taxonomy traversal with broad fallback",
+            "purpose": "Return the best supported category without forcing a brittle leaf when the current node is uncertain."
+          },
+          "H20": {
+            "title": "Human-adjudication confidence ledger",
+            "purpose": "Track whether a predeclared low-stakes Noul policy is calibrated enough for its chosen review threshold on later human-labeled cases."
+          },
+          "H32": {
+            "title": "Choice plurality, agreement, and abstention audit",
+            "purpose": "Expose the operational tradeoff between repeat agreement and confidence-based abstention for a Choice workflow."
+          },
+          "H12": {
+            "title": "Repeated-decision stability gate",
+            "purpose": "Measure whether the same bounded low-stakes judgment remains stable across a small fixed sample before auto-suggesting a route."
+          }
+        },
+        "C2": {
+          "H06": {
+            "title": "Keep illustrative values out of real tool arguments",
+            "purpose": "Catch an LLM copying a sample path or record value from documentation into a real operation."
+          },
+          "L04": {
+            "title": "Select an available tool handler",
+            "purpose": "Keep simple calculations and lookups out of a large reasoning call while respecting actual tool availability."
+          },
+          "E25": {
+            "title": "Classify trace-event relationship type",
+            "purpose": "Separate causality evidence from same-request and merely temporal log correlation."
+          },
+          "E23": {
+            "title": "Verify cross-field label/value associations",
+            "purpose": "Catch a structured output whose values appear in source text but are paired to the wrong labels."
+          }
+        },
+        "C3": {
+          "B01": {
+            "title": "Route the current business request",
+            "purpose": "Reduce transfers between billing, service and estimating queues."
+          },
+          "L19": {
+            "title": "Classify answer work type before model routing",
+            "purpose": "Pick a response workflow based on the requested work shape rather than treating all questions as free-form generation."
+          },
+          "H28": {
+            "title": "Bounded speculative fan-out scheduler",
+            "purpose": "Batch independent work while preventing stale or inapplicable speculative branches from driving an action."
+          },
+          "L05": {
+            "title": "Choose the clarification that unlocks a useful answer",
+            "purpose": "Convert vague LLM requests into a specific target, success condition and compatible constraint set."
+          }
+        },
+        "C4": {
+          "H36": {
+            "title": "Ingress/egress message-risk ledger",
+            "purpose": "Keep independently screened input and output risks separate so code can apply phase-specific policy."
+          },
+          "H19": {
+            "title": "Policy hazard/severity routing matrix",
+            "purpose": "Combine independently judged policy-hazard presence and described consequence severity into a caller-owned review route."
+          },
+          "H24": {
+            "title": "Atomic score composition with veto policy",
+            "purpose": "Keep semantic dimensions reusable while code decides which preferences may compensate and which failures must veto."
+          },
+          "L21": {
+            "title": "Classify retrieved-content instruction posture",
+            "purpose": "Flag behavior-directing text inside retrieved material without converting that classification into an injection-safety guarantee."
+          }
+        },
+        "C5": {
+          "L08": {
+            "title": "Classify input text role before prompt assembly",
+            "purpose": "Keep task requests, binding constraints, reference material and quoted third-party instructions distinguishable."
+          },
+          "L19": {
+            "title": "Classify answer work type before model routing",
+            "purpose": "Pick a response workflow based on the requested work shape rather than treating all questions as free-form generation."
+          },
+          "H40": {
+            "title": "Semantic-feature drift and retraining hold",
+            "purpose": "Stop a semantic-feature pipeline from silently reusing an old evaluation after question, population, or held-out behavior changes."
+          }
+        },
+        "C6": {
+          "H40": {
+            "title": "Semantic-feature drift and retraining hold",
+            "purpose": "Stop a semantic-feature pipeline from silently reusing an old evaluation after question, population, or held-out behavior changes."
+          },
+          "H21": {
+            "title": "Pin a decision response to the source snapshot",
+            "purpose": "Reject a semantically plausible typed result when code cannot bind it to the current source snapshot."
+          },
+          "H35": {
+            "title": "Semantic lint canary and human-disagreement controller",
+            "purpose": "Admit a semantic lint change only after a fixed labeled canary exposes new disagreements for review."
+          },
+          "H16": {
+            "title": "Pending-action invalidation on material state change",
+            "purpose": "Reconsider an unexecuted proposed action when fresh evidence invalidates a stated precondition or changes its target."
+          }
+        },
+        "C7": {
+          "H38": {
+            "title": "Feature-matrix provenance and holdout challenger",
+            "purpose": "Make semantic-feature revisions and held-out evidence bindings inspectable while deterministic code owns metric comparison."
+          },
+          "L24": {
+            "title": "Classify semantic feature-question validity",
+            "purpose": "Reject feature questions that leak the target, duplicate existing signals, or cannot be observed from permitted text."
+          },
+          "H04": {
+            "title": "Route reviewer disagreement by what would resolve it",
+            "purpose": "Avoid majority voting when reviewers are judging different facts, subjects or preferences."
+          },
+          "H20": {
+            "title": "Human-adjudication confidence ledger",
+            "purpose": "Track whether a predeclared low-stakes Noul policy is calibrated enough for its chosen review threshold on later human-labeled cases."
+          }
+        },
+        "C8": {
+          "H28": {
+            "title": "Bounded speculative fan-out scheduler",
+            "purpose": "Batch independent work while preventing stale or inapplicable speculative branches from driving an action."
+          },
+          "H22": {
+            "title": "Candidate-universe coverage gate",
+            "purpose": "Keep a Choice winner from becoming a real-world selection unless the candidate universe is declared adequate."
+          }
+        },
+        "C9": {
+          "H31": {
+            "title": "Noul threshold-crossing repeat audit",
+            "purpose": "Keep repeated probability samples visible when a policy threshold could change a disposition."
+          },
+          "H05": {
+            "title": "Repair the demonstrated question defect, not the whole prompt",
+            "purpose": "Turn a failed Jev judgment into a bounded, auditable repair target."
+          },
+          "L23": {
+            "title": "Classify primitive or composition fit",
+            "purpose": "Choose an output type that matches the desired JSON consumer before writing a brittle prompt-and-parse contract."
+          },
+          "H35": {
+            "title": "Semantic lint canary and human-disagreement controller",
+            "purpose": "Admit a semantic lint change only after a fixed labeled canary exposes new disagreements for review."
+          }
+        }
+      }
+    },
+    "questions": {
+      "C1_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C1` already implements the core mechanism described in `candidates.C1.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H11": "H11 'Confidence-backed taxonomy traversal with broad fallback' already implements the same core mechanism as `candidates.C1.mechanism`, not merely a shared primitive or domain.",
+          "H20": "H20 'Human-adjudication confidence ledger' already implements the same core mechanism as `candidates.C1.mechanism`, not merely a shared primitive or domain.",
+          "H32": "H32 'Choice plurality, agreement, and abstention audit' already implements the same core mechanism as `candidates.C1.mechanism`, not merely a shared primitive or domain.",
+          "H12": "H12 'Repeated-decision stability gate' already implements the same core mechanism as `candidates.C1.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C1` implements the core mechanism of `candidates.C1.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C1_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C1.mechanism` duplicate the closest pattern in `shortlists.C1`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C2_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C2` already implements the core mechanism described in `candidates.C2.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H06": "H06 'Keep illustrative values out of real tool arguments' already implements the same core mechanism as `candidates.C2.mechanism`, not merely a shared primitive or domain.",
+          "L04": "L04 'Select an available tool handler' already implements the same core mechanism as `candidates.C2.mechanism`, not merely a shared primitive or domain.",
+          "E25": "E25 'Classify trace-event relationship type' already implements the same core mechanism as `candidates.C2.mechanism`, not merely a shared primitive or domain.",
+          "E23": "E23 'Verify cross-field label/value associations' already implements the same core mechanism as `candidates.C2.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C2` implements the core mechanism of `candidates.C2.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C2_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C2.mechanism` duplicate the closest pattern in `shortlists.C2`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C3_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C3` already implements the core mechanism described in `candidates.C3.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "B01": "B01 'Route the current business request' already implements the same core mechanism as `candidates.C3.mechanism`, not merely a shared primitive or domain.",
+          "L19": "L19 'Classify answer work type before model routing' already implements the same core mechanism as `candidates.C3.mechanism`, not merely a shared primitive or domain.",
+          "H28": "H28 'Bounded speculative fan-out scheduler' already implements the same core mechanism as `candidates.C3.mechanism`, not merely a shared primitive or domain.",
+          "L05": "L05 'Choose the clarification that unlocks a useful answer' already implements the same core mechanism as `candidates.C3.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C3` implements the core mechanism of `candidates.C3.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C3_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C3.mechanism` duplicate the closest pattern in `shortlists.C3`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C4_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C4` already implements the core mechanism described in `candidates.C4.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H36": "H36 'Ingress/egress message-risk ledger' already implements the same core mechanism as `candidates.C4.mechanism`, not merely a shared primitive or domain.",
+          "H19": "H19 'Policy hazard/severity routing matrix' already implements the same core mechanism as `candidates.C4.mechanism`, not merely a shared primitive or domain.",
+          "H24": "H24 'Atomic score composition with veto policy' already implements the same core mechanism as `candidates.C4.mechanism`, not merely a shared primitive or domain.",
+          "L21": "L21 'Classify retrieved-content instruction posture' already implements the same core mechanism as `candidates.C4.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C4` implements the core mechanism of `candidates.C4.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C4_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C4.mechanism` duplicate the closest pattern in `shortlists.C4`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C5_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C5` already implements the core mechanism described in `candidates.C5.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "L08": "L08 'Classify input text role before prompt assembly' already implements the same core mechanism as `candidates.C5.mechanism`, not merely a shared primitive or domain.",
+          "L19": "L19 'Classify answer work type before model routing' already implements the same core mechanism as `candidates.C5.mechanism`, not merely a shared primitive or domain.",
+          "H40": "H40 'Semantic-feature drift and retraining hold' already implements the same core mechanism as `candidates.C5.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C5` implements the core mechanism of `candidates.C5.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C5_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C5.mechanism` duplicate the closest pattern in `shortlists.C5`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C6_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C6` already implements the core mechanism described in `candidates.C6.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H40": "H40 'Semantic-feature drift and retraining hold' already implements the same core mechanism as `candidates.C6.mechanism`, not merely a shared primitive or domain.",
+          "H21": "H21 'Pin a decision response to the source snapshot' already implements the same core mechanism as `candidates.C6.mechanism`, not merely a shared primitive or domain.",
+          "H35": "H35 'Semantic lint canary and human-disagreement controller' already implements the same core mechanism as `candidates.C6.mechanism`, not merely a shared primitive or domain.",
+          "H16": "H16 'Pending-action invalidation on material state change' already implements the same core mechanism as `candidates.C6.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C6` implements the core mechanism of `candidates.C6.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C6_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C6.mechanism` duplicate the closest pattern in `shortlists.C6`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C7_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C7` already implements the core mechanism described in `candidates.C7.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H38": "H38 'Feature-matrix provenance and holdout challenger' already implements the same core mechanism as `candidates.C7.mechanism`, not merely a shared primitive or domain.",
+          "L24": "L24 'Classify semantic feature-question validity' already implements the same core mechanism as `candidates.C7.mechanism`, not merely a shared primitive or domain.",
+          "H04": "H04 'Route reviewer disagreement by what would resolve it' already implements the same core mechanism as `candidates.C7.mechanism`, not merely a shared primitive or domain.",
+          "H20": "H20 'Human-adjudication confidence ledger' already implements the same core mechanism as `candidates.C7.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C7` implements the core mechanism of `candidates.C7.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C7_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C7.mechanism` duplicate the closest pattern in `shortlists.C7`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C8_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C8` already implements the core mechanism described in `candidates.C8.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H28": "H28 'Bounded speculative fan-out scheduler' already implements the same core mechanism as `candidates.C8.mechanism`, not merely a shared primitive or domain.",
+          "H22": "H22 'Candidate-universe coverage gate' already implements the same core mechanism as `candidates.C8.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C8` implements the core mechanism of `candidates.C8.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C8_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C8.mechanism` duplicate the closest pattern in `shortlists.C8`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      },
+      "C9_nearest": {
+        "type": "choice",
+        "instructions": "Which pattern in `shortlists.C9` already implements the core mechanism described in `candidates.C9.mechanism`? Compare mechanisms, not titles or domains.",
+        "criteria": {
+          "H31": "H31 'Noul threshold-crossing repeat audit' already implements the same core mechanism as `candidates.C9.mechanism`, not merely a shared primitive or domain.",
+          "H05": "H05 'Repair the demonstrated question defect, not the whole prompt' already implements the same core mechanism as `candidates.C9.mechanism`, not merely a shared primitive or domain.",
+          "L23": "L23 'Classify primitive or composition fit' already implements the same core mechanism as `candidates.C9.mechanism`, not merely a shared primitive or domain.",
+          "H35": "H35 'Semantic lint canary and human-disagreement controller' already implements the same core mechanism as `candidates.C9.mechanism`, not merely a shared primitive or domain.",
+          "none_close": "No pattern in `shortlists.C9` implements the core mechanism of `candidates.C9.mechanism`; any overlap is limited to shared primitives, domains or generic confidence use."
+        }
+      },
+      "C9_overlap": {
+        "type": "score",
+        "instructions": "How much does `candidates.C9.mechanism` duplicate the closest pattern in `shortlists.C9`?",
+        "criteria": [
+          "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        ]
+      }
+    },
+    "model": "jev-1.13.0"
+  },
+  "response": {
+    "ok": true,
+    "advisory_only": true,
+    "cached": false,
+    "request_sha256": "25754fc54d748f8ef0f810b31a2f4bc74648e1a7f5d0335bc9e0cda5236c8d50",
+    "observed_at": "2026-09-22T22:56:47.341779+00:00",
+    "elapsed_ms": 761.952,
+    "billed_input_tokens": 6383,
+    "estimated_cost_usd": 0.000268086,
+    "model": "jev-1.13.0",
+    "usage": {
+      "input_tokens": 6383,
+      "output_tokens": 673
+    },
+    "answers": {
+      "C1_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.72,
+        "probabilities": {
+          "H11": 0.0,
+          "H32": 0.21,
+          "none_close": 0.79,
+          "H20": 0.0,
+          "H12": 0.0
+        }
+      },
+      "C1_overlap": {
+        "type": "score",
+        "score": 0.65,
+        "confidence": 0.18,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.45,
+          "1": 0.45,
+          "2": 0.1
+        }
+      },
+      "C2_nearest": {
+        "type": "choice",
+        "choice": "E23",
+        "confidence": 0.76,
+        "probabilities": {
+          "H06": 0.0,
+          "E23": 0.81,
+          "L04": 0.0,
+          "E25": 0.01,
+          "none_close": 0.17
+        }
+      },
+      "C2_overlap": {
+        "type": "score",
+        "score": 1.63,
+        "confidence": 0.45,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.06,
+          "1": 0.26,
+          "2": 0.6799999999999999
+        }
+      },
+      "C3_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.52,
+        "probabilities": {
+          "L05": 0.07,
+          "L19": 0.01,
+          "B01": 0.0,
+          "none_close": 0.62,
+          "H28": 0.3
+        }
+      },
+      "C3_overlap": {
+        "type": "score",
+        "score": 1.0,
+        "confidence": 0.44,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.19,
+          "1": 0.62,
+          "2": 0.19
+        }
+      },
+      "C4_nearest": {
+        "type": "choice",
+        "choice": "H24",
+        "confidence": 0.99,
+        "probabilities": {
+          "H19": 0.0,
+          "H36": 0.0,
+          "H24": 0.99,
+          "L21": 0.0,
+          "none_close": 0.01
+        }
+      },
+      "C4_overlap": {
+        "type": "score",
+        "score": 1.88,
+        "confidence": 0.82,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.01,
+          "1": 0.1,
+          "2": 0.89
+        }
+      },
+      "C5_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.79,
+        "probabilities": {
+          "L08": 0.14,
+          "L19": 0.02,
+          "H40": 0.0,
+          "none_close": 0.84
+        }
+      },
+      "C5_overlap": {
+        "type": "score",
+        "score": 0.65,
+        "confidence": 0.32,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.4,
+          "1": 0.54,
+          "2": 0.05
+        }
+      },
+      "C6_nearest": {
+        "type": "choice",
+        "choice": "H35",
+        "confidence": 0.36,
+        "probabilities": {
+          "H35": 0.49,
+          "H16": 0.01,
+          "H40": 0.05,
+          "H21": 0.35,
+          "none_close": 0.1
+        }
+      },
+      "C6_overlap": {
+        "type": "score",
+        "score": 1.63,
+        "confidence": 0.44,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.05,
+          "1": 0.27,
+          "2": 0.68
+        }
+      },
+      "C7_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.78,
+        "probabilities": {
+          "H38": 0.15,
+          "H04": 0.02,
+          "L24": 0.0,
+          "none_close": 0.82,
+          "H20": 0.01
+        }
+      },
+      "C7_overlap": {
+        "type": "score",
+        "score": 0.78,
+        "confidence": 0.3,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.34,
+          "1": 0.54,
+          "2": 0.12
+        }
+      },
+      "C8_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.58,
+        "probabilities": {
+          "H22": 0.0,
+          "H28": 0.28,
+          "none_close": 0.72
+        }
+      },
+      "C8_overlap": {
+        "type": "score",
+        "score": 1.15,
+        "confidence": 0.1,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.22,
+          "1": 0.4,
+          "2": 0.38
+        }
+      },
+      "C9_nearest": {
+        "type": "choice",
+        "choice": "none_close",
+        "confidence": 0.87,
+        "probabilities": {
+          "none_close": 0.9,
+          "H31": 0.04,
+          "L23": 0.0,
+          "H35": 0.01,
+          "H05": 0.05
+        }
+      },
+      "C9_overlap": {
+        "type": "score",
+        "score": 0.49,
+        "confidence": 0.26,
+        "legend": {
+          "0": "Distinct: the closest listed pattern shares only primitives, domain or generic confidence handling; the candidate's central control step is absent from it.",
+          "1": "Adjacent: the candidate reuses a listed pattern's component but adds a central control step that pattern does not perform.",
+          "2": "Near-duplicate: a listed pattern already performs the candidate's central control step under different wording."
+        },
+        "probabilities": {
+          "0": 0.59,
+          "1": 0.32,
+          "2": 0.09
+        }
+      }
+    }
+  },
+  "host_review": {
+    "method": "Each flagged overlap was checked against the prior pattern's value, comparison, code ownership and question text. Where host judgment differs from Jev, both are recorded.",
+    "dispositions": {
+      "C1": {
+        "decision": "retain_lead",
+        "jev": "none_close 0.79; overlap split distinct/adjacent (confidence 0.18)",
+        "note": "H32 audits Choice agreement across repeats; none converts thresholds by option count."
+      },
+      "C2": {
+        "decision": "retain_as_composition",
+        "jev": "E23 0.81; near-duplicate 0.68",
+        "note": "Host disagrees in part: E23 judges field pairing inside one assembled record against a source document. C2's delta is the code/Jev partition over a multi-call trace, with code owning ID binding and cross-call value flow. Its Jev questions reuse L04 and E23, so priority is lowered."
+      },
+      "C3": {
+        "decision": "retain",
+        "jev": "none_close 0.62 (H28 0.30); adjacent 0.62",
+        "note": "H28 batches independent questions; it does not split a compound request or check split coverage."
+      },
+      "C4": {
+        "decision": "reclassify_email_profile",
+        "jev": "H24 0.99; near-duplicate 0.89",
+        "note": "Accepted: the veto composition is H24. Only the phishing question set is new, as an email-domain profile citing H24."
+      },
+      "C5": {
+        "decision": "retain",
+        "jev": "none_close 0.84; adjacent 0.54",
+        "note": "No prior pattern gates on input language."
+      },
+      "C6": {
+        "decision": "fold_into_kernel_guidance",
+        "jev": "H35 0.49 / H21 0.35 (confidence 0.36); near-duplicate 0.68",
+        "note": "Accepted: re-admission after change is H35/H40. The new element is using a changed resolved model version as the trigger, recorded in kernel evaluation guidance."
+      },
+      "C7": {
+        "decision": "retain",
+        "jev": "none_close 0.82; adjacent 0.54",
+        "note": "H38 binds feature provenance and holdout; it does not produce labels from a reasoning-model ensemble."
+      },
+      "C8": {
+        "decision": "fold_into_H28",
+        "jev": "none_close 0.72; overlap spread (confidence 0.10)",
+        "note": "Accepted on host review: H28 already owns stated budgets. The two provider limits are a concrete H28 parameterization."
+      },
+      "C9": {
+        "decision": "retain_experimental",
+        "jev": "none_close 0.90; distinct 0.59",
+        "note": "The provider page warns the pair need not sum to one; use only as a design-time wording prompt after validation."
+      }
+    }
+  },
+  "boundary": "A bounded shortlist comparison, not a global prior-art or novelty search. Shortlists were chosen by the host; Jev cannot find a closer pattern omitted from them. Answers are advisory and were checked by reading the prior patterns."
+}

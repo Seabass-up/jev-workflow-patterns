@@ -37,6 +37,14 @@ jobs:
         run: |
           python3 skills/jev-question-kernel-catalog/scripts/check_contract.py skills/jev-question-kernel-catalog/assets/contract-example.json skills/jev-question-kernel-catalog/assets/fixtures-example.json
           python3 -m unittest discover -s skills/jev-question-kernel-catalog/scripts -p 'test_*.py' -v
+      - name: Verify Choice confidence, discovery measurements, and candidates
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email discovery
+          python3 discovery/introduction-review/measure.py
+          python3 discovery/check_candidates.py
+          python3 -m unittest discover -s discovery -p 'test_*.py' -v
       - name: Verify email contracts and preserved receipts
         env:
           PYTHONDONTWRITEBYTECODE: "1"

@@ -51,7 +51,9 @@ def verify(site):
     for name in ("index.html", "evaluation/index.html", "sources/index.html"):
         pages.append(site / "email" / name)
     email_count = len(pages) - iteration_count
-    pages.extend([site / "index.html", site / "kernel" / "index.html"])
+    pages.extend([site / "index.html", site / "kernel" / "index.html",
+                  site / "discovery" / "index.html",
+                  site / "discovery" / "introduction-review" / "index.html"])
     for page in pages:
         if not page.is_file():
             raise ValueError("missing page: " + str(page))
@@ -73,7 +75,7 @@ def verify(site):
         raise ValueError("no iteration pages found")
     return {"iteration_pages_verified": iteration_count,
             "email_pages_verified": email_count,
-            "kernel_and_home_pages_verified": 2}
+            "kernel_home_and_discovery_pages_verified": 4}
 
 
 if __name__ == "__main__":

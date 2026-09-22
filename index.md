@@ -17,7 +17,17 @@ kicker: A practical pattern catalog
 check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
 local structural checker. Domain profiles connect it to all 120 research-catalog
-patterns plus 12 email profiles in skill version 2.1.0.
+patterns plus 12 email profiles. Skill version 2.2.0 adds a Choice-confidence
+consistency check and option-count threshold guidance.
+
+## Discovery: TypeSafe introduction review
+
+[Read the introduction review]({{ '/discovery/introduction-review/' | relative_url }})
+for claims checked against 473 preserved Jev receipts and nine pattern candidates
+with an advisory duplicate screen. Choice confidence closely follows the option
+count, so the 0.8 floor used by 53 earlier patterns requires top probabilities from
+0.833 to 0.90. These are candidates, not a screened catalog. New patterns found
+while using Jev go through the [discovery intake]({{ '/discovery/' | relative_url }}).
 
 ## New: 12 email patterns
 

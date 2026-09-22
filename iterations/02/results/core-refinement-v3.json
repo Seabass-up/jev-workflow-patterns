@@ -1,0 +1,357 @@
+[
+  {
+    "fixture_id": "L09-1",
+    "pattern_id": "L09",
+    "screen": "core-refinement-v3",
+    "contract_version": 3,
+    "started_at": "2026-09-22T11:44:05.163Z",
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "757e5c3061fe131313a346e3b01b61fa305f6eab53d88772b8b0d1d2c29bfe4c",
+      "observed_at": "2026-09-22T11:44:05.701902+00:00",
+      "elapsed_ms": 533.9,
+      "billed_input_tokens": 648,
+      "estimated_cost_usd": 0.000027215999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 648,
+        "output_tokens": 78
+      },
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "factual_grounding",
+          "confidence": 0.99,
+          "probabilities": {
+            "no_match": 0,
+            "factual_grounding": 0.99,
+            "tool_use": 0,
+            "format_only": 0,
+            "uncertain": 0,
+            "instruction_following": 0.01
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "decision",
+        "expected": {
+          "choice": "factual_grounding"
+        },
+        "observed": "factual_grounding",
+        "confidence": 0.99,
+        "match": true
+      }
+    ],
+    "match": true,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "taxonomy_node": "LLM failure category",
+        "children": "factual_grounding=unsupported facts; instruction_following=missed stated requirement; tool_use=tool selection/invocation; format_only=representation error",
+        "failure_description": "The answer states that the policy allows refunds, but the supplied policy expressly says refunds are unavailable."
+      },
+      "questions": {
+        "decision": {
+          "type": "choice",
+          "instructions": "Which child of `taxonomy_node` best describes `failure_description`, using only the supplied `children` taxonomy? Use `instruction_following` for a missing semantic, coverage, or capability requirement. Use `format_only` when substantive content is correct but a required wire representation or serialization (for example, valid JSON) is malformed. A voluntary feature or design change that is not described as a response failure is `no_match`. Choose `no_match` or `uncertain` when no child is supported. This is one node in a larger code-controlled traversal.",
+          "criteria": {
+            "factual_grounding": "The failure concerns unsupported, invented, or contradicted factual content.",
+            "instruction_following": "The failure concerns a missing stated semantic, coverage, or capability requirement.",
+            "tool_use": "The failure concerns selecting, invoking, or parameterizing an available tool.",
+            "format_only": "The substantive content is correct, but a required wire representation, syntax, serialization, or presentation format is malformed.",
+            "no_match": "The description is specific but none of these children fits.",
+            "uncertain": "The failure description or child taxonomy is missing, mixed, or ambiguous."
+          }
+        }
+      }
+    }
+  },
+  {
+    "fixture_id": "L09-2",
+    "pattern_id": "L09",
+    "screen": "core-refinement-v3",
+    "contract_version": 3,
+    "started_at": "2026-09-22T11:44:05.163Z",
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "8db5722f1315278c2e6b2d73b9ad06f2c127246c426a44415ea86ec7a62e7185",
+      "observed_at": "2026-09-22T11:44:05.547814+00:00",
+      "elapsed_ms": 380.723,
+      "billed_input_tokens": 652,
+      "estimated_cost_usd": 0.000027384,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 652,
+        "output_tokens": 77
+      },
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "instruction_following",
+          "confidence": 1,
+          "probabilities": {
+            "tool_use": 0,
+            "uncertain": 0,
+            "instruction_following": 1,
+            "factual_grounding": 0,
+            "format_only": 0,
+            "no_match": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "decision",
+        "expected": {
+          "choice": "instruction_following"
+        },
+        "observed": "instruction_following",
+        "confidence": 1,
+        "match": true
+      }
+    ],
+    "match": true,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "taxonomy_node": "LLM failure category",
+        "children": "factual_grounding=unsupported facts; instruction_following=missed stated requirement; tool_use=tool selection/invocation; format_only=representation error",
+        "failure_description": "The user required a comparison of three vendors, but the response discusses only one vendor while its factual claims are correct."
+      },
+      "questions": {
+        "decision": {
+          "type": "choice",
+          "instructions": "Which child of `taxonomy_node` best describes `failure_description`, using only the supplied `children` taxonomy? Use `instruction_following` for a missing semantic, coverage, or capability requirement. Use `format_only` when substantive content is correct but a required wire representation or serialization (for example, valid JSON) is malformed. A voluntary feature or design change that is not described as a response failure is `no_match`. Choose `no_match` or `uncertain` when no child is supported. This is one node in a larger code-controlled traversal.",
+          "criteria": {
+            "factual_grounding": "The failure concerns unsupported, invented, or contradicted factual content.",
+            "instruction_following": "The failure concerns a missing stated semantic, coverage, or capability requirement.",
+            "tool_use": "The failure concerns selecting, invoking, or parameterizing an available tool.",
+            "format_only": "The substantive content is correct, but a required wire representation, syntax, serialization, or presentation format is malformed.",
+            "no_match": "The description is specific but none of these children fits.",
+            "uncertain": "The failure description or child taxonomy is missing, mixed, or ambiguous."
+          }
+        }
+      }
+    }
+  },
+  {
+    "fixture_id": "L09-3",
+    "pattern_id": "L09",
+    "screen": "core-refinement-v3",
+    "contract_version": 3,
+    "started_at": "2026-09-22T11:44:05.163Z",
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "06e8221db0806b2408eaeddb53c8223ad5f7332f919d36a1f1a04d8af911a613",
+      "observed_at": "2026-09-22T11:44:06.176885+00:00",
+      "elapsed_ms": 1008.105,
+      "billed_input_tokens": 644,
+      "estimated_cost_usd": 0.000027048,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 644,
+        "output_tokens": 74
+      },
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "tool_use",
+          "confidence": 1,
+          "probabilities": {
+            "tool_use": 1,
+            "format_only": 0,
+            "uncertain": 0,
+            "instruction_following": 0,
+            "no_match": 0,
+            "factual_grounding": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "decision",
+        "expected": {
+          "choice": "tool_use"
+        },
+        "observed": "tool_use",
+        "confidence": 1,
+        "match": true
+      }
+    ],
+    "match": true,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "taxonomy_node": "LLM failure category",
+        "children": "factual_grounding=unsupported facts; instruction_following=missed stated requirement; tool_use=tool selection/invocation; format_only=representation error",
+        "failure_description": "The agent selected a tool that is not in the supplied available-tool catalog."
+      },
+      "questions": {
+        "decision": {
+          "type": "choice",
+          "instructions": "Which child of `taxonomy_node` best describes `failure_description`, using only the supplied `children` taxonomy? Use `instruction_following` for a missing semantic, coverage, or capability requirement. Use `format_only` when substantive content is correct but a required wire representation or serialization (for example, valid JSON) is malformed. A voluntary feature or design change that is not described as a response failure is `no_match`. Choose `no_match` or `uncertain` when no child is supported. This is one node in a larger code-controlled traversal.",
+          "criteria": {
+            "factual_grounding": "The failure concerns unsupported, invented, or contradicted factual content.",
+            "instruction_following": "The failure concerns a missing stated semantic, coverage, or capability requirement.",
+            "tool_use": "The failure concerns selecting, invoking, or parameterizing an available tool.",
+            "format_only": "The substantive content is correct, but a required wire representation, syntax, serialization, or presentation format is malformed.",
+            "no_match": "The description is specific but none of these children fits.",
+            "uncertain": "The failure description or child taxonomy is missing, mixed, or ambiguous."
+          }
+        }
+      }
+    }
+  },
+  {
+    "fixture_id": "L09-4",
+    "pattern_id": "L09",
+    "screen": "core-refinement-v3",
+    "contract_version": 3,
+    "started_at": "2026-09-22T11:44:05.163Z",
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "93c75e82c6d8cbfa2fd1ba42586e16079e89f6af2f2589cea2c834168f75773d",
+      "observed_at": "2026-09-22T11:44:05.837942+00:00",
+      "elapsed_ms": 669.658,
+      "billed_input_tokens": 641,
+      "estimated_cost_usd": 0.000026922,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 641,
+        "output_tokens": 74
+      },
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "format_only",
+          "confidence": 1,
+          "probabilities": {
+            "instruction_following": 0,
+            "tool_use": 0,
+            "no_match": 0,
+            "uncertain": 0,
+            "format_only": 1,
+            "factual_grounding": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "decision",
+        "expected": {
+          "choice": "format_only"
+        },
+        "observed": "format_only",
+        "confidence": 1,
+        "match": true
+      }
+    ],
+    "match": true,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "taxonomy_node": "LLM failure category",
+        "children": "factual_grounding=unsupported facts; instruction_following=missed stated requirement; tool_use=tool selection/invocation; format_only=representation error",
+        "failure_description": "The facts are correct, but the required JSON is malformed."
+      },
+      "questions": {
+        "decision": {
+          "type": "choice",
+          "instructions": "Which child of `taxonomy_node` best describes `failure_description`, using only the supplied `children` taxonomy? Use `instruction_following` for a missing semantic, coverage, or capability requirement. Use `format_only` when substantive content is correct but a required wire representation or serialization (for example, valid JSON) is malformed. A voluntary feature or design change that is not described as a response failure is `no_match`. Choose `no_match` or `uncertain` when no child is supported. This is one node in a larger code-controlled traversal.",
+          "criteria": {
+            "factual_grounding": "The failure concerns unsupported, invented, or contradicted factual content.",
+            "instruction_following": "The failure concerns a missing stated semantic, coverage, or capability requirement.",
+            "tool_use": "The failure concerns selecting, invoking, or parameterizing an available tool.",
+            "format_only": "The substantive content is correct, but a required wire representation, syntax, serialization, or presentation format is malformed.",
+            "no_match": "The description is specific but none of these children fits.",
+            "uncertain": "The failure description or child taxonomy is missing, mixed, or ambiguous."
+          }
+        }
+      }
+    }
+  },
+  {
+    "fixture_id": "L09-5",
+    "pattern_id": "L09",
+    "screen": "core-refinement-v3",
+    "contract_version": 3,
+    "started_at": "2026-09-22T11:44:05.163Z",
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "01d8d4440cbbd573dfd8be9a5af7e2b8d63672bf95ea865c362057ed26f4cd6c",
+      "observed_at": "2026-09-22T11:44:06.011460+00:00",
+      "elapsed_ms": 842.931,
+      "billed_input_tokens": 651,
+      "estimated_cost_usd": 0.000027342,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 651,
+        "output_tokens": 74
+      },
+      "answers": {
+        "decision": {
+          "type": "choice",
+          "choice": "no_match",
+          "confidence": 1,
+          "probabilities": {
+            "instruction_following": 0,
+            "uncertain": 0,
+            "format_only": 0,
+            "tool_use": 0,
+            "no_match": 1,
+            "factual_grounding": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "decision",
+        "expected": {
+          "choice": "no_match"
+        },
+        "observed": "no_match",
+        "confidence": 1,
+        "match": true
+      }
+    ],
+    "match": true,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "taxonomy_node": "LLM failure category",
+        "children": "factual_grounding=unsupported facts; instruction_following=missed stated requirement; tool_use=tool selection/invocation; format_only=representation error",
+        "failure_description": "No response failure is reported; a product designer merely proposes considering a different shade of blue for the application logo."
+      },
+      "questions": {
+        "decision": {
+          "type": "choice",
+          "instructions": "Which child of `taxonomy_node` best describes `failure_description`, using only the supplied `children` taxonomy? Use `instruction_following` for a missing semantic, coverage, or capability requirement. Use `format_only` when substantive content is correct but a required wire representation or serialization (for example, valid JSON) is malformed. A voluntary feature or design change that is not described as a response failure is `no_match`. Choose `no_match` or `uncertain` when no child is supported. This is one node in a larger code-controlled traversal.",
+          "criteria": {
+            "factual_grounding": "The failure concerns unsupported, invented, or contradicted factual content.",
+            "instruction_following": "The failure concerns a missing stated semantic, coverage, or capability requirement.",
+            "tool_use": "The failure concerns selecting, invoking, or parameterizing an available tool.",
+            "format_only": "The substantive content is correct, but a required wire representation, syntax, serialization, or presentation format is malformed.",
+            "no_match": "The description is specific but none of these children fits.",
+            "uncertain": "The failure description or child taxonomy is missing, mixed, or ambiguous."
+          }
+        }
+      }
+    }
+  }
+]

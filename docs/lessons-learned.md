@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-22 — Iteration 2 contract-version and negative-schema test integrity
+
+- **Component:** Iteration 2 catalog generation and Iteration 2 test evaluator.
+- **Symptom:** A broad text patch briefly marked three untouched contracts as version 2 because their prior-pattern anchors overlapped with the intended targets. Separately, the invalid-probability test appeared to cover None, but the synthetic-response helper replaced None with its default valid Noul value.
+- **Confirmed cause:** The first version update used insufficiently specific textual context; the test helper deliberately used None as its sentinel for use-default, so passing None did not reach the validator. Neither issue affected a provider call or production data.
+- **Repair:** Restored E12/L10/L12 to version 1 and assigned version 2 only to B08/E13/L11/H11/H19; L09 subsequently moved to version 3 after its own documented refinement. Content review later corrected H19's stale message wording to its named proposed_action field and moved H19 to version 3 with four fresh synthetic receipts. Updated the negative-schema test to construct a valid response and then assign None directly to the Noul field.
+- **Verification:** The Iteration 2 unittest discovery command passed 20 tests; the Iteration 2 evaluator reproduced 168 request-digest bindings and selected 134/134 current fixtures with 147/147 current question checks. Publication/deployment verification remains pending at this entry.
+- **Prevention:** Version every altered contract with pattern-specific context, then assert the complete changed-version set before a live rerun. In negative tests, mutate the final value under test rather than using a helper parameter whose sentinel behavior can bypass the invalid case.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

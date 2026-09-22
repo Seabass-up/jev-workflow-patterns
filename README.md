@@ -1,13 +1,17 @@
 # Jev Workflow Patterns
 
-Public documentation pages, three foundational Codex skills, and a growing synthetic-screened question catalog for composing Jev's typed judgments into bounded application workflows.
+Public documentation pages, foundational Codex skills, and growing synthetic-screened question catalogs for composing Jev's typed judgments into bounded application workflows.
 
-The project site is built from the Markdown pages in this repository with GitHub Pages and GitHub Actions. The `skills/` directory contains the three foundational installable skill sources. Iteration directories add question contracts, synthetic fixtures/receipts, and pure demonstration controllers. This is not a TypeSafe SDK or a maintained production runtime library.
+The project site is built from the Markdown pages in this repository with GitHub Pages and GitHub Actions. The skills directory contains the three foundational installable sources plus the Iteration 3 question-kernel catalog skill. Iteration directories add question contracts, synthetic fixtures/receipts, and pure demonstration controllers. This is not a TypeSafe SDK or a maintained production runtime library.
 
 ## Pages
 
 - [Iteration 1: 20 useful questions plus 10 experimental harness designs](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/)
 - [Iteration 1 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/evaluation/)
+- [Iteration 2: 30 versioned question patterns](https://seabass-up.github.io/jev-workflow-patterns/iterations/02/)
+- [Iteration 2 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/02/evaluation/)
+- [Iteration 3: 30 new question patterns and catalog skill](https://seabass-up.github.io/jev-workflow-patterns/iterations/03/)
+- [Iteration 3 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/03/evaluation/)
 
 - [Evidence-directed allowlist controller](https://seabass-up.github.io/jev-workflow-patterns/patterns/evidence-directed-allowlist-controller/)
 - [Lineage-aware corroboration](https://seabass-up.github.io/jev-workflow-patterns/patterns/lineage-aware-corroboration/)
@@ -15,7 +19,7 @@ The project site is built from the Markdown pages in this repository with GitHub
 
 ## Use the skills
 
-Each pattern has a self-contained Codex skill under `skills/<skill-name>/SKILL.md`. Use the skill with a compatible Codex skill installation workflow; the site does not install anything into a visitor's environment.
+The foundational patterns have dedicated installable skills. The Iteration 3 public pages share the [Jev Question Kernel Catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md), which helps choose and adapt an exact contract without installing a production integration. Use skills with a compatible Codex skill installation workflow; the site does not install anything into a visitor's environment.
 
 ## Boundaries
 

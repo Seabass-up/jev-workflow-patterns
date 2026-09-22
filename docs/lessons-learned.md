@@ -1,5 +1,15 @@
 # Lessons learned
 
+## 2026-09-22 — Iteration 3 standalone evaluator test import path
+
+- **Component:** Iteration 3 synthetic receipt tests.
+- **Symptom:** The standalone unittest module invocation could not import the colocated evaluate.py, even though the evaluator itself passed and GitHub discovery would place the iteration directory on the module path.
+- **Confirmed cause:** The test module relied on unittest discovery's working-directory/import behavior rather than declaring its local module path.
+- **Repair:** Added the test file's own directory to sys.path before importing the local evaluator. No provider receipt, fixture, or question contract changed.
+- **Verification:** The evaluator replayed 67 request-digest bindings and selected 61/61 current fixtures before the repair; the standalone command and discovery command are rerun after this entry.
+- **Prevention:** Iteration test modules should establish their colocated evaluator import path explicitly so direct and discovery invocation exercise the same code.
+- **Follow-up formatting repair:** Staging's whitespace check found one extra blank line at the end of every generated Iteration 3 pattern page. The page emitter appended both a terminal content newline and a terminal patch line. Removed the redundant lines with a scoped patch, then refreshed the iteration checksum manifest and reran the whitespace check. Future generated-page patches should inspect the final two lines before staging.
+
 ## 2026-09-22 — Iteration 2 contract-version and negative-schema test integrity
 
 - **Component:** Iteration 2 catalog generation and Iteration 2 test evaluator.

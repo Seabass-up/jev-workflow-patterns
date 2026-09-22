@@ -13,11 +13,15 @@ kicker: A practical pattern catalog
 
 ## Current question catalog
 
+[Iteration 3: 30 new question contracts and an installable catalog skill]({{ '/iterations/03/' | relative_url }}) adds commercial-account alignment, pricing, delivery, predecessor, billing-support, renewal, service-trigger, diagnostic-origin, configuration, migration, replay, cache, cancellation, error-owner, entity alignment, RAG lanes, answerability, skill re-check, decision-depth, snapshot, candidate-coverage, composite-score, structure, retrieval, merge-hold, fan-out, precision, and ledger patterns.
+
+It preserves 67 live synthetic Jev receipts: the initial 58/61 fixture result, all three misses, six targeted reruns, and a final selected 61/61 current-fixture set with 84/84 current question checks. This is a small revision-aware regression check—not a production accuracy, calibration, security, or novelty claim. [Read the Iteration 3 evaluation]({{ '/iterations/03/evaluation/' | relative_url }}) · [Use the shared catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md).
+
+## Earlier question catalog
+
 [Iteration 2: 30 versioned business, engineering, LLM, and harness patterns]({{ '/iterations/02/' | relative_url }}) adds policy-exception, owner, remedy, revision, deadline-expression, reproducibility, retry, migration, rollback, telemetry, provenance, source-span, taxonomy, stability, deterministic-date, offset, plan-invalidation, field-verification, evidence-release, policy-routing, and calibration-ledger patterns.
 
 It preserves 168 synthetic Jev receipts: the initial misses, two version-2 L09 misses, and the later refined contracts. The latest receipt for every final fixture matched 134/134 fixtures and 147/147 question checks. This is a small regression check on an iterated synthetic set—not a production accuracy, calibration, or novelty claim. [Read the Iteration 2 evaluation]({{ '/iterations/02/evaluation/' | relative_url }}).
-
-## Earlier question catalog
 
 [Iteration 1: 20 business, engineering and LLM patterns plus 10 experimental harness designs]({{ '/iterations/01/' | relative_url }}) includes individual pages, exact question JSON, follow-up policies, synthetic fixtures, preserved failures and offline controller tests.
 
@@ -63,4 +67,4 @@ See the official [TypeSafe System One overview](https://docs.typesafe.ai/concept
 
 ## Public pages and skill files
 
-Each pattern page includes a state/question example, the expected wrapper output, code-owned controls, limitations, and a link to its matching skill. The public [repository](https://github.com/Seabass-up/jev-workflow-patterns) contains the original skill source files under `skills/`.
+Each pattern page includes a named state contract, exact question JSON, code-owned controls, limitations, and a link to a compatible dedicated or shared skill. The public [repository](https://github.com/Seabass-up/jev-workflow-patterns) contains the source skill files under `skills/`.

@@ -1,5 +1,23 @@
 # Lessons learned
 
+## 2026-09-22 — Iteration 4 literal precedence and numeric-boundary repairs
+
+- **Component:** Iteration 4 H37 citation controller and H38 feature-evaluation controller.
+- **Symptom:** The frozen initial screen matched 58/60 fixtures. H37 selected `contradicts` when code had already established that the claimed quote was missing; H38 selected `insufficient` when asked to infer that a lower RMSE was an improvement.
+- **Confirmed cause:** H37 did not make the code-owned missing-quote condition a priority branch. H38 asked Jev to perform a numeric comparison, contrary to the documented numeric-boundary rule. Neither miss involved private data or an operational action.
+- **Repair:** Versioned H37 and H38 to contract version 2. H37 now selects `quote_missing` first whenever deterministic exact lookup reports a missing quote. H38 now asks only whether revisions, held-out split, metric, and validity are bound; deterministic code calculates metric direction and difference.
+- **Verification:** The initial 60 raw request digests remain preserved. Four targeted V2 calls (both H37 and H38 fixtures) matched 4/4; final selection matches 60/60 current fixtures and 60/60 current question checks. The offline evaluator and six pure tests pass.
+- **Prevention:** State priority branches literally in the question, and move arithmetic/metric interpretation into code before the semantic call.
+
+## 2026-09-22 — Iteration 4 generated-page and negative-schema test integrity
+
+- **Component:** Iteration 4 page emitter and evaluator test helper.
+- **Symptom:** The first generated pattern pages had YAML front matter indented by four spaces, so Jekyll would not recognize it. Separately, the test helper attempted to round `NaN` before the validator could exercise its malformed-score failure path.
+- **Confirmed cause:** Dynamic Markdown fragments defeated `dedent`'s shared margin. The helper constructed a synthetic score from the invalid value rather than mutating the final typed response.
+- **Repair:** Normalized exactly one template margin after interpolation, regenerated all 35 Jekyll pages, and changed the negative test to build a valid response then assign `NaN` directly to its score.
+- **Verification:** Ruby parsed front matter for all 35 Jekyll pages; `git diff --check`, receipt replay, and the Iteration 4 six-test suite pass.
+- **Prevention:** Parse generated front matter before screening or staging, and mutate the exact response field under a negative-schema test rather than relying on a convenience helper's value transformation.
+
 ## 2026-09-22 — Iteration 3 standalone evaluator test import path
 
 - **Component:** Iteration 3 synthetic receipt tests.

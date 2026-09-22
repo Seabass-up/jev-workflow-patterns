@@ -1,0 +1,258 @@
+[
+  {
+    "screen": "refinement",
+    "fixture_id": "H37-support",
+    "pattern_id": "H37",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "claim": "The policy requires a signed field ticket before reimbursement.",
+        "quoted_text": "A signed field ticket is required before reimbursement.",
+        "source_context": "Section 4: A signed field ticket is required before reimbursement. Requests lacking it are returned for completion.",
+        "quote_lookup_status": "Code exact lookup: found this exact quoted_text in source revision P-4."
+      },
+      "questions": {
+        "context_relation": {
+          "type": "choice",
+          "instructions": "First apply quote_lookup_status. If code explicitly reports that quoted_text was not found exactly, select quote_missing and do not assess whether source_context supports or contradicts claim. Only when code reports an exact quote found, classify the surrounding context. Do not approve publication or declare the claim true beyond supplied context.",
+          "criteria": {
+            "supports": "Code found the exact quote and the located quote/context directly supports the stated claim in the supplied scope.",
+            "contradicts": "Code found the exact quote and the located quote/context directly conflicts with the stated claim.",
+            "silent_or_insufficient": "Code found the exact quote but the quote/context does not establish the claim either way, or the supplied context is insufficient.",
+            "quote_missing": "Code explicitly reports that quoted_text was not found exactly; this choice takes priority over any related wording in source_context."
+          }
+        }
+      }
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "2fce81f4d40de76458b6bcd0375c82f1b3358f12c705624096d149497635b4f4",
+      "observed_at": "2026-09-22T13:14:09.647215+00:00",
+      "elapsed_ms": 436.135,
+      "billed_input_tokens": 561,
+      "estimated_cost_usd": 2.3562e-05,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 561,
+        "output_tokens": 54
+      },
+      "answers": {
+        "context_relation": {
+          "type": "choice",
+          "choice": "supports",
+          "confidence": 0.99,
+          "probabilities": {
+            "silent_or_insufficient": 0.01,
+            "quote_missing": 0.0,
+            "supports": 0.99,
+            "contradicts": 0.0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "context_relation",
+        "expected": {
+          "choice": "supports"
+        },
+        "observed": "supports",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "refinement",
+    "fixture_id": "H37-missing",
+    "pattern_id": "H37",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "claim": "The policy allows reimbursement without records.",
+        "quoted_text": "No records are ever required.",
+        "source_context": "Section 4: A signed field ticket is required before reimbursement.",
+        "quote_lookup_status": "Code exact lookup: quoted_text was not found in source revision P-4."
+      },
+      "questions": {
+        "context_relation": {
+          "type": "choice",
+          "instructions": "First apply quote_lookup_status. If code explicitly reports that quoted_text was not found exactly, select quote_missing and do not assess whether source_context supports or contradicts claim. Only when code reports an exact quote found, classify the surrounding context. Do not approve publication or declare the claim true beyond supplied context.",
+          "criteria": {
+            "supports": "Code found the exact quote and the located quote/context directly supports the stated claim in the supplied scope.",
+            "contradicts": "Code found the exact quote and the located quote/context directly conflicts with the stated claim.",
+            "silent_or_insufficient": "Code found the exact quote but the quote/context does not establish the claim either way, or the supplied context is insufficient.",
+            "quote_missing": "Code explicitly reports that quoted_text was not found exactly; this choice takes priority over any related wording in source_context."
+          }
+        }
+      }
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "9a34826418ed1c41ba4b27cde475e77a7f377bf485154bd38d79b936d7e648aa",
+      "observed_at": "2026-09-22T13:14:10.150546+00:00",
+      "elapsed_ms": 375.074,
+      "billed_input_tokens": 547,
+      "estimated_cost_usd": 2.2974e-05,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 547,
+        "output_tokens": 55
+      },
+      "answers": {
+        "context_relation": {
+          "type": "choice",
+          "choice": "quote_missing",
+          "confidence": 1.0,
+          "probabilities": {
+            "silent_or_insufficient": 0.0,
+            "quote_missing": 1.0,
+            "supports": 0.0,
+            "contradicts": 0.0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "context_relation",
+        "expected": {
+          "choice": "quote_missing"
+        },
+        "observed": "quote_missing",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "refinement",
+    "fixture_id": "H38-improved",
+    "pattern_id": "H38",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "feature_set_revision": "Question set F3 and pinned baseline F2 are named; held-out split H2 is immutable.",
+        "holdout_summary": "Both F3 and F2 were evaluated on the same named held-out split H2 with the same RMSE metric. No leakage is reported.",
+        "code_metric_comparison": "Code calculation: lower RMSE is better; F3 RMSE 1.70 is lower than F2 RMSE 1.90 on H2.",
+        "proposed_change": "Add question F3-17 about explicit competitor mentions."
+      },
+      "questions": {
+        "evaluation_binding": {
+          "type": "choice",
+          "instructions": "Does the supplied evidence establish a valid held-out evaluation binding for proposed_change? Read whether the record names a pinned proposed revision, baseline, held-out split, metric, and validity status. code_metric_comparison is code's deterministic calculation; do not compare numbers, infer improvement, train a model, deploy features, or inspect training data.",
+          "criteria": {
+            "valid_heldout_binding": "The supplied records explicitly bind the proposed and baseline revisions to the same named held-out split and metric, and no leakage/invalidity is stated.",
+            "leakage_or_invalid": "The supplied records explicitly identify target leakage, a non-held-out comparison, a changed/unstated split, or another invalid evaluation condition.",
+            "incomplete_binding": "The supplied records do not establish the required revision, split, metric, baseline, or validity binding."
+          }
+        }
+      }
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "142b7d6f362f43629ca42c73489934927a7b553332609adc4f636289524f5075",
+      "observed_at": "2026-09-22T13:14:10.678312+00:00",
+      "elapsed_ms": 395.462,
+      "billed_input_tokens": 597,
+      "estimated_cost_usd": 2.5074e-05,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 597,
+        "output_tokens": 54
+      },
+      "answers": {
+        "evaluation_binding": {
+          "type": "choice",
+          "choice": "valid_heldout_binding",
+          "confidence": 0.47,
+          "probabilities": {
+            "incomplete_binding": 0.33,
+            "leakage_or_invalid": 0.02,
+            "valid_heldout_binding": 0.65
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "evaluation_binding",
+        "expected": {
+          "choice": "valid_heldout_binding"
+        },
+        "observed": "valid_heldout_binding",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "refinement",
+    "fixture_id": "H38-leakage",
+    "pattern_id": "H38",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "feature_set_revision": "Question set F3 is named, but no immutable held-out split is named.",
+        "holdout_summary": "The proposed feature asks whether the review states the critic score. The same rows and score labels were used for evaluation.",
+        "code_metric_comparison": "Code must not compare metrics because the evaluation uses target-leaking labels on the same rows.",
+        "proposed_change": "Add target-revealing feature F3-18."
+      },
+      "questions": {
+        "evaluation_binding": {
+          "type": "choice",
+          "instructions": "Does the supplied evidence establish a valid held-out evaluation binding for proposed_change? Read whether the record names a pinned proposed revision, baseline, held-out split, metric, and validity status. code_metric_comparison is code's deterministic calculation; do not compare numbers, infer improvement, train a model, deploy features, or inspect training data.",
+          "criteria": {
+            "valid_heldout_binding": "The supplied records explicitly bind the proposed and baseline revisions to the same named held-out split and metric, and no leakage/invalidity is stated.",
+            "leakage_or_invalid": "The supplied records explicitly identify target leakage, a non-held-out comparison, a changed/unstated split, or another invalid evaluation condition.",
+            "incomplete_binding": "The supplied records do not establish the required revision, split, metric, baseline, or validity binding."
+          }
+        }
+      }
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "6240de61c9ecda79c47e55af3c7443aad5e1a188bbf9f6bcf1905c50c5788e0f",
+      "observed_at": "2026-09-22T13:14:11.189884+00:00",
+      "elapsed_ms": 383.211,
+      "billed_input_tokens": 571,
+      "estimated_cost_usd": 2.3982e-05,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 571,
+        "output_tokens": 54
+      },
+      "answers": {
+        "evaluation_binding": {
+          "type": "choice",
+          "choice": "leakage_or_invalid",
+          "confidence": 0.99,
+          "probabilities": {
+            "valid_heldout_binding": 0.0,
+            "incomplete_binding": 0.0,
+            "leakage_or_invalid": 1.0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "evaluation_binding",
+        "expected": {
+          "choice": "leakage_or_invalid"
+        },
+        "observed": "leakage_or_invalid",
+        "match": true
+      }
+    ],
+    "match": true
+  }
+]

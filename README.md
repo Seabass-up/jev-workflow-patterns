@@ -12,6 +12,8 @@ The project site is built from the Markdown pages in this repository with GitHub
 - [Iteration 2 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/02/evaluation/)
 - [Iteration 3: 30 new question patterns and catalog skill](https://seabass-up.github.io/jev-workflow-patterns/iterations/03/)
 - [Iteration 3 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/03/evaluation/)
+- [Iteration 4: final 30 question patterns](https://seabass-up.github.io/jev-workflow-patterns/iterations/04/)
+- [Iteration 4 evaluation, v2 repairs, and raw synthetic receipts](https://seabass-up.github.io/jev-workflow-patterns/iterations/04/evaluation/)
 
 - [Evidence-directed allowlist controller](https://seabass-up.github.io/jev-workflow-patterns/patterns/evidence-directed-allowlist-controller/)
 - [Lineage-aware corroboration](https://seabass-up.github.io/jev-workflow-patterns/patterns/lineage-aware-corroboration/)
@@ -23,7 +25,7 @@ The foundational patterns have dedicated installable skills. The Iteration 3 pub
 
 ## Boundaries
 
-The iteration catalog is a separate evidence track from the three foundational patterns. Initial core screening matched 76/81 fixtures, targeted refinement 15/15, and harness screening 38/40. See each iteration's exact versions, failures and scope; these are not production-accuracy claims.
+The iteration catalog is a separate evidence track from the three foundational patterns. Iteration 4's initial 58/60 screen preserves both misses; four v2 reruns selected 60/60 current synthetic fixtures. See each iteration's exact versions, failures and scope; these are not production-accuracy claims.
 
 Jev returns typed, advisory judgments. Application code retains control of source access, evidence freshness, deterministic validation, budgets, caching, escalation, and actions. Confidence thresholds are workflow policy, not universal correctness guarantees. Read each pattern's limitations before adapting it.
 

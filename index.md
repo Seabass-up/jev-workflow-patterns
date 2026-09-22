@@ -13,11 +13,15 @@ kicker: A practical pattern catalog
 
 ## Current question catalog
 
+[Iteration 4: 30 final-cycle question contracts]({{ '/iterations/04/' | relative_url }}) adds buyer-role, purchase-intent, competitive-context, communication-preference, churn, claim-substantiation, and disclosure-evidence decisions; field-support, label/value association, test-double, trace, lint-tier, repair-impact, and upgrade-intent checks; answer-work, fidelity, retrieval-posture, answer-directness, primitive-fit, and feature-validity questions; plus repeatability, extraction, candidate-binding, canary, ingress/egress, citation, feature, fixture, and drift harness controllers.
+
+It preserves **64 live synthetic Jev receipts**: an initial 58/60 result, both misses, four v2 targeted reruns, and a selected 60/60 current-fixture set with 60/60 current question checks. The H37 refinement makes code-confirmed missing quotes take priority; the H38 refinement moves numeric RMSE comparison from Jev into deterministic code. This is a bounded revision-aware regression check—not a production accuracy, calibration, security, legal-compliance, or novelty claim. [Read the Iteration 4 evaluation]({{ '/iterations/04/evaluation/' | relative_url }}) · [Browse the exact JSON contracts]({{ '/iterations/04/catalog.json' | relative_url }}) · [Use the shared catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md).
+
+## Earlier question catalog
+
 [Iteration 3: 30 new question contracts and an installable catalog skill]({{ '/iterations/03/' | relative_url }}) adds commercial-account alignment, pricing, delivery, predecessor, billing-support, renewal, service-trigger, diagnostic-origin, configuration, migration, replay, cache, cancellation, error-owner, entity alignment, RAG lanes, answerability, skill re-check, decision-depth, snapshot, candidate-coverage, composite-score, structure, retrieval, merge-hold, fan-out, precision, and ledger patterns.
 
 It preserves 67 live synthetic Jev receipts: the initial 58/61 fixture result, all three misses, six targeted reruns, and a final selected 61/61 current-fixture set with 84/84 current question checks. This is a small revision-aware regression check—not a production accuracy, calibration, security, or novelty claim. [Read the Iteration 3 evaluation]({{ '/iterations/03/evaluation/' | relative_url }}) · [Use the shared catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md).
-
-## Earlier question catalog
 
 [Iteration 2: 30 versioned business, engineering, LLM, and harness patterns]({{ '/iterations/02/' | relative_url }}) adds policy-exception, owner, remedy, revision, deadline-expression, reproducibility, retry, migration, rollback, telemetry, provenance, source-span, taxonomy, stability, deterministic-date, offset, plan-invalidation, field-verification, evidence-release, policy-routing, and calibration-ledger patterns.
 

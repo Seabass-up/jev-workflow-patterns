@@ -66,6 +66,10 @@ python3 scripts/check_contract.py assets/contract-example.json assets/fixtures-e
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
+The helper checks the local authoring envelope shape shown in the two examples
+(`contract_id`, `request`, `consumer`, `uncertainty_policy`, `evaluation_scope`). The
+published iteration and email catalogs use a different `catalog.json` pattern shape and
+are validated by their own `evaluate.py` receipt checks, not by this helper.
 The helper catches selected packaging/schema mistakes. It does not prove semantic
 clarity, privacy, candidate completeness, authenticity, or accuracy. Review those
 against source material and consuming code using the relevant module.

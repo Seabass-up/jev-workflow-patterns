@@ -2,7 +2,7 @@
 
 Public documentation pages, foundational Codex skills, and growing synthetic-screened question catalogs for composing Jev's typed judgments into bounded application workflows.
 
-The project site is built from Markdown with GitHub Pages and GitHub Actions. The skills directory contains three foundational skills plus Jev Question Kernel v2, covering authoring, evidence/provenance, and evaluation/drift with portable references, example JSON, and a structural checker. Iteration directories retain their historical contracts, synthetic receipts, and demonstration controllers. This is not a TypeSafe SDK or production runtime library.
+The project site is built from Markdown with GitHub Pages and GitHub Actions. The skills directory contains three foundational skills plus Jev Question Kernel v2, covering authoring, evidence/provenance, evaluation/drift, domain profiles, and email profiles with portable references, example JSON, and a structural checker. Iteration directories retain their historical contracts, synthetic receipts, and demonstration controllers. This is not a TypeSafe SDK or production runtime library.
 
 ## Pages
 

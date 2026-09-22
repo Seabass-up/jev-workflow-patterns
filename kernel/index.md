@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2 · one skill, three modules
+kicker: Kernel v2 · one skill, five modules
 ---
 
 # Ask a question your software can use
@@ -69,7 +69,9 @@ python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
 The helper validates selected local structure and fixture expectations without a
-network call. It does not establish source authenticity, candidate completeness,
+network call. It checks the authoring envelope shape used by the two examples; the
+published iteration and email catalogs use a different pattern shape and are checked
+by their own `evaluate.py` scripts. It does not establish source authenticity, candidate completeness,
 question quality, or performance on new data.
 
 ## Choose from all four catalogs

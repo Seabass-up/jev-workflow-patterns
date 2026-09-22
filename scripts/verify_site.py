@@ -41,8 +41,8 @@ def verify(site):
             pages.append(page)
     iteration_count = len(pages)
     email_catalog = json.loads((ROOT / "email/catalog.json").read_text())
-    if len(email_catalog["patterns"]) < 10:
-        raise ValueError("expected at least ten email profiles")
+    if len(email_catalog["patterns"]) < 12:
+        raise ValueError("expected at least twelve email profiles")
     for p in email_catalog["patterns"]:
         page = site / "email/patterns" / p["id"].lower() / "index.html"
         if not page.is_file() or p["id"] not in page.read_text():

@@ -69,7 +69,7 @@ python3 scripts/check_confidence.py RECEIPT_JSON_OR_DIRECTORY
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
-Skill version 2.2.0 adds `check_confidence.py`. Choice confidence closely follows
+Skill version 2.3.0 adds `check_confidence.py`. Choice confidence closely follows
 `(n × top probability − 1) / (n − 1)`, so one threshold means different top
 probabilities as options are added or removed. The helper checks stored receipts
 against that relationship and converts thresholds between option counts. See the
@@ -83,8 +83,14 @@ question quality, or performance on new data.
 
 ## Choose from all four catalogs
 
+[48 bug-hunting profiles]({{ '/bug-hunting/' | relative_url }}) extend the kernel
+in skill version 2.2.0. They cover concurrency, persistence, API contracts,
+UI behavior, resources, trust boundaries, tests/releases, and LLM/agent workflows.
+The [bug-hunting module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/bug-hunting.md)
+keeps candidate judgments separate from independently verified findings.
+
 [Twelve email profiles]({{ '/email/' | relative_url }}) now extend the kernel in
-skill version 2.1.0. They cover email ownership, quotes, changes, commitments,
+the email module introduced in skill version 2.1.0. They cover email ownership, quotes, changes, commitments,
 scheduling, attachments, draft coverage, waiting, automatic responses, invoice
 questions, and closure. The [email module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/email.md)
 keeps mailbox evidence and action controls explicit.

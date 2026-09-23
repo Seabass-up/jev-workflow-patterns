@@ -2,7 +2,7 @@
 
 ## 2026-09-22 — Choice confidence depends on option count
 
-- **Component:** Kernel skill 2.2.0, CI receipt checks, and the introduction review in `discovery/introduction-review/`.
+- **Component:** Kernel skill 2.3.0, CI receipt checks, and the introduction review in `discovery/introduction-review/`.
 - **Observation:** Stored jev-1.13.0 Choice confidence follows `(n × top probability − 1) / (n − 1)` within 0.020 across all 447 preserved answers (2–6 options). The confidence page presents this only as a three-option approximation. Score confidence does not follow it; an even split between extreme levels had confidence 0.
 - **Consequence:** 53 Iteration 1–2 patterns share a 0.8 floor across 2–6 options, so the floor demands top probabilities from 0.833 to 0.90. Adding a no-match option raises confidence at the same top probability. Historical contracts, thresholds, and receipts were left unchanged.
 - **Repair:** Added `check_confidence.py` with eight tests. It checks stored Choice confidence against probabilities and converts thresholds between option counts. Added threshold guidance to the authoring module and a receipt check plus returned-model-version drift trigger to the evaluation module. CI runs the checker over every preserved receipt and replays the discovery measurements.
@@ -20,6 +20,14 @@
 - **Local results:** Nine helper tests and the example structural check passed, including from a copied standalone skill folder. Skill Creator validation passed using an isolated uv environment with PyYAML because the existing interpreters lacked that validator dependency. The helper itself requires only Python's standard library. GitHub CI now runs the kernel checks and verifies the rendered kernel/home links alongside the 136 iteration pages.
 - **Jev consultation:** A two-question design check returned coherent (confidence 0.97) and resolved repeat-audit exception (1.0), model jev-1.13.0, request digest `1cdab42a2e606ec00b0ab17fcd08efa9aa03f3363d3773c881f949b420e8f494`; 605 input/90 output tokens and 430.191 ms. This was advisory design review, not a live test of the new example contract.
 - **Prevention:** Package required guidance inside the skill and distinguish structural validation, semantic evaluation, and installed/runtime status.
+
+## 2026-09-23 — Bug-hunting screen preserves uncertainty and service failures
+
+- **Component:** New BH01–BH48 question profiles and their replay/evidence-status helper.
+- **Observed:** Two initial calls returned HTTP 529; BH41-2 returned insufficient at 0.35 confidence against an author expectation of counterevidence. The provider's internal causes are unknown.
+- **Handling, not a provider repair:** Retained all original results, made one bounded recovery attempt per service error, and kept BH41 provisional without changing its label or question. Both service recoveries succeeded; this does not establish a permanent availability fix.
+- **Verification:** 146 screening attempts yielded 144 successful responses; 143/144 selected labels match. All 144 successful request digests replay. Sixteen offline evaluator/status-mapping tests pass; the 48 proposed reproduction recipes were not executed.
+- **Prevention and limits:** Separate service failure, missing evidence, model disagreement and observed runtime behavior. Low-confidence leads remain candidates; counterevidence is not bug-free and stale evidence cannot promote a finding. See [the complete evaluation](../bug-hunting/evaluation.md).
 
 ## 2026-09-22 — Email missing-input precedence and confidence validation
 

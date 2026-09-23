@@ -41,7 +41,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
-          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email discovery
+          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting discovery
           python3 discovery/introduction-review/measure.py
           python3 discovery/check_candidates.py
           python3 -m unittest discover -s discovery -p 'test_*.py' -v
@@ -51,6 +51,12 @@ jobs:
         run: |
           python3 email/evaluate.py
           python3 -m unittest discover -s email -p 'test_*.py' -v
+      - name: Verify bug-hunting contracts and preserved screening
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 bug-hunting/evaluate.py
+          python3 -m unittest discover -s bug-hunting -p 'test_*.py' -v
       - name: Configure Pages
         uses: actions/configure-pages@v6
       - name: Build site with Jekyll

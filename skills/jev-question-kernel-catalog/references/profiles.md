@@ -31,6 +31,12 @@ Read the local [email module](email.md) for source boundaries, question-handle
 composition, draft coverage, and action controls. These supplement rather than
 replace the four historical catalogs.
 
+The [bug-hunting catalog](https://seabass-up.github.io/jev-workflow-patterns/bug-hunting/)
+adds BH01–BH48 across eight failure families. Read the local
+[bug-hunting module](bug-hunting.md) for evidence packets, candidate status,
+counterevidence, and verification boundaries. Its scenarios are textual, not
+executed reproductions; BH41 retains an unresolved counterexample disagreement.
+
 The [three foundations](https://seabass-up.github.io/jev-workflow-patterns/) retain
 their dedicated skills for evidence-directed retrieval, lineage-aware corroboration,
 and dependency-DAG recomputation. Historical contracts and results remain versioned.

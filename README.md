@@ -6,6 +6,9 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [48 bug-hunting profiles across eight failure families](https://seabass-up.github.io/jev-workflow-patterns/bug-hunting/)
+- [Bug-hunting evaluation and preserved disagreement](https://seabass-up.github.io/jev-workflow-patterns/bug-hunting/evaluation/)
+
 - [Twelve email question patterns](https://seabass-up.github.io/jev-workflow-patterns/email/)
 - [Email evaluation and preserved misses](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/)
 
@@ -31,6 +34,12 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 The foundational patterns have dedicated skills. All four catalogs share the [Jev Question Kernel v2 skill](skills/jev-question-kernel-catalog/SKILL.md), whose existing folder name remains compatible. Copy the entire skill folder through a compatible skill installation workflow; its modules, examples, and helper are self-contained. The website does not install it or change harness settings.
 
 ## Boundaries
+
+Kernel skill version 2.2.0 adds a bug-hunting module and 48 profiles. With the
+120 research and 12 email profiles, these collections total 180; the three
+foundational guides are separate. The new screen matches 143/144 authored text
+scenarios after two service-error recoveries. BH41 retains an unresolved
+counterexample disagreement. These are not 48 executed bug reproductions.
 
 The email extension adds 12 profiles to the existing 120 research questions, with
 the email module packaged in kernel skill version 2.1.0. Initial screening matched

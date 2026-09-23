@@ -29,7 +29,8 @@ def text(value):
 
 def prior_ids(repo=REPO):
     ids = set(FOUNDATIONS)
-    for path in sorted(repo.glob("iterations/[0-9][0-9]/catalog.json")) + [repo / "email/catalog.json"]:
+    catalogs = sorted(repo.glob("iterations/[0-9][0-9]/catalog.json"))
+    for path in catalogs + [repo / "email/catalog.json", repo / "bug-hunting/catalog.json"]:
         ids.update(p["id"] for p in json.loads(path.read_text())["patterns"])
     return ids
 

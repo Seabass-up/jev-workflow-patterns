@@ -51,6 +51,17 @@ def verify(site):
     for name in ("index.html", "evaluation/index.html", "sources/index.html"):
         pages.append(site / "email" / name)
     email_count = len(pages) - iteration_count
+    bug_catalog = json.loads((ROOT / "bug-hunting/catalog.json").read_text())
+    if len(bug_catalog["patterns"]) != 48:
+        raise ValueError("expected 48 bug-hunting profiles")
+    for p in bug_catalog["patterns"]:
+        page = site / "bug-hunting/patterns" / p["id"].lower() / "index.html"
+        if not page.is_file() or p["id"] not in page.read_text():
+            raise ValueError("missing bug-hunting page or identifier: " + str(page))
+        pages.append(page)
+    for name in ("index.html", "evaluation/index.html", "sources/index.html"):
+        pages.append(site / "bug-hunting" / name)
+    bug_count = len(pages) - iteration_count - email_count
     pages.extend([site / "index.html", site / "kernel" / "index.html"])
     for page in pages:
         if not page.is_file():
@@ -73,6 +84,7 @@ def verify(site):
         raise ValueError("no iteration pages found")
     return {"iteration_pages_verified": iteration_count,
             "email_pages_verified": email_count,
+            "bug_hunting_pages_verified": bug_count,
             "kernel_and_home_pages_verified": 2}
 
 

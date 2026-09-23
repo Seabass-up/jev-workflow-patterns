@@ -74,8 +74,14 @@ question quality, or performance on new data.
 
 ## Choose from all four catalogs
 
+[48 bug-hunting profiles]({{ '/bug-hunting/' | relative_url }}) extend the kernel
+in skill version 2.2.0. They cover concurrency, persistence, API contracts,
+UI behavior, resources, trust boundaries, tests/releases, and LLM/agent workflows.
+The [bug-hunting module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/bug-hunting.md)
+keeps candidate judgments separate from independently verified findings.
+
 [Twelve email profiles]({{ '/email/' | relative_url }}) now extend the kernel in
-skill version 2.1.0. They cover email ownership, quotes, changes, commitments,
+the email module introduced in skill version 2.1.0. They cover email ownership, quotes, changes, commitments,
 scheduling, attachments, draft coverage, waiting, automatic responses, invoice
 questions, and closure. The [email module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/email.md)
 keeps mailbox evidence and action controls explicit.

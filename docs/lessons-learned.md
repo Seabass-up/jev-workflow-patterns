@@ -10,6 +10,14 @@
 - **Jev consultation:** A two-question design check returned coherent (confidence 0.97) and resolved repeat-audit exception (1.0), model jev-1.13.0, request digest `1cdab42a2e606ec00b0ab17fcd08efa9aa03f3363d3773c881f949b420e8f494`; 605 input/90 output tokens and 430.191 ms. This was advisory design review, not a live test of the new example contract.
 - **Prevention:** Package required guidance inside the skill and distinguish structural validation, semantic evaluation, and installed/runtime status.
 
+## 2026-09-23 — Bug-hunting screen preserves uncertainty and service failures
+
+- **Component:** New BH01–BH48 question profiles and their replay/evidence-status helper.
+- **Observed:** Two initial calls returned HTTP 529; BH41-2 returned insufficient at 0.35 confidence against an author expectation of counterevidence. The provider's internal causes are unknown.
+- **Handling, not a provider repair:** Retained all original results, made one bounded recovery attempt per service error, and kept BH41 provisional without changing its label or question. Both service recoveries succeeded; this does not establish a permanent availability fix.
+- **Verification:** 146 screening attempts yielded 144 successful responses; 143/144 selected labels match. All 144 successful request digests replay. Sixteen offline evaluator/status-mapping tests pass; the 48 proposed reproduction recipes were not executed.
+- **Prevention and limits:** Separate service failure, missing evidence, model disagreement and observed runtime behavior. Low-confidence leads remain candidates; counterevidence is not bug-free and stale evidence cannot promote a finding. See [the complete evaluation](../bug-hunting/evaluation.md).
+
 ## 2026-09-22 — Email missing-input precedence and confidence validation
 
 - **Component:** Email profiles EM07/EM08 and the email receipt evaluator.

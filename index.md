@@ -17,7 +17,19 @@ kicker: A practical pattern catalog
 check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
 local structural checker. Domain profiles connect it to all 120 research-catalog
-patterns plus 12 email profiles in skill version 2.1.0.
+patterns plus 12 email and 48 bug-hunting profiles in skill version 2.2.0.
+
+## New: 48 bug-hunting patterns
+
+[Browse eight bug-hunting families]({{ '/bug-hunting/' | relative_url }}):
+concurrency/lifecycle, persistence/cache, API/data contracts, UI/interaction,
+resources/performance, trust boundaries, tests/builds/releases, and LLM/agent workflows.
+Each profile has a specific adverse hypothesis, exact question JSON, required
+context, counterexample, and an independent verification recipe.
+
+The textual synthetic screen matched 143/144 scenarios after two bounded service
+recoveries. BH41 remains provisional; no scenario is an executed bug reproduction.
+[Read the preserved errors and disagreement]({{ '/bug-hunting/evaluation/' | relative_url }}).
 
 ## New: 12 email patterns
 

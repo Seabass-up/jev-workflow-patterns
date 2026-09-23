@@ -51,11 +51,15 @@ def is_catalog(name):
 
 
 def confidence_fit(documents):
-    choice, score = [], {}
+    choice, beyond_rounding, score = [], 0, {}
     for _, document in documents:
         for _, answer in answers(document):
             if answer["type"] == "choice":
-                choice.append(abs(choice_confidence(answer["probabilities"]) - answer["confidence"]))
+                n = len(answer["probabilities"])
+                difference = abs(choice_confidence(answer["probabilities"]) - answer["confidence"])
+                choice.append(difference)
+                # Both confidence and top probability are stored to two decimals.
+                beyond_rounding += difference > 0.005 + 0.005 * n / (n - 1) + 1e-9
             else:
                 ordered = tuple(answer["probabilities"][k] for k in sorted(answer["probabilities"], key=float))
                 score[(ordered, answer["confidence"])] = None
@@ -65,8 +69,9 @@ def confidence_fit(documents):
     return {
         "choice_answers": len(choice),
         "choice_max_abs_difference": round(max(choice), 4),
-        "choice_exact_after_rounding": sum(d < 0.0005 for d in choice),
-        "choice_within_0_01": sum(d <= 0.0100001 for d in choice),
+        "choice_consistent_with_two_decimal_rounding": sum(d <= 0.005 + 1e-9 for d in choice),
+        "choice_within_0_01": sum(d <= 0.01 + 1e-9 for d in choice),
+        "choice_beyond_combined_rounding_bound": beyond_rounding,
         "score_unique_answers": len(score),
         "score_max_abs_difference_from_choice_formula": round(max(score_differences), 4),
         "score_extreme_split_examples": extreme,
@@ -78,7 +83,10 @@ def latency(documents):
     for _, document in documents:
         for node in walk(document):
             if isinstance(node.get("answers"), dict) and "elapsed_ms" in node and not node.get("cached"):
-                receipts[node.get("request_sha256") or id(node)] = (
+                # Repeated calls share a digest but not an observation time; copies of one
+                # response across files share both and are counted once.
+                key = (node.get("request_sha256"), node.get("observed_at")) if node.get("observed_at") else id(node)
+                receipts[key] = (
                     len(node["answers"]), float(node["elapsed_ms"]),
                     (node.get("usage") or {}).get("input_tokens"))
     rows = list(receipts.values())
@@ -89,7 +97,7 @@ def latency(documents):
     for questions in sorted(groups):
         values = groups[questions]
         tokens = [t for _, t in values if t]
-        by_count[str(questions)] = {"receipts": len(values),
+        by_count[str(questions)] = {"calls": len(values),
                                     "median_ms": round(statistics.median(ms for ms, _ in values), 1),
                                     "median_input_tokens": statistics.median(tokens) if tokens else None}
     q = [r[0] for r in rows]
@@ -97,8 +105,8 @@ def latency(documents):
     mq, mm = statistics.mean(q), statistics.mean(ms)
     correlation = sum((a - mq) * (b - mm) for a, b in zip(q, ms)) / math.sqrt(
         sum((a - mq) ** 2 for a in q) * sum((b - mm) ** 2 for b in ms))
-    return {"unique_uncached_receipts": len(rows),
-            "single_question_receipts": sum(1 for r in rows if r[0] == 1),
+    return {"uncached_calls": len(rows),
+            "single_question_calls": sum(1 for r in rows if r[0] == 1),
             "median_ms": round(statistics.median(ms), 1),
             "p90_ms": round(sorted(ms)[int(0.9 * (len(ms) - 1))], 1),
             "correlation_ms_vs_question_count": round(correlation, 2),
@@ -146,6 +154,22 @@ def duplicate_screen():
             "host_decisions": {k: v["decision"] for k, v in sorted(receipt["host_review"]["dispositions"].items())}}
 
 
+def source_comparison():
+    """Check the recorded Iteration 4 digests and their refetched values."""
+    sources = json.loads((ROOT / "sources.json").read_text())
+    recorded = (REPO / "iterations/04/sources.md").read_text()
+    fetched = {s["url"]: s["sha256"] for s in sources["sources"]}
+    rows = sources["iteration_4_comparison"]
+    for row in rows:
+        if row["iteration_4_sha256"] not in recorded:
+            raise SystemExit("Iteration 4 digest not found in its source record: " + row["url"])
+        if row["match"] != (row["iteration_4_sha256"] == row["fetched_sha256"]):
+            raise SystemExit("inconsistent match flag: " + row["url"])
+        if fetched.get(row["url"], row["fetched_sha256"]) != row["fetched_sha256"]:
+            raise SystemExit("conflicting fetched digest: " + row["url"])
+    return {"iteration_4_pages": len(rows), "unchanged": sum(r["match"] for r in rows)}
+
+
 def report():
     documents = load_all()
     return {"schema_version": 1,
@@ -155,6 +179,7 @@ def report():
             "latency": latency(documents),
             "flat_threshold_audit": flat_threshold_audit(documents),
             "duplicate_screen": duplicate_screen(),
+            "iteration_4_source_comparison": source_comparison(),
             "scope": ("Measurements of stored synthetic screening receipts from jev-1.13.0. "
                       "They are not accuracy, calibration, or production latency claims.")}
 

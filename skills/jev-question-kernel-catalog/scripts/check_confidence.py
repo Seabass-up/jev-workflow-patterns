@@ -50,10 +50,19 @@ def check_answer(answer, tolerance=DEFAULT_TOLERANCE):
     return None
 
 
+ANSWER_FIELDS = {"choice": {"choice", "probabilities", "confidence"},
+                 "score": {"score", "probabilities", "confidence", "legend"}}
+
+
 def answers(value, path="$"):
-    """Yield (json_path, answer) for every typed Choice or Score answer object."""
+    """Yield (json_path, answer) for every typed Choice or Score answer object.
+
+    Question definitions (type, instructions, criteria) are not answers. Any object
+    carrying an answer field is yielded, so an incomplete answer is reported rather
+    than silently skipped.
+    """
     if isinstance(value, dict):
-        if value.get("type") in ("choice", "score") and "probabilities" in value and "confidence" in value:
+        if ANSWER_FIELDS.get(value.get("type"), set()) & set(value):
             yield path, value
         for key, child in value.items():
             yield from answers(child, path + "." + str(key))

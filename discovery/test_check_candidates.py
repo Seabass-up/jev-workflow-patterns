@@ -63,6 +63,13 @@ class CandidateRegistryTests(unittest.TestCase):
         self.registry["candidates"][0]["found"]["context"] = "Found in ops@example.com thread"
         self.rejects("context contains")
 
+    def test_private_material_in_evidence_rejected(self):
+        for value in ("Thread from ops@example.com", "token_ABCDEFGHIJKLMNOP"):
+            registry = copy.deepcopy(self.registry)
+            registry["candidates"][0]["evidence"] = [value]
+            with self.assertRaisesRegex(ValueError, "evidence contains"):
+                validate(registry, self.known)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -48,4 +48,4 @@ The iteration catalog is a separate evidence track from the three foundational p
 
 Jev returns typed, advisory judgments. Application code retains control of source access, evidence freshness, deterministic validation, budgets, caching, escalation, and actions. Confidence thresholds are workflow policy, not universal correctness guarantees. Read each pattern's limitations before adapting it.
 
-No license is included in this repository. Ask the owner before reusing or redistributing these materials.
+Released under the [MIT License](LICENSE).

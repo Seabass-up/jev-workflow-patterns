@@ -23,7 +23,7 @@ consistency check and option-count threshold guidance.
 ## Discovery: TypeSafe introduction review
 
 [Read the introduction review]({{ '/discovery/introduction-review/' | relative_url }})
-for claims checked against 473 preserved Jev receipts and nine pattern candidates
+for claims checked against 481 preserved Jev calls and nine pattern candidates
 with an advisory duplicate screen. Choice confidence closely follows the option
 count, so the 0.8 floor used by 53 earlier patterns requires top probabilities from
 0.833 to 0.90. These are candidates, not a screened catalog. New patterns found

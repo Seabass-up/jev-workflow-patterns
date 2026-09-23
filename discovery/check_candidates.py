@@ -65,6 +65,8 @@ def validate(registry, known, repo=REPO):
         for item in evidence:
             if "/" in item and " " not in item and "://" not in item:
                 require((repo / item).exists(), cid + " evidence path missing: " + item)
+            for pattern, label in PRIVATE:
+                require(not pattern.search(item), cid + " evidence contains " + label)
         for field in TEXT_FIELDS + ("resolution",):
             for pattern, label in PRIVATE:
                 require(not pattern.search(c.get(field) or ""), cid + " " + field + " contains " + label)

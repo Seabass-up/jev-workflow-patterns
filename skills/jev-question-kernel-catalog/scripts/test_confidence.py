@@ -58,6 +58,19 @@ class ConfidenceTests(unittest.TestCase):
         self.assertEqual(report["by_option_count"], {"2": 1})
         self.assertEqual(report["failures"], [])
 
+    def test_scan_reports_incomplete_choice_and_ignores_question_definitions(self):
+        receipt = {"request": {"questions": {"q": {"type": "choice", "instructions": "Pick one.",
+                                                   "criteria": {"a": "A", "b": "B"}}}},
+                   "response": {"answers": {"q": {"type": "choice", "choice": "a",
+                                                  "probabilities": {"a": 0.9, "b": 0.1}}}}}
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder, "incomplete.json")
+            path.write_text(json.dumps(receipt))
+            report = check([path])
+        self.assertEqual(report["choice_answers_checked"], 1)
+        self.assertEqual(report["failures"][0]["path"], "$.response.answers.q")
+        self.assertIn("missing", report["failures"][0]["problem"])
+
     def test_scan_reports_failure_location(self):
         receipt = [{"answers": {"c": {"type": "choice", "confidence": 0.9,
                                       "probabilities": {"a": 0.5, "b": 0.5}}}}]

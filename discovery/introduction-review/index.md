@@ -19,8 +19,8 @@ the preserved Jev receipts in this repository.
 
 ## What was new to read
 
-The ten pages Iteration 4 hashed returned identical SHA-256 values, and the index was
-still 16,013 characters. The documentation has not changed since then, and all 18
+The ten pages Iteration 4 hashed returned identical SHA-256 values (both digests are
+recorded for each), and the index was still 16,013 characters. The documentation has not changed since then, and all 18
 cookbooks are already cited by Iterations 1–4. The unmined material was the
 introduction and its neighbours: quick start, AI primer, coding agents, the
 [build guide](https://docs.typesafe.ai/concepts/how-to-build-with-system-one), models,
@@ -34,20 +34,21 @@ Measurements replay offline from 25 hash-pinned receipt and catalog files:
 
 | Claim | What the receipts show |
 | --- | --- |
-| Adding questions barely changes response time | **Supported.** Across 473 unique uncached calls, latency does not correlate with question count (r = −0.02). A 30-question, 9,294-token request took 486 ms; single-question calls had a median of 543 ms. |
-| Most queries complete in about 100 ms (build guide) | **Not what this client sees.** Client-observed time, including network, had a median of 548 ms and a 90th percentile of 777 ms. Budget real-time paths on observed time. |
+| Adding questions barely changes response time | **Supported.** Across 481 uncached calls, latency does not correlate with question count (r = −0.02). A 30-question, 9,294-token request took 486 ms; single-question calls had a median of 540 ms. |
+| Most queries complete in about 100 ms (build guide) | **Not what this client sees.** Client-observed time, including network, had a median of 547 ms and a 90th percentile of 777 ms. Budget real-time paths on observed time. |
 | More questions do not cause context rot | **True only for questions.** The [Jev 1.13 limitations page](https://docs.typesafe.ai/model-jaggedness/jev-1.13) says irrelevant *state* costs accuracy. Cap state size, not question count. |
-| Ask many questions in one request (build guide) | **Not yet exercised here.** 405 of 473 calls (86%) asked one question. Batch invariance on these fixtures is untested. |
+| Ask many questions in one request (build guide) | **Not yet exercised here.** 413 of 481 calls (86%) asked one question. Batch invariance on these fixtures is untested. |
 
 ## Choice confidence depends on option count
 
 The [confidence page](https://docs.typesafe.ai/confidence) shows
 `(3 × largest probability − 1) / 2` as an approximation for three options. Generalized
 to `(n × top probability − 1) / (n − 1)`, it matches all 447 stored Choice answers
-(2–6 options) within 0.020. 267 match exactly after two-decimal rounding and 431 are
-within 0.01. The quick-start example (0.85 across three options) gives 0.775, which
-the page reports as 0.78. A few differences exceed pure rounding, so treat the formula
-as a close observed approximation, not the provider's definition.
+(2–6 options) within 0.020. 351 are consistent with two-decimal rounding of the
+formula (within 0.005) and 431 are within 0.01. The quick-start example (0.85 across
+three options) gives 0.775, which the page reports as 0.78. Sixteen differences exceed
+what rounding both the confidence and the top probability can explain, so treat the
+formula as a close observed approximation, not the provider's definition.
 
 Consequences for existing patterns:
 

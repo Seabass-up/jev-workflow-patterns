@@ -17,9 +17,27 @@ kicker: A practical pattern catalog
 check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
 local structural checker. Domain profiles connect it to all 120 research-catalog
-patterns plus 12 email and 48 bug-hunting profiles. Skill version 2.2.0 adds the
-bug-hunting module; 2.3.0 adds a Choice-confidence consistency check and option-count
+patterns plus 12 email, 48 bug-hunting, and 24 human–AI profiles in skill version
+2.3.0: 204 question profiles, separate from the three foundational workflows.
+Skill version 2.4.0 adds a Choice-confidence consistency check and option-count
 threshold guidance.
+
+## New: 24 patterns for people and their AI helpers
+
+[Browse the human–AI catalog]({{ '/human-ai/' | relative_url }}) for learning
+materials that preserve practice, clearer service instructions, useful corrections,
+visible tradeoffs, retained user authorship, and handoffs a person can resume.
+Each profile names a narrow judgment, its required evidence, the code-owned
+controls, and a real-world verification step.
+
+The screen separates 72 design cases from 24 independently authored synthetic
+challenge cases. [Read the evaluation]({{ '/human-ai/evaluation/' | relative_url }}),
+[research method]({{ '/human-ai/research/' | relative_url }}), and
+[primary sources]({{ '/human-ai/sources/' | relative_url }}).
+These sources motivate the problems; they do not establish that Jev improves
+learning or human–AI collaboration. The profiles inspect supplied material and
+explicit requests, not learner traits or diagnoses, and do not grant action or
+memory-update authority.
 
 ## New: 48 bug-hunting patterns
 

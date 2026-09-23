@@ -64,7 +64,7 @@ Score confidence does not follow this form. Across 74 unique Score answers it di
 by up to 0.333; an even split between the two extreme levels,
 `[0.48, 0, 0.02, 0.5]`, has confidence 0. No simple variance or entropy form fitted.
 
-**Applied now:** Kernel skill 2.3.0 adds
+**Applied now:** Kernel skill 2.4.0 adds
 [`check_confidence.py`](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/scripts/check_confidence.py),
 which checks stored Choice confidence against probabilities and converts thresholds
 between option counts. CI runs it over every preserved receipt. The
@@ -199,7 +199,7 @@ predict wording defects before using the probe; it is never a runtime correctnes
 
 ```sh
 python3 discovery/introduction-review/measure.py
-python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting discovery
+python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting human-ai discovery
 ```
 
 [Measurement script](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/discovery/introduction-review/measure.py)

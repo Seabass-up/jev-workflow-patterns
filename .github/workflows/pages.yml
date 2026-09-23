@@ -41,7 +41,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
-          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting discovery
+          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting human-ai discovery
           python3 discovery/introduction-review/measure.py
           python3 discovery/check_candidates.py
           python3 -m unittest discover -s discovery -p 'test_*.py' -v
@@ -57,6 +57,13 @@ jobs:
         run: |
           python3 bug-hunting/evaluate.py
           python3 -m unittest discover -s bug-hunting -p 'test_*.py' -v
+      - name: Verify human-AI research contracts and frozen challenges
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python3 human-ai/evaluate.py
+          python3 -m unittest discover -s human-ai -p 'test_*.py' -v
+          python3 -m unittest discover -s scripts -p 'test_*.py' -v
       - name: Configure Pages
         uses: actions/configure-pages@v6
       - name: Build site with Jekyll

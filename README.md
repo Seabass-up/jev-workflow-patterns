@@ -6,6 +6,11 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [24 human–AI collaboration profiles](https://seabass-up.github.io/jev-workflow-patterns/human-ai/)
+- [Human–AI evaluation: design and independent challenge cases](https://seabass-up.github.io/jev-workflow-patterns/human-ai/evaluation/)
+- [Human–AI research method](https://seabass-up.github.io/jev-workflow-patterns/human-ai/research/)
+- [Human–AI primary sources](https://seabass-up.github.io/jev-workflow-patterns/human-ai/sources/)
+
 - [48 bug-hunting profiles across eight failure families](https://seabass-up.github.io/jev-workflow-patterns/bug-hunting/)
 - [Bug-hunting evaluation and preserved disagreement](https://seabass-up.github.io/jev-workflow-patterns/bug-hunting/evaluation/)
 
@@ -31,13 +36,26 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Use the skills
 
-The foundational patterns have dedicated skills. All four catalogs share the [Jev Question Kernel v2 skill](skills/jev-question-kernel-catalog/SKILL.md), whose existing folder name remains compatible. Copy the entire skill folder through a compatible skill installation workflow; its modules, examples, and helper are self-contained. The website does not install it or change harness settings.
+The foundational patterns have dedicated skills. The four research catalogs and the email, bug-hunting, and human–AI collections share the [Jev Question Kernel v2 skill](skills/jev-question-kernel-catalog/SKILL.md), whose existing folder name remains compatible. Copy the entire skill folder through a compatible skill installation workflow; its modules, examples, and helper are self-contained. The website does not install it or change harness settings.
+
+The [human–AI module](skills/jev-question-kernel-catalog/references/human-ai.md)
+is packaged in skill version 2.3.0. Its external catalog links are optional
+reference material; an installed copy does not require this entire repository.
 
 ## Boundaries
 
-Kernel skill version 2.2.0 adds a bug-hunting module and 48 profiles. With the
-120 research and 12 email profiles, these collections total 180; the three
-foundational guides are separate. The new screen matches 143/144 authored text
+Kernel skill version 2.3.0 adds 24 human–AI profiles to the 120 research,
+12 email, and 48 bug-hunting profiles: 204 question profiles in total.
+The three foundational guides are counted separately. The human–AI screen
+separates 72 design cases from 24 independently authored synthetic challenge
+cases; see its evaluation for results and disagreements. Neither a synthetic
+match nor the motivating research establishes Jev benefit or production accuracy.
+Consuming code must return `unknown` for missing required inputs before inference. These
+profiles do not infer learner traits or diagnoses, authorize actions, or confer
+authority to change memory.
+
+Kernel skill version 2.2.0 introduced the bug-hunting module and 48 profiles.
+Its screen matches 143/144 authored text
 scenarios after two service-error recoveries. BH41 retains an unresolved
 counterexample disagreement. These are not 48 executed bug reproductions.
 

@@ -20,6 +20,19 @@ class Links(HTMLParser):
                 self.links.append(value)
 
 
+def check_local_link(site, page, link):
+    parsed = urlsplit(link)
+    if parsed.scheme or parsed.netloc or not parsed.path.startswith("/"):
+        return
+    if not parsed.path.startswith(BASE):
+        raise ValueError("internal link omits project base URL from " + str(page) + ": " + link)
+    target = site / unquote(parsed.path[len(BASE):])
+    if parsed.path.endswith("/"):
+        target /= "index.html"
+    if not target.is_file():
+        raise ValueError("broken internal link from " + str(page) + ": " + link)
+
+
 def verify(site):
     pages = []
     for catalog_path in sorted((ROOT / "iterations").glob("[0-9][0-9]/catalog.json")):
@@ -62,6 +75,17 @@ def verify(site):
     for name in ("index.html", "evaluation/index.html", "sources/index.html"):
         pages.append(site / "bug-hunting" / name)
     bug_count = len(pages) - iteration_count - email_count
+    human_catalog = json.loads((ROOT / "human-ai/catalog.json").read_text())
+    if len(human_catalog["patterns"]) != 24:
+        raise ValueError("expected 24 human-AI profiles")
+    for p in human_catalog["patterns"]:
+        page = site / "human-ai/patterns" / p["id"].lower() / "index.html"
+        if not page.is_file() or p["id"] not in page.read_text():
+            raise ValueError("missing human-AI page or identifier: " + str(page))
+        pages.append(page)
+    for name in ("index.html", "evaluation/index.html", "research/index.html", "sources/index.html"):
+        pages.append(site / "human-ai" / name)
+    human_count = len(pages) - iteration_count - email_count - bug_count
     pages.extend([site / "index.html", site / "kernel" / "index.html"])
     for page in pages:
         if not page.is_file():
@@ -72,19 +96,13 @@ def verify(site):
             raise ValueError("unrendered template in " + str(page))
         parser.feed(text)
         for link in parser.links:
-            parsed = urlsplit(link)
-            if parsed.scheme or parsed.netloc or not parsed.path.startswith(BASE):
-                continue
-            target = site / unquote(parsed.path[len(BASE):])
-            if parsed.path.endswith("/"):
-                target /= "index.html"
-            if not target.is_file():
-                raise ValueError("broken internal link from " + str(page) + ": " + link)
+            check_local_link(site, page, link)
     if not pages:
         raise ValueError("no iteration pages found")
     return {"iteration_pages_verified": iteration_count,
             "email_pages_verified": email_count,
             "bug_hunting_pages_verified": bug_count,
+            "human_ai_pages_verified": human_count,
             "kernel_and_home_pages_verified": 2}
 
 

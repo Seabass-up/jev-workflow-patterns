@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2 · one skill, three modules
+kicker: Kernel v2.3 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -23,6 +23,7 @@ into the existing `jev-question-kernel-catalog` skill.
 | Contract authoring | A precise question, typed options, uncertainty policy, and bounded follow-up | [Authoring](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md) |
 | Evidence and provenance | Source and revision checks, exact quotation lookup, and semantic support judgments | [Evidence](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evidence.md) |
 | Evaluation and drift | Frozen cases, retained failures, repeat audits, and a decision about reevaluation | [Evaluation](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evaluation.md) |
+| Human–AI collaboration | Checks of learning materials, service communication, retained user work, and practical handoffs | [Human–AI profiles](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/human-ai.md) |
 
 A new reusable question normally needs authoring and a proportionate evaluation.
 Source-sensitive tasks add the evidence module. Existing use does not require
@@ -72,10 +73,25 @@ The helper validates selected local structure and fixture expectations without a
 network call. It does not establish source authenticity, candidate completeness,
 question quality, or performance on new data.
 
-## Choose from all four catalogs
+## Choose a domain profile
+
+[24 human–AI collaboration profiles]({{ '/human-ai/' | relative_url }}) extend
+the kernel in skill version 2.3.0. They cover learning materials, understandable
+service interactions, correction targets, tradeoff disclosure, user-owned work,
+and practical AI-to-human handoffs. The
+[human–AI module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/human-ai.md)
+keeps judgments about supplied material separate from judgments about a person.
+
+The screen separates 72 design cases from 24 independently authored synthetic
+challenge cases. See the [evaluation]({{ '/human-ai/evaluation/' | relative_url }})
+for outcomes and disagreements, the [research method]({{ '/human-ai/research/' | relative_url }})
+for the bounded search, and the [sources]({{ '/human-ai/sources/' | relative_url }})
+for the motivating evidence. Research inspiration is not evidence of Jev's benefit.
+Code handles missing required inputs as `unknown` before inference; no model label
+grants action permission, diagnostic authority, or authority to update memory.
 
 [48 bug-hunting profiles]({{ '/bug-hunting/' | relative_url }}) extend the kernel
-in skill version 2.2.0. They cover concurrency, persistence, API contracts,
+through the module introduced in skill version 2.2.0. They cover concurrency, persistence, API contracts,
 UI behavior, resources, trust boundaries, tests/releases, and LLM/agent workflows.
 The [bug-hunting module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/bug-hunting.md)
 keeps candidate judgments separate from independently verified findings.
@@ -91,7 +107,9 @@ keeps mailbox evidence and action controls explicit.
 [Iteration 3]({{ '/iterations/03/' | relative_url }}) ·
 [Iteration 4]({{ '/iterations/04/' | relative_url }})
 
-The 120 examples are optional domain profiles. Match the actual input relationship,
+The four research catalogs supply 120 examples; with the email, bug-hunting, and
+human–AI collections there are 204 question profiles, plus three separately counted
+foundational workflow guides. Match the actual input relationship,
 consumer, and limitations before adapting one. Historical contracts and synthetic
 receipts retain their versions; Kernel v2 does not retroactively requalify them.
 

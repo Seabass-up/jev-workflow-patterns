@@ -37,6 +37,17 @@ adds BH01–BH48 across eight failure families. Read the local
 counterevidence, and verification boundaries. Its scenarios are textual, not
 executed reproductions; BH41 retains an unresolved counterexample disagreement.
 
+The [human–AI catalog](https://seabass-up.github.io/jev-workflow-patterns/human-ai/)
+adds HA01–HA24: eight learning-material profiles, eight communication/service
+profiles, and eight decision/collaboration profiles. Read the local
+[human–AI module](human-ai.md) for material-level judgments, explicit user agency,
+missing-input preflight, and human-takeover boundaries. Its screen separates
+72 design cases from 24 independently authored synthetic challenge cases.
+Research sources motivate the use cases; they do not establish Jev benefit.
+
+Together these collections contain 204 question profiles. The three foundational
+workflows below are counted separately.
+
 The [three foundations](https://seabass-up.github.io/jev-workflow-patterns/) retain
 their dedicated skills for evidence-directed retrieval, lineage-aware corroboration,
 and dependency-DAG recomputation. Historical contracts and results remain versioned.

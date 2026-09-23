@@ -2,15 +2,16 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.2.0"
+  version: "2.3.0"
 ---
 
 # Jev Question Kernel v2
 
 One entry point for authoring and checking Jev question contracts. Keep the existing
 skill name for compatibility. Four research catalogs supply 120 examples, with
-12 email profiles and 48 bug-hunting profiles;
-their synthetic results do not qualify a new application automatically.
+12 email, 48 bug-hunting, and 24 human–AI collaboration profiles: 204 in total,
+separate from the three foundational workflow guides.
+Their synthetic results do not qualify a new application automatically.
 
 ## Select the work needed
 
@@ -24,6 +25,7 @@ Read only the references relevant to the task:
 | Find a domain example | [Domain profiles](references/profiles.md) | Smallest matching pattern with its version and limitations |
 | Interpret email evidence or assess a draft against a request | [Email profiles](references/email.md) | Typed advisory labels with mailbox and action boundaries |
 | Hunt a specific failure mechanism or check a proposed bug | [Bug-hunting profiles](references/bug-hunting.md) | Source-bound candidates, counterevidence, and independent verification recipes |
+| Improve learning materials, service communication, or collaboration with a person | [Human–AI profiles](references/human-ai.md) | Bounded checks of supplied material, explicit preferences, and practical handoffs—not judgments about the person |
 
 For a new contract intended for repeated workflow use, combine authoring with a
 proportionate evaluation. Existing qualified contracts need reevaluation when their

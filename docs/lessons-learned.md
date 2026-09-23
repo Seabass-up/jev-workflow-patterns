@@ -1,5 +1,29 @@
 # Lessons learned
 
+## 2026-09-23 — Exact version types in human–AI receipt validation
+
+- **Symptom/cause:** Independent review showed that fixture or receipt version `true` compared equal to integer version 1 under Python equality. Catalog versions were already strict, but the other two envelopes were not.
+- **Repair:** Require exact positive integers for every fixture and receipt version, including failed provider receipts; leave frozen questions and responses unchanged.
+- **Verification:** Added fixture and receipt regressions for booleans, floats, zero, and null. The expanded 21-test human–AI suite and receipt replay pass.
+- **Prevention:** Validate scalar type before equality when binding schema identities or revisions. JSON booleans and numeric-looking values are not contract versions.
+
+## 2026-09-23 — Generated links must preserve the Pages project base
+
+- **Component:** Human–AI pattern pages and rendered-site link validation.
+- **Symptom/cause:** Review found generated root-relative links such as `/human-ai/`; the site is hosted under `/jev-workflow-patterns/`. The old verifier ignored paths outside that prefix, so it would miss this deployment-path defect.
+- **Repair:** Changed the new pages to Jekyll `relative_url` links and made the verifier reject same-origin root-relative links that omit the project base.
+- **Verification:** Added three regression tests for absent base, missing target, and valid local/external/anchor links. Full rendered-site verification runs in the Pages build; its actual result is reported separately.
+- **Prevention:** Validate links in the deployed path context, not merely against source-tree filenames. This fixes link generation and coverage, not model performance.
+
+## 2026-09-23 — Human–AI question boundaries before screening
+
+- **Component:** HA01–HA24 contracts, independent challenge authoring, and receipt replay.
+- **Observed:** Pre-inference review found overlapping labels in nine contracts, including person/work praise, mixed remedies, and mixed scope changes. During screening, four authored expectations disagreed with Jev; HA21-1 disagreed at 0.97 confidence. Three deadline errors and one HTTP 529 also occurred.
+- **Cause/boundary:** The category overlaps were visible in the written instructions and criteria. The internal causes of model choices and service failures are unknown; HA21 also needs independent label review at the proxy/incentive boundary.
+- **Repair/handling:** Clarified precedence before freezing any inference expectations. Preserved all four later semantic disagreements without tuning or relabeling, kept HA06/HA10/HA17/HA21 provisional, and made one recovery request per service failure. This is contract clarification and evidence handling, not a provider repair.
+- **Verification:** The local evaluator verifies 96 successful request digests across 100 attempts, 69/72 design labels and 23/24 separately authored challenge labels. The expanded 21-test offline evaluator suite passes. Primary research motivates needs; no human-benefit or production study was performed. Publication is verified separately.
+- **Prevention:** Have a separate author challenge the category boundaries before inference, freeze labels outside model inputs, and preserve disagreements even when confidence is high. See [research method](../human-ai/research.md) and [evaluation](../human-ai/evaluation.md).
+
 ## 2026-09-22 — Portable Jev Question Kernel v2
 
 - **Symptom:** The shared skill indexed only Iteration 3 and referenced a file outside its installable folder. It could not carry its core guide when installed alone.

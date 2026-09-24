@@ -1,0 +1,52 @@
+{
+  "contract_id": "mixed-support-intake-demo",
+  "version": 1,
+  "consumer": "Prepare a support queue disposition in shadow mode; never issue a refund or send a message.",
+  "required_state_fields": ["message"],
+  "request": {
+    "state": {"message": "Please refund the duplicate charge."},
+    "questions": {
+      "request_kind": {
+        "type": "choice",
+        "instructions": "What is the sender's main request in `message`? Choose unclear if the request is absent, contradictory, or not one of the described categories. A request for a receipt without money back is receipt_only, even if it mentions a prior charge.",
+        "criteria": {
+          "refund": "The sender explicitly requests money back.",
+          "receipt_only": "The sender requests a receipt but not money back.",
+          "other": "The sender has another clear request.",
+          "unclear": "The request is absent, contradictory, or unresolved."
+        }
+      },
+      "refund_requested": {
+        "type": "noul",
+        "instructions": "Does the sender explicitly request money back in `message`? A quoted or negated refund request is not a current request.",
+        "criteria": {
+          "true": "The sender currently asks for money back.",
+          "false": "No current request for money back is stated."
+        }
+      },
+      "urgency": {
+        "type": "score",
+        "instructions": "How urgent is the disruption described by the sender in `message`? Judge the described impact, not the emotional tone alone.",
+        "criteria": [
+          "No time-sensitive disruption is described.",
+          "A time-sensitive concern is described, but work can continue.",
+          "The sender describes an immediate blocker or a serious time-sensitive disruption."
+        ]
+      }
+    }
+  },
+  "uncertainty_policy": "Missing message, provider failure, invalid output, contradictory signals, or an untested threshold goes to human_review.",
+  "code_owned_checks": [
+    "Reject a missing or empty message before inference",
+    "Bind each receipt to the exact question version, state, and model",
+    "Check typed answer shape and full option coverage",
+    "Keep queue routing separate from refunds, messages, and permissions"
+  ],
+  "follow_up": {
+    "trigger": "The sender's request or urgency cannot be determined",
+    "new_evidence": "An authorized clarification from the sender",
+    "max_calls": 1,
+    "stop_condition": "Stop when clarified, unavailable, or the one-call budget is spent; retain human review."
+  },
+  "evaluation_scope": "Synthetic mixed-primitive demonstration only. Thresholds and routes are examples, not calibrated policy."
+}

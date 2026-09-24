@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.6 · one portable skill
+kicker: Kernel v2.7 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -25,6 +25,7 @@ into the existing `jev-question-kernel-catalog` skill.
 | Contract authoring | A precise question, typed options, uncertainty policy, and bounded follow-up | [Authoring](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md) |
 | Evidence and provenance | Source and revision checks, exact quotation lookup, and semantic support judgments | [Evidence](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evidence.md) |
 | Evaluation and drift | Frozen cases, retained failures, repeat audits, and a decision about reevaluation | [Evaluation](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evaluation.md) |
+| Consumer qualification | Side-effect-free shadow replay of typed answers through consuming code, with a baseline and explicit evidence limits | [Qualification]({{ '/kernel/qualification/' | relative_url }}) |
 | Human–AI collaboration | Checks of learning materials, service communication, retained user work, and practical handoffs | [Human–AI profiles](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/human-ai.md) |
 
 A new reusable question normally needs authoring and a proportionate evaluation.
@@ -83,6 +84,11 @@ network call. It checks the authoring envelope shape used by the two examples; t
 published iteration and email catalogs use a different pattern shape and are checked
 by their own `evaluate.py` scripts. It does not establish source authenticity, candidate completeness,
 question quality, or performance on new data.
+
+The [qualification walkthrough]({{ '/kernel/qualification/' | relative_url }})
+adds a mixed Choice/Noul/Score contract, observed synthetic responses, and an
+offline check of the consumer's planned disposition. It does not execute actions
+or qualify the thresholds for a real workload.
 
 ## Choose a domain profile
 

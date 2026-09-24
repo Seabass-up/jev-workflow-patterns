@@ -108,7 +108,7 @@ def verify(site):
         for name in ("index.html", "evaluation/index.html", "sources/index.html"):
             pages.append(site / folder / name)
             collection_count += 1
-    pages.extend([site / "index.html", site / "kernel" / "index.html", site / "collections" / "index.html",
+    pages.extend([site / "index.html", site / "kernel" / "index.html", site / "kernel" / "qualification" / "index.html", site / "collections" / "index.html",
                   site / "catalog" / "index.html",
                   site / "discovery" / "index.html",
                   site / "discovery" / "introduction-review" / "index.html"])
@@ -135,7 +135,7 @@ def verify(site):
             "bug_hunting_pages_verified": bug_count,
             "human_ai_pages_verified": human_count,
             "collection_pages_verified": collection_count,
-            "kernel_home_hub_and_discovery_pages_verified": 6,
+            "kernel_home_hub_and_discovery_pages_verified": 7,
             "catalog_profiles_verified": catalog_profiles}
 
 

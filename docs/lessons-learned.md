@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-24 — Question-to-consumer qualification and primitive fit
+
+- **Component:** Portable Jev Question Kernel 2.7, shadow replay, and collection authoring guide.
+- **Symptom:** Existing synthetic screens checked typed labels, but the portable helper did not replay a response through consuming code. The historical collection authoring template required one Choice even when independent Noul or ordered Score judgments would fit, and its written nearest-pattern list omitted the newest domain collections.
+- **Cause:** The collection pipeline and page builder were intentionally built around one `decision` Choice; the general kernel guidance was broader than its runnable examples. The nearest-pattern list was maintained as fixed text while the catalog grew. No provider-internal cause is asserted.
+- **Repair:** Added a mixed Choice/Noul/Score contract, three observed synthetic Jev responses, deterministic missing-input preflight, and an offline, side-effect-free consumer replay with request/response binding, typed-output checks, baseline comparison, declared held-out sample limits, and fail-closed review. Published a qualification walkthrough and changed the authoring guide to compare against all current catalogs while stating the historical pipeline's Choice-only limit.
+- **Verification:** Three invented messages returned typed jev-1.13.0 answers and the mixed pilot replay selected 4/4 authored dispositions; this is a synthetic wiring check, not held-out accuracy. Local kernel tests (28), collection-pipeline tests (16), site-verifier tests (3), four iteration suites, 23 collection suites, and the email, bug-hunting, and human-AI evaluators passed. `check_confidence.py` found no Choice-confidence inconsistencies in the three new responses. Public Pages build/deployment and any real workflow pilot remain unverified at this entry.
+- **Prevention and limit:** Test the consumer's planned disposition as well as the model label; preflight empty evidence in code; freeze real pilot labels and thresholds before inference. A request digest detects mismatch, not authenticity, and a passing synthetic or self-declared held-out sample does not authorize execution or prove a delivered outcome. The historical collection generator remains Choice-only pending a separately versioned mixed-page pipeline.
+
 ## 2026-09-23 — Catalog navigation, freshness, and mobile layout
 
 - **Component:** GitHub Pages layout, homepage, generated finder, and collection hub.

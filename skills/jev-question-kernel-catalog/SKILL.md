@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.6.0"
+  version: "2.7.0"
 ---
 
 # Jev Question Kernel v2
@@ -23,6 +23,7 @@ Read only the references relevant to the task:
 | Create or repair a question; choose a primitive; design drill-down | [Authoring](references/authoring.md) | Versioned request, consumer, uncertainty policy, and follow-up plan |
 | Check an extraction, quotation, association, or claim against sources | [Evidence and provenance](references/evidence.md) | Exact preflight results, bounded semantic checks, and unresolved evidence |
 | Test a contract, investigate disagreement, or assess a change | [Evaluation and drift](references/evaluation.md) | Frozen fixtures, receipts, failure report, and reevaluation decision |
+| Check a question through its real consumer before adoption | [Qualification](references/qualification.md) | Side-effect-free shadow replay, baseline comparison, error and review counts, and explicit evidence limits |
 | Find a domain example | [Domain profiles](references/profiles.md) | Smallest matching pattern with its version and limitations |
 | Interpret email evidence or assess a draft against a request | [Email profiles](references/email.md) | Typed advisory labels with mailbox and action boundaries |
 | Hunt a specific failure mechanism or check a proposed bug | [Bug-hunting profiles](references/bug-hunting.md) | Source-bound candidates, counterevidence, and independent verification recipes |
@@ -78,6 +79,11 @@ python3 -m unittest discover -s scripts -p 'test_*.py'
 `check_confidence.py` checks stored Choice confidence against its probabilities and
 converts a confidence threshold into the top probability it requires for a given
 option count. Consistency is not correctness.
+
+For a mixed Choice/Noul/Score request and a side-effect-free consumer replay, run
+the [qualification example](references/qualification.md). Its invented cases
+demonstrate wiring only; the helper cannot certify an independently held-out split,
+real-world calibration, or action completion.
 
 The helper checks the local authoring envelope shape shown in the two examples
 (`contract_id`, `request`, `consumer`, `uncertainty_policy`, `evaluation_scope`). The

@@ -1,0 +1,10 @@
+{
+  "contract_id": "mixed-support-intake-demo",
+  "version": 1,
+  "fixtures": [
+    {"id": "refund", "state": {"message": "Please refund the duplicate charge."}, "expected": {"request_kind": "refund", "refund_requested": {"min": 0.75, "max": 1}, "urgency": {"min": 0, "max": 1}}},
+    {"id": "receipt", "state": {"message": "Do not refund me; I only need a receipt."}, "expected": {"request_kind": "receipt_only", "refund_requested": {"min": 0, "max": 0.25}, "urgency": {"min": 0, "max": 1}}},
+    {"id": "urgent", "state": {"message": "The duplicate charge has blocked today's payroll. Please refund it now."}, "expected": {"request_kind": "refund", "refund_requested": {"min": 0.75, "max": 1}, "urgency": {"min": 1.5, "max": 2}}},
+    {"id": "missing", "state": {"message": ""}, "expected": {"request_kind": "unclear", "refund_requested": {"min": 0, "max": 1}, "urgency": {"min": 0, "max": 2}}}
+  ]
+}

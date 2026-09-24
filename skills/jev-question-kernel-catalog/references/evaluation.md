@@ -14,6 +14,9 @@ Define expected Choice labels, Noul acceptance intervals, or Score intervals bef
 testing. Demo thresholds are examples; evaluate thresholds for the task's consequences.
 Where review is expected, separately test that consuming code produces that disposition.
 The bundled helper checks label/interval forms, not consumer behavior.
+For a side-effect-free test of the consuming decision code, use
+[qualification.md](qualification.md) and its shadow replay. It does not execute
+or verify the eventual external action.
 
 ## Preserve replay evidence
 

@@ -19,6 +19,8 @@ evidence/provenance, and evaluation/drift modules, practical JSON examples, and 
 local structural checker. Domain profiles connect it to all 120 research-catalog
 patterns plus 12 email, 48 bug-hunting, and 24 human–AI profiles in skill version
 2.3.0: 204 question profiles, separate from the three foundational workflows.
+Skill version 2.4.0 adds a Choice-confidence consistency check and option-count
+threshold guidance.
 
 ## New: 24 patterns for people and their AI helpers
 
@@ -48,6 +50,15 @@ context, counterexample, and an independent verification recipe.
 The textual synthetic screen matched 143/144 scenarios after two bounded service
 recoveries. BH41 remains provisional; no scenario is an executed bug reproduction.
 [Read the preserved errors and disagreement]({{ '/bug-hunting/evaluation/' | relative_url }}).
+
+## Discovery: TypeSafe introduction review
+
+[Read the introduction review]({{ '/discovery/introduction-review/' | relative_url }})
+for claims checked against 481 preserved Jev calls and nine pattern candidates
+with an advisory duplicate screen. Choice confidence closely follows the option
+count, so the 0.8 floor used by 53 earlier patterns requires top probabilities from
+0.833 to 0.90. These are candidates, not a screened catalog. New patterns found
+while using Jev go through the [discovery intake]({{ '/discovery/' | relative_url }}).
 
 ## New: 12 email patterns
 

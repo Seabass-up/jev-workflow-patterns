@@ -24,6 +24,17 @@
 - **Verification:** The local evaluator verifies 96 successful request digests across 100 attempts, 69/72 design labels and 23/24 separately authored challenge labels. The expanded 21-test offline evaluator suite passes. Primary research motivates needs; no human-benefit or production study was performed. Publication is verified separately.
 - **Prevention:** Have a separate author challenge the category boundaries before inference, freeze labels outside model inputs, and preserve disagreements even when confidence is high. See [research method](../human-ai/research.md) and [evaluation](../human-ai/evaluation.md).
 
+## 2026-09-22 — Choice confidence depends on option count
+
+- **Component:** Kernel skill 2.4.0, CI receipt checks, and the introduction review in `discovery/introduction-review/`.
+- **Observation:** Stored jev-1.13.0 Choice confidence follows `(n × top probability − 1) / (n − 1)` within 0.020 across all 447 preserved answers (2–6 options). The confidence page presents this only as a three-option approximation. Score confidence does not follow it; an even split between extreme levels had confidence 0.
+- **Consequence:** 53 Iteration 1–2 patterns share a 0.8 floor across 2–6 options, so the floor demands top probabilities from 0.833 to 0.90. Adding a no-match option raises confidence at the same top probability. Historical contracts, thresholds, and receipts were left unchanged.
+- **Repair:** Added `check_confidence.py` with eight tests. It checks stored Choice confidence against probabilities and converts thresholds between option counts. Added threshold guidance to the authoring module and a receipt check plus returned-model-version drift trigger to the evaluation module. CI runs the checker over every preserved receipt and replays the discovery measurements.
+- **Verification:** 17 kernel helper tests pass; the checker reports 0 failures over 456 Choice answers, including 9 from a fresh 18-question duplicate screen (request digest `25754fc54d748f8ef0f810b31a2f4bc74648e1a7f5d0335bc9e0cda5236c8d50`, 6,383 input tokens, 762 ms). Measurements replay from 25 hash-pinned inputs.
+- **Review correction:** PR review found that the latency replay merged deliberate repeat calls sharing a request digest (481 calls, not 473), that the exact-after-rounding count used the wrong test (351 answers are within 0.005, not 267), and that the checker skipped incomplete Choice answers. Latency now keys on digest plus observation time, the rounding statistic tests the 0.005 interval, incomplete answers fail the check, candidate evidence strings get the privacy tripwires, and sources.json records old and new digests for the ten Iteration 4 pages.
+- **Limits:** The formula is an observed approximation on one model version, not the provider's definition; 16 of 447 differences exceed what two-decimal rounding of both stored values can explain. Consistency is not correctness. The nine candidates are unscreened designs, and the duplicate screen compared only reviewer-chosen shortlists. A later kernel review found the screen's overlap Score asked two hops and lacked an insufficient-description outcome.
+- **Prevention:** Store each confidence threshold with the option set it was tuned on, and recheck the relationship after any model or API change.
+
 ## 2026-09-22 — Portable Jev Question Kernel v2
 
 - **Symptom:** The shared skill indexed only Iteration 3 and referenced a file outside its installable folder. It could not carry its core guide when installed alone.

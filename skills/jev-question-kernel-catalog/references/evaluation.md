@@ -22,6 +22,11 @@ serialization convention and request digest, contract version, model identifier,
 client settings, timestamp, fixture ID, expectation, errors, and result. Follow
 existing retention policy for private material. A digest cannot reconstruct missing data.
 
+Run `scripts/check_confidence.py` over stored receipts. A Choice confidence that
+disagrees with its probabilities indicates a transcription error or a changed
+provider definition; either suspends threshold evidence until reviewed. The check
+establishes internal consistency only, not correctness.
+
 Preserve initial misses alongside refinements. Investigate missing context, ambiguous
 labels, question wording, composition, and provider errors without inventing a
 model-internal cause. Version meaningful contract changes. Change labels only for
@@ -48,6 +53,11 @@ schema, candidate generation, population/language, consumer policy, and evaluati
 split. Record changes and decide whether prior evidence still supports the intended use.
 Retain the last qualified revision and route uncertain adoption to review. This module
 does not automatically retrain, alter thresholds, or promote a contract.
+
+Log the versioned `model` returned with every answer. A floating alias such as
+`jev-latest` can move without a client change; when the returned version differs from
+the qualified one, hold threshold-gated automation and rerun frozen fixtures before
+re-qualifying. Pin the versioned ID where thresholds were tuned against it.
 
 Use H31/H32 repeat audits, H35 canaries, H39 boundary fixtures, and H40 feature drift
 through [profiles.md](profiles.md).

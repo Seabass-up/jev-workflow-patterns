@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.3 · one portable skill
+kicker: Kernel v2.4 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -66,11 +66,20 @@ Run from the copied skill folder with Python 3:
 
 ```sh
 python3 scripts/check_contract.py assets/contract-example.json assets/fixtures-example.json
+python3 scripts/check_confidence.py RECEIPT_JSON_OR_DIRECTORY
 python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
+Skill version 2.4.0 adds `check_confidence.py`. Choice confidence closely follows
+`(n × top probability − 1) / (n − 1)`, so one threshold means different top
+probabilities as options are added or removed. The helper checks stored receipts
+against that relationship and converts thresholds between option counts. See the
+[introduction review]({{ '/discovery/introduction-review/' | relative_url }}).
+
 The helper validates selected local structure and fixture expectations without a
-network call. It does not establish source authenticity, candidate completeness,
+network call. It checks the authoring envelope shape used by the two examples; the
+published iteration and email catalogs use a different pattern shape and are checked
+by their own `evaluate.py` scripts. It does not establish source authenticity, candidate completeness,
 question quality, or performance on new data.
 
 ## Choose a domain profile

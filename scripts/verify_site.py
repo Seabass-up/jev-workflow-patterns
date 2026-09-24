@@ -54,8 +54,8 @@ def verify(site):
             pages.append(page)
     iteration_count = len(pages)
     email_catalog = json.loads((ROOT / "email/catalog.json").read_text())
-    if len(email_catalog["patterns"]) < 10:
-        raise ValueError("expected at least ten email profiles")
+    if len(email_catalog["patterns"]) < 12:
+        raise ValueError("expected at least twelve email profiles")
     for p in email_catalog["patterns"]:
         page = site / "email/patterns" / p["id"].lower() / "index.html"
         if not page.is_file() or p["id"] not in page.read_text():
@@ -86,7 +86,9 @@ def verify(site):
     for name in ("index.html", "evaluation/index.html", "research/index.html", "sources/index.html"):
         pages.append(site / "human-ai" / name)
     human_count = len(pages) - iteration_count - email_count - bug_count
-    pages.extend([site / "index.html", site / "kernel" / "index.html"])
+    pages.extend([site / "index.html", site / "kernel" / "index.html",
+                  site / "discovery" / "index.html",
+                  site / "discovery" / "introduction-review" / "index.html"])
     for page in pages:
         if not page.is_file():
             raise ValueError("missing page: " + str(page))
@@ -103,7 +105,7 @@ def verify(site):
             "email_pages_verified": email_count,
             "bug_hunting_pages_verified": bug_count,
             "human_ai_pages_verified": human_count,
-            "kernel_and_home_pages_verified": 2}
+            "kernel_home_and_discovery_pages_verified": 4}
 
 
 if __name__ == "__main__":

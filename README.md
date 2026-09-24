@@ -2,7 +2,7 @@
 
 Public documentation pages, foundational Codex skills, and growing synthetic-screened question catalogs for composing Jev's typed judgments into bounded application workflows.
 
-The project site is built from Markdown with GitHub Pages and GitHub Actions. The skills directory contains three foundational skills plus Jev Question Kernel v2, covering authoring, evidence/provenance, and evaluation/drift with portable references, example JSON, and a structural checker. Iteration directories retain their historical contracts, synthetic receipts, and demonstration controllers. This is not a TypeSafe SDK or production runtime library.
+The project site is built from Markdown with GitHub Pages and GitHub Actions. The skills directory contains three foundational skills plus Jev Question Kernel v2, covering authoring, evidence/provenance, evaluation/drift, domain profiles, and email profiles with portable references, example JSON, and a structural checker. Iteration directories retain their historical contracts, synthetic receipts, and demonstration controllers. This is not a TypeSafe SDK or production runtime library.
 
 ## Pages
 
@@ -18,6 +18,8 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 - [Email evaluation and preserved misses](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/)
 
 - [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
+- [Pattern discovery intake](https://seabass-up.github.io/jev-workflow-patterns/discovery/)
+- [TypeSafe introduction review and pattern candidates](https://seabass-up.github.io/jev-workflow-patterns/discovery/introduction-review/)
 
 - [Iteration 1: 20 useful questions plus 10 experimental harness designs](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/)
 - [Iteration 1 evaluation and preserved failures](https://seabass-up.github.io/jev-workflow-patterns/iterations/01/evaluation/)
@@ -63,8 +65,14 @@ the email module packaged in kernel skill version 2.1.0. Initial screening match
 current fixtures. All 42 live screening receipts remain replayable. No mailbox
 connection or email action is installed or authorized by the catalog.
 
+Patterns found while using Jev in other work are recorded as candidates in
+`discovery/candidates.json` and checked by `discovery/check_candidates.py`. The
+introduction review supplies the first nine, with an advisory Jev duplicate screen
+and offline measurements of preserved receipts. Candidates have no contracts,
+fixtures, or screening receipts and do not activate a fifth iteration.
+
 The iteration catalog is a separate evidence track from the three foundational patterns. Iteration 4's initial 58/60 screen preserves both misses; four v2 reruns selected 60/60 current synthetic fixtures. See each iteration's exact versions, failures and scope; these are not production-accuracy claims.
 
 Jev returns typed, advisory judgments. Application code retains control of source access, evidence freshness, deterministic validation, budgets, caching, escalation, and actions. Confidence thresholds are workflow policy, not universal correctness guarantees. Read each pattern's limitations before adapting it.
 
-No license is included in this repository. Ask the owner before reusing or redistributing these materials.
+Released under the [MIT License](LICENSE).

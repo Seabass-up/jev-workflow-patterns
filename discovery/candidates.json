@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "statuses": {
+    "candidate": "Open; needs a contract, frozen fixtures and a live screen.",
+    "experimental": "Open; its premise must be validated before a contract is written.",
+    "folded": "Closed; merged into an existing pattern or kernel guidance named in resolution.",
+    "reclassified": "Closed as a new composition; continues as the item named in resolution.",
+    "rejected": "Closed; duplicate or unhelpful, with the reason in resolution.",
+    "promoted": "Closed; published as the catalog pattern named in resolution."
+  },
+  "candidates": [
+    {
+      "id": "C1",
+      "title": "Confidence gate adjusted for Choice option count",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Store each Choice confidence threshold with the option set it was tuned on, convert it to the top probability it requires ((c*(n-1)+1)/n, the inverse of confidence c = (n*p-1)/(n-1)), re-tune when options change, and sum probabilities per downstream action before gating.",
+      "jev_judges": "The unchanged Choice question.",
+      "code_owns": "Threshold storage and conversion, option-set versioning, per-action probability sums, and the gate decision.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json",
+        "discovery/introduction-review/measurements.json",
+        "skills/jev-question-kernel-catalog/scripts/check_confidence.py"
+      ],
+      "nearest_prior": [
+        "H11",
+        "H32",
+        "H20"
+      ],
+      "delta": "H11 falls back to a taxonomy parent and H32 audits agreement across repeats; neither normalizes thresholds by option count.",
+      "next_step": "Paired contracts differing only by an added insufficient option; runner-up same-action and different-action fixtures."
+    },
+    {
+      "id": "C2",
+      "title": "Tool-call trace audit split between code and Jev",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "For an agent tool-call trace, code checks call/result ID binding, argument schemas, exact value equality and cross-call value flow; Jev judges only tool suitability and whether a free-text argument refers to the requested entity.",
+      "jev_judges": "Tool suitability per call; entity reference of free-text arguments.",
+      "code_owns": "ID binding, schema validation, equality of request fields, arguments and earlier outputs, missing results.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json"
+      ],
+      "nearest_prior": [
+        "E23",
+        "L04",
+        "H06"
+      ],
+      "delta": "E23 judges field pairing in one assembled record and L04 selects a handler before a call; neither partitions a multi-call trace.",
+      "next_step": "Fixtures from the build-guide weather trace (unit mismatch, missing result) plus a correct trace."
+    },
+    {
+      "id": "C3",
+      "title": "Compound-request split and re-ask",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "A Noul detects several distinct actions; an LLM splits the request; code caps the split count; Jev checks joint coverage and that nothing was added; each command is re-evaluated by ordinary routing before confirmed execution.",
+      "jev_judges": "Compound detection; split coverage; added-action check; per-command routing.",
+      "code_owns": "LLM call, split cap, confirmation, execution order and permissions.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json"
+      ],
+      "nearest_prior": [
+        "H28",
+        "B01",
+        "L19"
+      ],
+      "delta": "H28 batches independent questions; it neither splits a request nor checks split coverage.",
+      "next_step": "Single, compound, and over-split fixtures, including an LLM split that invents an action."
+    },
+    {
+      "id": "C4",
+      "title": "Email phishing signals with credential veto",
+      "status": "reclassified",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Separate Nouls for credential request, unexpected reward, time pressure, display-name organization claim and link-text destination claim; code parses sender and link domains; a credential request vetoes instead of averaging.",
+      "jev_judges": "Each phishing signal as a separate proposition.",
+      "code_owns": "Domain parsing and allowlists, veto policy, quarantine and review actions.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json"
+      ],
+      "nearest_prior": [
+        "H24",
+        "H36",
+        "H19"
+      ],
+      "delta": "The veto composition is H24; only the email phishing question set is new.",
+      "next_step": "Draft as an email profile (next EM number) that cites H24.",
+      "resolution": "Email-domain application of H24; propose as the next email profile."
+    },
+    {
+      "id": "C5",
+      "title": "Language-aware confidence gate",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Code detects input language before inference; non-English inputs get stricter thresholds, review, or a translate-then-ask path that keeps the translation as provenance.",
+      "jev_judges": "The unchanged task questions, on original or translated text.",
+      "code_owns": "Language detection, threshold selection, translation provenance and routing.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json"
+      ],
+      "nearest_prior": [
+        "L08",
+        "L19",
+        "H40"
+      ],
+      "delta": "No prior pattern gates on input language.",
+      "next_step": "Matched English and non-English fixtures for an existing email or business profile."
+    },
+    {
+      "id": "C6",
+      "title": "Model-alias movement canary",
+      "status": "folded",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Log the versioned model returned with every answer; when a floating alias resolves to a new version, hold threshold-gated automation and rerun frozen fixtures before re-qualifying.",
+      "jev_judges": "Nothing new.",
+      "code_owns": "Version logging, holds, fixture reruns and re-qualification.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json",
+        "skills/jev-question-kernel-catalog/references/evaluation.md"
+      ],
+      "nearest_prior": [
+        "H35",
+        "H40",
+        "H21"
+      ],
+      "delta": "Re-admission after change is H35/H40; the new element is the returned model version as trigger.",
+      "next_step": "None; guidance is in the kernel evaluation module.",
+      "resolution": "Kernel evaluation module drift decision (skill 2.4.0)."
+    },
+    {
+      "id": "C7",
+      "title": "Label bootstrap from several reasoning models",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Without labels, several reasoning models label a sample; code keeps agreed labels with provenance, measures label noise on a small human-labelled holdout, then trains on Jev probability features.",
+      "jev_judges": "Feature questions only; never the labels it is evaluated against.",
+      "code_owns": "Labeling calls, agreement filter, holdout measurement, training and evaluation.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json"
+      ],
+      "nearest_prior": [
+        "H38",
+        "L24",
+        "H04"
+      ],
+      "delta": "H38 governs feature provenance and holdout but assumes labels exist.",
+      "next_step": "Small synthetic set with planted label disagreements and a human holdout."
+    },
+    {
+      "id": "C8",
+      "title": "Question packer under two context limits",
+      "status": "folded",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "Pack speculative questions under two provider limits, state plus all questions and state plus the single longest question, splitting batches deterministically and recording the limit version.",
+      "jev_judges": "Nothing new.",
+      "code_owns": "Token estimates, packing, batch splitting and limit versioning.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json",
+        "discovery/introduction-review/sources.json"
+      ],
+      "nearest_prior": [
+        "H28",
+        "H22"
+      ],
+      "delta": "H28 already leaves budgets to code; the two limits are concrete values for it.",
+      "next_step": "None; record limits per model version when H28 is next revised.",
+      "resolution": "Concrete parameterization of H28's code-owned budget."
+    },
+    {
+      "id": "C9",
+      "title": "Question/negation pair ambiguity probe",
+      "status": "experimental",
+      "found": {
+        "date": "2026-09-22",
+        "harness": "claude",
+        "context": "Review of the public TypeSafe introduction and linked documentation, checked against this repository's preserved synthetic receipts."
+      },
+      "mechanism": "At design time only, ask a proposition and its literal negation as two Nouls; a large departure of their sum from one may flag wording for a literal rewrite.",
+      "jev_judges": "Both Nouls.",
+      "code_owns": "Sum calculation, flagging and the rewrite decision.",
+      "evidence": [
+        "discovery/introduction-review/index.md",
+        "discovery/introduction-review/duplicate-screen.json",
+        "discovery/introduction-review/sources.json"
+      ],
+      "nearest_prior": [
+        "H31",
+        "H05",
+        "L23"
+      ],
+      "delta": "No prior pattern uses paired negations as a wording probe; the provider warns the pair need not sum to one.",
+      "next_step": "Test whether large departures predict wording defects on existing preserved misses before any use."
+    }
+  ]
+}

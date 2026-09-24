@@ -1,10 +1,17 @@
 # Collection authoring specification
 
-You are authoring ONE new collection of Jev question profiles for this repository
+You are authoring ONE new **single-Choice** collection of Jev question profiles for this repository
 (`<repo>`; drafts go to the work directory `<workdir>`, by default `<repo>/.work`). Jev (jev-1.13.0) answers a typed Choice
 question about a JSON state and returns one label with probabilities. It reads literally,
 cannot do arithmetic or date comparison reliably, and treats state as data. Code owns exact
 matches, identifiers, numbers, dates, policy thresholds, permissions, and execution.
+
+This is the historical collection-page pipeline, whose evaluator and page builder
+consume one `decision` Choice. Do not use it to force independently true properties
+or an ordered dimension into an exclusive label. For those workflows, use the
+portable mixed-primitive [kernel contract](../../skills/jev-question-kernel-catalog/assets/mixed-contract-example.json)
+and [qualification guide](../../skills/jev-question-kernel-catalog/references/qualification.md)
+until a mixed-collection page pipeline is implemented.
 
 Read these files first, in this order, and copy their structure exactly:
 1. <repo>/skills/jev-question-kernel-catalog/references/authoring.md
@@ -18,7 +25,7 @@ read other agents' output. Do not modify any existing file.
 ## Deliverables (write exactly these files)
 
 A. `<repo>/<folder>/catalog.json` — 8 patterns, IDs `<PREFIX>01`..`<PREFIX>08`, `version: 1`.
-   Top level: {"schema_version":1,"title":...,"created_date":"2026-09-23","kernel_skill_version":"2.6.0","scope":...,"patterns":[...]}.
+   Top level: {"schema_version":1,"title":...,"created_date":"<actual authoring date>","kernel_skill_version":"2.7.0","scope":...,"patterns":[...]}.
    Each pattern has exactly the keys of the exemplar: local_id (any short local code), title, purpose,
    benefit, required_state_fields, questions, code_owned, verification, follow_up, nearest_existing,
    distinctness, source_ids, family, id, version, policy.
@@ -29,7 +36,7 @@ A. `<repo>/<folder>/catalog.json` — 8 patterns, IDs `<PREFIX>01`..`<PREFIX>08`
    - Labels are lowercase snake_case. Descriptions describe concrete situations without relying on the label name. If two labels could both apply to one realistic input, the instructions MUST state which wins ("If ... select X") or the descriptions must exclude each other.
    - Reference state fields in backticks, e.g. `customer_report`. Keep each question one coherent judgment. Nothing the model should compute exactly (counts, sums, date differences, thresholds, code articles, legal conclusions) may be asked.
    - `policy`: {"review_when_confidence_below":0.8,"option_count":N,"equivalent_top_probability":X,"note":"Confidence follows the option count; the equivalent top probability is what 0.8 requires for this contract's options. Thresholds are provisional workflow policy, not calibration."} where N = number of criteria including unknown and X = round((0.8*(N-1)+1)/N, 4).
-   - `nearest_existing`: 2–3 IDs from the existing catalogs (B01–B28, E01–E28, L01–L24, H01–H40, EM01–EM12, BH01–BH48, HA01–HA24, CT01–CT10, ST01–ST08, EL01–EL08). Read titles from the catalog.json files under iterations/0N/, email/, bug-hunting/, human-ai/, controls/, storytelling/, electrical/ (catalog.json only). `distinctness` explains what the nearest ones do and what this one does differently.
+   - `nearest_existing`: 2–3 IDs from **all existing catalogs**, including newer domain collections. Read `catalog.json` files under `iterations/0N/` and every top-level collection with `collection.json`; do not rely on a fixed prefix list. Compare the evidence relationship, typed output, consumer, and limitation, not just similar nouns. `distinctness` explains the actual difference. The checker validates IDs dynamically but cannot prove semantic novelty.
    - `family`: one of 2–3 family keys you define (snake_case). `source_ids`: 1–3 ids from your sources.json.
 
 B. `<repo>/<folder>/sources.json` — 3 to 5 public sources fetched with curl (a sixth, read in a browser because the site blocks scripted fetches, may be added later). For each, run

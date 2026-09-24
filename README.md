@@ -45,6 +45,7 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 - [Email evaluation and preserved misses](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/)
 
 - [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
+- [Question-to-consumer qualification walkthrough](https://seabass-up.github.io/jev-workflow-patterns/kernel/qualification/)
 - [Pattern discovery intake](https://seabass-up.github.io/jev-workflow-patterns/discovery/)
 - [TypeSafe introduction review and pattern candidates](https://seabass-up.github.io/jev-workflow-patterns/discovery/introduction-review/)
 
@@ -77,6 +78,10 @@ specification, a structural checker, the pre-inference overlap pass, the live sc
 the assembly step that writes results and pages, and the source support check. The
 live steps use the local `jev-workflows` bridge; nothing in the repository holds a
 credential. Drafts and challenge cases go in a git-ignored work directory.
+The historical collection pipeline uses one Choice per profile. For a mixed
+Choice/Noul/Score contract, start with the kernel's portable contract format and
+the [side-effect-free qualification guide](skills/jev-question-kernel-catalog/references/qualification.md)
+instead of forcing several independent judgments into one label.
 
 `python3 scripts/build_catalog.py` regenerates the complete finder and shared
 catalog counts from the thirty source catalogs. `python3 scripts/build_collection_pages.py --hub`

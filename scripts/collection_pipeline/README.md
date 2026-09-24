@@ -6,6 +6,13 @@ from `JEV_WORKFLOWS_CLI`; the API key stays in the macOS Keychain and is never r
 here). Drafts, challenge cases, and browser page records live in a work directory
 (`JEV_PATTERNS_WORKDIR`, default `<repo>/.work`, git-ignored).
 
+This historical pipeline supports one Choice answer per profile. For a new
+workflow that needs independent Nouls, ordered Scores, or a mixed batch, use the
+portable kernel contract and [qualification guide](../../skills/jev-question-kernel-catalog/references/qualification.md).
+The authoring specification now compares proposed patterns against all current
+collection catalogs; ID validation is dynamic, but semantic novelty remains a
+review judgment.
+
 | Step | Script | Needs Jev | What it does |
 | --- | --- | --- | --- |
 | 1. Author | [AUTHORING-SPEC.md](AUTHORING-SPEC.md) | no | The specification an author (person or agent) follows: contract shape, missing-field precedence, option-count policy, sources with hashes, page metadata, 24 design fixtures, a kernel module draft. |

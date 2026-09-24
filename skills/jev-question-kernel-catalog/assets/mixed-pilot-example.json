@@ -1,0 +1,83 @@
+{
+  "contract_id": "mixed-support-intake-demo",
+  "version": 1,
+  "model": "jev-1.13.0",
+  "review_disposition": "human_review",
+  "allowed_dispositions": ["human_review", "billing_review", "receipt_queue"],
+  "cases": [
+    {
+      "id": "refund",
+      "split": "synthetic_demo",
+      "state": {"message": "Please refund the duplicate charge."},
+      "expected_disposition": "billing_review",
+      "baseline_disposition": "human_review",
+      "receipt": {
+        "request_sha256": "b06ea72b9d99fade761a33a25940fa90d6efc2bee9e581a4af08e16d60ab6906",
+        "response": {
+          "ok": true, "advisory_only": true, "cached": false,
+          "request_sha256": "b06ea72b9d99fade761a33a25940fa90d6efc2bee9e581a4af08e16d60ab6906",
+          "observed_at": "2026-09-24T19:05:19.285781+00:00", "elapsed_ms": 392.485,
+          "billed_input_tokens": 568, "estimated_cost_usd": 0.000023856,
+          "model": "jev-1.13.0", "usage": {"input_tokens": 568, "output_tokens": 80},
+          "answers": {
+            "request_kind": {"type": "choice", "choice": "refund", "confidence": 1, "probabilities": {"receipt_only": 0, "other": 0, "unclear": 0, "refund": 1}},
+            "refund_requested": {"type": "noul", "noul": 0.98},
+            "urgency": {"type": "score", "score": 0.08, "confidence": 0.88, "legend": {"0": "No time-sensitive disruption is described.", "1": "A time-sensitive concern is described, but work can continue.", "2": "The sender describes an immediate blocker or a serious time-sensitive disruption."}, "probabilities": {"0": 0.92, "1": 0.08, "2": 0}}
+          }
+        }
+      }
+    },
+    {
+      "id": "receipt",
+      "split": "synthetic_demo",
+      "state": {"message": "Do not refund me; I only need a receipt."},
+      "expected_disposition": "receipt_queue",
+      "baseline_disposition": "human_review",
+      "receipt": {
+        "request_sha256": "66c19a07d1d2f1fe3d2d7993c5789ddbdce0729989806b54c3d51224ee6df840",
+        "response": {
+          "ok": true, "advisory_only": true, "cached": false,
+          "request_sha256": "66c19a07d1d2f1fe3d2d7993c5789ddbdce0729989806b54c3d51224ee6df840",
+          "observed_at": "2026-09-24T19:05:19.577657+00:00", "elapsed_ms": 683.156,
+          "billed_input_tokens": 573, "estimated_cost_usd": 0.000024066,
+          "model": "jev-1.13.0", "usage": {"input_tokens": 573, "output_tokens": 81},
+          "answers": {
+            "request_kind": {"type": "choice", "choice": "receipt_only", "confidence": 1, "probabilities": {"receipt_only": 1, "other": 0, "refund": 0, "unclear": 0}},
+            "refund_requested": {"type": "noul", "noul": 0.03},
+            "urgency": {"type": "score", "score": 0.01, "confidence": 0.99, "legend": {"0": "No time-sensitive disruption is described.", "1": "A time-sensitive concern is described, but work can continue.", "2": "The sender describes an immediate blocker or a serious time-sensitive disruption."}, "probabilities": {"0": 0.99, "1": 0.01, "2": 0}}
+          }
+        }
+      }
+    },
+    {
+      "id": "urgent",
+      "split": "synthetic_demo",
+      "state": {"message": "The duplicate charge has blocked today's payroll. Please refund it now."},
+      "expected_disposition": "human_review",
+      "baseline_disposition": "billing_review",
+      "receipt": {
+        "request_sha256": "d1301d85aa3503643504e6e334e76f0b5c22dc0b6117cee8faa40ebfb7960c4d",
+        "response": {
+          "ok": true, "advisory_only": true, "cached": false,
+          "request_sha256": "d1301d85aa3503643504e6e334e76f0b5c22dc0b6117cee8faa40ebfb7960c4d",
+          "observed_at": "2026-09-24T19:05:19.430408+00:00", "elapsed_ms": 536.166,
+          "billed_input_tokens": 576, "estimated_cost_usd": 0.000024192,
+          "model": "jev-1.13.0", "usage": {"input_tokens": 576, "output_tokens": 80},
+          "answers": {
+            "request_kind": {"type": "choice", "choice": "refund", "confidence": 1, "probabilities": {"receipt_only": 0, "unclear": 0, "other": 0, "refund": 1}},
+            "refund_requested": {"type": "noul", "noul": 0.98},
+            "urgency": {"type": "score", "score": 2, "confidence": 1, "legend": {"0": "No time-sensitive disruption is described.", "1": "A time-sensitive concern is described, but work can continue.", "2": "The sender describes an immediate blocker or a serious time-sensitive disruption."}, "probabilities": {"0": 0, "1": 0, "2": 1}}
+          }
+        }
+      }
+    },
+    {
+      "id": "missing",
+      "split": "synthetic_demo",
+      "state": {"message": ""},
+      "expected_disposition": "human_review",
+      "baseline_disposition": "human_review",
+      "receipt": null
+    }
+  ]
+}

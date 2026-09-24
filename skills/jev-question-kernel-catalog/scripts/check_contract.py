@@ -31,6 +31,21 @@ def provider_request(contract, fixture):
             "questions": copy.deepcopy(contract["request"]["questions"])}
 
 
+def missing_required_fields(contract, state):
+    """Deterministic preflight for a live call; empty fixture probes remain valid."""
+    fields = contract.get("required_state_fields", [])
+    if not isinstance(state, dict):
+        return list(fields)
+    missing = []
+    for field in fields:
+        value = state.get(field)
+        if value is None or value == "" or value == [] or value == {}:
+            missing.append(field)
+        elif isinstance(value, str) and not value.strip():
+            missing.append(field)
+    return missing
+
+
 def validate(contract, suite):
     require(isinstance(contract, dict) and isinstance(suite, dict), "envelopes must be objects")
     require(isinstance(contract.get("contract_id"), str) and meaningful(contract["contract_id"]), "contract_id required")

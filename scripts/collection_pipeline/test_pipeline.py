@@ -200,6 +200,9 @@ class AuthoringCheckTests(unittest.TestCase):
             check_authoring.main("electrical", expected_version="9.9.9")
         self.assertIn("kernel_skill_version must be 9.9.9", json.loads(out.getvalue())["problems"])
 
+    def test_dynamic_nearest_registry_includes_new_domain_collections(self):
+        self.assertIn("DQ08", check_authoring.prior_ids(REPO))
+
 
 if __name__ == "__main__":
     unittest.main()

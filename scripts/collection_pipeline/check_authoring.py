@@ -18,7 +18,7 @@ KEYS = ["local_id", "title", "purpose", "benefit", "required_state_fields", "que
         "follow_up", "nearest_existing", "distinctness", "source_ids", "family", "id", "version", "policy"]
 
 
-def main(folder, expected_version="2.6.0"):
+def main(folder, expected_version="2.7.0"):
     root = REPO / folder
     problems = []
     catalog = json.loads((root / "catalog.json").read_text())

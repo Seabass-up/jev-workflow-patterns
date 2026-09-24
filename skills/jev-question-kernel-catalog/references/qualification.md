@@ -54,7 +54,9 @@ The pilot JSON has `contract_id`, `version`, versioned `model`,
 `expected_disposition`, `baseline_disposition`, and `receipt`. A receipt contains
 the canonical `request_sha256` plus the unmodified provider `response`; the
 exact request is reconstructed from the frozen contract, case state, and model.
-For preflight-missing cases, `receipt` is null. Real held-out samples also need
+For preflight-missing cases, `receipt` is null. Use `development_screen` for real
+cases whose content was previewed or influenced contract design; these cases
+cannot claim held-out status or pass the held-out gate. Real held-out samples also need
 `sample_limits.min_held_out_cases`, `sample_limits.max_automatic_errors`,
 `sample_limits.max_review_fraction`, and
 `sample_limits.min_match_gain_over_baseline`. Set these before inference based on

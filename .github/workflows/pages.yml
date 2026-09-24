@@ -39,6 +39,7 @@ jobs:
           python3 skills/jev-question-kernel-catalog/scripts/check_contract.py skills/jev-question-kernel-catalog/assets/mixed-contract-example.json skills/jev-question-kernel-catalog/assets/mixed-fixtures-example.json
           python3 skills/jev-question-kernel-catalog/scripts/qualify_workflow.py skills/jev-question-kernel-catalog/assets/mixed-contract-example.json skills/jev-question-kernel-catalog/assets/mixed-pilot-example.json skills/jev-question-kernel-catalog/assets/mixed-consumer-example.py
           python3 -m unittest discover -s skills/jev-question-kernel-catalog/scripts -p 'test_*.py' -v
+          python3 pilots/github-issue-routing/verify_pilot.py
       - name: Verify Choice confidence, discovery measurements, and candidates
         env:
           PYTHONDONTWRITEBYTECODE: "1"
@@ -95,6 +96,7 @@ jobs:
           test -f ./_site/patterns/lineage-aware-corroboration/index.html
           test -f ./_site/patterns/dependency-dag-selective-recomputation/index.html
           test -f ./_site/kernel/qualification/index.html
+          test -f ./_site/kernel/qualification/public-issue-pilot/index.html
           python3 scripts/verify_site.py ./_site
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5

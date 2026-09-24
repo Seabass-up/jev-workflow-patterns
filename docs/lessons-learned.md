@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-24 — Public pilot split provenance and label quality
+
+- **Component:** Question-to-consumer replay split labels and public GitHub issue-title pilot.
+- **Symptom:** The first 24-case run was initially described as held out even though candidate titles had been previewed during source selection; its frozen gate failed with five automatic disagreements. A subsequent genuinely unpreviewed 24-case run failed a different gate, with 17 human reviews.
+- **Cause:** Freezing a sample before inference was mistaken for the stronger condition that cases had not influenced contract design. Repository `bug` and `enhancement` labels were also treated as convenient independent targets without first adjudicating whether vague or spam-like titles were eligible for title-only routing. No provider-internal cause is asserted.
+- **Repair:** Preserved both responses and original thresholds; marked the previewed run `development_screen`, added an explicit replay split that cannot claim held-out status or pass its gate, and ran a separate unpreviewed sample with the unchanged contract. Published both failed outcomes and label-quality limits.
+- **Verification:** `python3 pilots/github-issue-routing/verify_pilot.py` binds both 24-case samples to their response digests and reproduces 15/24 matches with five automatic disagreements for the screen, plus 7/24 matches, zero automatic disagreements, and 17 reviews for the held-out sample; both fail their relevant predeclared limits. Kernel replay tests and site/CI checks are recorded in the PR and deployment receipts if completed. No GitHub issue was changed.
+- **Prevention and limit:** Track source preview separately from the inference timestamp. Define eligibility and have humans adjudicate ambiguous target labels before freezing the next sample; do not tune on inspected cases or call repository labels ground truth. This shadow test does not establish production routing accuracy or outcome completion.
+
 ## 2026-09-24 — Question-to-consumer qualification and primitive fit
 
 - **Component:** Portable Jev Question Kernel 2.7, shadow replay, and collection authoring guide.

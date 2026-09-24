@@ -89,6 +89,14 @@ class QualificationTests(unittest.TestCase):
         pilot["sample_limits"]["min_match_gain_over_baseline"] = 4
         self.assertFalse(evaluate(CONTRACT, pilot, CONSUMER.decide)["sample"]["checks_met"])
 
+    def test_previewed_real_cases_cannot_claim_held_out(self):
+        pilot = copy.deepcopy(PILOT)
+        for case in pilot["cases"]:
+            case["split"] = "development_screen"
+        result = evaluate(CONTRACT, pilot, CONSUMER.decide)
+        self.assertEqual(result["evidence_scope"], "development_screen_only")
+        self.assertNotIn("checks_met", result["sample"])
+
     def test_preflight_bypass_is_not_treated_as_a_valid_model_result(self):
         pilot = copy.deepcopy(PILOT)
         pilot["cases"][-1]["receipt"] = copy.deepcopy(pilot["cases"][0]["receipt"])

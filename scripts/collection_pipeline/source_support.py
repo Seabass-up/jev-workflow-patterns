@@ -1,4 +1,11 @@
-"""Check every source summary against its page: refetch, pick a keyword window in code, ask Jev."""
+"""Check every source summary against its page: refetch, pick a keyword window in code, ask Jev.
+
+Drift is reported only when the recorded and observed hashes cover the same
+representation: raw response bytes (scripted fetch) or displayed page text (browser
+read). Otherwise, or when no successful observation exists, it is null (unknown), never
+"unchanged". Each run is immutable: results/source-review.json is never overwritten; a
+later run needs --run-id NAME and is written to results/source-review-NAME.json.
+"""
 import concurrent.futures, hashlib, html, json, re, subprocess, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -42,38 +49,77 @@ def window(text, summary, title="", size=4500):
             best, best_score = start, score
     return text[best:best + size]
 
+RAW_BYTES = "raw_bytes"
+DISPLAYED_TEXT = "displayed_text"
+
+
+def recorded_representation(source):
+    """What the source register's sha256 covers, from its documented fetch method."""
+    method = source.get("fetch_method", "").lower()
+    return DISPLAYED_TEXT if ("displayed" in method or "innertext" in method) else RAW_BYTES
+
+
+def drift_status(recorded_sha, recorded_rep, observed_sha, observed_rep):
+    """True or False only for comparable hashes of the same representation; otherwise None."""
+    if not recorded_sha or not observed_sha or recorded_rep != observed_rep:
+        return None
+    return observed_sha != recorded_sha
+
+
 def ask(state):
     r = subprocess.run([CLI, "decide"], input=json.dumps({"state": state, "questions": {"support": Q}}), capture_output=True, text=True)
     return json.loads(r.stdout)
 
-def run(folder, browser_pages):
-    root = REPO / folder
+def review_path(root, run_id=None):
+    return root / "results" / ("source-review-%s.json" % run_id if run_id else "source-review.json")
+
+
+def run(folder, browser_pages, run_id=None, asker=None, fetcher=None, root=None):
+    root = Path(root) if root else REPO / folder
+    out = review_path(root, run_id)
+    if out.exists():
+        raise SystemExit("%s exists; reviews are immutable. Rerun with --run-id NAME to record a new run." % out)
+    asker, fetcher = asker or ask, fetcher or fetch
     sources = json.loads((root / "sources.json").read_text())
     def one(s):
         bp = browser_pages.get(s["url"])
         if bp:
-            code, drift, excerpt = "browser", False, bp["excerpt"]
+            code, excerpt = "browser", bp["excerpt"]
+            observed_sha, observed_rep = bp.get("sha256_of_text"), DISPLAYED_TEXT
         else:
-            code, body = fetch(s["url"])
-            drift = hashlib.sha256(body).hexdigest() != s["sha256"]
-            excerpt = window(text_of(body), s["summary"], s["title"]) if code == "200" else ""
+            code, body = fetcher(s["url"])
+            ok = code == "200"
+            excerpt = window(text_of(body), s["summary"], s["title"]) if ok else ""
+            observed_sha, observed_rep = (hashlib.sha256(body).hexdigest() if ok else None), RAW_BYTES
+        recorded_rep = recorded_representation(s)
         state = {"summary": s["summary"], "page_excerpt": excerpt, "source_title": s["title"], "source_url": s["url"]}
-        resp = ask(state)
-        return {"source_id": s["id"], "http": code, "page_changed_since_record": drift,
+        resp = asker(state)
+        return {"source_id": s["id"], "http": code,
+                "recorded_representation": recorded_rep, "observed_representation": observed_rep,
+                "observed_sha256": observed_sha,
+                "page_changed_since_record": drift_status(s["sha256"], recorded_rep, observed_sha, observed_rep),
                 "request": {"state": state, "questions": {"support": Q}, "model": resp.get("model")}, "response": resp}
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as ex:
         receipts = list(ex.map(one, sources))
     doc = {"kind": "source_support_review", "checked": "2026-09-23",
            "method": "Each source page was refetched (or read in the browser where scripted fetches are blocked); code selected the text window with the most summary keywords; Jev judged whether the summary's description of the page is supported by that window. Advisory; it does not establish source authority.",
            "receipts": receipts,
-           "boundary": "A not_in_excerpt label can mean the code-selected window missed the relevant passage, not that the summary is wrong. Hash drift means the live page changed after the recorded fetch; recorded hashes bind the text as read then."}
-    (root / "results/source-review.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
+           "boundary": "A not_in_excerpt label can mean the code-selected window missed the relevant passage, not that the summary is wrong. page_changed_since_record compares hashes of the same representation only; null means the comparison could not be made. Recorded hashes bind the text as read then."}
+    if run_id:
+        doc["run_id"] = run_id
+    out.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
     verdicts = [(r["source_id"], r["response"].get("answers", {}).get("support", {}).get("choice", r["response"].get("error")),
                  r["response"].get("answers", {}).get("support", {}).get("confidence"), r["http"], r["page_changed_since_record"]) for r in receipts]
     print(folder, verdicts)
 
 if __name__ == "__main__":
+    args = sys.argv[1:]
+    run_id = None
+    if "--run-id" in args:
+        i = args.index("--run-id")
+        run_id = args[i + 1]
+        del args[i:i + 2]
     pages_file = SCRATCH / "browser/pages.json"
     browser_pages = {v["url"]: v for v in json.loads(pages_file.read_text()).values()} if pages_file.exists() else {}
-    for folder in sys.argv[1:]:
-        run(folder, browser_pages)
+    for folder in args:
+        run(folder, browser_pages, run_id=run_id)

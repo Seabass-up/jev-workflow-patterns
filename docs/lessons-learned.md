@@ -1,5 +1,15 @@
 # Lessons learned
 
+## 2026-09-23 — Append-only screens and comparable source hashes
+
+- **Component:** `scripts/collection_pipeline/screen.py`, `finish_collection.py`, `source_support.py`, and the seven browser-read receipts in five collections' `results/source-review.json`.
+- **Symptom (external review, reproduced here):** rerunning a screen started a fresh receipt list and overwrote `screening.json` or `recovery.json`, so a rerun could replace original disagreements, and `finish` would then summarize the replacements. Receipts were also written only after the last call, so an interrupted batch lost completed calls. Separately, the source check set `page_changed_since_record` to `false` for browser-read pages without comparing any hash.
+- **Cause:** the screen driver treated its output as rebuildable, and the docstring called every step idempotent. The browser branch had no observed hash to compare and defaulted to "unchanged" instead of "unknown".
+- **Repair:** screening is append-only: only fixtures without a receipt are called, each receipt is written atomically before the next call, and a stored receipt that no longer matches its fixture or contract stops the run. `merge` refuses to change `fixtures.json` once any receipt exists. Source reviews are immutable (`--run-id` writes a new file), each receipt records both hash representations and the observed hash, and drift is true or false only for hashes of the same representation, otherwise null; a failed fetch is null, not "changed".
+- **Existing evidence:** no screening receipt had been replaced; all 23 collections still replay. The seven browser receipts were recomputed from the same-session browser capture without repeating any provider call: all seven hashes match, so `false` now reflects a comparison, recorded with a `drift_correction` note that it confirms the review used the recorded text, not that the live page is unchanged.
+- **Verification:** ten new offline tests reproduce both defects (a mocked rerun no longer replaces a stored receipt or calls again; an interruption keeps completed receipts; different browser hashes report changed; mismatched representations and failed fetches report unknown; existing reviews refuse overwrite; screened fixtures are frozen).
+- **Prevention:** evidence files are append-only by construction, derived files are rebuilt from them, and a code-owned status that was not computed is reported as unknown.
+
 ## 2026-09-23 — Source pages behind bot blocks and script rendering
 
 - **Component:** source registers of all 23 collections; `results/source-review.json` in each.

@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-23 — Catalog navigation, freshness, and mobile layout
+
+- **Component:** GitHub Pages layout, homepage, generated finder, and collection hub.
+- **Symptom:** The homepage called a 30-profile iteration the current catalog, People and AI described its former 204-profile total as current, older version badges lacked historical context, the collection table hid review results on a phone, and the shared layout repeated titles already supplied by page content.
+- **Cause:** Catalog totals and navigation copy were maintained separately as new collections arrived; the layout always emitted a title without checking page content. The wide table kept its desktop column layout on narrow screens.
+- **Repair:** Build the 390-profile finder and shared counts from source catalogs, label older totals and versions as historical, use a shorter navigation, show collection metrics in responsive cards, and emit one main heading per page. The Pages workflow checks generated files for drift.
+- **Verification:** Locally, the generator reports 390 profiles across 30 catalogs and 23 newer collections; Python compilation, JavaScript syntax, three script tests, and `git diff --check` pass. Rendered-page, interaction, and deployment checks are recorded separately when run.
+- **Prevention and limit:** Generate shared counts from the catalogs and verify the rendered page, including a phone viewport. The finder flags explicitly provisional profiles from supported summary formats; older research iterations retain their own review states on their evaluation pages. Synthetic labels remain design evidence only.
+
 ## 2026-09-23 — Append-only screens and comparable source hashes
 
 - **Component:** `scripts/collection_pipeline/screen.py`, `finish_collection.py`, `source_support.py`, and the seven browser-read receipts in five collections' `results/source-review.json`.

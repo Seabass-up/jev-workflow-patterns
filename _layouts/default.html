@@ -6,7 +6,7 @@
     <meta name="description" content="{{ page.description | default: site.description | escape }}">
     <meta name="color-scheme" content="light">
     <title>{{ page.title | escape }} · {{ site.title | escape }}</title>
-    <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/site.css' | relative_url }}?v=20260923a">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -17,25 +17,18 @@
           <span>Jev Workflow Patterns</span>
         </a>
         <nav aria-label="Main navigation">
-          <a href="{{ '/' | relative_url }}">Overview</a>
-          <a href="{{ '/kernel/' | relative_url }}">Question kernel</a>
-          <a href="{{ '/iterations/04/' | relative_url }}">Catalog</a>
-          <a href="{{ '/human-ai/' | relative_url }}">People + AI</a>
-          <a href="https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/human-ai.md">Human–AI guide</a>
-          <a href="{{ '/bug-hunting/' | relative_url }}">Bug hunting</a>
-          <a href="{{ '/email/' | relative_url }}">Email</a>
-          <a href="{{ '/collections/' | relative_url }}">Collections</a>
-          <a href="{{ '/patterns/evidence-directed-allowlist-controller/' | relative_url }}">Evidence loop</a>
-          <a href="{{ '/patterns/lineage-aware-corroboration/' | relative_url }}">Lineage</a>
-          <a href="{{ '/patterns/dependency-dag-selective-recomputation/' | relative_url }}">DAG recompute</a>
+          <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>Overview</a>
+          <a href="{{ '/catalog/' | relative_url }}"{% if page.url == '/catalog/' %} aria-current="page"{% endif %}>Find patterns</a>
+          <a href="{{ '/kernel/' | relative_url }}"{% if page.url == '/kernel/' %} aria-current="page"{% endif %}>Question kernel</a>
+          <a href="{{ '/collections/' | relative_url }}"{% if page.url == '/collections/' %} aria-current="page"{% endif %}>Collections</a>
         </nav>
       </div>
     </header>
     <main id="main" class="page-shell">
       <article class="page-content">
         {% if page.kicker %}<p class="kicker">{{ page.kicker | escape }}</p>{% endif %}
-        <h1>{{ page.title | escape }}</h1>
-        {% if page.description %}<p class="page-lede">{{ page.description | escape }}</p>{% endif %}
+        {% unless content contains '<h1' %}<h1>{{ page.title | escape }}</h1>{% endunless %}
+        {% if page.description %}{% unless page.url contains '/patterns/' and content contains '<h1' %}<p class="page-lede">{{ page.description | escape }}</p>{% endunless %}{% endif %}
         {{ content }}
       </article>
     </main>

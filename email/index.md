@@ -3,7 +3,7 @@ layout: default
 title: Twelve Jev Email Patterns
 description: Typed email judgments with explicit uncertainty, bounded follow-up, and synthetic test receipts.
 permalink: /email/
-kicker: 12 email profiles · kernel v2.1
+kicker: 12 email profiles · introduced in kernel v2.1
 ---
 
 # Better questions for email workflows

@@ -3,12 +3,12 @@ layout: default
 title: 48 Jev Bug-Hunting Patterns
 description: Distinct bug-hunting use cases with typed hypotheses, counterexamples, evidence requirements and independent checks.
 permalink: /bug-hunting/
-kicker: Eight families · 48 profiles · kernel v2.2
+kicker: Eight families · 48 profiles · introduced in kernel v2.2
 ---
 
 # Ask about a specific failure, not whether the code is good
 
-These 48 bug-hunting profiles cover different failure mechanisms and verification paths. They supplement 120 research-catalog questions and 12 email profiles, bringing those question/profile collections to 180. The three foundational workflow guides remain separate. Related mechanisms intentionally overlap; the profiles are not a claim of worldwide novelty.
+These 48 bug-hunting profiles cover different failure mechanisms and verification paths. At their introduction, they brought the research, email, and bug-hunting groups to 180 profiles. The [current complete catalog]({{ '/catalog/' | relative_url }}) includes later additions; the three foundational workflow guides remain separate. Related mechanisms intentionally overlap; the profiles are not a claim of worldwide novelty.
 
 Each page contains an explicit hypothesis, required evidence, exact Choice JSON, counterexample, bounded follow-up, and a proposed independent check. Use the [kernel]({{ '/kernel/' | relative_url }}) and its [bug-hunting module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/bug-hunting.md) to adapt them.
 

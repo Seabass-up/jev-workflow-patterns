@@ -103,8 +103,9 @@ def main(folder, expected_version="2.6.0"):
                 problems.append(f"source {s.get('id')}: {k} required")
         if not re.fullmatch(r"[0-9a-f]{64}", s.get("sha256", "")):
             problems.append(f"source {s.get('id')}: sha256 must be 64 hex characters")
-    if not 3 <= len(sources) <= 5:
-        problems.append("need 3-5 sources")
+    # Authors record 3-5 sources; a browser-read page added later may be the sixth.
+    if not 3 <= len(sources) <= 6:
+        problems.append("need 3-6 sources")
     for k in ("title", "short", "description", "families", "lead", "bundle", "boundary", "extra_results"):
         if k not in meta:
             problems.append(f"collection.json missing {k}")

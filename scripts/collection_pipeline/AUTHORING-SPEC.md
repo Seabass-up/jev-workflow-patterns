@@ -32,7 +32,7 @@ A. `<repo>/<folder>/catalog.json` — 8 patterns, IDs `<PREFIX>01`..`<PREFIX>08`
    - `nearest_existing`: 2–3 IDs from the existing catalogs (B01–B28, E01–E28, L01–L24, H01–H40, EM01–EM12, BH01–BH48, HA01–HA24, CT01–CT10, ST01–ST08, EL01–EL08). Read titles from the catalog.json files under iterations/0N/, email/, bug-hunting/, human-ai/, controls/, storytelling/, electrical/ (catalog.json only). `distinctness` explains what the nearest ones do and what this one does differently.
    - `family`: one of 2–3 family keys you define (snake_case). `source_ids`: 1–3 ids from your sources.json.
 
-B. `<repo>/<folder>/sources.json` — 3 to 5 public sources fetched with curl. For each, run
+B. `<repo>/<folder>/sources.json` — 3 to 5 public sources fetched with curl (a sixth, read in a browser because the site blocks scripted fetches, may be added later). For each, run
    `curl -sSL --max-time 40 -A "Mozilla/5.0 (research fetch)" -o /tmp/src.html -w "%{http_code}" <url>`
    and include it only if the HTTP code is 200; compute sha256 of the fetched bytes with
    `shasum -a 256 /tmp/src.html`. Entry keys: id (e.g. "PM-S1"), title, url, checked ("2026-09-23"),

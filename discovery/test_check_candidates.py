@@ -35,6 +35,12 @@ class CandidateRegistryTests(unittest.TestCase):
         self.registry["candidates"].append(extra)
         self.rejects("repeats a title")
 
+    def test_every_catalog_contributes_prior_ids(self):
+        for pid in ("B01", "EM01", "BH01", "HA01", "CT01", "ST01", "EL01"):
+            self.assertIn(pid, self.known)
+        self.registry["candidates"][0]["nearest_prior"] = ["CT08", "ST01", "EL02"]
+        self.check()
+
     def test_unknown_prior_rejected(self):
         self.registry["candidates"][0]["nearest_prior"] = ["Z99"]
         self.rejects("unknown prior")
@@ -44,13 +50,17 @@ class CandidateRegistryTests(unittest.TestCase):
         self.rejects("evidence path missing")
 
     def test_closed_status_needs_resolution(self):
-        self.registry["candidates"][0]["status"] = "rejected"
+        candidate = self.registry["candidates"][0]
+        candidate["status"] = "rejected"
+        candidate.pop("resolution", None)
         self.rejects("resolution")
-        self.registry["candidates"][0]["resolution"] = "Duplicate of H32."
+        candidate["resolution"] = "Duplicate of H32."
         self.check()
 
     def test_open_status_must_not_claim_resolution(self):
-        self.registry["candidates"][0]["resolution"] = "Promoted early."
+        candidate = self.registry["candidates"][0]
+        candidate["status"] = "candidate"
+        candidate["resolution"] = "Promoted early."
         self.rejects("resolution")
 
     def test_private_material_tripwires(self):

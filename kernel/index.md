@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.4 · one portable skill
+kicker: Kernel v2.5 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -84,6 +84,16 @@ question quality, or performance on new data.
 
 ## Choose a domain profile
 
+Skill version 2.5.0 adds three collections: [10 call-control profiles]({{ '/controls/' | relative_url }})
+for the code around a call, [8 storytelling profiles]({{ '/storytelling/' | relative_url }})
+for manuscript text, and [8 electrical-contracting profiles]({{ '/electrical/' | relative_url }})
+for service, permits, and materials. Their modules are
+[controls](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/controls.md),
+[storytelling](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/storytelling.md), and
+[electrical](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/electrical.md).
+Every profile records its review threshold with its option count. Provisional
+profiles keep their disagreements on each collection's evaluation page.
+
 [24 human–AI collaboration profiles]({{ '/human-ai/' | relative_url }}) extend
 the kernel in skill version 2.3.0. They cover learning materials, understandable
 service interactions, correction targets, tradeoff disclosure, user-owned work,
@@ -116,9 +126,9 @@ keeps mailbox evidence and action controls explicit.
 [Iteration 3]({{ '/iterations/03/' | relative_url }}) ·
 [Iteration 4]({{ '/iterations/04/' | relative_url }})
 
-The four research catalogs supply 120 examples; with the email, bug-hunting, and
-human–AI collections there are 204 question profiles, plus three separately counted
-foundational workflow guides. Match the actual input relationship,
+The four research catalogs supply 120 examples; with the email, bug-hunting,
+human–AI, call-control, storytelling, and electrical collections there are 230
+question profiles, plus three separately counted foundational workflow guides. Match the actual input relationship,
 consumer, and limitations before adapting one. Historical contracts and synthetic
 receipts retain their versions; Kernel v2 does not retroactively requalify them.
 

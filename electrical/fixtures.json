@@ -1,0 +1,417 @@
+[
+  {
+    "id": "EL01-1",
+    "pattern_id": "EL01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "customer_report": "Every time we run the microwave and the toaster together, the breaker for the kitchen trips and we have to go out to the garage to reset it."
+    },
+    "expected": "breaker_trips",
+    "rationale": "The report describes a breaker tripping under a described load and no higher-precedence symptom."
+  },
+  {
+    "id": "EL01-2",
+    "pattern_id": "EL01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "customer_report": "The two bedrooms upstairs have had no power since last night. No lights, no outlets. Nothing looks tripped in the panel."
+    },
+    "expected": "no_power_to_area",
+    "rationale": "An area has no power and no tripping or heat is reported."
+  },
+  {
+    "id": "EL01-3",
+    "pattern_id": "EL01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "customer_report": ""
+    },
+    "expected": "unknown",
+    "rationale": "The report is empty."
+  },
+  {
+    "id": "EL01-4",
+    "pattern_id": "EL01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "customer_report": "We'd like a quote to add a dedicated circuit for a hot tub on the back patio. While you're here, the kitchen lights dim whenever the microwave and toaster run at the same time, and twice last week the breaker labeled 'kitchen' tripped when both were on. Nothing smells or feels warm; we reset it and it holds until the next time."
+    },
+    "expected": "breaker_trips",
+    "rationale": "The report contains three symptoms (a new work request, dimming, and breaker trips), and the contract's stated precedence puts breaker_trips ahead of flicker_or_dimming and new_work_request regardless of which one the customer states first or treats as the main ask."
+  },
+  {
+    "id": "EL02-1",
+    "pattern_id": "EL02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "condition_report": "The tenant reports a strong burning smell from the hallway panel; the cover is warm to the touch and there is a black mark at the edge of one breaker."
+    },
+    "expected": "immediate_hazard",
+    "rationale": "Burning smell and heat at electrical equipment are listed hazard signs."
+  },
+  {
+    "id": "EL02-2",
+    "pattern_id": "EL02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "condition_report": "The outlet by the bathroom sink is dead. Its test button does nothing and the reset button will not stay in. No smell, no heat, and nothing else is affected."
+    },
+    "expected": "routine",
+    "rationale": "A dead outlet with no hazard sign and no stated assessment trigger is routine."
+  },
+  {
+    "id": "EL02-3",
+    "pattern_id": "EL02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "condition_report": ""
+    },
+    "expected": "unknown",
+    "rationale": "The report is empty."
+  },
+  {
+    "id": "EL02-4",
+    "pattern_id": "EL02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "condition_report": "Storm runoff flooded the finished basement last week to about knee height. The homeowner switched off the breaker for the basement receptacle circuit before the water rose, and it has stayed off; the panel is upstairs and stayed dry. Four wall receptacles on that circuit were under water for two days, the water has since been pumped out, and the homeowner wants to know whether the circuit can be turned back on. No shock, smell, smoke, or scorching has been noticed, and nothing on that circuit has been touched since."
+    },
+    "expected": "needs_assessment",
+    "rationale": "The contract's hazard sign is water contact with energized equipment, and the report states the submerged receptacles were de-energized before the water rose and remain off, so no immediate-hazard sign is described; devices that were under water still require a qualified assessment before re-energizing, so needs_assessment applies rather than routine."
+  },
+  {
+    "id": "EL03-1",
+    "pattern_id": "EL03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "work_description": "Replace the existing ceiling fan in the living room with a new ceiling fan on the same box and switch."
+    },
+    "expected": "like_for_like_replacement",
+    "rationale": "An equivalent fixture replaces the existing one in the same location."
+  },
+  {
+    "id": "EL03-2",
+    "pattern_id": "EL03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "work_description": "Add three new receptacles along the garage wall on a new 20-amp circuit from the existing panel."
+    },
+    "expected": "circuit_addition_or_extension",
+    "rationale": "New outlets on a new branch circuit, with no service or panel change."
+  },
+  {
+    "id": "EL03-3",
+    "pattern_id": "EL03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "work_description": ""
+    },
+    "expected": "unknown",
+    "rationale": "The description is empty."
+  },
+  {
+    "id": "EL03-4",
+    "pattern_id": "EL03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "work_description": "Customer's garage: the 20-amp single-pole breaker feeding the garage receptacles keeps failing to reset, so replace that breaker in the existing panel with the same make, type, and rating. Also install two new receptacles on the workbench wall, fed from that same garage circuit and extended with new cable through the finished wall. No change to the panel itself, the meter, or the service."
+    },
+    "expected": "circuit_addition_or_extension",
+    "rationale": "Replacing one breaker with an equivalent in the same panel is a component replaced like-for-like, not a change to the panel itself, while adding two receptacles on an extended run is a circuit addition or extension; the stated precedence puts circuit_addition_or_extension above like_for_like_replacement."
+  },
+  {
+    "id": "EL04-1",
+    "pattern_id": "EL04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "correction_item": "Provide a completed panel directory labeling every new circuit before the final inspection.",
+      "project_roles": {
+        "Harbor Electric": "Electrical contractor responsible for all wiring, devices, panels, grounding, and labeling.",
+        "Northline Builders": "General contractor responsible for framing, drywall, fire blocking, and site access.",
+        "Owner": "Provides access, documents, payment, and decisions.",
+        "Utility": "Owns the meter base and service drop and performs meter releases."
+      }
+    },
+    "expected": "electrical_contractor",
+    "rationale": "Panel labeling is the electrical contractor's under the roles."
+  },
+  {
+    "id": "EL04-2",
+    "pattern_id": "EL04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "correction_item": "Close the open framing penetrations at the top plate above the panel with an approved fire-blocking material.",
+      "project_roles": {
+        "Harbor Electric": "Electrical contractor responsible for all wiring, devices, panels, grounding, and labeling.",
+        "Northline Builders": "General contractor responsible for framing, drywall, fire blocking, and site access.",
+        "Owner": "Provides access, documents, payment, and decisions.",
+        "Utility": "Owns the meter base and service drop and performs meter releases."
+      }
+    },
+    "expected": "other_trade",
+    "rationale": "Fire blocking is assigned to the general contractor under the roles."
+  },
+  {
+    "id": "EL04-3",
+    "pattern_id": "EL04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "correction_item": "Provide a completed panel directory before the final inspection.",
+      "project_roles": {}
+    },
+    "expected": "unknown",
+    "rationale": "The roles mapping is empty."
+  },
+  {
+    "id": "EL04-4",
+    "pattern_id": "EL04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "correction_item": "Service bonding could not be verified: the utility's seal on the meter enclosure prevents opening it to view the bonding jumper. The serving utility must remove the seal and open the enclosure before the inspector can verify; after it is opened, the electrical contractor must install the missing bonding jumper between the meter enclosure and the service disconnect and update the panel directory. Reinspection required once both are complete.",
+      "project_roles": {
+        "Exampleton Electric Co.": "Electrical contractor: all wiring, panels, grounding, bonding, and labeling.",
+        "Example Power Cooperative": "Serving utility: owns and seals the meter enclosure and service drop; only the utility may break its seals.",
+        "Sample Ridge Builders": "General contractor: framing, drywall, and site access.",
+        "Owner, P. Quillfeather": "Provides property access, documents, and project decisions."
+      }
+    },
+    "expected": "utility",
+    "rationale": "The item requires actions from both the utility and the electrical contractor, and the contract says to select the party that must act first; the utility's seal removal must happen before the contractor can install the bonding jumper, even though the underlying defect is electrical work."
+  },
+  {
+    "id": "EL05-1",
+    "pattern_id": "EL05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "inspection_type": "rough-in",
+      "inspector_notes": "Rough-in wiring approved. OK to cover."
+    },
+    "expected": "passed",
+    "rationale": "The notes approve with no corrections."
+  },
+  {
+    "id": "EL05-2",
+    "pattern_id": "EL05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "inspection_type": "rough-in",
+      "inspector_notes": "Not approved. Add protective plates where cables pass close to the stud face in the hall, and secure the cables near the boxes. Call for reinspection when corrected."
+    },
+    "expected": "failed_with_corrections",
+    "rationale": "Corrections and a reinspection are required."
+  },
+  {
+    "id": "EL05-3",
+    "pattern_id": "EL05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "inspection_type": "rough-in",
+      "inspector_notes": ""
+    },
+    "expected": "unknown",
+    "rationale": "The notes are empty."
+  },
+  {
+    "id": "EL05-4",
+    "pattern_id": "EL05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "inspection_type": "Rough-in electrical",
+      "inspector_notes": "Rough-in APPROVED for the first floor and attached garage; box fill, cable support, and nail plates are in order there. Second-floor bedrooms were not ready and will be inspected on a separate visit. One item: the cable bundle through the laundry-room top plate is not secured within the required distance of the box; secure it and call for reinspection of that area before cover. Inspector: R. Okonkwo, City of Example."
+    },
+    "expected": "failed_with_corrections",
+    "rationale": "The notes approve part of the scope, leave other parts to a later visit, and require a correction with reinspection; the contract's explicit rule that notes which both approve part of the scope and require corrections are failed_with_corrections decides over partial_approval."
+  },
+  {
+    "id": "EL06-1",
+    "pattern_id": "EL06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "office_message": "Your electrical permit application cannot be processed until a load calculation for the new service is uploaded to the portal."
+    },
+    "expected": "submit_document",
+    "rationale": "The office asks for a document first."
+  },
+  {
+    "id": "EL06-2",
+    "pattern_id": "EL06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "office_message": "This is a courtesy notice that your electrical permit was issued today. Inspections may be requested through the portal when you are ready."
+    },
+    "expected": "no_action_required",
+    "rationale": "The message informs and asks for nothing."
+  },
+  {
+    "id": "EL06-3",
+    "pattern_id": "EL06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "office_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The message is empty."
+  },
+  {
+    "id": "EL06-4",
+    "pattern_id": "EL06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "office_message": "Subject: Revisions required for standby generator permit, City of Example Building Division. Before the reviewer can accept corrected plans, please upload the manufacturer's installation instructions for the transfer equipment to the permit portal. After those are received, revise sheet E-2 to show the transfer switch location and the feeder routing and resubmit the plan set. The resubmittal fee must be paid at that time before review resumes."
+    },
+    "expected": "submit_document",
+    "rationale": "The subject line frames the message as a resubmittal, but the body asks first for the manufacturer's instructions to be uploaded, with the plan revision and the fee following; the contract selects the request the message asks for first."
+  },
+  {
+    "id": "EL07-1",
+    "pattern_id": "EL07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "product_description": "20 A, 125 V tamper-resistant receptacle with ground-fault circuit interrupter protection, self-test, and weather-resistant face.",
+      "required_type": "gfci"
+    },
+    "expected": "gfci",
+    "rationale": "The description denotes ground-fault protection only."
+  },
+  {
+    "id": "EL07-2",
+    "pattern_id": "EL07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "product_description": "20 A, 120 V single-pole circuit breaker providing combination arc-fault and ground-fault protection in one device.",
+      "required_type": "afci"
+    },
+    "expected": "dual_function",
+    "rationale": "The description denotes both protection types; the comparison with the required type is left to code."
+  },
+  {
+    "id": "EL07-3",
+    "pattern_id": "EL07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "product_description": "",
+      "required_type": "gfci"
+    },
+    "expected": "unknown",
+    "rationale": "The product description is empty."
+  },
+  {
+    "id": "EL07-4",
+    "pattern_id": "EL07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "product_description": "Tamper-resistant, weather-resistant 20 A / 125 V duplex receptacle with built-in surge protection and a green protection-status indicator light that goes out when surge protection is no longer active. Self-grounding mounting strap, back-wire and side-wire terminals, and an optional audible alarm. Rated for use with wet-location in-use covers; nylon face in white, ivory, or gray.",
+      "required_type": "gfci"
+    },
+    "expected": "standard",
+    "rationale": "Surge protection, tamper and weather resistance, a protection-status indicator, and a self-grounding strap are none of them ground-fault protection for people or arc-fault protection, so the contract's 'neither' case gives standard; the mismatch with required_type is left to code."
+  },
+  {
+    "id": "EL08-1",
+    "pattern_id": "EL08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "requested_evidence": "Photo showing the bonding jumper connection at the water main.",
+      "photo_description": "Close-up of the water main where it enters the building, showing the bonding clamp and the jumper conductor attached to the pipe."
+    },
+    "expected": "covers_request",
+    "rationale": "The described photo shows the specific element requested."
+  },
+  {
+    "id": "EL08-2",
+    "pattern_id": "EL08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "requested_evidence": "Photo showing the bonding jumper connection at the water main.",
+      "photo_description": "Wide shot of the utility room showing the water heater, the main water shutoff, and the panel on the far wall."
+    },
+    "expected": "does_not_cover",
+    "rationale": "The photo shows the general area without the requested element."
+  },
+  {
+    "id": "EL08-3",
+    "pattern_id": "EL08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "electrical_contract_author",
+    "state": {
+      "requested_evidence": "",
+      "photo_description": "Close-up of the water main showing the bonding clamp."
+    },
+    "expected": "unknown",
+    "rationale": "The request is empty."
+  },
+  {
+    "id": "EL08-4",
+    "pattern_id": "EL08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "requested_evidence": "Photo of the bonding clamp on the metal water service pipe where it enters the building, showing the clamp, the pipe, and the bonding conductor attached to it.",
+      "photo_description": "Close-up inside the main panel of the green bonding conductor landed on the ground bar, with the lug tightened and the conductor tagged 'water pipe bond'; the tag is legible and the conductor can be seen leaving the panel toward the utility room."
+    },
+    "expected": "does_not_cover",
+    "rationale": "The request names the clamp at the water pipe entry, and the described photo shows the other end of the same conductor at the panel ground bar, which is a different element; the contract says a photo of a different element does not cover the request."
+  }
+]

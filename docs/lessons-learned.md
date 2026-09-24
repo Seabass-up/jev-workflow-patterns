@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-23 — Three new collections and a pre-inference overlap check
+
+- **Component:** `controls/`, `storytelling/`, `electrical/`, kernel skill 2.5.0, and the discovery intake.
+- **What was done:** 26 contracts were authored with the kernel: ten call controls promoted from discovery candidates C1–C10, eight storytelling checks, and eight electrical-contracting checks. Before any fixture was written, CT08's overlap question was run over every non-unknown option pair of all 26 contracts. It flagged co-occurring electrical symptoms, mixed work types, mixed correction parties, mixed inspection notes, and a voice label that did not exclude a broken habit; five contracts received precedence sentences or narrower descriptions, and two logically complementary pairs that Jev labelled unknown were left as written. Challenge cases were written by three separate agents that saw only the contracts.
+- **Screen:** controls 38/40, storytelling 27/32, electrical 32/32; 104 calls, no service errors, $0.0026 estimated. Seven disagreements are preserved: three are empty-list or empty-name probes classified instead of returning `unknown` (CT03-3, ST04-3, ST08-3), the same failure shape the email track recorded; CT07-2 judged "asks for something other than a refund" an exact complement of "asks for a refund"; ST04-1, ST05-4, and ST08-2 are craft boundaries. CT03, CT07, ST04, ST05, and ST08 are provisional.
+- **Verification:** each collection's evaluator replays request digests, checks stored confidence against its probabilities, and enforces the design/challenge split; 12 tests per collection pass. Every profile records its 0.8 review floor with its option count and equivalent top probability.
+- **Limits:** synthetic design screens with one challenge per pattern; no human study, held-out sample, or real office, manuscript, or agent trace. The electrical collection never applies a code article or permit rule. Two blocked source sites (OSHA, CPSC) were replaced by NFPA overview pages and encyclopedic articles, cited as motivation only.
+- **Prevention:** run the overlap check before freezing fixtures, keep the required-field gate in code, and read a challenge label that disagrees with Jev as a boundary to record, not a contract to tune.
+
 ## 2026-09-23 — Exact version types in human–AI receipt validation
 
 - **Symptom/cause:** Independent review showed that fixture or receipt version `true` compared equal to integer version 1 under Python equality. Catalog versions were already strict, but the other two envelopes were not.

@@ -2,15 +2,16 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.4.0"
+  version: "2.5.0"
 ---
 
 # Jev Question Kernel v2
 
 One entry point for authoring and checking Jev question contracts. Keep the existing
 skill name for compatibility. Four research catalogs supply 120 examples, with
-12 email, 48 bug-hunting, and 24 human–AI collaboration profiles: 204 in total,
-separate from the three foundational workflow guides.
+12 email, 48 bug-hunting, 24 human–AI collaboration, 10 call-control, 8 storytelling,
+and 8 electrical-contracting profiles: 230 in total, separate from the three
+foundational workflow guides.
 Their synthetic results do not qualify a new application automatically.
 
 ## Select the work needed
@@ -26,6 +27,9 @@ Read only the references relevant to the task:
 | Interpret email evidence or assess a draft against a request | [Email profiles](references/email.md) | Typed advisory labels with mailbox and action boundaries |
 | Hunt a specific failure mechanism or check a proposed bug | [Bug-hunting profiles](references/bug-hunting.md) | Source-bound candidates, counterevidence, and independent verification recipes |
 | Improve learning materials, service communication, or collaboration with a person | [Human–AI profiles](references/human-ai.md) | Bounded checks of supplied material, explicit preferences, and practical handoffs—not judgments about the person |
+| Prepare a request, consume an answer, check a contract, or read a message signal | [Call-control profiles](references/controls.md) | Splits, runner-up outcomes, argument targets, overlap and negation checks, credential and link signals |
+| Check manuscript text for an author or editing assistant | [Storytelling profiles](references/storytelling.md) | Scene change, viewpoint, canon, rendered emotion, speaker clarity, payoffs, voice, reader grounding |
+| Route electrical contracting text: service, permits, inspections, materials | [Electrical profiles](references/electrical.md) | Symptom, hazard signs, work type, correction routing, inspection outcome, office requests, device type, photo coverage |
 
 For a new contract intended for repeated workflow use, combine authoring with a
 proportionate evaluation. Existing qualified contracts need reevaluation when their

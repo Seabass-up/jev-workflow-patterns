@@ -17,10 +17,35 @@ kicker: A practical pattern catalog
 check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
 local structural checker. Domain profiles connect it to all 120 research-catalog
-patterns plus 12 email, 48 bug-hunting, and 24 human–AI profiles in skill version
-2.3.0: 204 question profiles, separate from the three foundational workflows.
-Skill version 2.4.0 adds a Choice-confidence consistency check and option-count
-threshold guidance.
+patterns plus 12 email, 48 bug-hunting, 24 human–AI, 10 call-control, 8 storytelling,
+and 8 electrical profiles: 230 question profiles in skill version 2.5.0, separate from
+the three foundational workflows. Version 2.4.0 added a Choice-confidence consistency
+check and option-count threshold guidance; 2.5.0 adds the three newest collections.
+
+## New: call controls, storytelling, and electrical contracting
+
+[Call controls]({{ '/controls/' | relative_url }}) gives the code around a Jev call
+ten bounded judgments: compound-request detection and split coverage, translation
+fidelity, runner-up consumer outcome, free-text argument targets, labeler agreement,
+negation-pair validity, option overlap, and two message signals. Eight were promoted
+from the [discovery intake]({{ '/discovery/' | relative_url }}); the collection ran
+its own overlap check over all 26 new contracts before any fixture was written.
+Screen: 38/40, with CT03 and CT07 provisional.
+
+[Storytelling]({{ '/storytelling/' | relative_url }}) gives authors and editing
+assistants eight checks over their own manuscript context: scene change, viewpoint,
+story-bible contradiction, stated or rendered emotion, speaker clarity, payoffs,
+voice, and reader grounding. Screen: 27/32, with ST04, ST05, and ST08 provisional.
+
+[Electrical contracting]({{ '/electrical/' | relative_url }}) classifies the text an
+electrical office reads: dispatch symptoms, hazard signs, work type for a permit rule,
+correction-item routing, inspection outcomes, office requests, protective device
+type, and photo coverage. Screen: 32/32. Licensed judgment, jurisdiction rules, exact
+ratings, and safety procedures stay with people and code.
+
+Each collection has three design cases and one separately authored challenge per
+pattern, preserved receipts, an offline evaluator, and a kernel module. These are
+synthetic design screens, not qualification for any real workflow.
 
 ## New: 24 patterns for people and their AI helpers
 

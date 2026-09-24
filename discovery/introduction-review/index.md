@@ -13,8 +13,8 @@ Reviewed 2026-09-22. This page records a review of the TypeSafe
 plus official pages this repository had not cited before. Claims were checked against
 the preserved Jev receipts in this repository.
 
-<div class="callout warning">
-  <p><strong>Candidates, not a catalog.</strong> Nothing here has question contracts, frozen fixtures, or screening receipts. This is not an activated iteration: the four-iteration loop state is unchanged. The candidates need the usual contract, fixture, and live-screen cycle before any of them becomes a pattern.</p>
+<div class="callout">
+  <p><strong>Status on 2026-09-23.</strong> Eight of the ten candidates were promoted into the <a href="{{ '/controls/' | relative_url }}">call-controls collection</a> after a contract, fixture, and live-screen cycle; two were folded into existing guidance. The review below is preserved as written on 2026-09-22. The four-iteration loop state is unchanged.</p>
 </div>
 
 ## What was new to read
@@ -84,15 +84,16 @@ Jev, is in
 
 | ID | Candidate | Source | Jev nearest | Disposition |
 | --- | --- | --- | --- | --- |
-| C1 | Confidence gate adjusted for option count | Confidence page, receipts | none close (0.79) | **Lead candidate** |
-| C2 | Tool-call trace audit split between code and Jev | Build guide | E23 (0.81) | Retain as a composition of L04 and E23; lower priority |
-| C3 | Compound-request split and re-ask | Smart-home demo | none close (0.62; H28 0.30) | Retain |
-| C4 | Email phishing signals with veto | Build guide | H24 (0.99) | Reclassify as an email profile that applies H24 |
-| C5 | Language-aware confidence gate | Models page | none close (0.84) | Retain |
-| C6 | Model-alias movement canary | Models page | H35 (0.49) / H21 (0.35) | Fold into kernel evaluation guidance (done) |
-| C7 | Label bootstrap from several reasoning models | Build guide | none close (0.82) | Retain, adjacent to H38 |
-| C8 | Question packer under two context limits | Models page | none close (0.72), overlap unclear | Fold into H28 as concrete limits |
-| C9 | Question/negation ambiguity probe | Limitations page | none close (0.90) | Retain as experimental |
+| C1 | Confidence gate adjusted for option count | Confidence page, receipts | none close (0.79) | Promoted: [CT01]({{ '/controls/patterns/ct01/' | relative_url }}) plus kernel guidance |
+| C2 | Tool-call trace audit split between code and Jev | Build guide | E23 (0.81) | Promoted: [CT02]({{ '/controls/patterns/ct02/' | relative_url }}) |
+| C3 | Compound-request split and re-ask | Smart-home demo | none close (0.62; H28 0.30) | Promoted: [CT03]({{ '/controls/patterns/ct03/' | relative_url }}) and [CT04]({{ '/controls/patterns/ct04/' | relative_url }}) |
+| C4 | Email phishing signals with veto | Build guide | H24 (0.99) | Promoted as message signals: [CT09]({{ '/controls/patterns/ct09/' | relative_url }}) and [CT10]({{ '/controls/patterns/ct10/' | relative_url }}) |
+| C5 | Language-aware confidence gate | Models page | none close (0.84) | Promoted: [CT05]({{ '/controls/patterns/ct05/' | relative_url }}) |
+| C6 | Model-alias movement canary | Models page | H35 (0.49) / H21 (0.35) | Folded into kernel evaluation guidance |
+| C7 | Label bootstrap from several reasoning models | Build guide | none close (0.82) | Promoted: [CT06]({{ '/controls/patterns/ct06/' | relative_url }}) |
+| C8 | Question packer under two context limits | Models page | none close (0.72), overlap unclear | Folded into H28 as concrete limits |
+| C9 | Question/negation ambiguity probe | Limitations page | none close (0.90) | Promoted as experimental: [CT07]({{ '/controls/patterns/ct07/' | relative_url }}) |
+| C10 | Two Choice options overlap | Human-AI review, this screen | L23 / L12 / H05 by review | Promoted: [CT08]({{ '/controls/patterns/ct08/' | relative_url }}) |
 
 The screen is advisory. Shortlists were chosen by the reviewer, so Jev could not find a
 closer pattern omitted from them. This is not a prior-art or novelty search.

@@ -44,13 +44,17 @@ class CandidateRegistryTests(unittest.TestCase):
         self.rejects("evidence path missing")
 
     def test_closed_status_needs_resolution(self):
-        self.registry["candidates"][0]["status"] = "rejected"
+        candidate = self.registry["candidates"][0]
+        candidate["status"] = "rejected"
+        candidate.pop("resolution", None)
         self.rejects("resolution")
-        self.registry["candidates"][0]["resolution"] = "Duplicate of H32."
+        candidate["resolution"] = "Duplicate of H32."
         self.check()
 
     def test_open_status_must_not_claim_resolution(self):
-        self.registry["candidates"][0]["resolution"] = "Promoted early."
+        candidate = self.registry["candidates"][0]
+        candidate["status"] = "candidate"
+        candidate["resolution"] = "Promoted early."
         self.rejects("resolution")
 
     def test_private_material_tripwires(self):

@@ -45,7 +45,20 @@ missing-input preflight, and human-takeover boundaries. Its screen separates
 72 design cases from 24 independently authored synthetic challenge cases.
 Research sources motivate the use cases; they do not establish Jev benefit.
 
-Together these collections contain 204 question profiles. The three foundational
+Three further collections were added in skill version 2.5.0:
+
+- The [call-controls catalog](https://seabass-up.github.io/jev-workflow-patterns/controls/)
+  adds CT01–CT10 for the code around a call: request preparation, answer consumption,
+  contract quality, and message signals. Read the local [controls module](controls.md).
+  CT03 and CT07 are provisional.
+- The [storytelling catalog](https://seabass-up.github.io/jev-workflow-patterns/storytelling/)
+  adds ST01–ST08 for manuscript text: structure, consistency, and craft. Read the local
+  [storytelling module](storytelling.md). ST04, ST05, and ST08 are provisional.
+- The [electrical catalog](https://seabass-up.github.io/jev-workflow-patterns/electrical/)
+  adds EL01–EL08 for service calls, permits and inspections, and materials. Read the
+  local [electrical module](electrical.md). Its labels never replace licensed judgment.
+
+Together these collections contain 230 question profiles. The three foundational
 workflows below are counted separately.
 
 The [three foundations](https://seabass-up.github.io/jev-workflow-patterns/) retain

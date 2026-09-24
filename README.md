@@ -6,6 +6,10 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [10 call-control profiles](https://seabass-up.github.io/jev-workflow-patterns/controls/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/controls/evaluation/)
+- [8 storytelling profiles](https://seabass-up.github.io/jev-workflow-patterns/storytelling/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/storytelling/evaluation/)
+- [8 electrical-contracting profiles](https://seabass-up.github.io/jev-workflow-patterns/electrical/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/electrical/evaluation/)
+
 - [24 human–AI collaboration profiles](https://seabass-up.github.io/jev-workflow-patterns/human-ai/)
 - [Human–AI evaluation: design and independent challenge cases](https://seabass-up.github.io/jev-workflow-patterns/human-ai/evaluation/)
 - [Human–AI research method](https://seabass-up.github.io/jev-workflow-patterns/human-ai/research/)
@@ -43,6 +47,13 @@ is packaged in skill version 2.3.0. Its external catalog links are optional
 reference material; an installed copy does not require this entire repository.
 
 ## Boundaries
+
+Kernel skill version 2.5.0 adds three collections with 26 profiles: call controls
+(38/40 synthetic cases matched; CT03 and CT07 provisional), storytelling (27/32;
+ST04, ST05, ST08 provisional), and electrical contracting (32/32). That brings the
+question profiles to 230. Every disagreement is preserved unchanged. Electrical labels
+are readings of text, never electrical determinations; the jurisdiction's rules,
+exact ratings, the official inspection result, and on-site licensed judgment govern.
 
 Kernel skill version 2.3.0 adds 24 human–AI profiles to the 120 research,
 12 email, and 48 bug-hunting profiles: 204 question profiles in total.

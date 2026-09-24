@@ -71,8 +71,8 @@ def build():
              "description: Search all published Jev question profiles by task, collection, question type, and review flag.",
              "permalink: /catalog/", "kicker: 'All %d question profiles'" % len(ids), "---", "",
              "# Find a pattern", "",
-             "Search the complete question catalog. Choose a profile by the judgment your workflow needs, then read its required evidence, exact JSON, follow-up, and evaluation limits. The three foundational workflow guides are [on the home page]({{ '/' | relative_url }}) and are not counted here.", "",
-             "A **provisional** flag means the published screen recorded a disagreement. Research iterations keep their own review states on their evaluation pages. Other profiles are not thereby qualified for production; read each collection's evaluation before relying on one.", "",
+             "Search by the judgment your workflow needs. Each profile links to its required evidence, exact JSON, follow-up, and evaluation. The three foundational guides are [on the home page]({{ '/' | relative_url }}) and are counted separately.", "",
+             "**Provisional** means a recorded screening disagreement. Other profiles still need review before use; research iterations keep their review states on their own evaluation pages.", "",
              '<div class="finder-controls" role="search" aria-label="Filter question patterns">',
              '  <label>Search questions<input id="pattern-search" type="search" placeholder="Try refund, RFI, citation…" autocomplete="off"></label>',
              '  <label>Area<select id="pattern-area"><option value="">All areas</option>']

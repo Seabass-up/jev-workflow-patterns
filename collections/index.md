@@ -6,7 +6,7 @@ permalink: /collections/
 kicker: "23 collections · 186 profiles"
 ---
 
-Each collection is a set of frozen Choice contracts with an explicit `unknown`, three design fixtures and one separately authored challenge per pattern, preserved live receipts, an offline evaluator with tests, a hashed source register, generated pages, and a kernel reference module. Before fixtures were frozen, every collection's option pairs were checked for overlap with the CT08 question and the passes were preserved. Screens are synthetic design checks, not qualification for any real workflow; provisional patterns keep their disagreements on the collection's evaluation page.
+Each collection reports its synthetic screen result and any provisional profiles. Every profile has an explicit `unknown`, frozen fixtures, preserved receipts, and an evaluation page. These screens do not qualify a real workflow.
 
 [Find a pattern across all {{ site.data.catalog_summary.total_profiles }} question profiles]({{ '/catalog/' | relative_url }}). The count below covers this newer format; four research catalogs, email, bug hunting, and human–AI keep their own pages.
 

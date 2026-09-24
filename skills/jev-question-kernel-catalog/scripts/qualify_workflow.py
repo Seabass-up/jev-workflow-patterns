@@ -111,7 +111,7 @@ def evaluate(contract, pilot, consumer):
     require(len({c.get("id") for c in cases}) == len(cases), "duplicate case ID")
     rows = []
     for case in cases:
-        require(case.get("split") in ("synthetic_demo", "held_out"), "unknown case split")
+        require(case.get("split") in ("synthetic_demo", "development_screen", "held_out"), "unknown case split")
         require(isinstance(case.get("state"), dict), "named state required")
         for key in ("id", "expected_disposition", "baseline_disposition"):
             require(isinstance(case.get(key), str) and case[key], "missing case " + key)
@@ -191,8 +191,11 @@ def evaluate(contract, pilot, consumer):
                                 and sample["automatic_errors"] <= limits["max_automatic_errors"]
                                 and sample["reviewed"] / sample["cases"] <= limits["max_review_fraction"]
                                 and sample["preflight_bypassed"] == 0 and sample["invalid_or_failed"] == 0)
+    evidence_scope = ("held_out_as_declared" if held else
+                      "development_screen_only" if any(r["split"] == "development_screen" for r in rows)
+                      else "synthetic_demo_only")
     return {"contract_id": contract["contract_id"], "contract_version": contract["version"],
-            "model": pilot["model"], "evidence_scope": "held_out_as_declared" if held else "synthetic_demo_only",
+            "model": pilot["model"], "evidence_scope": evidence_scope,
             "sample": sample, "cases": rows,
             "limits": "The split and independent labels are caller declarations, not verified here. This checks planned consumer dispositions; it does not execute actions, prove outcome delivery, or establish production accuracy."}
 

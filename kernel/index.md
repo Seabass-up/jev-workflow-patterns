@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.7 · one portable skill
+kicker: Kernel v2.7.1 · one portable skill
 ---
 
 # Ask a question your software can use

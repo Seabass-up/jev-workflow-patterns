@@ -46,6 +46,7 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 - [Jev Question Kernel v2](https://seabass-up.github.io/jev-workflow-patterns/kernel/)
 - [Question-to-consumer qualification walkthrough](https://seabass-up.github.io/jev-workflow-patterns/kernel/qualification/)
+- [Observed public issue-title pilot — failed gate](https://seabass-up.github.io/jev-workflow-patterns/kernel/qualification/public-issue-pilot/)
 - [Pattern discovery intake](https://seabass-up.github.io/jev-workflow-patterns/discovery/)
 - [TypeSafe introduction review and pattern candidates](https://seabass-up.github.io/jev-workflow-patterns/discovery/introduction-review/)
 

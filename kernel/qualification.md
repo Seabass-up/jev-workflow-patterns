@@ -3,7 +3,7 @@ layout: default
 title: Qualify a Jev question through its consumer
 description: Replay typed Jev answers through side-effect-free consumer code and compare planned dispositions with a baseline.
 permalink: /kernel/qualification/
-kicker: Kernel v2.7 · shadow replay
+kicker: Kernel v2.7.1 · shadow replay
 ---
 
 # Test the decision the application would actually make
@@ -28,7 +28,18 @@ baseline dispositions matched one. This is a **synthetic demonstration**, not
 a held-out performance estimate. The demo's thresholds have not been calibrated
 for any real support operation.
 
-## What a real pilot still needs
+## An observed public pilot
+
+The [public GitHub issue-title pilot]({{ '/kernel/qualification/public-issue-pilot/' | relative_url }})
+froze a question contract, keyword baseline, and consumer gate before inference.
+It retained a 24-case development screen (whose candidate titles had been
+previewed) and then ran a separate, unpreviewed 24-case sample without changing
+the contract. The unpreviewed run passed receipt validation but **failed the
+predeclared review-rate gate**. Original responses and failed gates remain
+visible; repository labels are comparison targets, not adjudicated truth or
+a production qualification.
+
+## What an operational pilot still needs
 
 Freeze representative, authorized cases and independent labels before inference.
 Declare the cost of each error and an allowed review rate, then compare the

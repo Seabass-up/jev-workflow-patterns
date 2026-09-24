@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.7.0"
+  version: "2.7.1"
 ---
 
 # Jev Question Kernel v2
@@ -84,6 +84,8 @@ For a mixed Choice/Noul/Score request and a side-effect-free consumer replay, ru
 the [qualification example](references/qualification.md). Its invented cases
 demonstrate wiring only; the helper cannot certify an independently held-out split,
 real-world calibration, or action completion.
+Mark real cases previewed during question design as `development_screen`, not
+`held_out`, even when their labels and gate were frozen before inference.
 
 The helper checks the local authoring envelope shape shown in the two examples
 (`contract_id`, `request`, `consumer`, `uncertainty_policy`, `evaluation_scope`). The

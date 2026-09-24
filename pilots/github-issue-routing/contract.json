@@ -1,0 +1,42 @@
+{
+  "contract_id": "github-cli-public-issue-title-routing",
+  "version": 1,
+  "consumer": "Shadow-plan whether a public GitHub CLI issue title belongs in a bug or enhancement triage queue. Never change labels, issues, or assignments.",
+  "required_state_fields": ["title"],
+  "request": {
+    "state": {"title": "The command crashes when the repository name is short"},
+    "questions": {
+      "issue_kind": {
+        "type": "choice",
+        "instructions": "From the issue title alone, is the main request to fix existing behavior, add or improve a capability, or is there too little/contradictory evidence? Classify the requested change, not the emotional tone. Do not infer facts absent from the title. The issue's existing labels are not supplied.",
+        "criteria": {
+          "bug": "Existing behavior is reported as broken, incorrect, unexpectedly missing, crashing, or failing against an implied current expectation.",
+          "enhancement": "The request seeks a new capability, supported case, optional behavior, or deliberate improvement, without clear evidence of a current defect.",
+          "unclear": "The title is too vague, mixes defect and feature requests, or does not show which distinction applies."
+        }
+      },
+      "existing_behavior_failure": {
+        "type": "noul",
+        "instructions": "Does the issue title affirmatively describe existing behavior failing or behaving incorrectly? A wish for a new capability alone is not a failure.",
+        "criteria": {
+          "true": "An existing behavior failure or incorrect result is described.",
+          "false": "No existing behavior failure is stated, or the title is insufficient."
+        }
+      }
+    }
+  },
+  "uncertainty_policy": "Missing title, invalid/provider response, unclear or conflicting semantic signals, or a below-threshold answer plans human_review.",
+  "code_owned_checks": [
+    "Only the issue title, not maintainer labels or expected disposition, is sent to Jev",
+    "Reject empty titles before inference",
+    "Bind response to exact state, question version, and versioned model",
+    "Apply fixed thresholds in side-effect-free consumer; do not change GitHub issues"
+  ],
+  "follow_up": {
+    "trigger": "Title-only classification remains unclear",
+    "new_evidence": "An authorized, privacy-screened issue body excerpt in a separately versioned study",
+    "max_calls": 0,
+    "stop_condition": "This pilot uses titles only; route uncertainty to human review."
+  },
+  "evaluation_scope": "Exploratory held-out shadow comparison to pre-existing maintainer labels; labels are imperfect proxies and this is not production qualification."
+}

@@ -41,7 +41,7 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
-          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting human-ai controls storytelling electrical discovery
+          python3 skills/jev-question-kernel-catalog/scripts/check_confidence.py iterations email bug-hunting human-ai discovery $(dirname */collection.json)
           python3 discovery/introduction-review/measure.py
           python3 discovery/check_candidates.py
           python3 -m unittest discover -s discovery -p 'test_*.py' -v
@@ -64,11 +64,12 @@ jobs:
           python3 human-ai/evaluate.py
           python3 -m unittest discover -s human-ai -p 'test_*.py' -v
           python3 -m unittest discover -s scripts -p 'test_*.py' -v
-      - name: Verify controls, storytelling, and electrical collections
+      - name: Verify pattern collections
         env:
           PYTHONDONTWRITEBYTECODE: "1"
         run: |
-          for collection in controls storytelling electrical; do
+          for meta in */collection.json; do
+            collection="$(dirname "$meta")"
             python3 "$collection/evaluate.py"
             python3 -m unittest discover -s "$collection" -p 'test_*.py' -v
           done

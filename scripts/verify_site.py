@@ -87,10 +87,12 @@ def verify(site):
         pages.append(site / "human-ai" / name)
     human_count = len(pages) - iteration_count - email_count - bug_count
     collection_count = 0
-    for folder, expected in (("controls", 10), ("storytelling", 8), ("electrical", 8)):
+    # Every folder with a collection.json is a pattern collection built by scripts/build_collection_pages.py.
+    for meta_path in sorted(ROOT.glob("*/collection.json")):
+        folder = meta_path.parent.name
         catalog = json.loads((ROOT / folder / "catalog.json").read_text())
-        if len(catalog["patterns"]) != expected:
-            raise ValueError("expected %d %s profiles" % (expected, folder))
+        if len(catalog["patterns"]) < 8:
+            raise ValueError("expected at least 8 %s profiles" % folder)
         for p in catalog["patterns"]:
             page = site / folder / "patterns" / p["id"].lower() / "index.html"
             if not page.is_file() or p["id"] not in page.read_text():
@@ -100,7 +102,7 @@ def verify(site):
         for name in ("index.html", "evaluation/index.html", "sources/index.html"):
             pages.append(site / folder / name)
             collection_count += 1
-    pages.extend([site / "index.html", site / "kernel" / "index.html",
+    pages.extend([site / "index.html", site / "kernel" / "index.html", site / "collections" / "index.html",
                   site / "discovery" / "index.html",
                   site / "discovery" / "introduction-review" / "index.html"])
     for page in pages:
@@ -119,8 +121,8 @@ def verify(site):
             "email_pages_verified": email_count,
             "bug_hunting_pages_verified": bug_count,
             "human_ai_pages_verified": human_count,
-            "controls_storytelling_electrical_pages_verified": collection_count,
-            "kernel_home_and_discovery_pages_verified": 4}
+            "collection_pages_verified": collection_count,
+            "kernel_home_hub_and_discovery_pages_verified": 5}
 
 
 if __name__ == "__main__":

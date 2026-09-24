@@ -8,6 +8,8 @@ kicker: Kernel v2.6 · one portable skill
 
 # Ask a question your software can use
 
+[Find a profile for your task]({{ '/catalog/' | relative_url }}) before adapting a question contract.
+
 Start with the decision your application needs. Supply relevant evidence, define a
 typed answer space, and specify what happens when the evidence cannot establish an
 answer. The Jev Question Kernel brings authoring, evidence checks, and evaluation

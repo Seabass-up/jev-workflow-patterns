@@ -1,174 +1,75 @@
 ---
 layout: default
 title: Jev Workflow Patterns
-description: Code-controlled Jev workflows and tested question patterns for business, engineering, LLMs and harnesses.
+description: Find focused Jev question contracts and code-controlled workflow guides for business, engineering, and AI systems.
 permalink: /
 kicker: A practical pattern catalog
 ---
 
 <div class="hero">
   <h2>Make the question precise. Keep the workflow under code control.</h2>
-  <p>Jev evaluates the state you provide and returns typed judgments such as Choice, Score, or Noul. These patterns show how to shape that input, decide when to ask a follow-up, preserve evidence lineage, and avoid recomputing unchanged judgments.</p>
+  <p>Jev evaluates the text and structured state you provide, then returns typed judgments. This catalog helps you choose a narrow question, supply the evidence it needs, and decide what code should do with the answer.</p>
+  <div class="action-links">
+    <a href="{{ '/catalog/' | relative_url }}">Find a pattern</a>
+    <a class="secondary" href="{{ '/kernel/' | relative_url }}">Build a question</a>
+  </div>
 </div>
 
-## Jev Question Kernel v2
-
-[Start with the kernel]({{ '/kernel/' | relative_url }}) to design a typed question,
-check its evidence, and test changes. One portable skill now contains authoring,
-evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
-local structural checker. Domain profiles connect it to all 120 research-catalog
-patterns plus 12 email, 48 bug-hunting, 24 human–AI, 10 call-control, 8 storytelling,
-8 electrical, and 160 further domain profiles: 390 question profiles in skill version
-2.6.0, separate from the three foundational workflows. Version 2.4.0 added a
-Choice-confidence consistency check and option-count threshold guidance; 2.5.0 added
-call controls, storytelling, and electrical; 2.6.0 adds twenty domain collections.
-
-## New: twenty domain collections
-
-[Browse the collections hub]({{ '/collections/' | relative_url }}) for 160 profiles across
-project management, marketing, construction, finance, executive decisions, SEO, auto
-repair, auto performance, motorsport measurement, grading, human resources, logistics,
-logistics routing, networking, cybersecurity, web data collection, legal contracts,
-real estate, sales, and data quality. Each collection was authored against one written
-specification, checked for option overlap before its fixtures were frozen, given a
-separately authored challenge per pattern, screened live, and replayed by a shared
-evaluator. The hub shows each screen result; provisional patterns keep their
-disagreements on the collection's evaluation page. Labels are readings of text,
-never decisions about people, money, safety, or law.
-
-## New: call controls, storytelling, and electrical contracting
-
-[Call controls]({{ '/controls/' | relative_url }}) gives the code around a Jev call
-ten bounded judgments: compound-request detection and split coverage, translation
-fidelity, runner-up consumer outcome, free-text argument targets, labeler agreement,
-negation-pair validity, option overlap, and two message signals. Eight were promoted
-from the [discovery intake]({{ '/discovery/' | relative_url }}); the collection ran
-its own overlap check over all 26 new contracts before any fixture was written.
-Screen: 38/40, with CT03 and CT07 provisional.
-
-[Storytelling]({{ '/storytelling/' | relative_url }}) gives authors and editing
-assistants eight checks over their own manuscript context: scene change, viewpoint,
-story-bible contradiction, stated or rendered emotion, speaker clarity, payoffs,
-voice, and reader grounding. Screen: 27/32, with ST04, ST05, and ST08 provisional.
-
-[Electrical contracting]({{ '/electrical/' | relative_url }}) classifies the text an
-electrical office reads: dispatch symptoms, hazard signs, work type for a permit rule,
-correction-item routing, inspection outcomes, office requests, protective device
-type, and photo coverage. Screen: 32/32. Licensed judgment, jurisdiction rules, exact
-ratings, and safety procedures stay with people and code.
-
-Each collection has three design cases and one separately authored challenge per
-pattern, preserved receipts, an offline evaluator, and a kernel module. These are
-synthetic design screens, not qualification for any real workflow.
-
-## New: 24 patterns for people and their AI helpers
-
-[Browse the human–AI catalog]({{ '/human-ai/' | relative_url }}) for learning
-materials that preserve practice, clearer service instructions, useful corrections,
-visible tradeoffs, retained user authorship, and handoffs a person can resume.
-Each profile names a narrow judgment, its required evidence, the code-owned
-controls, and a real-world verification step.
-
-The screen separates 72 design cases from 24 independently authored synthetic
-challenge cases. [Read the evaluation]({{ '/human-ai/evaluation/' | relative_url }}),
-[research method]({{ '/human-ai/research/' | relative_url }}), and
-[primary sources]({{ '/human-ai/sources/' | relative_url }}).
-These sources motivate the problems; they do not establish that Jev improves
-learning or human–AI collaboration. The profiles inspect supplied material and
-explicit requests, not learner traits or diagnoses, and do not grant action or
-memory-update authority.
-
-## New: 48 bug-hunting patterns
-
-[Browse eight bug-hunting families]({{ '/bug-hunting/' | relative_url }}):
-concurrency/lifecycle, persistence/cache, API/data contracts, UI/interaction,
-resources/performance, trust boundaries, tests/builds/releases, and LLM/agent workflows.
-Each profile has a specific adverse hypothesis, exact question JSON, required
-context, counterexample, and an independent verification recipe.
-
-The textual synthetic screen matched 143/144 scenarios after two bounded service
-recoveries. BH41 remains provisional; no scenario is an executed bug reproduction.
-[Read the preserved errors and disagreement]({{ '/bug-hunting/evaluation/' | relative_url }}).
-
-## Discovery: TypeSafe introduction review
-
-[Read the introduction review]({{ '/discovery/introduction-review/' | relative_url }})
-for claims checked against 481 preserved Jev calls and nine pattern candidates
-with an advisory duplicate screen. Choice confidence closely follows the option
-count, so the 0.8 floor used by 53 earlier patterns requires top probabilities from
-0.833 to 0.90. These are candidates, not a screened catalog. New patterns found
-while using Jev go through the [discovery intake]({{ '/discovery/' | relative_url }}).
-
-## New: 12 email patterns
-
-[Browse the email catalog]({{ '/email/' | relative_url }}) for reply ownership,
-current versus quoted requests, thread changes, commitments, date meaning,
-scheduling, attachment claims, draft coverage, waiting responsibility, automatic
-replies, invoice disputes, and closure/reopening evidence.
-
-The current versions match 36/36 synthetic examples after two empty-input
-refinements; all 42 live screening receipts and original misses are preserved.
-[Read the email evaluation]({{ '/email/evaluation/' | relative_url }}).
-These are advisory question profiles, not an inbox integration or an accuracy guarantee.
-
-## Current question catalog
-
-[Iteration 4: 30 final-cycle question contracts]({{ '/iterations/04/' | relative_url }}) adds buyer-role, purchase-intent, competitive-context, communication-preference, churn, claim-substantiation, and disclosure-evidence decisions; field-support, label/value association, test-double, trace, lint-tier, repair-impact, and upgrade-intent checks; answer-work, fidelity, retrieval-posture, answer-directness, primitive-fit, and feature-validity questions; plus repeatability, extraction, candidate-binding, canary, ingress/egress, citation, feature, fixture, and drift harness controllers.
-
-It preserves **64 live synthetic Jev receipts**: an initial 58/60 result, both misses, four v2 targeted reruns, and a selected 60/60 current-fixture set with 60/60 current question checks. The H37 refinement makes code-confirmed missing quotes take priority; the H38 refinement moves numeric RMSE comparison from Jev into deterministic code. This is a bounded revision-aware regression check—not a production accuracy, calibration, security, legal-compliance, or novelty claim. [Read the Iteration 4 evaluation]({{ '/iterations/04/evaluation/' | relative_url }}) · [Browse the exact JSON contracts]({{ '/iterations/04/catalog.json' | relative_url }}) · [Use the shared catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md).
-
-## Earlier question catalog
-
-[Iteration 3: 30 new question contracts and an installable catalog skill]({{ '/iterations/03/' | relative_url }}) adds commercial-account alignment, pricing, delivery, predecessor, billing-support, renewal, service-trigger, diagnostic-origin, configuration, migration, replay, cache, cancellation, error-owner, entity alignment, RAG lanes, answerability, skill re-check, decision-depth, snapshot, candidate-coverage, composite-score, structure, retrieval, merge-hold, fan-out, precision, and ledger patterns.
-
-It preserves 67 live synthetic Jev receipts: the initial 58/61 fixture result, all three misses, six targeted reruns, and a final selected 61/61 current-fixture set with 84/84 current question checks. This is a small revision-aware regression check—not a production accuracy, calibration, security, or novelty claim. [Read the Iteration 3 evaluation]({{ '/iterations/03/evaluation/' | relative_url }}) · [Use the shared catalog skill](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/SKILL.md).
-
-[Iteration 2: 30 versioned business, engineering, LLM, and harness patterns]({{ '/iterations/02/' | relative_url }}) adds policy-exception, owner, remedy, revision, deadline-expression, reproducibility, retry, migration, rollback, telemetry, provenance, source-span, taxonomy, stability, deterministic-date, offset, plan-invalidation, field-verification, evidence-release, policy-routing, and calibration-ledger patterns.
-
-It preserves 168 synthetic Jev receipts: the initial misses, two version-2 L09 misses, and the later refined contracts. The latest receipt for every final fixture matched 134/134 fixtures and 147/147 question checks. This is a small regression check on an iterated synthetic set—not a production accuracy, calibration, or novelty claim. [Read the Iteration 2 evaluation]({{ '/iterations/02/evaluation/' | relative_url }}).
-
-[Iteration 1: 20 business, engineering and LLM patterns plus 10 experimental harness designs]({{ '/iterations/01/' | relative_url }}) includes individual pages, exact question JSON, follow-up policies, synthetic fixtures, preserved failures and offline controller tests.
-
-Initial core screening matched 76/81 fixtures; a targeted refinement matched 15/15; harness screening matched 38/40. These are small design checks, not production accuracy or proof of global novelty. [Read the evaluation]({{ '/iterations/01/evaluation/' | relative_url }}).
-
-## Three foundational patterns
+## Start with the work you need to do
 
 <div class="card-grid">
   <section class="card">
-    <span class="tag">Bounded extension</span>
-    <h3><a href="{{ '/patterns/evidence-directed-allowlist-controller/' | relative_url }}">Evidence-directed allowlist controller</a></h3>
-    <p>Ask a fixed target question first. If it remains unresolved, let Jev choose only from a caller-approved source catalog, then fetch and re-ask within explicit limits.</p>
-    <p><a href="https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-evidence-directed-retrieval/SKILL.md">Open the Codex skill</a></p>
+    <span class="tag">Browse</span>
+    <h3><a href="{{ '/catalog/' | relative_url }}">Search all {{ site.data.catalog_summary.total_profiles }} question profiles</a></h3>
+    <p>Filter by area, collection, question type, or a provisional review flag. Every result links to its question contract and evaluation context.</p>
   </section>
   <section class="card">
-    <span class="tag">New composition</span>
-    <h3><a href="{{ '/patterns/lineage-aware-corroboration/' | relative_url }}">Lineage-aware corroboration</a></h3>
-    <p>Judge one source at a time and count verified independent origins—not copies—as support, while preserving contradictions and review conditions.</p>
-    <p><a href="https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-lineage-corroboration/SKILL.md">Open the Codex skill</a></p>
+    <span class="tag">Design</span>
+    <h3><a href="{{ '/kernel/' | relative_url }}">Use the Jev Question Kernel</a></h3>
+    <p>Specify the decision, required state, answer space, uncertainty path, follow-up, and tests before using a judgment in software.</p>
   </section>
   <section class="card">
-    <span class="tag">New composition</span>
-    <h3><a href="{{ '/patterns/dependency-dag-selective-recomputation/' | relative_url }}">Dependency-DAG selective recomputation</a></h3>
-    <p>Fingerprint declared state projections and upstream outputs so unchanged judgments can be reused and only affected parts of a dependency graph are rerun.</p>
-    <p><a href="https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-dag-recomputation/SKILL.md">Open the Codex skill</a></p>
+    <span class="tag">Compare</span>
+    <h3><a href="{{ '/collections/' | relative_url }}">Review domain collections</a></h3>
+    <p>See the synthetic screen results and provisional patterns for {{ site.data.catalog_summary.domain_collections }} newer collections.</p>
   </section>
 </div>
 
-## Shared rules
+## Popular starting points
 
-- **State is evidence and context; questions are the judgments.** Use named JSON fields so each fact has a clear role.
-- **Make each question answerable.** Name the subject, criteria, exclusions, and an explicit no-match or insufficient outcome where relevant.
-- **Batch independent questions; sequence dependent ones in code.** A Jev question cannot see another question's answer from the same request.
-- **Treat answers as advisory.** Code owns identity and revision checks, budgets, thresholds, cache scope, escalation, and actions.
-- **Test outcomes, not just JSON shape.** Confidence is not a correctness guarantee or permission to act.
+- [Email]({{ '/email/' | relative_url }}): interpret requests, commitments, dates, quoted history, and drafts.
+- [Bug hunting]({{ '/bug-hunting/' | relative_url }}): ask about a specific failure condition, then reproduce it independently.
+- [People and their AI helpers]({{ '/human-ai/' | relative_url }}): preserve learning, authorship, understandable instructions, and practical handoffs.
+- [Business, engineering, LLM, and harness research catalogs]({{ '/iterations/04/' | relative_url }}): start with Iteration 4 and follow links to the three earlier iterations and their evaluations.
 
-See the official [TypeSafe System One overview](https://docs.typesafe.ai/concepts/system-one), [state guide](https://docs.typesafe.ai/concepts/state), [question primitives](https://docs.typesafe.ai/primitives), and [confidence guide](https://docs.typesafe.ai/confidence).
+## Three foundational workflow guides
+
+These guides are separate from the {{ site.data.catalog_summary.total_profiles }} question profiles.
+
+<div class="card-grid">
+  <section class="card">
+    <span class="tag">Bounded retrieval</span>
+    <h3><a href="{{ '/patterns/evidence-directed-allowlist-controller/' | relative_url }}">Evidence-directed allowlist controller</a></h3>
+    <p>Ask a fixed question, then fetch from a caller-approved source catalog only if evidence remains missing.</p>
+  </section>
+  <section class="card">
+    <span class="tag">Source lineage</span>
+    <h3><a href="{{ '/patterns/lineage-aware-corroboration/' | relative_url }}">Lineage-aware corroboration</a></h3>
+    <p>Count independent origins rather than repeated copies while retaining contradictions for review.</p>
+  </section>
+  <section class="card">
+    <span class="tag">Selective reuse</span>
+    <h3><a href="{{ '/patterns/dependency-dag-selective-recomputation/' | relative_url }}">Dependency-DAG selective recomputation</a></h3>
+    <p>Rerun only judgments affected by changed inputs or upstream answers.</p>
+  </section>
+</div>
+
+## What the evidence means
 
 <div class="callout warning">
-  <p><strong>What this site includes:</strong> three foundational pattern guides and skills, plus separately versioned question catalogs with synthetic receipts and pure demonstration controllers. It does not ship a TypeSafe SDK, secrets, local workflow configuration, production integrations, or private business records.</p>
-  <p>The original three-pattern prototype was exercised with 133 offline tests and five synthetic live Jev smoke calls on 2026-09-21; its local runtime and receipts remain outside this repository. Later iteration directories publish their own synthetic fixtures and results explicitly. Neither evidence track establishes production accuracy, calibration, or general reliability.</p>
+  <p>Published screens use synthetic examples. A matching label checks an authored case; it does not establish production accuracy, calibration, safety, legal compliance, or a real-world benefit. Provisional profiles retain their disagreements. Code and responsible people own permissions, exact checks, and consequential actions.</p>
 </div>
 
-## Public pages and skill files
+The <a href="{{ '/discovery/' | relative_url }}">discovery intake</a> records new candidates before promotion. The <a href="https://github.com/Seabass-up/jev-workflow-patterns">public repository</a> contains skill files, fixtures, evaluation receipts, and the source history. For Jev's supported primitives and API, see the <a href="https://docs.typesafe.ai/llms.txt">official TypeSafe documentation index</a>.
 
-Each pattern page includes a named state contract, exact question JSON, code-owned controls, limitations, and a link to a compatible dedicated or shared skill. The public [repository](https://github.com/Seabass-up/jev-workflow-patterns) contains the source skill files under `skills/`.
+<p class="catalog-release"><strong>Catalog:</strong> {{ site.data.catalog_summary.total_profiles }} question profiles across {{ site.data.catalog_summary.source_catalogs }} catalogs · <strong>Kernel skill:</strong> v{{ site.data.catalog_summary.kernel_version }} · <strong>Catalog data date:</strong> {{ site.data.catalog_summary.catalog_date }} · <a href="https://github.com/Seabass-up/jev-workflow-patterns/commits/main/">Source history</a></p>

@@ -13,8 +13,14 @@ class Links(HTMLParser):
     def __init__(self):
         super().__init__()
         self.links = []
+        self.h1_count = 0
+        self.pattern_card_count = 0
 
     def handle_starttag(self, tag, attrs):
+        if tag == "h1":
+            self.h1_count += 1
+        if tag == "article" and "pattern-card" in dict(attrs).get("class", "").split():
+            self.pattern_card_count += 1
         for key, value in attrs:
             if key in ("href", "src") and value:
                 self.links.append(value)
@@ -103,8 +109,11 @@ def verify(site):
             pages.append(site / folder / name)
             collection_count += 1
     pages.extend([site / "index.html", site / "kernel" / "index.html", site / "collections" / "index.html",
+                  site / "catalog" / "index.html",
                   site / "discovery" / "index.html",
                   site / "discovery" / "introduction-review" / "index.html"])
+    catalog_profiles = sum(len(json.loads(p.read_text())["patterns"]) for p in sorted(ROOT.glob("*/catalog.json")))
+    catalog_profiles += sum(len(json.loads(p.read_text())["patterns"]) for p in sorted(ROOT.glob("iterations/[0-9][0-9]/catalog.json")))
     for page in pages:
         if not page.is_file():
             raise ValueError("missing page: " + str(page))
@@ -113,6 +122,10 @@ def verify(site):
         if "{{" in text or "{%" in text:
             raise ValueError("unrendered template in " + str(page))
         parser.feed(text)
+        if parser.h1_count != 1:
+            raise ValueError("expected one main heading in " + str(page) + ": " + str(parser.h1_count))
+        if page == site / "catalog" / "index.html" and parser.pattern_card_count != catalog_profiles:
+            raise ValueError("finder does not contain every catalog profile")
         for link in parser.links:
             check_local_link(site, page, link)
     if not pages:
@@ -122,7 +135,8 @@ def verify(site):
             "bug_hunting_pages_verified": bug_count,
             "human_ai_pages_verified": human_count,
             "collection_pages_verified": collection_count,
-            "kernel_home_hub_and_discovery_pages_verified": 5}
+            "kernel_home_hub_and_discovery_pages_verified": 6,
+            "catalog_profiles_verified": catalog_profiles}
 
 
 if __name__ == "__main__":

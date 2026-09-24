@@ -6,34 +6,34 @@ permalink: /collections/
 kicker: "23 collections · 186 profiles"
 ---
 
-# Pattern collections
+Each collection reports its synthetic screen result and any provisional profiles. Every profile has an explicit `unknown`, frozen fixtures, preserved receipts, and an evaluation page. These screens do not qualify a real workflow.
 
-Each collection is a set of frozen Choice contracts with an explicit `unknown`, three design fixtures and one separately authored challenge per pattern, preserved live receipts, an offline evaluator with tests, a hashed source register, generated pages, and a kernel reference module. Before fixtures were frozen, every collection's option pairs were checked for overlap with the CT08 question and the passes were preserved. Screens are synthetic design checks, not qualification for any real workflow; provisional patterns keep their disagreements on the collection's evaluation page.
+[Find a pattern across all {{ site.data.catalog_summary.total_profiles }} question profiles]({{ '/catalog/' | relative_url }}). The count below covers this newer format; four research catalogs, email, bug hunting, and human–AI keep their own pages.
 
-| Collection | IDs | Profiles | Labels matched | Provisional |
-| --- | --- | ---: | ---: | --- |
-| [Auto performance]({{ '/auto-performance/' | relative_url }}) | AP01–AP08 | 8 | 32/32 | none |
-| [Auto repair]({{ '/auto-repair/' | relative_url }}) | AR01–AR08 | 8 | 32/32 | none |
-| [Construction]({{ '/construction/' | relative_url }}) | CN01–CN08 | 8 | 31/32 | CN05 |
-| [Call controls]({{ '/controls/' | relative_url }}) | CT01–CT10 | 10 | 38/40 | CT03, CT07 |
-| [Cybersecurity]({{ '/cybersecurity/' | relative_url }}) | CY01–CY08 | 8 | 31/32 | CY02 |
-| [Data quality]({{ '/data-quality/' | relative_url }}) | DQ01–DQ08 | 8 | 29/32 | DQ03, DQ06 |
-| [Electrical]({{ '/electrical/' | relative_url }}) | EL01–EL08 | 8 | 32/32 | none |
-| [Executive]({{ '/executive/' | relative_url }}) | CE01–CE08 | 8 | 30/32 | CE02, CE06 |
-| [Finance]({{ '/finance/' | relative_url }}) | FN01–FN08 | 8 | 32/32 | none |
-| [Grading]({{ '/grading/' | relative_url }}) | GR01–GR08 | 8 | 29/32 | GR02, GR05, GR06 |
-| [Human resources]({{ '/human-resources/' | relative_url }}) | HR01–HR08 | 8 | 29/32 | HR06, HR07 |
-| [Contracts]({{ '/legal-contracts/' | relative_url }}) | LC01–LC08 | 8 | 31/32 | LC02 |
-| [Logistics]({{ '/logistics/' | relative_url }}) | LG01–LG08 | 8 | 31/32 | LG04 |
-| [Logistics routing]({{ '/logistics-routing/' | relative_url }}) | LR01–LR08 | 8 | 30/32 | LR03, LR04 |
-| [Marketing]({{ '/marketing/' | relative_url }}) | MK01–MK08 | 8 | 29/32 | MK03, MK05, MK08 |
-| [Motorsport]({{ '/motorsport/' | relative_url }}) | MR01–MR08 | 8 | 31/32 | MR04 |
-| [Networking]({{ '/networking/' | relative_url }}) | NW01–NW08 | 8 | 30/32 | NW01, NW02 |
-| [Project management]({{ '/project-management/' | relative_url }}) | PM01–PM08 | 8 | 31/32 | PM02 |
-| [Real estate]({{ '/real-estate/' | relative_url }}) | RE01–RE08 | 8 | 30/32 | RE02, RE04 |
-| [Sales]({{ '/sales/' | relative_url }}) | SA01–SA08 | 8 | 31/32 | SA08 |
-| [SEO]({{ '/seo/' | relative_url }}) | SE01–SE08 | 8 | 32/32 | none |
-| [Storytelling]({{ '/storytelling/' | relative_url }}) | ST01–ST08 | 8 | 27/32 | ST04, ST05, ST08 |
-| [Web data]({{ '/web-scraping/' | relative_url }}) | WS01–WS08 | 8 | 31/32 | WS04 |
+<div class="collection-grid">
+  <article class="collection-card"><h2><a href="{{ '/auto-performance/' | relative_url }}">Auto performance</a></h2><dl><div><dt>IDs</dt><dd>AP01–AP08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>32/32</dd></div><div><dt>Provisional</dt><dd>none</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/auto-repair/' | relative_url }}">Auto repair</a></h2><dl><div><dt>IDs</dt><dd>AR01–AR08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>32/32</dd></div><div><dt>Provisional</dt><dd>none</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/construction/' | relative_url }}">Construction</a></h2><dl><div><dt>IDs</dt><dd>CN01–CN08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>CN05</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/controls/' | relative_url }}">Call controls</a></h2><dl><div><dt>IDs</dt><dd>CT01–CT10</dd></div><div><dt>Profiles</dt><dd>10</dd></div><div><dt>Synthetic labels matched</dt><dd>38/40</dd></div><div><dt>Provisional</dt><dd>CT03, CT07</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/cybersecurity/' | relative_url }}">Cybersecurity</a></h2><dl><div><dt>IDs</dt><dd>CY01–CY08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>CY02</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/data-quality/' | relative_url }}">Data quality</a></h2><dl><div><dt>IDs</dt><dd>DQ01–DQ08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>29/32</dd></div><div><dt>Provisional</dt><dd>DQ03, DQ06</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/electrical/' | relative_url }}">Electrical</a></h2><dl><div><dt>IDs</dt><dd>EL01–EL08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>32/32</dd></div><div><dt>Provisional</dt><dd>none</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/executive/' | relative_url }}">Executive</a></h2><dl><div><dt>IDs</dt><dd>CE01–CE08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>30/32</dd></div><div><dt>Provisional</dt><dd>CE02, CE06</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/finance/' | relative_url }}">Finance</a></h2><dl><div><dt>IDs</dt><dd>FN01–FN08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>32/32</dd></div><div><dt>Provisional</dt><dd>none</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/grading/' | relative_url }}">Grading</a></h2><dl><div><dt>IDs</dt><dd>GR01–GR08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>29/32</dd></div><div><dt>Provisional</dt><dd>GR02, GR05, GR06</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/human-resources/' | relative_url }}">Human resources</a></h2><dl><div><dt>IDs</dt><dd>HR01–HR08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>29/32</dd></div><div><dt>Provisional</dt><dd>HR06, HR07</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/legal-contracts/' | relative_url }}">Contracts</a></h2><dl><div><dt>IDs</dt><dd>LC01–LC08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>LC02</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/logistics/' | relative_url }}">Logistics</a></h2><dl><div><dt>IDs</dt><dd>LG01–LG08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>LG04</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/logistics-routing/' | relative_url }}">Logistics routing</a></h2><dl><div><dt>IDs</dt><dd>LR01–LR08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>30/32</dd></div><div><dt>Provisional</dt><dd>LR03, LR04</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/marketing/' | relative_url }}">Marketing</a></h2><dl><div><dt>IDs</dt><dd>MK01–MK08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>29/32</dd></div><div><dt>Provisional</dt><dd>MK03, MK05, MK08</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/motorsport/' | relative_url }}">Motorsport</a></h2><dl><div><dt>IDs</dt><dd>MR01–MR08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>MR04</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/networking/' | relative_url }}">Networking</a></h2><dl><div><dt>IDs</dt><dd>NW01–NW08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>30/32</dd></div><div><dt>Provisional</dt><dd>NW01, NW02</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/project-management/' | relative_url }}">Project management</a></h2><dl><div><dt>IDs</dt><dd>PM01–PM08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>PM02</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/real-estate/' | relative_url }}">Real estate</a></h2><dl><div><dt>IDs</dt><dd>RE01–RE08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>30/32</dd></div><div><dt>Provisional</dt><dd>RE02, RE04</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/sales/' | relative_url }}">Sales</a></h2><dl><div><dt>IDs</dt><dd>SA01–SA08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>SA08</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/seo/' | relative_url }}">SEO</a></h2><dl><div><dt>IDs</dt><dd>SE01–SE08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>32/32</dd></div><div><dt>Provisional</dt><dd>none</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/storytelling/' | relative_url }}">Storytelling</a></h2><dl><div><dt>IDs</dt><dd>ST01–ST08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>27/32</dd></div><div><dt>Provisional</dt><dd>ST04, ST05, ST08</dd></div></dl></article>
+  <article class="collection-card"><h2><a href="{{ '/web-scraping/' | relative_url }}">Web data</a></h2><dl><div><dt>IDs</dt><dd>WS01–WS08</dd></div><div><dt>Profiles</dt><dd>8</dd></div><div><dt>Synthetic labels matched</dt><dd>31/32</dd></div><div><dt>Provisional</dt><dd>WS04</dd></div></dl></article>
+</div>
 
-The four research catalogs ([Iteration 4]({{ '/iterations/04/' | relative_url }}) and earlier), the [email]({{ '/email/' | relative_url }}), [bug-hunting]({{ '/bug-hunting/' | relative_url }}), and [human–AI]({{ '/human-ai/' | relative_url }}) collections predate this format and keep their own pages. New patterns found while using Jev enter through the [discovery intake]({{ '/discovery/' | relative_url }}).
+New patterns found while using Jev enter through the [discovery intake]({{ '/discovery/' | relative_url }}).

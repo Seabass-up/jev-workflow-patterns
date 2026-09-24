@@ -252,16 +252,20 @@ def hub_page():
         d, c = summary["splits"]["design"], summary["splits"]["challenge"]
         prov = ", ".join(summary["provisional_patterns"]) or "none"
         ids = catalog["patterns"][0]["id"] + "–" + catalog["patterns"][-1]["id"]
-        rows.append("| [%s](%s) | %s | %d | %d/%d | %s |" % (meta["short"], rel("/" + folder + "/"), ids, summary["patterns"],
-                                                             d["label_matches"] + c["label_matches"], summary["fixtures"], prov))
+        rows.append('  <article class="collection-card"><h2><a href="%s">%s</a></h2><dl>'
+                    '<div><dt>IDs</dt><dd>%s</dd></div><div><dt>Profiles</dt><dd>%d</dd></div>'
+                    '<div><dt>Synthetic labels matched</dt><dd>%d/%d</dd></div>'
+                    '<div><dt>Provisional</dt><dd>%s</dd></div></dl></article>' %
+                    (rel("/" + folder + "/"), meta["short"], ids, summary["patterns"],
+                     d["label_matches"] + c["label_matches"], summary["fixtures"], prov))
     total = sum(json.loads((p.parent / "catalog.json").read_text())["patterns"].__len__() for p in REPO.glob("*/collection.json"))
     lines = ["---", "layout: default", 'title: "Pattern collections"',
              'description: "Every domain collection built on the kernel: contracts, fixtures, live screens, evaluators, and modules."',
              "permalink: /collections/", 'kicker: "%d collections · %d profiles"' % (len(rows), total), "---", "",
-             "# Pattern collections", "",
-             "Each collection is a set of frozen Choice contracts with an explicit `unknown`, three design fixtures and one separately authored challenge per pattern, preserved live receipts, an offline evaluator with tests, a hashed source register, generated pages, and a kernel reference module. Before fixtures were frozen, every collection's option pairs were checked for overlap with the CT08 question and the passes were preserved. Screens are synthetic design checks, not qualification for any real workflow; provisional patterns keep their disagreements on the collection's evaluation page.", "",
-             "| Collection | IDs | Profiles | Labels matched | Provisional |", "| --- | --- | ---: | ---: | --- |", *rows, "",
-             "The four research catalogs ([Iteration 4]({{ '/iterations/04/' | relative_url }}) and earlier), the [email]({{ '/email/' | relative_url }}), [bug-hunting]({{ '/bug-hunting/' | relative_url }}), and [human–AI]({{ '/human-ai/' | relative_url }}) collections predate this format and keep their own pages. New patterns found while using Jev enter through the [discovery intake]({{ '/discovery/' | relative_url }}).", ""]
+             "Each collection reports its synthetic screen result and any provisional profiles. Every profile has an explicit `unknown`, frozen fixtures, preserved receipts, and an evaluation page. These screens do not qualify a real workflow.", "",
+             "[Find a pattern across all {{ site.data.catalog_summary.total_profiles }} question profiles]({{ '/catalog/' | relative_url }}). The count below covers this newer format; four research catalogs, email, bug hunting, and human–AI keep their own pages.", "",
+             '<div class="collection-grid">', *rows, '</div>', "",
+             "New patterns found while using Jev enter through the [discovery intake]({{ '/discovery/' | relative_url }}).", ""]
     (REPO / "collections").mkdir(exist_ok=True)
     (REPO / "collections/index.md").write_text("\n".join(lines))
     print("hub written:", len(rows), "collections,", total, "profiles")

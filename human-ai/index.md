@@ -3,14 +3,14 @@ layout: default
 title: "24 Jev Patterns for People and Their AIs"
 description: "Research-inspired question contracts for learning, everyday services, and human–AI teamwork."
 permalink: /human-ai/
-kicker: "21 primary sources · 24 profiles · kernel 2.3.0"
+kicker: "21 primary sources · 24 profiles · introduced in kernel 2.3.0"
 ---
 
 # Help the person, not just finish the output
 
 A helpful AI should preserve the work a person wants to do, ask a useful clarification, provide usable recovery instructions, and distinguish fluent answers from explanations. These 24 profiles turn those needs into bounded text judgments. They are task-authored adaptations of research and design guidance—not official TypeSafe patterns, globally novel discoveries, or proven interventions.
 
-Each profile includes exact Choice JSON, named evidence, a bounded follow-up, three design examples, one separately authored challenge, and a proposed independent verification method. The complete collection now contains 204 question profiles (120 research, 12 email, 48 bug-hunting, and these 24); three foundational guides remain separate.
+Each profile includes exact Choice JSON, named evidence, a bounded follow-up, three design examples, one separately authored challenge, and a proposed independent verification method. At this collection's introduction, those four catalog groups contained 204 question profiles. The [current complete catalog]({{ '/catalog/' | relative_url }}) includes later additions; three foundational guides remain separate.
 
 [Use the kernel]({{ '/kernel/' | relative_url }}) · [Research method]({{ '/human-ai/research/' | relative_url }}) · [Primary sources]({{ '/human-ai/sources/' | relative_url }}) · [Evaluation and disagreements]({{ '/human-ai/evaluation/' | relative_url }})
 

@@ -6,6 +6,7 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [Find a pattern across the full catalog](https://seabass-up.github.io/jev-workflow-patterns/catalog/) — search and filter all published question profiles
 - [All pattern collections](https://seabass-up.github.io/jev-workflow-patterns/collections/) — hub with screen results
 - [Project management](https://seabass-up.github.io/jev-workflow-patterns/project-management/)
 - [Marketing](https://seabass-up.github.io/jev-workflow-patterns/marketing/)
@@ -76,6 +77,11 @@ specification, a structural checker, the pre-inference overlap pass, the live sc
 the assembly step that writes results and pages, and the source support check. The
 live steps use the local `jev-workflows` bridge; nothing in the repository holds a
 credential. Drafts and challenge cases go in a git-ignored work directory.
+
+`python3 scripts/build_catalog.py` regenerates the complete finder and shared
+catalog counts from the thirty source catalogs. `python3 scripts/build_collection_pages.py --hub`
+regenerates the newer-collection overview. The Pages workflow checks both outputs
+for drift before building the site.
 
 ## Boundaries
 

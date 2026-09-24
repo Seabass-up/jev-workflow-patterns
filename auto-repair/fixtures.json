@@ -1,0 +1,394 @@
+[
+  {
+    "id": "AR01-1",
+    "pattern_id": "AR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "customer_description": "For about two weeks there has been a high-pitched squeal from the front of the car when I first drive in the morning. It fades after a few minutes and comes back the next day. Nothing on the dash."
+    },
+    "expected": "noise",
+    "rationale": "The description reports an unusual sound with a driving condition and no light, leak, electrical fault, or performance change, so noise is the only category that applies."
+  },
+  {
+    "id": "AR01-2",
+    "pattern_id": "AR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "customer_description": "The check engine light came on yesterday afternoon, and there is also a rattle from under the car when I accelerate from a stop. It still drives fine."
+    },
+    "expected": "warning_light",
+    "rationale": "Both a warning light and a noise are described; the stated precedence puts warning_light before noise."
+  },
+  {
+    "id": "AR01-3",
+    "pattern_id": "AR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "customer_description": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no symptom can be read and the missing-evidence rule selects unknown."
+  },
+  {
+    "id": "AR01-4",
+    "pattern_id": "AR01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "customer_description": "No warning lights are on at all, I checked twice. This morning the car would not start; it just clicks once when I turn the key and the dome light is really dim. Yesterday I also heard a squeak from the belt area when I first pulled out. Can you look at it this week?"
+    },
+    "expected": "electrical",
+    "rationale": "The description reports the vehicle not starting with a dead-battery pattern (electrical) and an unusual squeak (noise); the stated precedence puts electrical before noise, and the negated warning light ('no warning lights are on') is not a light reported as on, flashing, or newly appearing."
+  },
+  {
+    "id": "AR02-1",
+    "pattern_id": "AR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "condition_report": "On the way home the brake pedal went almost to the floor and the car barely slowed down. I pumped it and made it into the driveway. It seems okay now but I want it looked at when you have a slot."
+    },
+    "expected": "stop_driving_sign",
+    "rationale": "A pedal going to the floor with the car barely slowing is one of the listed signs, and the instructions say to select it even when the customer reports the vehicle seems fine now."
+  },
+  {
+    "id": "AR02-2",
+    "pattern_id": "AR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "condition_report": "The check engine light has been on steady for a week, and there is a faint hum from the rear at highway speed. The car drives and stops normally."
+    },
+    "expected": "needs_inspection",
+    "rationale": "A steady light and a hum are faults to inspect, and none of the listed stop-driving signs, such as a flashing light or loss of braking, is described."
+  },
+  {
+    "id": "AR02-3",
+    "pattern_id": "AR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "condition_report": ""
+    },
+    "expected": "unknown",
+    "rationale": "The report is empty, so there is no condition to read and the missing-evidence rule applies."
+  },
+  {
+    "id": "AR02-4",
+    "pattern_id": "AR02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "condition_report": "Last night on the highway the check engine light flashed for about a minute, then went steady, and by this morning it was off completely. The car is running totally normal now, no noises or anything. Mostly I need the 60,000-mile service done and just wanted to mention the light while it is in."
+    },
+    "expected": "stop_driving_sign",
+    "rationale": "A flashing warning light is one of the listed stop-driving signs, and the contract says to select stop_driving_sign if any such sign is described anywhere in the report even when the customer says the vehicle seems fine now; the routine service request and the light now being off do not change that."
+  },
+  {
+    "id": "AR03-1",
+    "pattern_id": "AR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "line_description": "Customer states coolant leak. Found lower radiator hose split at the clamp. Replaced lower radiator hose and clamp, refilled and bled coolant, pressure tested system, no leaks found."
+    },
+    "expected": "repair",
+    "rationale": "A part stated to be split is replaced and the leak corrected, which is a repair; the pressure test on the same line does not change that under the stated precedence."
+  },
+  {
+    "id": "AR03-2",
+    "pattern_id": "AR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "line_description": "Customer states intermittent no-start. Tested battery and charging system, scanned all modules for codes, performed starter draw test, wiggle-tested engine harness. Unable to duplicate concern at this time; no parts replaced."
+    },
+    "expected": "diagnosis",
+    "rationale": "The line records testing and scanning to find the cause of a concern with no part replaced and no fault corrected, which is diagnosis."
+  },
+  {
+    "id": "AR03-3",
+    "pattern_id": "AR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "line_description": ""
+    },
+    "expected": "unknown",
+    "rationale": "The line is empty, so no work type can be read."
+  },
+  {
+    "id": "AR03-4",
+    "pattern_id": "AR03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "line_description": "Customer states check engine light on. Scanned for stored codes, found evaporative system small-leak code. Performed smoke test of evap system; smoke observed at fuel filler cap, cap seal torn. Replaced fuel cap, cleared codes, road-tested and re-scanned, no codes returned."
+    },
+    "expected": "repair",
+    "rationale": "The line records diagnostic work (scan, smoke test, road test) and also a part replaced because the line states it was torn; when a line records more than one type the stated precedence selects repair before diagnosis."
+  },
+  {
+    "id": "AR04-1",
+    "pattern_id": "AR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_summary": "Replace front brake pads and rotors; replace cabin air filter. Parts and labor as quoted, vehicle ready by end of day tomorrow.",
+      "customer_message": "Sounds good, please go ahead with everything. I will pick it up Thursday morning."
+    },
+    "expected": "approves",
+    "rationale": "The reply authorizes all of the listed work without exception, so it approves the estimate in full."
+  },
+  {
+    "id": "AR04-2",
+    "pattern_id": "AR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_summary": "Replace front brake pads and rotors; replace cabin air filter. Parts and labor as quoted, vehicle ready by end of day tomorrow.",
+      "customer_message": "Please do the brakes, but skip the cabin filter, I can change that one myself."
+    },
+    "expected": "approves_in_part",
+    "rationale": "The reply authorizes the brake work and declines the cabin filter, which is partial approval rather than full approval or a question."
+  },
+  {
+    "id": "AR04-3",
+    "pattern_id": "AR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_summary": "Replace front brake pads and rotors; replace cabin air filter. Parts and labor as quoted, vehicle ready by end of day tomorrow.",
+      "customer_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The customer's reply is empty, so nothing can be read as approval, decline, or question."
+  },
+  {
+    "id": "AR04-4",
+    "pattern_id": "AR04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "estimate_summary": "1) Replace front brake pads and rotors. 2) Replace cabin air filter. 3) Four-wheel alignment.",
+      "customer_message": "Hi, please go ahead with the brakes and the alignment. When do you think I can pick it up, is same day realistic? Thanks."
+    },
+    "expected": "approves_in_part",
+    "rationale": "The reply authorizes two of the three listed items and omits the cabin air filter, which the contract treats as approving in part; the pickup question does not change the label because a message that authorizes work and also asks a question is classified by what it authorizes."
+  },
+  {
+    "id": "AR05-1",
+    "pattern_id": "AR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "part_description": "Reman alternator, 130 amp, rebuilt to factory specifications with new bearings, brushes, and regulator. Core charge applies. Twelve-month parts warranty."
+    },
+    "expected": "remanufactured",
+    "rationale": "The description states the unit was rebuilt from a previously used core, which is the remanufactured condition regardless of the specification it was rebuilt to."
+  },
+  {
+    "id": "AR05-2",
+    "pattern_id": "AR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "part_description": "Genuine Halvern Motors water pump, new, factory part in manufacturer packaging, with gasket."
+    },
+    "expected": "oem",
+    "rationale": "The description states a genuine, new, vehicle-maker-branded part and no prior use, which is OEM."
+  },
+  {
+    "id": "AR05-3",
+    "pattern_id": "AR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "part_description": ""
+    },
+    "expected": "unknown",
+    "rationale": "The description is empty, so neither an origin nor a condition can be read."
+  },
+  {
+    "id": "AR05-4",
+    "pattern_id": "AR05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "part_description": "Alternator, sold under the vehicle manufacturer's own brand through their factory remanufactured exchange program. Unit is a rebuilt core with new bearings, brushes, and regulator, supplied in original-equipment packaging with the maker's warranty. Not a used pull."
+    },
+    "expected": "remanufactured",
+    "rationale": "The description states both a maker (the vehicle manufacturer's brand) and a prior-use condition (factory remanufactured, rebuilt core), and the contract says to select the condition in that case; 'not a used pull' rules out used, leaving remanufactured."
+  },
+  {
+    "id": "AR06-1",
+    "pattern_id": "AR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "policy_text": "Covered: failure of a covered part caused by a defect in materials or workmanship under normal use. Not covered as wear: gradual deterioration of a part from normal use over time, including wear items such as brake pads, wiper blades, belts, and clutch linings. Not covered as external damage: damage from collision, road hazards, flood, fire, animals, misuse, or repairs performed by others.",
+      "narrative": "Fuel pump stopped delivering pressure. Pump housing is cracked along a mold seam. No impact marks on the tank or pump, no contamination in the fuel, filter clean. Vehicle serviced on schedule and no prior work on the fuel system."
+    },
+    "expected": "defect",
+    "rationale": "The narrative describes a housing cracked at a mold seam with no outside cause and no gradual wear, which matches the policy's defect definition."
+  },
+  {
+    "id": "AR06-2",
+    "pattern_id": "AR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "policy_text": "Covered: failure of a covered part caused by a defect in materials or workmanship under normal use. Not covered as wear: gradual deterioration of a part from normal use over time, including wear items such as brake pads, wiper blades, belts, and clutch linings. Not covered as external damage: damage from collision, road hazards, flood, fire, animals, misuse, or repairs performed by others.",
+      "narrative": "Radiator leaking from the lower core. Fins are pushed in and there is a deep gouge across the lower tank consistent with a road debris strike; the plastic shield beneath it is torn. Coolant is otherwise clean and the cap tests fine."
+    },
+    "expected": "external_damage",
+    "rationale": "The narrative attributes the leak to a road debris strike, which the policy defines as external damage, and describes no defect or wear."
+  },
+  {
+    "id": "AR06-3",
+    "pattern_id": "AR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "policy_text": "",
+      "narrative": "Rear wiper motor stopped working. No corrosion, connector clean, motor draws no current."
+    },
+    "expected": "unknown",
+    "rationale": "The policy text that defines the categories is empty, so the narrative cannot be matched to any definition."
+  },
+  {
+    "id": "AR06-4",
+    "pattern_id": "AR06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "policy_text": "Defect: a flaw in materials or workmanship present when the part left the factory, causing failure under normal operation with no outside cause. Wear: gradual deterioration from normal use over time and mileage, including bearings, bushings, belts, and friction surfaces reaching the end of their service life. External damage: failure caused by an outside event or action, including collision, road debris, flood, fire, animal contact, misuse, or improper repair or installation performed by anyone other than this shop.",
+      "narrative": "Alternator bearing seized at 41,000 miles. Bearing race shows some normal polishing consistent with mileage. Found the serpentine belt tensioner had been replaced by another shop and installed with the belt routed over the wrong pulley, putting a heavy side load on the alternator pulley. In my judgment the incorrect prior belt installation caused the bearing to seize; the polishing did not contribute."
+    },
+    "expected": "external_damage",
+    "rationale": "The narrative mentions both normal wear and an improper prior installation by another shop, which the policy defines as external damage, and it states which one caused the failure; the contract says to select the stated cause when more than one is described and the narrative names the cause."
+  },
+  {
+    "id": "AR07-1",
+    "pattern_id": "AR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "inspection_note": "Right front tire has cords showing on the inner edge. Marked immediate. Advised customer the vehicle should not be driven until the tire is replaced."
+    },
+    "expected": "safety_item",
+    "rationale": "The technician marks the item immediate and as a reason not to drive, which is the safety-item characterization."
+  },
+  {
+    "id": "AR07-2",
+    "pattern_id": "AR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "inspection_note": "Rear brake pads measure 4 mm. Recommend replacement at the next service visit. Rotors within spec, no scoring."
+    },
+    "expected": "recommendation",
+    "rationale": "The note recommends replacement at a future visit and does not mark the item immediate or unsafe, so it is a recommendation, not a safety item."
+  },
+  {
+    "id": "AR07-3",
+    "pattern_id": "AR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "inspection_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The note is empty, so no characterization can be read."
+  },
+  {
+    "id": "AR07-4",
+    "pattern_id": "AR07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "inspection_note": "Left rear tire: 2/32 remaining tread across center groove. Marked FAIL on the inspection sheet. Recommend replacing both rear tires before the customer's road trip next month; other three tires at 6/32."
+    },
+    "expected": "safety_item",
+    "rationale": "The note both marks the item as failed and recommends a replacement; the contract's precedence selects safety_item first when a note contains more than one characterization, and marking the item as failed is one of the listed safety_item characterizations regardless of the measurement itself."
+  },
+  {
+    "id": "AR08-1",
+    "pattern_id": "AR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_text": "Front brake service: pads and rotors (parts) 284.00; labor 1.8 hours at 145.00 per hour, 261.00; shop supplies 12.00. Sales tax not included. Let us know if you would like us to proceed."
+    },
+    "expected": "itemized",
+    "rationale": "Parts and labor are stated as distinct amounts for all priced work, so the estimate is itemized; the arithmetic is not the model's to check."
+  },
+  {
+    "id": "AR08-2",
+    "pattern_id": "AR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_text": "Replace the alternator and the serpentine belt, everything included, 640 out the door. We can have it ready tomorrow afternoon."
+    },
+    "expected": "lump_sum",
+    "rationale": "A single all-inclusive price is stated with no split between parts and labor, which is a lump sum."
+  },
+  {
+    "id": "AR08-3",
+    "pattern_id": "AR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "auto-repair_contract_author",
+    "state": {
+      "estimate_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The estimate text is empty, so there is nothing to classify."
+  },
+  {
+    "id": "AR08-4",
+    "pattern_id": "AR08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "estimate_text": "Front brakes: pads $96 parts, labor $150 (1.2 hours). Resurface rear rotors: no parts required, labor at no charge with the brake job. Four-wheel alignment package: $109 all in. We can have it done by end of day tomorrow."
+    },
+    "expected": "lump_sum",
+    "rationale": "The brake work is itemized and the rotor line states no charge for labor, but the alignment is priced as a single all-in amount without saying how much is parts and how much is labor; the contract says to select lump_sum when some work is itemized and other priced work is given only as a lump sum."
+  }
+]

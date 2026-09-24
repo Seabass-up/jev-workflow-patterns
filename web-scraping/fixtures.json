@@ -1,0 +1,432 @@
+[
+  {
+    "id": "WS01-1",
+    "pattern_id": "WS01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "policy_excerpt": "Northgate Listings (northgate-listings.example) terms of use, data access clause: You may retrieve public listing pages by automated means for research or price-comparison purposes, provided that you send no more than one request every two seconds, identify your crawler with a contact address in its user agent, and attribute Northgate Listings wherever the data is displayed.",
+      "collection_use": "Collect public rental listing pages under /listings/ once a day to build a research dataset of asking rents by neighborhood."
+    },
+    "expected": "permits_with_conditions",
+    "rationale": "The clause allows automated retrieval for research but attaches a rate, an identification, and an attribution condition, so the permission is conditioned."
+  },
+  {
+    "id": "WS01-2",
+    "pattern_id": "WS01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "policy_excerpt": "Harbor Deals (harbordeals.example) terms of service, clause on automated access: You may not use any robot, spider, scraper, or other automated means to access the Service, collect product or pricing information, or reproduce any part of the site.",
+      "collection_use": "Collect product pages and their prices from harbordeals.example each night for a price-tracking service."
+    },
+    "expected": "forbids",
+    "rationale": "The clause prohibits automated collection of product and pricing information outright and offers no way to proceed."
+  },
+  {
+    "id": "WS01-3",
+    "pattern_id": "WS01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "policy_excerpt": "",
+      "collection_use": "Collect event pages from the town calendar at millbrook-events.example for a community listings aggregator."
+    },
+    "expected": "unknown",
+    "rationale": "No policy excerpt is supplied, so nothing can be read about the described use."
+  },
+  {
+    "id": "WS01-4",
+    "pattern_id": "WS01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "policy_excerpt": "Section 4.2 Automated access. Automated collection of listing pages, including by crawler, script, or bulk download, is not permitted. Licensed access to the same listing data is available through the Harborlist Partner Feed; email partners@harborlist.example to enrol.",
+      "collection_use": "Crawl the public boat listing pages on harborlist.example once nightly to collect the asking price, length, model year, and mooring location of each listing, to build a quarterly market-trend dataset."
+    },
+    "expected": "permits_with_conditions",
+    "rationale": "The excerpt prohibits automated collection of the described pages, which points to forbids, but forbids applies only when the excerpt states no way to proceed; here it offers a licensed feed and a contact for enrolment, which the contract lists as conditions (an offered feed, obtaining permission first), so the reading is permits_with_conditions."
+  },
+  {
+    "id": "WS02-1",
+    "pattern_id": "WS02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "target_record_type": "job listing: a posting for one open position with a title, an employer, and a location.",
+      "page_excerpt": "Openings at Ferrowood Logistics. Warehouse Shift Lead, Ferrowood Logistics, Dunmore depot, full time, posted this week. Fleet Dispatcher, Ferrowood Logistics, Dunmore depot, night shift. Apply through the careers portal. Footer: About us, Contact, Privacy."
+    },
+    "expected": "contains_target_record",
+    "rationale": "Two postings with a title, employer, and location appear in the excerpt; the footer boilerplate does not change that."
+  },
+  {
+    "id": "WS02-2",
+    "pattern_id": "WS02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "target_record_type": "product: one item offered for sale with a name, a price, and availability.",
+      "page_excerpt": "Latest from the Kestrel Outfitters blog. How to layer for shoulder-season hiking, by the Kestrel editorial team, six minute read. Trail report: Copper Ridge loop after the spring thaw, four minute read. Read more posts."
+    },
+    "expected": "different_record_type",
+    "rationale": "The excerpt presents blog articles, not items for sale, so the records are of another kind."
+  },
+  {
+    "id": "WS02-3",
+    "pattern_id": "WS02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "target_record_type": "",
+      "page_excerpt": "Upcoming shows at the Larkhall Playhouse. The Lantern Keepers, Friday and Saturday evenings, tickets from twelve dollars."
+    },
+    "expected": "unknown",
+    "rationale": "The target record type is empty, so there is nothing to check the excerpt against."
+  },
+  {
+    "id": "WS02-4",
+    "pattern_id": "WS02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "target_record_type": "Job listing: one open position presented for applicants, with a job title, the hiring employer, a location or remote status, and a way to apply.",
+      "page_excerpt": "Larkspur Analytics to add 40 engineering jobs at Portland office. By Staff Reporter, 12 September 2026. The data firm said on Thursday it will hire about 40 software and data engineers over the next year as it expands its streaming platform. A spokesperson said postings would appear on the company careers site in stages, with the first roles focused on pipeline reliability. The announcement follows a funding round closed in June. Related: Regional tech hiring cools in second quarter."
+    },
+    "expected": "different_record_type",
+    "rationale": "The excerpt is a news article about hiring, with a headline, byline, date, and reporting, not a job listing: no position is presented with a title, location, and application route. The contract classifies records of another kind, such as an article when a listing is targeted, as different_record_type."
+  },
+  {
+    "id": "WS03-1",
+    "pattern_id": "WS03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "field_definition": "current_price: the price the buyer pays for the item now, before shipping and tax.",
+      "extracted_value": "48.00",
+      "source_excerpt": "Corvid Pour-Over Kettle, 1 litre. Was 64.00, now 48.00. Free shipping on orders over 75.00. In stock."
+    },
+    "expected": "matches_field",
+    "rationale": "The excerpt presents 48.00 as the price now, which is what the field is defined to hold."
+  },
+  {
+    "id": "WS03-2",
+    "pattern_id": "WS03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "field_definition": "event_date: the date on which the event takes place.",
+      "extracted_value": "3 March",
+      "source_excerpt": "Posted 3 March. Spring Seed Swap at the Wexley Community Garden, Saturday 19 April, 10 am to 1 pm. Bring labelled seeds to share."
+    },
+    "expected": "related_but_different",
+    "rationale": "The value is a date, but it is the posting date rather than the date the event takes place."
+  },
+  {
+    "id": "WS03-3",
+    "pattern_id": "WS03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "field_definition": "author: the person or organization credited with writing the article.",
+      "extracted_value": "",
+      "source_excerpt": "Council approves new cycle lane on Pierce Street. By Dana Whitcombe, Ashford Gazette staff. Published Tuesday."
+    },
+    "expected": "unknown",
+    "rationale": "The extracted value is empty, so there is no value to judge against the field definition."
+  },
+  {
+    "id": "WS03-4",
+    "pattern_id": "WS03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "field_definition": "author: the name of the person credited as having written the article.",
+      "extracted_value": "R. Okonkwo",
+      "source_excerpt": "Harbour council approves night ferry trial. By Staff Reporter, 14 September 2026. Photograph: R. Okonkwo. The council voted 7-2 on Tuesday to run a six-month trial of a late-night ferry between the harbour and the east pier."
+    },
+    "expected": "related_but_different",
+    "rationale": "The value is a credited person, so it is the kind of thing the author field holds, but the excerpt credits R. Okonkwo for the photograph while the writing credit is Staff Reporter; a different party from the one the definition names is related_but_different, not wrong_kind."
+  },
+  {
+    "id": "WS04-1",
+    "pattern_id": "WS04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "response_text": "Automated access detected. Bulk access to Glenmoor Property Records is not permitted through the public website. Organizations that need records in bulk can apply for a data licence through our Data Services office; details are on the Data Services page."
+    },
+    "expected": "contact_operator",
+    "rationale": "The notice both says automated access is not permitted and offers a licensing route, and the instructions select contact_operator when both are present."
+  },
+  {
+    "id": "WS04-2",
+    "pattern_id": "WS04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "response_text": "404 Page not found. The page you requested at /catalog/2019-spring-lookbook no longer exists. It may have been moved or removed. Return to the home page or use the search box."
+    },
+    "expected": "generic_error",
+    "rationale": "A not-found message addressed to any visitor is a generic error, not a notice to collectors."
+  },
+  {
+    "id": "WS04-3",
+    "pattern_id": "WS04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "response_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "No response text is supplied, so there is nothing to classify."
+  },
+  {
+    "id": "WS04-4",
+    "pattern_id": "WS04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "response_text": "Access denied. Automated traffic from your network has been detected and blocked. If you believe you are seeing this message in error, contact your network administrator. Reference 7F3A-21C."
+    },
+    "expected": "stop_request",
+    "rationale": "The text says automated access has been blocked, which is a stop request. The only contact it mentions is the visitor's own network administrator, not the site operator or an offered channel, so no contact route to the operator exists and the stop-plus-contact precedence that would select contact_operator does not apply."
+  },
+  {
+    "id": "WS05-1",
+    "pattern_id": "WS05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "exclusion_policy": "Keep: business names, business street addresses, business opening hours, and the names of public officials acting in their official role. Exclude: names of private individuals, home addresses, personal contact details, dates of birth, photographs of people, and any health, financial, or family information about a person.",
+      "record": "Listing type: room for rent. Title: Sunny room in shared house near Ashby campus. Posted by: Marta Ellingsen (private landlord). Contact: message through the site or call Marta in the evenings. Address: 14 Larkspur Lane, Ashby. Notes: I am a nurse working nights, so a quiet housemate is ideal."
+    },
+    "expected": "contains_excluded_data",
+    "rationale": "The record names a private individual and gives a home address, both of which the supplied policy excludes."
+  },
+  {
+    "id": "WS05-2",
+    "pattern_id": "WS05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "exclusion_policy": "Keep: business names, business street addresses, business opening hours, and the names of public officials acting in their official role. Exclude: names of private individuals, home addresses, personal contact details, dates of birth, photographs of people, and any health, financial, or family information about a person.",
+      "record": "Listing type: business. Name: Pemberton Hardware. Address: 202 Mill Road, Ashby. Hours: Monday to Saturday, 8 am to 6 pm. Category: hardware store. Note from the town clerk, Rowan Baptiste, in the official roadworks notice: the road outside will be resurfaced next month."
+    },
+    "expected": "personal_data_allowed",
+    "rationale": "The only individual named is a public official acting in an official role, which the policy allows to be kept."
+  },
+  {
+    "id": "WS05-3",
+    "pattern_id": "WS05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "exclusion_policy": "",
+      "record": "Listing type: business. Name: Ashby Bike Repair. Address: 9 Station Approach, Ashby. Hours: Tuesday to Sunday."
+    },
+    "expected": "unknown",
+    "rationale": "No exclusion policy is supplied, so the record cannot be judged against one."
+  },
+  {
+    "id": "WS05-4",
+    "pattern_id": "WS05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "exclusion_policy": "Keep: the name, job title, and work contact details of a person named in an official capacity, such as an event organizer, press contact, or listed agent, where work contact details means an email address or phone number at the organization's own domain or switchboard. Exclude: home addresses, personal mobile numbers, email addresses at general consumer mail providers or otherwise not at the organization's own domain, dates of birth, photographs of people, and any information about a person under 18. Apply this to every field of the record.",
+      "record": "Event: Riverbend Autumn Lantern Walk. Organizer: Riverbend Arts Trust (riverbendarts.example). Contact: Dana Reyes, Programme Lead, dana.reyes.lanterns@freemail.example. Venue: Riverbend Park, north gate. Date: 24 October 2026, 18:30. Free entry; lanterns supplied."
+    },
+    "expected": "contains_excluded_data",
+    "rationale": "Dana Reyes is named in an official capacity, and the name and title are of an allowed kind, but the contact email is at a consumer mail provider rather than the organization's own domain, which the policy excludes. The contract selects contains_excluded_data when allowed and excluded kinds are both present."
+  },
+  {
+    "id": "WS06-1",
+    "pattern_id": "WS06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "extractor_fields": [
+        "title: text of the h1 inside div.product-header",
+        "price: text of span.price-current inside div.buy-box"
+      ],
+      "previous_excerpt": "<div class=\"product-header\"><h1>Corvid Pour-Over Kettle</h1></div><div class=\"buy-box\"><span class=\"price-was\">64.00</span><span class=\"price-current\">48.00</span><button>Add to basket</button></div>",
+      "current_excerpt": "<header class=\"pdp-title\"><h1>Corvid Pour-Over Kettle</h1></header><div class=\"buy-box\"><div class=\"pricing\"><span data-role=\"price\">48.00</span><s>64.00</s></div><button>Add to basket</button></div>"
+    },
+    "expected": "structural_change",
+    "rationale": "The h1 moved out of div.product-header and span.price-current was replaced by a differently named, differently nested element, so both extractor fields lost their anchors."
+  },
+  {
+    "id": "WS06-2",
+    "pattern_id": "WS06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "extractor_fields": [
+        "title: text of the h1 inside div.product-header",
+        "price: text of span.price-current inside div.buy-box"
+      ],
+      "previous_excerpt": "<div class=\"product-header\"><h1>Corvid Pour-Over Kettle</h1></div><div class=\"buy-box\"><span class=\"price-was\">64.00</span><span class=\"price-current\">48.00</span><button>Add to basket</button></div>",
+      "current_excerpt": "<div class=\"product-header\"><h1>Corvid Pour-Over Kettle, 1 litre</h1></div><div class=\"buy-box\"><span class=\"price-was\">64.00</span><span class=\"price-current\">44.50</span><button>Add to basket</button></div>"
+    },
+    "expected": "content_only_change",
+    "rationale": "The same elements carry the title and the price; only the text inside them changed."
+  },
+  {
+    "id": "WS06-3",
+    "pattern_id": "WS06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "extractor_fields": [],
+      "previous_excerpt": "<div class=\"product-header\"><h1>Corvid Pour-Over Kettle</h1></div><div class=\"buy-box\"><span class=\"price-current\">48.00</span></div>",
+      "current_excerpt": "<header class=\"pdp-title\"><h1>Corvid Pour-Over Kettle</h1></header><div class=\"buy-box\"><span data-role=\"price\">48.00</span></div>"
+    },
+    "expected": "unknown",
+    "rationale": "The extractor field list is empty, so there is no way to tell which parts of the page matter."
+  },
+  {
+    "id": "WS06-4",
+    "pattern_id": "WS06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "extractor_fields": [
+        "title: text of h1.product-title",
+        "price: text of span.price-current inside div.buy-box",
+        "availability: text of span.stock-state inside div.buy-box"
+      ],
+      "previous_excerpt": "<h1 class=\"product-title\">Norwood 3-Seat Sofa, Slate</h1><div class=\"buy-box\"><span class=\"label\">Price</span><span class=\"price-current\">$899.00</span><span class=\"stock-state\">In stock</span></div><footer>Copyright 2025 Hearth &amp; Co</footer>",
+      "current_excerpt": "<h1 class=\"product-title\">Norwood 3-Seat Sofa, Slate</h1><div class=\"buy-box\"><span class=\"label\">Now</span><span class=\"price-current\">$849.00</span><span class=\"stock-state\">In stock</span></div><footer>Copyright 2026 Hearth &amp; Co - Cookie settings</footer>"
+    },
+    "expected": "content_only_change",
+    "rationale": "Every element an extractor field is read from (h1.product-title, span.price-current and span.stock-state inside div.buy-box) is still present in the same place with the same class, and only the price value inside one of them changed. The renamed span.label and the footer are not read by any field, so the visible label rename is not a change to an element that carries a field."
+  },
+  {
+    "id": "WS07-1",
+    "pattern_id": "WS07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "entity_type": "venue: a physical place where events are held.",
+      "record_a": "Name: The Old Granary Arts Centre. Address: 3 Wharf St, Bexhill Green. Capacity: 220. Website: oldgranary.example",
+      "record_b": "Venue: Old Granary Arts Ctr, 3 Wharf Street, Bexhill Green. Seats about 220. Bar on site."
+    },
+    "expected": "same_entity",
+    "rationale": "The two records name the same place at the same address and differ only in abbreviation, field order, and completeness."
+  },
+  {
+    "id": "WS07-2",
+    "pattern_id": "WS07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "entity_type": "product: an item offered for sale.",
+      "record_a": "Corvid Pour-Over Kettle, 1 litre, matte black, stainless steel, gooseneck spout, 48.00",
+      "record_b": "Corvid Pour-Over Kettle, 0.6 litre, matte black, stainless steel, gooseneck spout, 39.00"
+    },
+    "expected": "variant_of_same",
+    "rationale": "Both records describe the same kettle line, differing in a size variant, which the instructions treat as a variant rather than one entity."
+  },
+  {
+    "id": "WS07-3",
+    "pattern_id": "WS07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "entity_type": "event: a scheduled public happening at a place and time.",
+      "record_a": "",
+      "record_b": "Spring Seed Swap, Wexley Community Garden, Saturday 19 April, 10 am to 1 pm."
+    },
+    "expected": "unknown",
+    "rationale": "One record is empty, so there is nothing to compare."
+  },
+  {
+    "id": "WS07-4",
+    "pattern_id": "WS07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "entity_type": "Job posting: one open position at one employer in one work location.",
+      "record_a": "Senior Data Engineer. Larkspur Analytics. Portland, OR (hybrid, 3 days on site). Full-time. Posted 2 Sep 2026. Build and maintain streaming pipelines for the analytics platform; 5+ years experience; open until filled.",
+      "record_b": "Sr. Data Engineer | Larkspur Analytics | Seattle, WA (hybrid, 3 days on-site) | Full time | posted Sept 2, 2026 | Build & maintain streaming pipelines for the analytics platform. 5+ yrs experience. Open until filled."
+    },
+    "expected": "different_entity",
+    "rationale": "The wording, abbreviation, and formatting differences alone would make these the same entity, and the shared title and employer tempt a variant reading, but the contract names location as a defining attribute: records that share a name while location differs are different_entity, not variant_of_same."
+  },
+  {
+    "id": "WS08-1",
+    "pattern_id": "WS08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "page_excerpt": "Title: Corvid Pour-Over Kettle, 1 litre | Kestrel Kitchen. H1: Corvid Pour-Over Kettle, 1 litre. Main content: price 48.00, in stock, colour selector (matte black, brushed steel), a six-paragraph product description, a specifications table, 38 customer reviews, and an Add to basket button. Below the main content: a strip titled Customers also viewed with four small product cards."
+    },
+    "expected": "item_page",
+    "rationale": "The main content is one product with its full details; the related-items strip does not make it a listing."
+  },
+  {
+    "id": "WS08-2",
+    "pattern_id": "WS08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "page_excerpt": "Title: Kettles | Kestrel Kitchen. H1: Kettles (27 products). Main content: a filter panel (price, colour, capacity) and a grid of 24 product cards, each with a photo, a name, a price, and a View link; a featured banner for the Corvid Pour-Over Kettle at the top; pagination 1 2 next."
+    },
+    "expected": "listing_page",
+    "rationale": "The main content is a grid of summarized products each linking onward, and a featured banner does not turn it into an item page."
+  },
+  {
+    "id": "WS08-3",
+    "pattern_id": "WS08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "web-scraping_contract_author",
+    "state": {
+      "page_excerpt": ""
+    },
+    "expected": "unknown",
+    "rationale": "No page excerpt is supplied, so the page kind cannot be read."
+  },
+  {
+    "id": "WS08-4",
+    "pattern_id": "WS08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "page_excerpt": "Title: Search: brass hinges - Hollowell Hardware. H1: Search results. Main: We couldn't find anything for \"brass hinges\" (0 results). Check the spelling or try a broader term. [Form: keyword field, department dropdown, Search button]. Browse departments: Door hardware, Fasteners, Hand tools, Garden. Footer: Help, Stores, Privacy."
+    },
+    "expected": "navigation_or_utility",
+    "rationale": "Although this is a search results page, its main content presents no record in summary or in full, only a no-results message, a search form, and a department menu; the contract's listing_page requires a set of records, so the page is navigation_or_utility."
+  }
+]

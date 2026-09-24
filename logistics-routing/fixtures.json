@@ -1,0 +1,402 @@
+[
+  {
+    "id": "LR01-1",
+    "pattern_id": "LR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_note": "Deliveries go to the rear dock off Kestrel Lane. Receiving is open Monday to Friday, 7:00 to 14:30 only; the dock is locked outside those hours."
+    },
+    "expected": "receiving_hours_limited",
+    "rationale": "The note limits receiving to stated hours and days and mentions no booking or entry code."
+  },
+  {
+    "id": "LR01-2",
+    "pattern_id": "LR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_note": "Grey house with the blue mailbox, third on the left after the water tower. Park on the street and text me when you pull up."
+    },
+    "expected": "no_access_constraint",
+    "rationale": "The note gives directions, a parking tip, and an on-arrival contact request, which the instructions exclude from access constraints."
+  },
+  {
+    "id": "LR01-3",
+    "pattern_id": "LR01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR01-4",
+    "pattern_id": "LR01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "address_note": "No appointment needed for this stop, just turn up. Receiving dock takes freight weekdays 07:00 to 14:30 only. The yard gate keypad code is 4471#. Park nose-out beside the blue container so the forklift can get past."
+    },
+    "expected": "receiving_hours_limited",
+    "rationale": "The appointment mention is negated, so the note states no booking requirement and the first tier of the precedence order does not apply. It states both limited receiving hours and an entry code, and the contract's order puts receiving_hours_limited ahead of entry_code_required."
+  },
+  {
+    "id": "LR02-1",
+    "pattern_id": "LR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "window_request": "Please deliver between 9 and 11 on Thursday morning; nobody will be at the shop after that."
+    },
+    "expected": "bounded_window",
+    "rationale": "The request states both an earliest and a latest acceptable time."
+  },
+  {
+    "id": "LR02-2",
+    "pattern_id": "LR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "window_request": "It has to be here before noon on the 14th; earlier is fine."
+    },
+    "expected": "deadline_only",
+    "rationale": "Only a latest acceptable time is stated and the request explicitly allows anything earlier."
+  },
+  {
+    "id": "LR02-3",
+    "pattern_id": "LR02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "window_request": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR02-4",
+    "pattern_id": "LR02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "window_request": "Honestly whenever suits your driver is fine with us, just not before the 14th because the new unit at 8 Kestrel Row won't be ours until then. No rush at all once that's passed."
+    },
+    "expected": "earliest_start_only",
+    "rationale": "The 'whenever' language invites open_ended, but the request qualifies it with 'not before the 14th', which is an earliest acceptable time, and it names no latest time. A request with only an earliest bound is earliest_start_only, and the contract reserves open_ended for requests with no time expression at all."
+  },
+  {
+    "id": "LR03-1",
+    "pattern_id": "LR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "stop_instruction": "Low bridge on the access road, 3.2 m clearance. Send a van or a sprinter, not the box truck."
+    },
+    "expected": "vehicle_restriction",
+    "rationale": "A clearance limit and a banned vehicle type restrict which vehicle can serve the stop."
+  },
+  {
+    "id": "LR03-2",
+    "pattern_id": "LR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "stop_instruction": "Leave the pallets inside the side door on the left, stacked no more than two high, and get a signature from whoever is at the counter."
+    },
+    "expected": "handling_instruction",
+    "rationale": "The text says where to place the goods, how to stack them, and that a signature is needed; it names no vehicle limit and no contact to reach."
+  },
+  {
+    "id": "LR03-3",
+    "pattern_id": "LR03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "stop_instruction": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR03-4",
+    "pattern_id": "LR03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "stop_instruction": "No liftgate needed here, there is a proper dock. Text Priya on the number in the manifest when you are ten minutes out. Stack the cartons no more than four high on the left side of the receiving cage."
+    },
+    "expected": "contact_instruction",
+    "rationale": "The liftgate is mentioned only to say it is not required, so the text states no limit on which vehicle or equipment can serve the stop. It gives both a contact instruction and a handling instruction, and the contract's order selects contact_instruction before handling_instruction."
+  },
+  {
+    "id": "LR04-1",
+    "pattern_id": "LR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "driver_report": "Skipped stop 6 and came back to it after stop 9. Bramble Road was closed at the rail crossing with a detour posted through Fenwick, which added about 25 minutes."
+    },
+    "expected": "road_closure_or_detour",
+    "rationale": "The driver attributes the changed order and delay to a closed road and a posted detour."
+  },
+  {
+    "id": "LR04-2",
+    "pattern_id": "LR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "driver_report": "Left the depot on time but sat in stop-and-go on the ring road for forty minutes after a crash near the Harlow exit. Nothing wrong with the truck and every customer was in."
+    },
+    "expected": "traffic_delay",
+    "rationale": "The stated cause is congestion behind a collision; the driver rules out the vehicle and the customers."
+  },
+  {
+    "id": "LR04-3",
+    "pattern_id": "LR04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "driver_report": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR04-4",
+    "pattern_id": "LR04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "driver_report": "Tyre pressure light came on when I left the yard this morning but I checked it and it is fine, been fine all day. I ran late on stops 4 through 6 because Harrow Lane was shut for resurfacing and the signed detour loops out past the quarry road. Customers were all there and ready."
+    },
+    "expected": "road_closure_or_detour",
+    "rationale": "The warning light is mentioned but the driver explicitly does not attribute the deviation to it, and the contract says to use only the cause the driver states rather than one inferred from the report. The only stated cause is the closed road and posted detour, so the vehicle_problem tier of the precedence order is never reached."
+  },
+  {
+    "id": "LR05-1",
+    "pattern_id": "LR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "reschedule_message": "Tomorrow doesn't work anymore. Can you move the pickup to Friday afternoon, any time between 2 and 5?"
+    },
+    "expected": "proposes_time",
+    "rationale": "The customer names a specific new day and window for the pickup."
+  },
+  {
+    "id": "LR05-2",
+    "pattern_id": "LR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "reschedule_message": "We won't be ready this week after all. What slots do you have next week? Anything works for us, just send me the options."
+    },
+    "expected": "defers_to_company",
+    "rationale": "The customer asks the company to offer options and names no time of their own."
+  },
+  {
+    "id": "LR05-3",
+    "pattern_id": "LR05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "reschedule_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR05-4",
+    "pattern_id": "LR05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "reschedule_message": "Please scrap Friday's delivery slot, we won't have the floor cleared in time. Just send over whatever openings you have and I will pick one that works."
+    },
+    "expected": "defers_to_company",
+    "rationale": "The message cancels the planned visit but asks for a new one, so cancels_visit does not apply. Because it asks the company to offer options and names no day, time, or window, the contract's rule for a cancelled-but-replaced visit selects defers_to_company."
+  },
+  {
+    "id": "LR06-1",
+    "pattern_id": "LR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "order_text": "12 cases of frozen dumplings for the Marrow and Finch Bistro. Keep frozen at minus 18 C or colder for the whole trip; no dry ice is provided."
+    },
+    "expected": "temperature_controlled_declared",
+    "rationale": "The text states a temperature requirement for the goods and declares no hazard."
+  },
+  {
+    "id": "LR06-2",
+    "pattern_id": "LR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "order_text": "Four drums of industrial degreaser and two pallets of shop towels for Larkspur Fabrication. The degreaser is declared as a flammable liquid and the dangerous goods paperwork is attached."
+    },
+    "expected": "hazardous_declared",
+    "rationale": "The text states that part of the order is dangerous goods and names the hazard; it states no temperature requirement."
+  },
+  {
+    "id": "LR06-3",
+    "pattern_id": "LR06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "order_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR06-4",
+    "pattern_id": "LR06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "order_text": "These are not dangerous goods: the cells ship fully discharged and packed under the small-quantity exemption, so no hazard labels apply. Keep the crates between 5 and 25 degrees C and out of direct sun for the whole transit."
+    },
+    "expected": "temperature_controlled_declared",
+    "rationale": "The text states the goods are not dangerous goods, which is a negation rather than a hazard declaration, and the contract forbids inferring a hazard from a product mention like 'cells' alone. It does state that the goods must stay within a temperature range, so it declares temperature control and no hazard."
+  },
+  {
+    "id": "LR07-1",
+    "pattern_id": "LR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "multi_stop_request": "Three drops tomorrow: Orchard Row Cafe, the Tallis Street depot, and Ninefold Bakery. The bakery has to be first because their bread goes out at 7; the other two can go in whatever order suits you.",
+      "stop_list": [
+        "Orchard Row Cafe",
+        "Tallis Street depot",
+        "Ninefold Bakery"
+      ]
+    },
+    "expected": "ordering_constraint",
+    "rationale": "The request requires one named stop to be visited first, which is an ordering constraint on the listed stops."
+  },
+  {
+    "id": "LR07-2",
+    "pattern_id": "LR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "multi_stop_request": "Pickups at the Wexley studio and the Corbel warehouse this week. Any day is fine and they do not need to be on the same run.",
+      "stop_list": [
+        "Wexley studio",
+        "Corbel warehouse"
+      ]
+    },
+    "expected": "no_sequence_constraint",
+    "rationale": "The request names the stops and explicitly places no order or grouping requirement on them."
+  },
+  {
+    "id": "LR07-3",
+    "pattern_id": "LR07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "multi_stop_request": "Please keep the two Hallam sites on the same truck so one driver can do the paperwork for both.",
+      "stop_list": []
+    },
+    "expected": "unknown",
+    "rationale": "The stop list code should have supplied is empty, so the missing-evidence rule applies before any label is considered."
+  },
+  {
+    "id": "LR07-4",
+    "pattern_id": "LR07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "multi_stop_request": "Four drops on the same run please. Any order you like for the three shops, but the Hollins Yard warehouse has to be the first drop, before anything else comes off the truck.",
+      "stop_list": [
+        "Hollins Yard warehouse, 2 Tannery Reach",
+        "Pennywort Bakery, 3 Tallow Lane",
+        "Fernbright Florist, 19 Tallow Lane",
+        "Marlow Street Newsagent, 7 Marlow Street"
+      ]
+    },
+    "expected": "ordering_constraint",
+    "rationale": "Saying the warehouse must be the first drop is an ordering constraint, and the allowance of any order among the other three stops does not remove it. The request also states a grouping constraint (same run), and the contract selects ordering_constraint when both are present."
+  },
+  {
+    "id": "LR08-1",
+    "pattern_id": "LR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_text": "Unit 4B, Pinecrest Business Park, 27 Larch Way, behind the tyre shop."
+    },
+    "expected": "one_location",
+    "rationale": "A unit, a park name, a street address, and a landmark all describe the same single place."
+  },
+  {
+    "id": "LR08-2",
+    "pattern_id": "LR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_text": "Either drop it at the Quill Street office or, if that is closed, at our storage unit on Harrow Lane, whichever is easier for the driver."
+    },
+    "expected": "several_candidates",
+    "rationale": "Two distinct places are offered as alternatives and the text leaves the choice open."
+  },
+  {
+    "id": "LR08-3",
+    "pattern_id": "LR08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics-routing_contract_author",
+    "state": {
+      "address_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-evidence rule applies."
+  },
+  {
+    "id": "LR08-4",
+    "pattern_id": "LR08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "address_text": "Bring it to 9 Kestrel Row in Wexbury, the green door beside the launderette. If nobody answers, the neighbour at 11 Kestrel Row has agreed to take it in."
+    },
+    "expected": "several_candidates",
+    "rationale": "The launderette is landmark detail for 9 Kestrel Row and does not add a place, but 11 Kestrel Row is a second distinct place offered as an alternative destination. The contract counts two distinct places named as alternatives as several candidates, whatever the customer's preference between them."
+  }
+]

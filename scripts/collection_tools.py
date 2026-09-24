@@ -71,7 +71,9 @@ def validate_receipt(receipt, fixture, pattern):
     for value in [answer.get("confidence"), *probabilities.values()]:
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError("invalid probability")
-    if not math.isclose(sum(probabilities.values()), 1, abs_tol=1e-6):
+    # Published probabilities are rounded to two decimals; six options can drift by up to
+    # 0.03 in total. One receipt in 786 (CY03-4, sum 0.99) showed this rounding loss.
+    if not math.isclose(sum(probabilities.values()), 1, abs_tol=0.03):
         raise ValueError("probabilities do not sum to one")
     if probabilities[answer["choice"]] < max(probabilities.values()):
         raise ValueError("choice is not a maximum")

@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.5 · one portable skill
+kicker: Kernel v2.6 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -84,6 +84,10 @@ question quality, or performance on new data.
 
 ## Choose a domain profile
 
+Skill version 2.6.0 adds twenty domain collections of eight profiles each; the
+[collections hub]({{ '/collections/' | relative_url }}) lists them with their screen
+results, and each has a local module in the skill's `references/` folder.
+
 Skill version 2.5.0 adds three collections: [10 call-control profiles]({{ '/controls/' | relative_url }})
 for the code around a call, [8 storytelling profiles]({{ '/storytelling/' | relative_url }})
 for manuscript text, and [8 electrical-contracting profiles]({{ '/electrical/' | relative_url }})
@@ -127,8 +131,8 @@ keeps mailbox evidence and action controls explicit.
 [Iteration 4]({{ '/iterations/04/' | relative_url }})
 
 The four research catalogs supply 120 examples; with the email, bug-hunting,
-human–AI, call-control, storytelling, and electrical collections there are 230
-question profiles, plus three separately counted foundational workflow guides. Match the actual input relationship,
+human–AI, call-control, storytelling, electrical, and twenty domain collections there
+are 390 question profiles, plus three separately counted foundational workflow guides. Match the actual input relationship,
 consumer, and limitations before adapting one. Historical contracts and synthetic
 receipts retain their versions; Kernel v2 does not retroactively requalify them.
 

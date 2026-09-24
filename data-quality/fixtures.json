@@ -1,0 +1,502 @@
+[
+  {
+    "id": "DQ01-1",
+    "pattern_id": "DQ01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "column_definition": "signup_country: the country of the customer's billing address at signup, stored as the full English country name.",
+      "sample_values": [
+        "Canada",
+        "Germany",
+        "Brazil",
+        "Japan",
+        "Canada"
+      ]
+    },
+    "expected": "values_match_definition",
+    "rationale": "Every listed value is a full English country name, which is exactly the concept and representation the definition states."
+  },
+  {
+    "id": "DQ01-2",
+    "pattern_id": "DQ01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "column_definition": "delivery_city: the city named in the delivery address.",
+      "sample_values": [
+        "Ontario",
+        "Bavaria",
+        "Queensland",
+        "Texas",
+        "Hokkaido"
+      ]
+    },
+    "expected": "different_concept",
+    "rationale": "The listed values are provinces, states, and prefectures, a different kind of thing from a city, and cannot be read as cities expressed differently."
+  },
+  {
+    "id": "DQ01-3",
+    "pattern_id": "DQ01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "column_definition": "delivery_city: the city named in the delivery address.",
+      "sample_values": []
+    },
+    "expected": "unknown",
+    "rationale": "No sample values are supplied, so there is nothing to compare with the definition."
+  },
+  {
+    "id": "DQ01-4",
+    "pattern_id": "DQ01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "column_definition": "ship_country: Country of the order's shipping address, stored as an ISO 3166-1 alpha-2 code.",
+      "sample_values": [
+        "DE",
+        "FR",
+        "Germany",
+        "NL",
+        "Lyon",
+        "ES"
+      ]
+    },
+    "expected": "mixed_content",
+    "rationale": "\"Germany\" is the described concept in a different encoding, which the contract still counts as the described concept, but \"Lyon\" is a city, a different kind of thing from a country. Because some listed values are the concept and one is not, the contract's rule selects mixed_content regardless of the representation mismatch that would otherwise pull toward different_representation."
+  },
+  {
+    "id": "DQ02-1",
+    "pattern_id": "DQ02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "entity_type": "organization",
+      "record_a": {
+        "name": "Northwind Fabrication Ltd.",
+        "address": "14 Mill Road, Calder Bridge",
+        "website": "northwind-fab.example",
+        "industry": "Metal fabrication"
+      },
+      "record_b": {
+        "name": "NORTHWIND FABRICATION LIMITED",
+        "address": "14 Mill Rd, Calder Bridge",
+        "website": "www.northwind-fab.example",
+        "industry": "Sheet metal and fabrication"
+      }
+    },
+    "expected": "same_entity",
+    "rationale": "The records differ only in capitalization, abbreviation of the legal suffix and street type, a website prefix, and wording of the industry, so they describe one organization."
+  },
+  {
+    "id": "DQ02-2",
+    "pattern_id": "DQ02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "entity_type": "organization",
+      "record_a": {
+        "name": "Harbor Lane Coffee",
+        "address": "210 Harbor Lane, Port Ellery",
+        "role": "Head office and roastery"
+      },
+      "record_b": {
+        "name": "Harbor Lane Coffee - Station Kiosk",
+        "address": "Platform 2, Port Ellery Station",
+        "role": "Retail outlet operated by Harbor Lane Coffee"
+      }
+    },
+    "expected": "related_but_distinct",
+    "rationale": "Record B describes a kiosk operated by the organization in record A, a part-of relation between two distinct locations rather than one entity or two unrelated ones."
+  },
+  {
+    "id": "DQ02-3",
+    "pattern_id": "DQ02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "entity_type": "product",
+      "record_a": {
+        "name": "Trailhead 40L Backpack, Slate",
+        "sku_note": "Listed in the outdoor catalog"
+      },
+      "record_b": {}
+    },
+    "expected": "unknown",
+    "rationale": "Record B is empty, so there is no second record to compare."
+  },
+  {
+    "id": "DQ02-4",
+    "pattern_id": "DQ02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "entity_type": "organization",
+      "record_a": "Harrowgate Instruments Ltd. Registered office at 14 Kiln Row, Bexford. Founded 1987. Manufactures laboratory balances and moisture analysers. Contact: accounts@harrowgate.example.",
+      "record_b": "Harrowgate Instruments, Northfield Service Centre. 22 Quarry Lane, Northfield. Opened 2014 as one of the company's three regional service sites. Repairs and calibrates Harrowgate balances under the parent company's warranty. Contact: northfield@harrowgate.example."
+    },
+    "expected": "related_but_distinct",
+    "rationale": "Record B describes a service site operated by the organization in record A, a part-of relation the contract routes to related_but_distinct rather than different_entities. The shared name and the different address and founding date are not a spelling or time-change difference, so same_entity does not apply."
+  },
+  {
+    "id": "DQ03-1",
+    "pattern_id": "DQ03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "free_text_value": "Customer says the invoice total does not match the quote they were sent last month.",
+      "proposed_entry": {
+        "code": "BIL-02",
+        "label": "Billing amount dispute",
+        "definition": "The customer disputes the amount charged or invoiced, including a difference from a quote or estimate."
+      },
+      "sibling_entries": [
+        {
+          "code": "BIL-01",
+          "label": "Billing details change",
+          "definition": "The customer asks to change a billing contact, address, or payment method."
+        },
+        {
+          "code": "BIL-03",
+          "label": "Payment failure",
+          "definition": "A payment attempt was declined, failed, or did not go through."
+        }
+      ]
+    },
+    "expected": "fits_proposed_entry",
+    "rationale": "The value describes a disputed invoice amount that differs from a quote, which the proposed entry's definition names explicitly."
+  },
+  {
+    "id": "DQ03-2",
+    "pattern_id": "DQ03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "free_text_value": "Card was declined twice at checkout and the customer wants to know why.",
+      "proposed_entry": {
+        "code": "BIL-02",
+        "label": "Billing amount dispute",
+        "definition": "The customer disputes the amount charged or invoiced, including a difference from a quote or estimate."
+      },
+      "sibling_entries": [
+        {
+          "code": "BIL-01",
+          "label": "Billing details change",
+          "definition": "The customer asks to change a billing contact, address, or payment method."
+        },
+        {
+          "code": "BIL-03",
+          "label": "Payment failure",
+          "definition": "A payment attempt was declined, failed, or did not go through."
+        }
+      ]
+    },
+    "expected": "fits_sibling_entry",
+    "rationale": "A declined card is a failed payment attempt, which does not fit the amount-dispute definition and does fit the payment-failure sibling."
+  },
+  {
+    "id": "DQ03-3",
+    "pattern_id": "DQ03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "free_text_value": "Card was declined twice at checkout and the customer wants to know why.",
+      "proposed_entry": {},
+      "sibling_entries": [
+        {
+          "code": "BIL-03",
+          "label": "Payment failure",
+          "definition": "A payment attempt was declined, failed, or did not go through."
+        }
+      ]
+    },
+    "expected": "unknown",
+    "rationale": "No proposed entry is supplied, so there is no definition to check the value against."
+  },
+  {
+    "id": "DQ03-4",
+    "pattern_id": "DQ03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "free_text_value": "Order was not late at all, it actually came a day early. But the carton was crushed on one side and the corner of the picture frame inside is split.",
+      "proposed_entry": "DLV-LATE: Delivery arrived after the promised date or delivery window.",
+      "sibling_entries": [
+        "DLV-DMG: The item or its packaging arrived damaged.",
+        "DLV-LOST: The delivery never arrived.",
+        "DLV-WRONG: The wrong item or the wrong quantity was delivered."
+      ]
+    },
+    "expected": "fits_sibling_entry",
+    "rationale": "The value contains the word \"late\" only to deny it, stating the delivery was early, so it is not an instance of the proposed entry's definition. It does describe damaged packaging and a damaged item, which sibling DLV-DMG covers, and the contract selects fits_sibling_entry exactly when the value misses the proposed entry and fits a sibling."
+  },
+  {
+    "id": "DQ04-1",
+    "pattern_id": "DQ04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_definition": "spouse_name: full name of the respondent's spouse or partner, collected only when the respondent reports being married or partnered.",
+      "missing_value_note": "Respondent reported single, never married; the spouse question was skipped by design."
+    },
+    "expected": "not_applicable",
+    "rationale": "The note states that the value legitimately does not exist for this respondent because the question did not apply."
+  },
+  {
+    "id": "DQ04-2",
+    "pattern_id": "DQ04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_definition": "arrival_temperature_c: temperature in degrees Celsius recorded by the shipment's data logger at the moment of arrival.",
+      "missing_value_note": "The logger did record a reading on arrival, but the export script truncated the file and the last twelve rows, including this one, came through blank. A re-export has been requested from the carrier."
+    },
+    "expected": "lost_in_processing",
+    "rationale": "The note states that the value was captured and then lost through a truncated export, which is a processing loss rather than a collection gap."
+  },
+  {
+    "id": "DQ04-3",
+    "pattern_id": "DQ04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_definition": "arrival_temperature_c: temperature in degrees Celsius recorded by the shipment's data logger at the moment of arrival.",
+      "missing_value_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The note is empty, so no reason for the missing value is stated."
+  },
+  {
+    "id": "DQ04-4",
+    "pattern_id": "DQ04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "field_definition": "hh_income_band: The household income band the respondent selected from the six listed ranges at question 14 of the paper survey.",
+      "missing_value_note": "The respondent ticked a band on the paper form, but the scanned image of page 3 for this batch came through unreadable and the keying team entered nothing for the field. The enumerator's margin note also says the respondent felt the question did not apply to them because they live in institutional housing with no household income."
+    },
+    "expected": "lost_in_processing",
+    "rationale": "The note gives two reasons: a selected value was garbled in scanning, and the question did not apply to the respondent. The contract's stated order puts lost_in_processing before not_applicable, and the note explicitly states the value was obtained and then lost."
+  },
+  {
+    "id": "DQ05-1",
+    "pattern_id": "DQ05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "change_note": "Adds an optional column preferred_language (text, may be null) to the customers table. No existing column changes name, type, or meaning. Existing exports gain the new column at the end."
+    },
+    "expected": "additive_only",
+    "rationale": "The note describes only the addition of an optional column and states that existing columns, types, and meanings are unchanged."
+  },
+  {
+    "id": "DQ05-2",
+    "pattern_id": "DQ05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "change_note": "From the October load, monthly_revenue (decimal, unchanged) will be reported net of refunds and discounts instead of gross. The column name and type do not change and historical rows are not restated."
+    },
+    "expected": "meaning_change_same_shape",
+    "rationale": "The column keeps its name and type while the basis of calculation changes from gross to net, which is the meaning-change case the instructions rank first."
+  },
+  {
+    "id": "DQ05-3",
+    "pattern_id": "DQ05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "change_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The change note is empty, so no change is described."
+  },
+  {
+    "id": "DQ05-4",
+    "pattern_id": "DQ05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "change_note": "Release 14 adds the value 'refurbished' to the condition column of the listings table. No columns are added, removed, renamed, or retyped. Note for consumers: items that had been refurbished were previously recorded as 'used', so from this release the existing value 'used' covers only items sold without refurbishment; historical rows are not restated."
+    },
+    "expected": "meaning_change_same_shape",
+    "rationale": "Adding a category value would be additive on its own, but the note states that the existing value 'used' now covers a narrower population while the column keeps its name and type, which is a meaning change with the same shape. The contract's order selects meaning_change_same_shape ahead of additive_only, and additive_only also requires existing values to stay unchanged."
+  },
+  {
+    "id": "DQ06-1",
+    "pattern_id": "DQ06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_name": "order_shipped_at",
+      "definition": "Timestamp, in UTC, at which the carrier scanned the first package of the order as picked up. Null until the first pickup scan is received."
+    },
+    "expected": "single_reading",
+    "rationale": "The definition names the event, the time zone, and what happens before the event, so two people would record the same timestamp."
+  },
+  {
+    "id": "DQ06-2",
+    "pattern_id": "DQ06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_name": "unit_price",
+      "definition": "The price of one unit of the product on the order line, in the order currency."
+    },
+    "expected": "admits_two_readings",
+    "rationale": "The definition fixes the unit and currency but not whether the price is before or after line discounts or tax, so two people could record different amounts."
+  },
+  {
+    "id": "DQ06-3",
+    "pattern_id": "DQ06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "field_name": "unit_price",
+      "definition": ""
+    },
+    "expected": "unknown",
+    "rationale": "No definition text is supplied, so there is no wording to judge."
+  },
+  {
+    "id": "DQ06-4",
+    "pattern_id": "DQ06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "field_name": "eligibility_flag",
+      "definition": "Indicates whether the record is eligible. Set to true when the record is eligible and false when it is not eligible."
+    },
+    "expected": "circular_or_empty",
+    "rationale": "Beyond a true/false encoding that the word flag already implies, the wording only restates the field name and never says eligible for what or on what basis, so a reader cannot decide what to record. The contract selects circular_or_empty rather than admits_two_readings when the definition adds nothing beyond the name."
+  },
+  {
+    "id": "DQ07-1",
+    "pattern_id": "DQ07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "flag_context": "Field daily_units_sold, store 41, 14 March: value 1,860 against a typical range of 90 to 140 for this store.",
+      "analyst_note": "Called the store manager: a regional school ordered 1,700 units for an event and collected them in one pickup, and the purchase order reference is attached to the sales record. Value kept as genuine."
+    },
+    "expected": "confirmed_cause",
+    "rationale": "The note names a specific cause and describes how it was confirmed by contacting the store and matching a purchase order, and the recorded action does not change that."
+  },
+  {
+    "id": "DQ07-2",
+    "pattern_id": "DQ07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "flag_context": "Field session_length_minutes, user record 2207-B: value 1,440 against a typical range of 3 to 45.",
+      "analyst_note": "This one is very high, more than thirty times the median. Flagged as an outlier."
+    },
+    "expected": "restates_value_only",
+    "rationale": "The note only remarks on how high the value is and calls it an outlier, offering no cause and recording no action taken with the value."
+  },
+  {
+    "id": "DQ07-3",
+    "pattern_id": "DQ07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "flag_context": "Field session_length_minutes, user record 2207-B: value 1,440 against a typical range of 3 to 45.",
+      "analyst_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The analyst note is empty, so there is nothing to classify."
+  },
+  {
+    "id": "DQ07-4",
+    "pattern_id": "DQ07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "flag_context": "Table sensor_readings, record 88213, field temp_c flagged by the z-score rule; the flagged value was 71.4 in a series that otherwise sits between 18 and 24.",
+      "analyst_note": "Capped at 24.0 for the monthly report so it does not drag the mean. Most likely the known cold-start spike this sensor model produces after a power cycle, though I have not pulled the sensor's event log to check whether it restarted that hour."
+    },
+    "expected": "hypothesis_only",
+    "rationale": "The note records an action but also offers a specific possible cause, and the contract says a note that states a cause and records an action is classified by the cause. The cause is expressly unverified, so it is hypothesis_only rather than confirmed_cause, and the presence of a cause rules out action_without_cause."
+  },
+  {
+    "id": "DQ08-1",
+    "pattern_id": "DQ08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "label_definitions": "COMPLAINT: the customer states dissatisfaction with a product, service, or interaction. REQUEST: the customer asks for an action, information, or a change. PRAISE: the customer expresses satisfaction or thanks.",
+      "escalation_note": "The message is a customer forwarding a news article about a competitor with no comment of their own. None of the three definitions covers a message with no stance and no ask, and there is no 'other' or 'no content' label to use."
+    },
+    "expected": "guideline_gap",
+    "rationale": "The note says that no definition covers the item's case and that a needed label is missing, which is a gap in the guideline rather than an ambiguity in it."
+  },
+  {
+    "id": "DQ08-2",
+    "pattern_id": "DQ08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "label_definitions": "COMPLAINT: the customer states dissatisfaction with a product, service, or interaction. REQUEST: the customer asks for an action, information, or a change. PRAISE: the customer expresses satisfaction or thanks.",
+      "escalation_note": "The definitions are clear, but this message is cut off after 'I wanted to let you know that the delivery' and the rest is missing, so I cannot tell whether it is a complaint or praise."
+    },
+    "expected": "item_lacks_information",
+    "rationale": "The note says the definitions are clear and faults the item itself, which is truncated and so lacks the information needed to apply them."
+  },
+  {
+    "id": "DQ08-3",
+    "pattern_id": "DQ08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "data-quality_contract_author",
+    "state": {
+      "label_definitions": "COMPLAINT: the customer states dissatisfaction with a product, service, or interaction. REQUEST: the customer asks for an action, information, or a change. PRAISE: the customer expresses satisfaction or thanks.",
+      "escalation_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The escalation note is empty, so there is no stated reason to classify."
+  },
+  {
+    "id": "DQ08-4",
+    "pattern_id": "DQ08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "label_definitions": "PRAISE: The message's primary purpose is to express satisfaction with the product or service. COMPLAINT: The message's primary purpose is to express dissatisfaction with the product or service. QUESTION: The message's primary purpose is to ask for information. OTHER: The message has none of the above purposes.",
+      "escalation_note": "Item 4471 opens with two sentences thanking the support team and then spends the rest demanding a refund because the product failed twice. Neither definition addresses a message that does both, and the guideline never says which purpose wins when a message has two. Depending on whether you read 'primary purpose' as the opening sentiment or as the main request, this lands on PRAISE or COMPLAINT."
+    },
+    "expected": "guideline_gap",
+    "rationale": "The note says both that a distinction the item needs (which purpose wins in a mixed message) is not defined and that the definitions can be read two ways giving different labels. The contract's stated order selects guideline_gap ahead of guideline_ambiguity when a note describes more than one."
+  }
+]

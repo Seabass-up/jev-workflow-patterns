@@ -1,0 +1,394 @@
+[
+  {
+    "id": "RE01-1",
+    "pattern_id": "RE01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "listing_claim": "Two-car attached garage with an insulated door.",
+      "property_facts": "Single-family home, 3 bedrooms, 2 bathrooms. Attached garage with two bays; insulated overhead door replaced in 2021. Gas forced-air furnace. Lot 0.24 acre. Zoning R-1."
+    },
+    "expected": "supported",
+    "rationale": "The facts state an attached two-bay garage with an insulated door, which is exactly what the claim asserts."
+  },
+  {
+    "id": "RE01-2",
+    "pattern_id": "RE01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "listing_claim": "Brand-new roof.",
+      "property_facts": "Asphalt shingle roof installed 2009; no replacement recorded. Seller reports one flashing repair in 2022. Furnace replaced 2023. Water heater 2018."
+    },
+    "expected": "contradicted",
+    "rationale": "The record states a 2009 roof with only a repair since, which is inconsistent with the claim that the roof is brand new."
+  },
+  {
+    "id": "RE01-3",
+    "pattern_id": "RE01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "listing_claim": "Fully fenced backyard.",
+      "property_facts": ""
+    },
+    "expected": "unknown",
+    "rationale": "The property facts are empty, so there is nothing to check the claim against."
+  },
+  {
+    "id": "RE01-4",
+    "pattern_id": "RE01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "listing_claim": "Attached two-car garage with an epoxy-coated floor.",
+      "property_facts": "Garage: detached, two bays, 22 x 22 ft, concrete slab with epoxy coating applied 2023; door opener replaced 2021. Driveway: asphalt, resealed 2024. Lot: 0.31 acres, rear fenced."
+    },
+    "expected": "contradicted",
+    "rationale": "The record states the two-car count and the epoxy floor the claim asserts, but it states the garage is detached, which is inconsistent with 'attached'. The contract says that when the record both states and contradicts parts of a claim, contradicted wins over supported."
+  },
+  {
+    "id": "RE02-1",
+    "pattern_id": "RE02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "inquiry_message": "Hello, I saw the listing for the townhouse on Larkspur Court and would love to walk through it this weekend if possible. Saturday morning works best for me."
+    },
+    "expected": "showing_request",
+    "rationale": "The message asks to walk through the property and proposes a time, which is a request to see it."
+  },
+  {
+    "id": "RE02-2",
+    "pattern_id": "RE02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "inquiry_message": "Is the monthly rent on the Maple Row unit firm, and what is the security deposit? The listing did not mention whether utilities are included."
+    },
+    "expected": "pricing_question",
+    "rationale": "The message asks about rent, deposit, and what the price covers; it does not ask to see the property or whether it is available."
+  },
+  {
+    "id": "RE02-3",
+    "pattern_id": "RE02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "inquiry_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The inquiry text is empty, so no request can be read."
+  },
+  {
+    "id": "RE02-4",
+    "pattern_id": "RE02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "inquiry_message": "Hello, I saw the listing for the one-bedroom at 14 Larkspur Court, unit 2, on your site. I don't need a tour; I've been inside that building before. Is the rent at all negotiable, and is the unit still available for a November 1 move-in? Does it come with an assigned parking space?"
+    },
+    "expected": "availability_question",
+    "rationale": "The tour is declined rather than requested, so showing_request does not apply. The message then asks about availability, price, and a feature, and the contract's precedence puts availability_question ahead of pricing_question and property_details_question regardless of sentence order."
+  },
+  {
+    "id": "RE03-1",
+    "pattern_id": "RE03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "report_item": "Deck: The guardrail along the north side is loose and moves several inches when pushed. This is a fall hazard and should be corrected before the deck is used."
+    },
+    "expected": "safety_concern",
+    "rationale": "The inspector's wording calls the item a fall hazard requiring correction before use, which is a stated safety concern."
+  },
+  {
+    "id": "RE03-2",
+    "pattern_id": "RE03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "report_item": "Interior walls: Nail pops and hairline drywall cracks were observed in the upstairs hallway. These are cosmetic and typical of settling; no structural concern was noted."
+    },
+    "expected": "cosmetic",
+    "rationale": "The inspector describes the item as cosmetic and states there is no structural concern, so the wording assigns appearance-only severity."
+  },
+  {
+    "id": "RE03-3",
+    "pattern_id": "RE03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "report_item": ""
+    },
+    "expected": "unknown",
+    "rationale": "There is no report item text to read a severity from."
+  },
+  {
+    "id": "RE03-4",
+    "pattern_id": "RE03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "report_item": "Main electrical panel: two neutral conductors share a single terminal (double-tapped) at three locations. All circuits were functional at the time of inspection and the condition does not present an immediate hazard, but correction requires a licensed electrician."
+    },
+    "expected": "major_defect",
+    "rationale": "The inspector expressly negates a hazard, so safety_concern is not stated as written even though the item is electrical. The wording fits minor_defect (functions but needs repair) and major_defect (repair requires a licensed contractor), and the contract's precedence selects major_defect first."
+  },
+  {
+    "id": "RE04-1",
+    "pattern_id": "RE04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "lease_clause": "Either party may end this Agreement at the close of the initial term by giving the other party written notice at least sixty days before the term ends. If no notice is given, the Agreement continues month to month on the same terms."
+    },
+    "expected": "termination",
+    "rationale": "The clause governs how the lease ends and what happens without notice, which is a termination and renewal topic."
+  },
+  {
+    "id": "RE04-2",
+    "pattern_id": "RE04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "lease_clause": "Tenant shall keep the premises clean and shall promptly report any leak, malfunction, or damage to Landlord. Landlord shall repair the heating, plumbing, and electrical systems at Landlord's expense except for damage caused by Tenant."
+    },
+    "expected": "maintenance",
+    "rationale": "The clause assigns repair and reporting responsibilities for the premises and mentions no rent, ending, or use restriction."
+  },
+  {
+    "id": "RE04-3",
+    "pattern_id": "RE04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "lease_clause": ""
+    },
+    "expected": "unknown",
+    "rationale": "The clause text is empty, so no topic can be read."
+  },
+  {
+    "id": "RE04-4",
+    "pattern_id": "RE04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "lease_clause": "Tenant shall not make alterations, install fixtures, or change or add locks without Landlord's prior written consent. Any alteration Landlord approves shall be maintained by Tenant in good repair for the term of the lease, and Tenant shall repair at Tenant's expense any damage to the premises the alteration causes."
+    },
+    "expected": "maintenance",
+    "rationale": "The clause covers use (restricting alterations and lock changes) and maintenance (assigning responsibility to maintain and repair). Both precedence orders the contract states list maintenance before use, so maintenance applies even though the clause opens as an alterations restriction."
+  },
+  {
+    "id": "RE05-1",
+    "pattern_id": "RE05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "tenant_message": "The bathroom exhaust fan in unit 4B has stopped turning on and the wall switch does nothing. Could someone take a look this week?"
+    },
+    "expected": "repair_request",
+    "rationale": "The message reports a fixture that is not working and asks for service, with no lease or payment content."
+  },
+  {
+    "id": "RE05-2",
+    "pattern_id": "RE05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "tenant_message": "My portal shows a balance of 75 dollars from last month, but I paid the full rent on the first. Can you check whether the payment posted and send me a receipt?"
+    },
+    "expected": "payment_matter",
+    "rationale": "The message concerns a rent payment, a balance, and a receipt; nothing is reported broken and no lease term is asked about."
+  },
+  {
+    "id": "RE05-3",
+    "pattern_id": "RE05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "tenant_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The message is empty, so there is no request to classify."
+  },
+  {
+    "id": "RE05-4",
+    "pattern_id": "RE05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "tenant_message": "Hi, the technician who came out last Tuesday fixed the garbage disposal and it has been working fine since, thank you. I noticed my portal now shows a $95 service-call charge from that visit. Does the lease make me responsible for that, or should it come off my balance?"
+    },
+    "expected": "payment_matter",
+    "rationale": "Nothing is reported broken; the repair is described as complete and working, so repair_request does not apply. The message concerns a charge and a balance and also asks what the lease requires, and the contract's precedence puts payment_matter before lease_question."
+  },
+  {
+    "id": "RE06-1",
+    "pattern_id": "RE06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "disclosure_item": "Roof leaks",
+      "disclosure_text": "Roof: Are you aware of any past or present roof leaks? Yes. A leak at the chimney flashing was repaired in spring 2023 by Ridgeline Roofing; the invoice is available. No leaks since. Plumbing: No known defects. Flooding: None known."
+    },
+    "expected": "addressed",
+    "rationale": "The text answers the roof-leak question with a yes and describes the repair, which is a statement about the named item."
+  },
+  {
+    "id": "RE06-2",
+    "pattern_id": "RE06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "disclosure_item": "Lead-based paint",
+      "disclosure_text": "Structure: No known foundation cracks or settling. Roof: No known leaks. Water: Public water and sewer; no known plumbing defects. Pests: A termite treatment was performed in 2019 with a transferable warranty."
+    },
+    "expected": "omitted",
+    "rationale": "The completed text covers structure, roof, water, and pests but never refers to paint or lead, so the named item is omitted."
+  },
+  {
+    "id": "RE06-3",
+    "pattern_id": "RE06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "disclosure_item": "Flooding",
+      "disclosure_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The disclosure text is empty, so whether the item is addressed cannot be determined."
+  },
+  {
+    "id": "RE06-4",
+    "pattern_id": "RE06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "disclosure_item": "Lead-based paint",
+      "disclosure_text": "Item 9, Lead-based paint or lead-based paint hazards: [ ] Known [ ] Not known [ ] Unknown (no box marked). Item 10, Asbestos: Not known. Item 14, Additional comments: Home was built in 1994. Seller has no knowledge of any lead-based paint or lead-based paint hazards in the home and has no reports or records concerning lead-based paint."
+    },
+    "expected": "addressed",
+    "rationale": "The item's own checkbox line is blank, which alone would be mentioned_without_statement, but the additional-comments text makes a 'none known' statement about lead-based paint, and the contract counts any such statement in the text as addressing the item. Mentioned_without_statement applies only when the text gives no answer anywhere."
+  },
+  {
+    "id": "RE07-1",
+    "pattern_id": "RE07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "offer_message": "Our buyers are offering 412,000 with a ten percent earnest deposit and a 30-day close. The offer is contingent on a satisfactory home inspection within ten days and on the buyers obtaining conventional financing. They are waiving the appraisal contingency."
+    },
+    "expected": "states_contingency",
+    "rationale": "The offer is made subject to inspection and financing conditions; waiving the appraisal does not remove the stated contingencies."
+  },
+  {
+    "id": "RE07-2",
+    "pattern_id": "RE07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "offer_message": "Attached is a cash offer at full asking price with a 21-day close. The buyer has waived all contingencies, including inspection and appraisal, and proof of funds is attached."
+    },
+    "expected": "waives_contingencies",
+    "rationale": "The message expressly waives all contingencies and makes the offer subject to none."
+  },
+  {
+    "id": "RE07-3",
+    "pattern_id": "RE07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "offer_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "There is no offer text, so nothing can be read about contingencies."
+  },
+  {
+    "id": "RE07-4",
+    "pattern_id": "RE07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "offer_message": "On behalf of my clients, please find attached an offer of $612,000 on 87 Windmere Lane. The buyers are paying cash, so there is no financing or appraisal contingency, and they have waived the inspection contingency after their walk-through. Their obligation to close is conditioned only on receiving a clear title commitment from Northgate Title (northgate-title.example) within 10 days of acceptance. We hope this makes for a clean, fast closing."
+    },
+    "expected": "states_contingency",
+    "rationale": "Despite waiving financing, appraisal, and inspection, the message makes the offer subject to a title condition, and the contract says an offer states a contingency if it is subject to any such condition even when it also waives others. 'Conditioned only on' still states a condition rather than stating none."
+  },
+  {
+    "id": "RE08-1",
+    "pattern_id": "RE08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "maintenance_request": "Water is pouring out from under the kitchen sink and I cannot get the shutoff valve to close. The floor is already flooded and it is running into the hallway."
+    },
+    "expected": "emergency_sign",
+    "rationale": "The request describes an active leak with flooding, which is one of the listed emergency signs."
+  },
+  {
+    "id": "RE08-2",
+    "pattern_id": "RE08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "maintenance_request": "The furnace in unit 12 has not turned on since yesterday afternoon. It has been mild outside, around 60 degrees in the daytime, so we are fine for now, but we would like it fixed before the weekend."
+    },
+    "expected": "loss_of_service",
+    "rationale": "Heat has stopped but the request describes mild weather, not freezing conditions, so it is a loss of service rather than an emergency sign."
+  },
+  {
+    "id": "RE08-3",
+    "pattern_id": "RE08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "real-estate_contract_author",
+    "state": {
+      "maintenance_request": ""
+    },
+    "expected": "unknown",
+    "rationale": "The request is empty, so no sign can be read."
+  },
+  {
+    "id": "RE08-4",
+    "pattern_id": "RE08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "maintenance_request": "Unit 3B. The furnace has not come on since last night; the thermostat is set to 68 and the display is lit, but no air is moving and the unit is sitting around 62 degrees. The weather has been mild all week, so we are managing fine with sweaters, but please send someone when you can. Also, the bathroom exhaust fan rattles."
+    },
+    "expected": "loss_of_service",
+    "rationale": "No heat is an emergency sign only while the request describes freezing or very cold weather, and this request describes mild weather, so the furnace outage is a utility that has stopped working with no emergency sign present. Loss_of_service precedes routine, which covers the rattling fan."
+  }
+]

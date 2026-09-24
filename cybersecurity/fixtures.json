@@ -1,0 +1,410 @@
+[
+  {
+    "id": "CY01-1",
+    "pattern_id": "CY01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "reported_message": "Subject: Updated remittance details for invoice 4471. Sender name: Northwind Fixtures Accounts. Hello, Northwind Fixtures has moved to a new bank as of this month. Please update our payee record and send the balance of invoice 4471 to the new account listed in the attached letter before Friday. Attachment: Bank-change-letter.pdf."
+    },
+    "expected": "payment_change_request",
+    "rationale": "The message asks the recipient to change where money is sent; the attachment is mentioned but the payment change wins under the stated precedence."
+  },
+  {
+    "id": "CY01-2",
+    "pattern_id": "CY01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "reported_message": "Subject: New voice message (0:42). Sender name: Voicemail Service. You have a new voice message from an outside caller. Open the attached file VM-0923.htm to listen. Attachment: VM-0923.htm."
+    },
+    "expected": "attachment_open_request",
+    "rationale": "The message urges the recipient to open an attached file to hear a voicemail and asks for no sign-in detail or payment change."
+  },
+  {
+    "id": "CY01-3",
+    "pattern_id": "CY01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "reported_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The reported message is empty, so no ask can be read."
+  },
+  {
+    "id": "CY01-4",
+    "pattern_id": "CY01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "reported_message": "Subject: New voicemail (0:47) is ready. Visible sender: Unified Messaging Service <notifications@voice-portal.example>. Body: You have one new voicemail from an external caller. To listen, open the attached file Voicemail_0047.html and sign in with your mailbox password when prompted; the recording is removed after 24 hours. Attachments: Voicemail_0047.html. Links: none."
+    },
+    "expected": "sign_in_detail_request",
+    "rationale": "The message both urges the recipient to open an attached voicemail file and asks for the mailbox password in the attached form; the contract's precedence order puts sign_in_detail_request ahead of attachment_open_request, and the attachment_open_request criterion applies only when no sign-in detail is requested."
+  },
+  {
+    "id": "CY02-1",
+    "pattern_id": "CY02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "alert_narrative": "Between 02:10 and 02:25 the account svc-backup signed in to host db-02, ran a scheduled job that copied the nightly database export to the storage share, and disconnected.",
+      "stated_context": "A backup job for db-02 runs nightly at 02:00 under the account svc-backup and writes the export to the storage share."
+    },
+    "expected": "fully_accounted_for",
+    "rationale": "Taken as true, the nightly backup job would produce every described sign: the account, the host, the copy to the share, and the time."
+  },
+  {
+    "id": "CY02-2",
+    "pattern_id": "CY02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "alert_narrative": "The account m.okafor signed in from a country not seen before for this account at 03:40, then downloaded about three hundred files from the finance share and created a mailbox rule that forwards all incoming mail to an outside address.",
+      "stated_context": "The user confirmed by phone that she is traveling abroad this week and signed in from her hotel."
+    },
+    "expected": "partly_accounted_for",
+    "rationale": "Travel explains the sign-in from a new country but says nothing about the bulk download or the forwarding rule."
+  },
+  {
+    "id": "CY02-3",
+    "pattern_id": "CY02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "alert_narrative": "The account r.lindqvist ran a password-change command against twelve service accounts within two minutes on host admin-01.",
+      "stated_context": ""
+    },
+    "expected": "unknown",
+    "rationale": "No stated context was supplied, so there is nothing to compare the narrative against."
+  },
+  {
+    "id": "CY02-4",
+    "pattern_id": "CY02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "alert_narrative": "At 03:40 on app-server-07.example, the account deploy-svc modified the web service configuration file and then restarted the web service, which triggered the configuration-change rule.",
+      "stated_context": "Change CHG-2291 was approved for app-server-07.example: deploy-svc updates the web service configuration file and restarts the web service. The approved window was 22:00 to 23:30 the previous evening, and the change record shows the change completed at 23:12."
+    },
+    "expected": "not_accounted_for",
+    "rationale": "The contract says an explanation accounts for a sign only when it would produce it on the same system, by the same account, in the same period; the change matches the system, account, and actions but completed hours before the 03:40 activity, so it produces none of the described signs in that period."
+  },
+  {
+    "id": "CY03-1",
+    "pattern_id": "CY03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "advisory_affected_text": "Affected products: Brightline Gateway Appliance, Standard and Enterprise editions, all builds prior to the fixed release.",
+      "asset_description": "Perimeter device: Brightline Gateway (Enterprise edition), managed by the network team, located in the Harborview data center."
+    },
+    "expected": "same_product_named",
+    "rationale": "The advisory names the same product the asset runs; the edition wording differs only in form."
+  },
+  {
+    "id": "CY03-2",
+    "pattern_id": "CY03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "advisory_affected_text": "Affected products: Brightline Mail Relay, all editions, when the web console is enabled.",
+      "asset_description": "Perimeter device: Brightline Gateway (Enterprise edition), managed by the network team, located in the Harborview data center."
+    },
+    "expected": "no_named_match",
+    "rationale": "The advisory names a different product from the same vendor; the asset description does not mention the mail relay or any component it names."
+  },
+  {
+    "id": "CY03-3",
+    "pattern_id": "CY03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "advisory_affected_text": "Affected products: OpenLedger Sync library, versions before the patched release, when used for scheduled synchronization.",
+      "asset_description": ""
+    },
+    "expected": "unknown",
+    "rationale": "The asset description is empty, so nothing can be matched against the advisory."
+  },
+  {
+    "id": "CY03-4",
+    "pattern_id": "CY03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "advisory_affected_text": "Affected: Tessel TLS Library versions 2.4 through 2.9 when used to terminate HTTPS connections. Any product that embeds the affected library is affected; consult your product vendor for a list of embedding products.",
+      "asset_description": "Marrow Mail Gateway, Standard edition, deployed as a virtual appliance at 192.0.2.40. It provides an HTTPS administration console and inbound mail filtering, and the inventory record states it includes the Pell anti-spam engine and the Larkspur attachment scanner."
+    },
+    "expected": "no_named_match",
+    "rationale": "The advisory names only the Tessel TLS Library, which is neither the asset's own product nor a component the asset description states it includes; the contract binds included_component_named to components the description states, not to what an appliance with an HTTPS console might plausibly embed."
+  },
+  {
+    "id": "CY04-1",
+    "pattern_id": "CY04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "incident_report": "At 09:15 the customer portal became unreachable for all external users after a certificate renewal failed. Internal access continued to work. Service was restored at 10:02 once the certificate was reissued. No customer data was accessed.",
+      "severity_definition": "Severity 1 applies when unauthorized access to customer data is confirmed, or when a customer-facing service is unavailable to all external users."
+    },
+    "expected": "conditions_stated",
+    "rationale": "The definition needs any one condition; the report states as established that a customer-facing service was unavailable to all external users."
+  },
+  {
+    "id": "CY04-2",
+    "pattern_id": "CY04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "incident_report": "A contractor reported that a company laptop was stolen from a parked car overnight. The laptop may hold an export of the customer contact list; the contractor is checking whether the export was still on the disk. Whether disk encryption was enabled is being verified. No service is affected.",
+      "severity_definition": "Severity 1 applies when unauthorized access to customer data is confirmed, or when a customer-facing service is unavailable to all external users."
+    },
+    "expected": "conditions_only_suspected",
+    "rationale": "Access to customer data is raised only as possible and under investigation; nothing the definition requires is stated as established."
+  },
+  {
+    "id": "CY04-3",
+    "pattern_id": "CY04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "incident_report": "A phishing message reached forty mailboxes and was removed by the mail team within an hour. Two users clicked the link; both confirmed they entered nothing on the page.",
+      "severity_definition": ""
+    },
+    "expected": "unknown",
+    "rationale": "No severity definition was supplied, so there are no conditions to check the report against."
+  },
+  {
+    "id": "CY04-4",
+    "pattern_id": "CY04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "incident_report": "At 14:05 the customer order portal (orders.example) became unavailable to all customers and remained down until 15:20; the outage is confirmed and was caused by a failed certificate renewal on the load balancer. Whether any customer records were exposed during the failover is still under investigation, and there is no indication of external access to any production system.",
+      "severity_definition": "Severity 2 applies when any one of the following is established: (a) an external party has gained access to a production system; (b) customer personal data has been exposed outside the organization; (c) a production service used by customers is unavailable."
+    },
+    "expected": "conditions_stated",
+    "rationale": "The definition requires only one of its conditions, and the report states condition (c), customer-facing service unavailability, as confirmed; the data-exposure condition being under investigation does not matter because the definition does not also require it."
+  },
+  {
+    "id": "CY05-1",
+    "pattern_id": "CY05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "requested_access": "Read-only access to the Monthly Billing Reports folder on the finance file share.",
+      "justification": "I have taken over preparing the quarterly revenue reconciliation from Dana, who is leaving. Building it requires reading the monthly billing reports in that folder."
+    },
+    "expected": "scoped_to_stated_task",
+    "rationale": "The justification names specific work, and read-only access to the folder that work uses is what it needs as described."
+  },
+  {
+    "id": "CY05-2",
+    "pattern_id": "CY05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "requested_access": "Domain administrator role in the corporate directory.",
+      "justification": "I need to reset passwords for the three interns on my team when they get locked out, since the help desk is slow on Fridays."
+    },
+    "expected": "broader_than_stated_task",
+    "rationale": "A task is named, but directory-wide administrative rights plainly exceed resetting three team members' passwords."
+  },
+  {
+    "id": "CY05-3",
+    "pattern_id": "CY05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "requested_access": "Write access to the production deployment pipeline for the Harborview payments service.",
+      "justification": ""
+    },
+    "expected": "unknown",
+    "rationale": "No justification was supplied, so there is nothing to classify against the request."
+  },
+  {
+    "id": "CY05-4",
+    "pattern_id": "CY05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "requested_access": "Read-only (SELECT) access to the reporting schema of the payroll reporting database, payroll-reports.example.",
+      "justification": "I am taking over the monthly headcount reconciliation report from Dana Okafor, who leaves at the end of the month; the report is produced by running the saved queries against the reporting schema each month-end. Dana currently holds the same access."
+    },
+    "expected": "scoped_to_stated_task",
+    "rationale": "Although the justification mentions colleague parity, it also names specific work, producing the monthly headcount reconciliation report from the reporting schema, and read-only access to that schema is what the task needs; the contract reserves no_task_stated for justifications that name no specific work."
+  },
+  {
+    "id": "CY06-1",
+    "pattern_id": "CY06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "exception_request": "The lab workstation that drives the spectrometer cannot run the endpoint protection agent because the instrument vendor's driver fails when the agent is installed. We ask for a twelve-month exception. During that period the workstation will be placed on an isolated network segment with no internet access, its removable-media ports will be disabled, and the only file share it uses will be scanned on the server before files reach it.",
+      "policy_requirement": "All workstations must run the endpoint protection agent so that harmful files are detected and blocked before they run."
+    },
+    "expected": "compensating_control_named",
+    "rationale": "The request names specific measures that limit and detect the same exposure the requirement addresses: harmful files reaching and running on the workstation."
+  },
+  {
+    "id": "CY06-2",
+    "pattern_id": "CY06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "exception_request": "The trading-floor kiosks slow down noticeably with the endpoint agent installed and the traders have complained. We ask for a permanent exception. The kiosks are recorded in the asset register and are rebooted every night, so they are well managed.",
+      "policy_requirement": "All workstations must run the endpoint protection agent so that harmful files are detected and blocked before they run."
+    },
+    "expected": "unrelated_measure_named",
+    "rationale": "Inventory records and nightly reboots are measures, but neither limits or detects harmful files running on the kiosks."
+  },
+  {
+    "id": "CY06-3",
+    "pattern_id": "CY06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "exception_request": "",
+      "policy_requirement": "Administrative access to production databases must be requested through the just-in-time access tool and expires after four hours."
+    },
+    "expected": "unknown",
+    "rationale": "The exception request is empty, so nothing is offered in place of the requirement."
+  },
+  {
+    "id": "CY06-4",
+    "pattern_id": "CY06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "exception_request": "We ask to be excused from encrypting the backups of the orders database for six months because encrypted backups break our current restore tooling. In place of encryption we will run a nightly integrity check on every backup file, retain backups for 90 days, and we accept the residual risk; we will comply once the tooling vendor ships encryption support next quarter.",
+      "policy_requirement": "Production database backups must be encrypted at rest. Purpose: to limit disclosure of customer data if backup media or backup storage is accessed by an unauthorized party."
+    },
+    "expected": "unrelated_measure_named",
+    "rationale": "The request names specific measures, nightly integrity checks and 90-day retention, so it is not no_control_named, but those measures address corruption and availability rather than the disclosure exposure the requirement's stated purpose names, and the remaining content is risk acceptance and a promise to comply later, which the contract also classes as unrelated."
+  },
+  {
+    "id": "CY07-1",
+    "pattern_id": "CY07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "log_excerpt": "2026-09-22T14:03:11Z sshd[2210]: Accepted publickey for j.alvarez from 10.20.4.15 port 51522"
+    },
+    "expected": "authentication_success",
+    "rationale": "The event records an accepted sign-in with a verified key."
+  },
+  {
+    "id": "CY07-2",
+    "pattern_id": "CY07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "log_excerpt": "2026-09-22T14:05:40Z auth: user t.ferrand: password rejected; account locked after too many failed attempts, further sign-in attempts refused until unlocked by an administrator"
+    },
+    "expected": "account_lockout",
+    "rationale": "The event describes both a failure and a lockout, and the instructions say lockout wins."
+  },
+  {
+    "id": "CY07-3",
+    "pattern_id": "CY07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "log_excerpt": ""
+    },
+    "expected": "unknown",
+    "rationale": "The log excerpt is empty, so no event outcome can be read."
+  },
+  {
+    "id": "CY07-4",
+    "pattern_id": "CY07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "log_excerpt": "2026-09-22T08:14:03Z portal-auth.example AUTH: password rejected for user m.castellano (reason: credential mismatch) from 198.51.100.23; failed-attempt counter 2 of 5, lockout threshold not reached, account remains enabled."
+    },
+    "expected": "authentication_failure",
+    "rationale": "The event records a rejected credential, and it mentions the lockout threshold only to state that it was not reached and the account remains enabled, so no lockout is described and the failure-plus-lockout rule does not apply; counting toward the threshold is code's job."
+  },
+  {
+    "id": "CY08-1",
+    "pattern_id": "CY08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "question": "Is customer data encrypted at rest, and which parties hold the encryption keys?",
+      "answer": "Yes. All customer data at rest is encrypted using our cloud provider's managed disk encryption. The keys are held in the provider's key management service under our own account; no third party holds keys."
+    },
+    "expected": "responsive",
+    "rationale": "The answer states both facts the question asks for: whether data is encrypted at rest and who holds the keys."
+  },
+  {
+    "id": "CY08-2",
+    "pattern_id": "CY08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "question": "Is customer data encrypted at rest, and which parties hold the encryption keys?",
+      "answer": "Security is at the core of everything we do at Harborview. We are certified against a leading international security standard and undergo annual audits by an independent firm."
+    },
+    "expected": "non_responsive",
+    "rationale": "The answer cites certification and audits in general terms and states neither whether data is encrypted at rest nor who holds keys, without declining."
+  },
+  {
+    "id": "CY08-3",
+    "pattern_id": "CY08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "cybersecurity_contract_author",
+    "state": {
+      "question": "How quickly do you notify customers after confirming a security incident that affects their data?",
+      "answer": ""
+    },
+    "expected": "unknown",
+    "rationale": "The answer is empty, so its relation to the question cannot be classified."
+  },
+  {
+    "id": "CY08-4",
+    "pattern_id": "CY08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "question": "Do you encrypt customer data at rest, and which key management approach do you use (provider-managed keys, customer-managed keys, or bring-your-own-key)? Please state the encryption standard used.",
+      "answer": "We cannot share details of our key management or encryption implementation, as these are covered by our internal security policy and are disclosed only under NDA after contract signature. We can confirm that all customer data is encrypted at rest."
+    },
+    "expected": "partially_responsive",
+    "rationale": "The answer explicitly declines the key-management and encryption-standard parts but states a yes to the at-rest encryption part, and the contract says that when any part is answered the label is partially_responsive, reserving declines_to_answer for a refusal of the whole question."
+  }
+]

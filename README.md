@@ -6,6 +6,28 @@ The project site is built from Markdown with GitHub Pages and GitHub Actions. Th
 
 ## Pages
 
+- [All pattern collections](https://seabass-up.github.io/jev-workflow-patterns/collections/) — hub with screen results
+- [Project management](https://seabass-up.github.io/jev-workflow-patterns/project-management/)
+- [Marketing](https://seabass-up.github.io/jev-workflow-patterns/marketing/)
+- [Construction](https://seabass-up.github.io/jev-workflow-patterns/construction/)
+- [Finance](https://seabass-up.github.io/jev-workflow-patterns/finance/)
+- [Executive](https://seabass-up.github.io/jev-workflow-patterns/executive/)
+- [SEO](https://seabass-up.github.io/jev-workflow-patterns/seo/)
+- [Auto repair](https://seabass-up.github.io/jev-workflow-patterns/auto-repair/)
+- [Auto performance](https://seabass-up.github.io/jev-workflow-patterns/auto-performance/)
+- [Motorsport](https://seabass-up.github.io/jev-workflow-patterns/motorsport/)
+- [Grading](https://seabass-up.github.io/jev-workflow-patterns/grading/)
+- [Human resources](https://seabass-up.github.io/jev-workflow-patterns/human-resources/)
+- [Logistics](https://seabass-up.github.io/jev-workflow-patterns/logistics/)
+- [Logistics routing](https://seabass-up.github.io/jev-workflow-patterns/logistics-routing/)
+- [Networking](https://seabass-up.github.io/jev-workflow-patterns/networking/)
+- [Cybersecurity](https://seabass-up.github.io/jev-workflow-patterns/cybersecurity/)
+- [Web data](https://seabass-up.github.io/jev-workflow-patterns/web-scraping/)
+- [Contracts](https://seabass-up.github.io/jev-workflow-patterns/legal-contracts/)
+- [Real estate](https://seabass-up.github.io/jev-workflow-patterns/real-estate/)
+- [Sales](https://seabass-up.github.io/jev-workflow-patterns/sales/)
+- [Data quality](https://seabass-up.github.io/jev-workflow-patterns/data-quality/)
+
 - [10 call-control profiles](https://seabass-up.github.io/jev-workflow-patterns/controls/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/controls/evaluation/)
 - [8 storytelling profiles](https://seabass-up.github.io/jev-workflow-patterns/storytelling/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/storytelling/evaluation/)
 - [8 electrical-contracting profiles](https://seabass-up.github.io/jev-workflow-patterns/electrical/) · [evaluation](https://seabass-up.github.io/jev-workflow-patterns/electrical/evaluation/)
@@ -47,6 +69,18 @@ is packaged in skill version 2.3.0. Its external catalog links are optional
 reference material; an installed copy does not require this entire repository.
 
 ## Boundaries
+
+Kernel skill version 2.6.0 adds twenty domain collections (160 profiles) authored
+against one written specification, each checked for option overlap before its
+fixtures were frozen, screened with three design cases and one separately authored
+challenge per pattern, and replayed by a shared evaluator. Domain boundaries are
+stated in every collection: HR and grading judge documents and work, never people;
+finance is document classification, not advice; cybersecurity and networking are
+defensive triage; web data collection is compliance and quality, not evasion;
+automotive, construction, and measurement labels are readings of text with every
+numeric comparison and safety or fitness determination left to qualified people
+and code. The [collections hub](https://seabass-up.github.io/jev-workflow-patterns/collections/)
+lists each screen result and provisional patterns.
 
 Kernel skill version 2.5.0 adds three collections with 26 profiles: call controls
 (38/40 synthetic cases matched; CT03 and CT07 provisional), storytelling (27/32;

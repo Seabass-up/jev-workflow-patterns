@@ -35,6 +35,12 @@ class CandidateRegistryTests(unittest.TestCase):
         self.registry["candidates"].append(extra)
         self.rejects("repeats a title")
 
+    def test_every_catalog_contributes_prior_ids(self):
+        for pid in ("B01", "EM01", "BH01", "HA01", "CT01", "ST01", "EL01"):
+            self.assertIn(pid, self.known)
+        self.registry["candidates"][0]["nearest_prior"] = ["CT08", "ST01", "EL02"]
+        self.check()
+
     def test_unknown_prior_rejected(self):
         self.registry["candidates"][0]["nearest_prior"] = ["Z99"]
         self.rejects("unknown prior")

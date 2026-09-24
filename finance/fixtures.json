@@ -1,0 +1,408 @@
+[
+  {
+    "id": "FN01-1",
+    "pattern_id": "FN01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "document_text": "INVOICE No. INV-20419. From: Northwind Office Supply (northwind.example). Bill to: Harbor Analytics, Attn: Accounts Payable. Date: 3 September 2026. Items: 12 cartons A4 copier paper; 40 toner cartridges model TK-3. Subtotal 1,180.00. Tax 94.40. TOTAL DUE 1,274.40. Payment due within 30 days of invoice date."
+    },
+    "expected": "invoice",
+    "rationale": "The text requests payment for listed goods with an amount due, which is the invoice description."
+  },
+  {
+    "id": "FN01-2",
+    "pattern_id": "FN01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "document_text": "CREDIT NOTE CN-0088. Issued by Northwind Office Supply to Harbor Analytics. Reference: original invoice INV-20419 dated 3 September 2026. Reason: 10 toner cartridges returned damaged in transit. Credit amount 295.00 applied against your account balance."
+    },
+    "expected": "credit_note",
+    "rationale": "The text reduces an amount previously invoiced and refers to the original invoice and a return, which is the credit note description."
+  },
+  {
+    "id": "FN01-3",
+    "pattern_id": "FN01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "document_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN01-4",
+    "pattern_id": "FN01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "document_text": "CREDIT NOTE / INVOICE - Document CN-EX-14. From Harlow Fabrication Ltd (billing@harlowfab.example) to Pellwick Interiors. This document credits INV-EX-88 for the 40 brackets returned after they were rejected on inspection. It also bills 120 replacement brackets supplied on the 14th at the agreed unit price, plus delivery. The net amount now due after the credit is shown at the foot; payment terms are as per INV-EX-88. Please remit to the account named on our earlier invoices."
+    },
+    "expected": "invoice",
+    "rationale": "The text both requests payment for newly supplied goods (the replacement brackets and delivery) and credits an earlier invoice, and the contract's stated precedence selects invoice in that case regardless of the credit-note heading."
+  },
+  {
+    "id": "FN02-1",
+    "pattern_id": "FN02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "expense_description": "Lunch with two prospective clients from Meridian Freight to walk through our proposal; business was discussed throughout and the itemized receipt is attached.",
+      "policy_category": {
+        "name": "Client meals",
+        "definition": "Meals with clients or prospective clients at which business is discussed. Excludes meals attended only by employees and any purchase consisting only of alcohol."
+      }
+    },
+    "expected": "within_category",
+    "rationale": "A meal with prospective clients where business is discussed is exactly what the definition includes, and nothing described is excluded."
+  },
+  {
+    "id": "FN02-2",
+    "pattern_id": "FN02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "expense_description": "Dinner with the purchasing lead from Meridian Freight to review the contract terms, plus a separate bar tab later that night for drinks only.",
+      "policy_category": {
+        "name": "Client meals",
+        "definition": "Meals with clients or prospective clients at which business is discussed. Excludes meals attended only by employees and any purchase consisting only of alcohol."
+      }
+    },
+    "expected": "mixed_items",
+    "rationale": "The client dinner falls inside the definition while the drinks-only bar tab is expressly excluded, so the description mixes items inside and outside the category."
+  },
+  {
+    "id": "FN02-3",
+    "pattern_id": "FN02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "expense_description": "Taxi from the airport to the client site and back for the Meridian Freight kickoff meeting.",
+      "policy_category": {}
+    },
+    "expected": "unknown",
+    "rationale": "The policy category is empty, so there is no definition to check the description against and the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN02-4",
+    "pattern_id": "FN02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "expense_description": "Dinner at the hotel restaurant on the first night of the Northbridge site visit, eating alone. The bill is for a main course, a dessert, and a bottle of sparkling water; the menu lists wine pairings but I declined them, so there is no alcohol on this bill. The client team was at a separate dinner across town and nobody from their side joined me.",
+      "policy_category": "Travel meals. Meals and non-alcoholic drinks purchased by the traveller for themselves while away overnight on approved company travel. Excludes alcohol, and excludes any meal shared with a client or prospective client, which belongs under Client Entertainment (not supplied here)."
+    },
+    "expected": "within_category",
+    "rationale": "Read literally, every item on the bill is the traveller's own meal and a non-alcoholic drink while away overnight; the mentions of wine and the client are negations describing what is not on the bill, so nothing falls outside the definition or under either exclusion."
+  },
+  {
+    "id": "FN03-1",
+    "pattern_id": "FN03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "terms_text": "Terms: Net 45 days from date of invoice. A 2% discount may be taken if payment is received within 10 days."
+    },
+    "expected": "net_days",
+    "rationale": "Payment is due a stated number of days after the invoice date; the instructions say a discount plus a net period is still net_days."
+  },
+  {
+    "id": "FN03-2",
+    "pattern_id": "FN03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "terms_text": "Payment terms: 40% deposit on order confirmation, 40% on delivery of the equipment to site, and the remaining 20% on completion of commissioning."
+    },
+    "expected": "installment_schedule",
+    "rationale": "Payment is split into three parts tied to stated milestones, which is the installment schedule description."
+  },
+  {
+    "id": "FN03-3",
+    "pattern_id": "FN03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "terms_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN03-4",
+    "pattern_id": "FN03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "terms_text": "Terms: 30% deposit payable with order confirmation. The remaining 70% is due on receipt of the final invoice, which we issue on despatch. Late balances accrue interest at our standard rate."
+    },
+    "expected": "installment_schedule",
+    "rationale": "The wording states a deposit followed by a balance due later, which the contract explicitly assigns to installment_schedule; the phrase 'on receipt' governs only the second part and does not make the whole expression due_on_receipt."
+  },
+  {
+    "id": "FN04-1",
+    "pattern_id": "FN04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "variance_line": "Freight expense: actual above budget for August.",
+      "explanation_text": "Freight ran over because we switched the Portland shipments to expedited carrier service for the last two weeks of August to hit the Ridgeway Foods launch date. Standard service resumed at the start of September, so we expect the line to return to plan."
+    },
+    "expected": "names_cause",
+    "rationale": "The commentary states a specific decision, using expedited carrier service for a launch, as the driver of the overspend."
+  },
+  {
+    "id": "FN04-2",
+    "pattern_id": "FN04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "variance_line": "Software subscriptions: actual above budget for August.",
+      "explanation_text": "Software subscriptions came in above budget for the month, roughly 12% over the plan figure. This is higher than what we had planned for August and the overage is unfavorable."
+    },
+    "expected": "restates_variance",
+    "rationale": "The commentary repeats the direction and percentage of the variance without naming any event, decision, volume, price, or timing driver."
+  },
+  {
+    "id": "FN04-3",
+    "pattern_id": "FN04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "variance_line": "Contract labor: actual below budget for August.",
+      "explanation_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The explanation text is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN04-4",
+    "pattern_id": "FN04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "variance_line": "Account 6210 Contract labour, cost centre Field Services: actual spend for August was above budget (unfavourable).",
+      "explanation_text": "Contract labour came in over budget for August because costs in this account were higher than the amount we planned. The overspend is unfavourable and is concentrated in the Field Services cost centre, consistent with the ledger. The budget figure itself was set correctly and does not need to change."
+    },
+    "expected": "restates_variance",
+    "rationale": "Despite the causal wording 'because', the text only says spend was higher than planned and repeats the direction and location of the variance; it names no event, decision, volume change, price change, or timing shift that produced it, and it does not say the cause is under investigation."
+  },
+  {
+    "id": "FN05-1",
+    "pattern_id": "FN05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "counterparty_message": "Hello, please note that payment covering your invoices INV-3311 and INV-3315 was released today by bank transfer from Meridian Freight under reference MF-77120. Kindly confirm receipt once it posts to your account."
+    },
+    "expected": "remittance_advice",
+    "rationale": "The sender reports a payment sent and identifies the invoices it covers; the request for confirmation does not change that per the instructions."
+  },
+  {
+    "id": "FN05-2",
+    "pattern_id": "FN05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "counterparty_message": "We received your payment for invoice 5502, but it was short by the fuel surcharge line. The surcharge was quoted on the order and accepted by your buyer, so we do not agree with the deduction. Please let us know how you intend to settle the difference."
+    },
+    "expected": "dispute",
+    "rationale": "The sender contests a short payment and deduction as wrong, which is the dispute description and takes precedence over the implied request for payment."
+  },
+  {
+    "id": "FN05-3",
+    "pattern_id": "FN05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "counterparty_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN05-4",
+    "pattern_id": "FN05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "counterparty_message": "Hello accounts team at Brindlemoor Supplies (ar@brindlemoor.example), this is Tomas at Quillfeather Roasters. Our payment run today included INV-EX-31 and INV-EX-32 in full; the bank reference is our usual QFR prefix followed by the invoice numbers. INV-EX-33 was held back: it charges freight twice, once as its own line and again inside the handling fee, which is not what we agreed, so we will not pay it until a corrected invoice arrives. Please confirm receipt of the two payments when they land."
+    },
+    "expected": "dispute",
+    "rationale": "The message both reports payments sent (remittance advice) and contests the double freight charge on INV-EX-33 as wrong; the contract's stated order selects dispute first when more than one kind applies."
+  },
+  {
+    "id": "FN06-1",
+    "pattern_id": "FN06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "budget_request": "Requesting budget for a Lakeside Analytics data platform subscription for the operations team at 2,400 per month, starting in the first quarter and continuing for the full year."
+    },
+    "expected": "recurring",
+    "rationale": "The request describes a subscription charged per month over the year, which is the recurring description, with no separate initial cost."
+  },
+  {
+    "id": "FN06-2",
+    "pattern_id": "FN06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "budget_request": "Requesting 18,000 to replace the six warehouse label printers in October. This is a single purchase; there are no service, subscription, or maintenance charges attached."
+    },
+    "expected": "one_time",
+    "rationale": "The request describes a single purchase and states there is no repeating charge, which is the one-time description."
+  },
+  {
+    "id": "FN06-3",
+    "pattern_id": "FN06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "budget_request": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN06-4",
+    "pattern_id": "FN06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "budget_request": "Requesting approval for a monthly seat licence for the Larkspur field-scheduling app for the Dispatch team, billed per user per month and renewing automatically until cancelled. The vendor (sales@larkspurapps.example) waived the usual onboarding and setup fee entirely, so there is no initial cost on this request; the first month's charge is the same as every later month. Migration of our existing schedules is done by the vendor at no charge."
+    },
+    "expected": "recurring",
+    "rationale": "The spend is described as per month and renewing, and the request expressly states there is no initial cost, so the setup-fee mention is a negation and recurring_with_initial does not apply."
+  },
+  {
+    "id": "FN07-1",
+    "pattern_id": "FN07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "approval_request": "Purchase of two workstation laptops for the reporting team, total 5,600, requested by Dana Okafor.",
+      "approver_message": "Approved for one laptop now, up to 2,800. Please submit the second as a separate request after the fourth-quarter headcount decision is made."
+    },
+    "expected": "conditional_approval",
+    "rationale": "The approver approves only a reduced scope and amount rather than the request as asked, which is the conditional approval description."
+  },
+  {
+    "id": "FN07-2",
+    "pattern_id": "FN07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "approval_request": "Renewal of the Brightline scheduling software licence for one year at 4,200, requested by Priya Venkataraman.",
+      "approver_message": "Approved as requested. Going forward, please send renewals at least a month ahead so procurement has time to review them."
+    },
+    "expected": "explicit_approval",
+    "rationale": "The message approves the request as asked; the advice about future timing does not restrict this approval, so it is not conditional."
+  },
+  {
+    "id": "FN07-3",
+    "pattern_id": "FN07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "approval_request": "Attendance at the regional logistics conference in November, estimated 1,950 including travel, requested by Tomas Lindqvist.",
+      "approver_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The approver message is empty, so the missing-field rule selects unknown."
+  },
+  {
+    "id": "FN07-4",
+    "pattern_id": "FN07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "approval_request": "Request AR-EX-7 from Dana Okafor (Field Services): approve purchase of twelve ruggedised tablets, one per field crew, from Kestrel Devices (sales@kestreldevices.example), with a two-year protection plan on each.",
+      "approver_message": "Dana, I'm not approving AR-EX-7 as submitted. Twelve units for every crew is more than I can justify this quarter, and I don't think the protection plan earns its cost. If you want to pilot this, write up a new request for the three Dispatch crews only, without the plan, and I'll consider that one on its own merits. Thanks for the detailed quote though."
+    },
+    "expected": "rejection",
+    "rationale": "The message declines the request as asked ('not approving ... as submitted') and only invites a fresh, narrower submission; the contract says a decline is a rejection even when it invites resubmission, so it is neither a conditional approval of a reduced scope nor a deferral."
+  },
+  {
+    "id": "FN08-1",
+    "pattern_id": "FN08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "bank_memo": "ACH DEBIT NRTHWND OFC SUPPLY INV20419",
+      "expected_purpose": "Payment to Northwind Office Supply for invoice INV-20419, office consumables for the Harbor Analytics office."
+    },
+    "expected": "consistent",
+    "rationale": "The memo carries an abbreviated form of the same counterparty name and the same invoice reference, which the instructions treat as consistent."
+  },
+  {
+    "id": "FN08-2",
+    "pattern_id": "FN08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "bank_memo": "WIRE OUT HALCYON PROPERTY MGMT SEPT RENT",
+      "expected_purpose": "Payment to Northwind Office Supply for invoice INV-20419, office consumables for the Harbor Analytics office."
+    },
+    "expected": "inconsistent",
+    "rationale": "The memo names a different counterparty and a rent purpose rather than a supplies invoice, which is the inconsistent description."
+  },
+  {
+    "id": "FN08-3",
+    "pattern_id": "FN08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "finance_contract_author",
+    "state": {
+      "bank_memo": "",
+      "expected_purpose": "Payment to Northwind Office Supply for invoice INV-20419, office consumables for the Harbor Analytics office."
+    },
+    "expected": "unknown",
+    "rationale": "The bank memo is empty, so the missing-field rule selects unknown rather than uninformative, which is reserved for a present memo with no identifying wording."
+  },
+  {
+    "id": "FN08-4",
+    "pattern_id": "FN08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "bank_memo": "CORVANE SOFTWARE LTD - SECURITY DEPOSIT OFFICE SUBLET Q4",
+      "expected_purpose": "Outgoing payment to Corvane Software Ltd (billing@corvane.example) for the annual platform licence renewal, our reference INV-EX-512; the ledger codes it to software subscriptions."
+    },
+    "expected": "inconsistent",
+    "rationale": "The memo names the same counterparty but states a purpose of a different kind (an office sublet security deposit rather than a licence renewal), and the contract's instructions make a purpose of a different kind inconsistent even when the name matches."
+  }
+]

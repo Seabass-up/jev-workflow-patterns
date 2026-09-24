@@ -18,9 +18,23 @@ check its evidence, and test changes. One portable skill now contains authoring,
 evidence/provenance, and evaluation/drift modules, practical JSON examples, and a
 local structural checker. Domain profiles connect it to all 120 research-catalog
 patterns plus 12 email, 48 bug-hunting, 24 human–AI, 10 call-control, 8 storytelling,
-and 8 electrical profiles: 230 question profiles in skill version 2.5.0, separate from
-the three foundational workflows. Version 2.4.0 added a Choice-confidence consistency
-check and option-count threshold guidance; 2.5.0 adds the three newest collections.
+8 electrical, and 160 further domain profiles: 390 question profiles in skill version
+2.6.0, separate from the three foundational workflows. Version 2.4.0 added a
+Choice-confidence consistency check and option-count threshold guidance; 2.5.0 added
+call controls, storytelling, and electrical; 2.6.0 adds twenty domain collections.
+
+## New: twenty domain collections
+
+[Browse the collections hub]({{ '/collections/' | relative_url }}) for 160 profiles across
+project management, marketing, construction, finance, executive decisions, SEO, auto
+repair, auto performance, motorsport measurement, grading, human resources, logistics,
+logistics routing, networking, cybersecurity, web data collection, legal contracts,
+real estate, sales, and data quality. Each collection was authored against one written
+specification, checked for option overlap before its fixtures were frozen, given a
+separately authored challenge per pattern, screened live, and replayed by a shared
+evaluator. The hub shows each screen result; provisional patterns keep their
+disagreements on the collection's evaluation page. Labels are readings of text,
+never decisions about people, money, safety, or law.
 
 ## New: call controls, storytelling, and electrical contracting
 

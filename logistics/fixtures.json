@@ -1,0 +1,386 @@
+[
+  {
+    "id": "LG01-1",
+    "pattern_id": "LG01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "carrier_update": "Exception: delivery attempted, address incomplete. Unit number missing for 14 Wren Court. Package held at the Kestrel Freight Ferncliff depot pending a corrected address from the shipper."
+    },
+    "expected": "address_problem",
+    "rationale": "The update says delivery cannot proceed because the address is incomplete; the package is held, but the stated problem is the address, which outranks delay in the precedence order."
+  },
+  {
+    "id": "LG01-2",
+    "pattern_id": "LG01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "carrier_update": "Severe weather at the Ferncliff sort facility. Shipment 7Q-2231 remains at the facility and is expected to depart on the next available linehaul. The delivery date will be updated."
+    },
+    "expected": "delay",
+    "rationale": "The shipment is still in the carrier's possession and expected to move on; the update reports a hold with no damage, loss, or address problem."
+  },
+  {
+    "id": "LG01-3",
+    "pattern_id": "LG01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "carrier_update": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no exception type can be read."
+  },
+  {
+    "id": "LG01-4",
+    "pattern_id": "LG01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "carrier_update": "TRK-EX-4471 status 09:42: trace closed, package located at the Northgate hub after a misroute. Outer carton found crushed along one side; contents inspection requested before onward movement. Delivery rescheduled to the next business day."
+    },
+    "expected": "damage",
+    "rationale": "The loss label requires that the shipment cannot be located or that tracing stopped without finding it, and here the trace closed because the package was found. Damage and delay both remain reported, and the contract's order places damage before delay."
+  },
+  {
+    "id": "LG02-1",
+    "pattern_id": "LG02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "pod_note": "Delivered 10:42. Signed for by M. Okonkwo at the front door of 22 Larkspur Lane. Package handed directly to the person who answered."
+    },
+    "expected": "handed_to_recipient",
+    "rationale": "A person at the address is recorded as accepting and signing, and the note does not describe that person as a neighbor, staff member, or other third party."
+  },
+  {
+    "id": "LG02-2",
+    "pattern_id": "LG02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "pod_note": "Delivered 15:10. No answer at the door. Left at the side porch behind the planter, out of view from the street. Photo attached."
+    },
+    "expected": "left_unattended",
+    "rationale": "The note records the item placed at a location with no person recorded as accepting it."
+  },
+  {
+    "id": "LG02-3",
+    "pattern_id": "LG02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "pod_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so nothing about the handover can be read."
+  },
+  {
+    "id": "LG02-4",
+    "pattern_id": "LG02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "pod_note": "TRK-EX-2087, attempt at 14:10, Harrowfield Tower lobby. Front desk receptionist reviewed the label, declined to accept on the addressee's behalf, and asked the driver to take the parcel back. Parcel returned to the vehicle; re-attempt scheduled for the next business day."
+    },
+    "expected": "not_delivered",
+    "rationale": "The note records a refusal and a return to the carrier, which the contract says to select as not_delivered regardless of other details. The front desk is mentioned only as the party that declined, not as a person recorded accepting the item, so handed_to_other_person does not apply."
+  },
+  {
+    "id": "LG03-1",
+    "pattern_id": "LG03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "document_text": "PACKING LIST. Shipper: Harlowe Fasteners, Voss Industrial Park. Consignee: Brightmoor Distribution. Carton 1 of 3: 400 hex bolts M8, gross 12.4 kg, 40 x 30 x 20 cm. Carton 2 of 3: 400 hex bolts M10, gross 15.1 kg. Carton 3 of 3: 200 washers, gross 6.0 kg. Total 3 cartons, 33.5 kg."
+    },
+    "expected": "packing_list",
+    "rationale": "The text itemizes contents, counts, weights, and dimensions per carton and states no prices, so it is a packing list."
+  },
+  {
+    "id": "LG03-2",
+    "pattern_id": "LG03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "document_text": "COMMERCIAL INVOICE No. CI-5580. Seller: Harlowe Fasteners. Buyer: Brightmoor Distribution. 800 hex bolts at 0.32 EUR each, 256.00 EUR; 200 washers at 0.05 EUR each, 10.00 EUR. Total 266.00 EUR. Country of manufacture: Ostmark. Gross weight 33.5 kg. I certify that this invoice is true and correct."
+    },
+    "expected": "commercial_invoice",
+    "rationale": "The text states unit prices, a currency, and a total, so it is a commercial invoice even though it also gives a weight and a country of manufacture."
+  },
+  {
+    "id": "LG03-3",
+    "pattern_id": "LG03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "document_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no document type can be read."
+  },
+  {
+    "id": "LG03-4",
+    "pattern_id": "LG03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "document_text": "PACKING LIST AND ORIGIN DECLARATION, ref PL-EX-3308, shipper Tallow Fabrication Ltd. (tallowfab.example), consignee Brindle Retail Co. (brindle.example). Carton 1 of 3: 40 steel brackets model SB-9, gross 18 kg, 60x40x30 cm; carton 2 of 3: 40 steel brackets model SB-9, gross 18 kg, 60x40x30 cm; carton 3 of 3: 12 mounting kits MK-2, gross 6 kg, 40x30x20 cm. Total 3 cartons, gross 42 kg. The undersigned exporter declares that the goods described above were wholly produced in the Republic of Exampleland. Signed T. Varga, Export Manager."
+    },
+    "expected": "packing_list",
+    "rationale": "The text itemizes cartons with contents, counts, weights, and dimensions and states no prices, currency, or value, so the packing_list rule applies. It also carries an exporter's origin attestation, but when a text combines elements of more than one listed type the contract's order selects packing_list before certificate_of_origin."
+  },
+  {
+    "id": "LG04-1",
+    "pattern_id": "LG04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "receiving_note": "PO 4471 from Northgate Foods received 09:15. Paperwork lists 12 cases of oat bars; only 10 cases were on the pallet and the pallet wrap was intact. Cases in good condition. Noted on the delivery receipt with the driver."
+    },
+    "expected": "shortage",
+    "rationale": "The note states fewer cases arrived than the paperwork listed and reports no damage or labeling problem."
+  },
+  {
+    "id": "LG04-2",
+    "pattern_id": "LG04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "receiving_note": "PO 4472 received. All 8 cases present, but two cases on the bottom layer are crushed and leaking syrup. The remaining six are fine. Photos taken and the driver signed the exception."
+    },
+    "expected": "damage",
+    "rationale": "The note states cases arrived crushed and leaking; the count matches, so damage is the discrepancy reported."
+  },
+  {
+    "id": "LG04-3",
+    "pattern_id": "LG04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "receiving_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no discrepancy can be read."
+  },
+  {
+    "id": "LG04-4",
+    "pattern_id": "LG04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "receiving_note": "PO-EX-7720 from Kestrel Supply (kestrel.example): 18 of the 20 cartons on the BOL received, and the driver confirms two cartons were not on the truck. Outer wrap on several cartons is scuffed but every carton opened has intact contents fit to put away. Carton 11 is labeled SKU KS-310 but contains KS-330 per the inner pack labels; held on the dock for the supervisor."
+    },
+    "expected": "mislabel",
+    "rationale": "Scuffed wrap with contents the note calls intact and fit to put away does not meet the damage criterion, which requires units or cartons unfit to put away. Of the two discrepancies the note does report, a shortage and a mislabeled carton, the contract's order places mislabel before shortage."
+  },
+  {
+    "id": "LG05-1",
+    "pattern_id": "LG05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "claim_narrative": "Claim for PO 9012: three ceramic planters arrived broken. On inspection the carton had no cushioning; the planters were loose inside a single-wall box with about 8 cm of empty space. The carton itself shows no crushing or impact marks. We attribute the breakage to inadequate packing by the shipper."
+    },
+    "expected": "packaging_failure",
+    "rationale": "The narrative attributes the damage to inadequate packaging and explicitly notes no impact marks on the carton."
+  },
+  {
+    "id": "LG05-2",
+    "pattern_id": "LG05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "claim_narrative": "Claim for shipment KF-3308. The pallet of monitors arrived with the top layer collapsed and forklift tine punctures through two cartons on the front face. Our photos at tender show the pallet properly wrapped and corner-boarded. The damage occurred while in Kestrel Freight's custody."
+    },
+    "expected": "carrier_handling",
+    "rationale": "The narrative attributes the damage to forklift contact and handling while the carrier had the pallet, and describes the packaging as sound at tender."
+  },
+  {
+    "id": "LG05-3",
+    "pattern_id": "LG05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "claim_narrative": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no stated cause can be read."
+  },
+  {
+    "id": "LG05-4",
+    "pattern_id": "LG05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "claim_narrative": "Claim CLM-EX-518 for shipment TRK-EX-9026, six crates of glass panels from Ferrow Glassworks (ferrow.example) to Lantern Interiors (lantern.example). On arrival three crates contained shattered panels. The inspector notes that one panel showed a hairline crack that predates pickup and that the shipper's foam spacers were thinner than spec, but concludes that the main cause of the loss is the carrier's forklift striking the crates during cross-dock transfer, evidenced by fork punctures through the crate sides. We are filing against the carrier on that basis."
+    },
+    "expected": "carrier_handling",
+    "rationale": "The narrative names a pre-existing crack, thin packaging spacers, and a forklift strike, but explicitly presents the carrier's forklift strike as the main cause. The contract selects the cause the narrative presents as primary before any fallback ordering, so the ordering that would otherwise favor pre_existing does not apply."
+  },
+  {
+    "id": "LG06-1",
+    "pattern_id": "LG06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "order_note": "Please keep the cartons upright and do not stack anything on top of them. Ship with cold packs; the enzyme samples must stay between 2 and 8 degrees until they arrive."
+    },
+    "expected": "handling_instruction",
+    "rationale": "The note asks for orientation, stacking, and temperature handling of the goods."
+  },
+  {
+    "id": "LG06-2",
+    "pattern_id": "LG06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "order_note": "Deliver to the loading dock at the rear of the building, not the front lobby. The dock is open 7 to 3. Have the driver call the receiving desk when about 30 minutes out."
+    },
+    "expected": "delivery_instruction",
+    "rationale": "The note specifies where, when, and how to deliver and asks for no special handling of the goods."
+  },
+  {
+    "id": "LG06-3",
+    "pattern_id": "LG06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "order_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no instruction can be read."
+  },
+  {
+    "id": "LG06-4",
+    "pattern_id": "LG06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "order_note": "Please deliver to the rear loading dock on Ferris Lane rather than the front entrance; the dock is open 7 to 3, the bell is at bay 3, and the driver should ask for the receiving desk. The pallets need to stay upright and must not be double-stacked on the truck. Thanks for the quick turnaround on the last order."
+    },
+    "expected": "handling_instruction",
+    "rationale": "Most of the note is a delivery instruction about location, hours, and access, but it also asks that the pallets stay upright and not be double-stacked, which is an instruction about orientation and stacking. The contract says a note containing both kinds of instruction is labeled handling_instruction."
+  },
+  {
+    "id": "LG07-1",
+    "pattern_id": "LG07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "supplier_message": "Regarding PO 7731, line 2: the 500 stainless hinges are on backorder from our mill. We expect stock in about three weeks and will ship the full quantity then. Lines 1 and 3 shipped today as planned."
+    },
+    "expected": "backorder_notice",
+    "rationale": "The supplier states the ordered item will ship later and offers no different item, and nothing is cancelled."
+  },
+  {
+    "id": "LG07-2",
+    "pattern_id": "LG07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "supplier_message": "Regarding PO 7731, line 2: the 76 mm stainless hinge is discontinued. We can supply the 80 mm version at the same unit price; it uses the same screw pattern. Please confirm whether we should ship the 80 mm hinges instead."
+    },
+    "expected": "substitution_proposal",
+    "rationale": "The supplier offers a different item for the buyer's acceptance; the message explains unavailability but does not cancel the line."
+  },
+  {
+    "id": "LG07-3",
+    "pattern_id": "LG07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "supplier_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no announcement can be read."
+  },
+  {
+    "id": "LG07-4",
+    "pattern_id": "LG07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "supplier_message": "Re PO-EX-4410, line 2 (VX-200 controller, qty 40): we have closed this line on our side because the VX-200 has been discontinued by the manufacturer and will not be supplied. The successor model VX-210 is in stock at the same unit price and we would be glad to ship it right away; please raise a new PO for it if that suits. Lines 1 and 3 are unaffected and ship Thursday as confirmed."
+    },
+    "expected": "cancellation",
+    "rationale": "The message states that a line is closed and will not be fulfilled, and the contract selects cancellation even when the supplier suggests reordering something else. The successor-model offer therefore does not make it a substitution_proposal, and the shipment confirmation for other lines does not make it other_update."
+  },
+  {
+    "id": "LG08-1",
+    "pattern_id": "LG08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "breach_note": "Order 5519 was committed for Tuesday and delivered Thursday. The Ferncliff hub closed Monday and Tuesday because of a severe ice storm, so the trailer did not depart until Wednesday morning. No handling issues on our side."
+    },
+    "expected": "external_event",
+    "rationale": "The note attributes the miss to severe weather closing the hub, which is the first cause in the chain it describes."
+  },
+  {
+    "id": "LG08-2",
+    "pattern_id": "LG08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "breach_note": "Order 5520 missed the next-day commitment. Our pick wave finished after the carrier cutoff, so the parcel was tendered a day late. The carrier delivered on time from its pickup."
+    },
+    "expected": "origin_processing",
+    "rationale": "The note attributes the miss to late picking and a missed cutoff on the shipper's side before handover."
+  },
+  {
+    "id": "LG08-3",
+    "pattern_id": "LG08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "logistics_contract_author",
+    "state": {
+      "breach_note": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no stated cause can be read."
+  },
+  {
+    "id": "LG08-4",
+    "pattern_id": "LG08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "breach_note": "SVC-EX-1193, pallet to Corvin Assembly (corvin.example), committed Tuesday, delivered Wednesday. Our warehouse tendered the pallet after the carrier's 16:00 Friday cutoff, so it did not leave until Monday's linehaul; that truck then missed its connection at the Marlow hub, which pushed delivery to Wednesday. No weather or road issues were reported and the consignee was open and ready to receive."
+    },
+    "expected": "origin_processing",
+    "rationale": "The note gives a chain of causes whose first link, as the note states it, is the late tender past the carrier's cutoff, which the contract categorizes as origin processing. The missed hub connection is a downstream link rather than the first cause, and the note explicitly rules out external and recipient-side causes."
+  }
+]

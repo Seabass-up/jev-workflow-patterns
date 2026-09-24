@@ -40,6 +40,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Frozen question catalog]({{ '/controls/catalog.json' | relative_url }}) and [40 fixtures]({{ '/controls/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/controls/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/controls/test_evaluate.py)
 - [Pre-inference overlap review]({{ '/controls/results/overlap-review.json' | relative_url }})
+- [Source support review]({{ '/controls/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

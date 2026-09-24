@@ -1,0 +1,28 @@
+{
+  "title": "Logistics routing: patterns for stops, windows, and driver reports",
+  "short": "Logistics routing",
+  "description": "Eight question contracts for routing text: access constraints in address notes, window expressions, stop instructions, driver-reported deviation causes, reschedule requests, hazardous or temperature-controlled declarations, multi-stop sequence constraints, and address candidates.",
+  "families": [
+    {
+      "key": "stops",
+      "label": "Stops and addresses"
+    },
+    {
+      "key": "windows",
+      "label": "Windows and sequence"
+    },
+    {
+      "key": "reports",
+      "label": "Driver reports"
+    }
+  ],
+  "lead": "A dispatch desk and its routing software read free text all day: an address note with a gate code or dock hours, a customer asking for a window, a stop note that bans box trucks, a driver explaining why stop six came after stop nine. These eight contracts classify that text so code can file it, extract the expression, or encode the rule. They are synthetic, task-authored designs and their labels are advisory. Distance, time, capacity, and sequencing are computed in code, and the model never chooses a route.",
+  "bundle": "Start with LR01 (access constraint), LR03 (stop instruction kind), and LR08 (address candidates) when stops are entered, with exact codes, fleet dimensions, and geocoding in code. Add LR02 (window kind) and LR05 (reschedule intent) at the calendar, where code copies the verbatim expression and resolves it. LR07 (sequence constraint) and LR06 (goods declaration) join once the solver and the product master are wired in.",
+  "boundary": "A label is a reading of text, not a routing decision. Code computes distance, time, capacity, and stop sequence, resolves every date and time expression, matches vehicle restrictions against exact fleet data, stores codes and contact details as exact strings, and measures delays from telematics. The product master and the carrier's regulatory and driver-qualification rules classify hazardous and temperature-controlled goods; LR06 only flags what the order text declares. The dispatcher's own adjustment and the customer's confirmation override any label.",
+  "extra_results": [
+    {
+      "label": "Source support review",
+      "path": "results/source-review.json"
+    }
+  ]
+}

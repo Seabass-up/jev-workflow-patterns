@@ -1,0 +1,394 @@
+[
+  {
+    "id": "NW01-1",
+    "pattern_id": "NW01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "ticket_text": "Since about 9am I cannot open intranet.corp.example or the team wiki by name; the browser says the server's address could not be found. If I type the wiki's numeric address 10.42.7.15 it loads fine. Wi-Fi shows connected and email is working."
+    },
+    "expected": "name_resolution",
+    "rationale": "Names fail to resolve while a numeric address works and email still flows, which is the name lookup situation, not a total loss of connectivity."
+  },
+  {
+    "id": "NW01-2",
+    "pattern_id": "NW01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "ticket_text": "The VPN client on my laptop reaches the gateway and then immediately says 'authentication failed, check your credentials'. I reset my password this morning and it still fails every time. The office Wi-Fi works normally."
+    },
+    "expected": "authentication_or_access",
+    "rationale": "A network service rejects the requester's credentials; the gateway is reachable, so this is a credential rejection rather than connectivity loss."
+  },
+  {
+    "id": "NW01-3",
+    "pattern_id": "NW01",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "ticket_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no symptom can be read."
+  },
+  {
+    "id": "NW01-4",
+    "pattern_id": "NW01",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "ticket_text": "Since Monday the softphone calls from my desk have been choppy and intranet pages take a long time to load. Separately, this morning my laptop can see the office wireless network in the list but will not stay joined; it drops every few minutes and I have to rejoin. My password was accepted every time it reconnected, so it is not a login problem."
+    },
+    "expected": "wireless_association",
+    "rationale": "The text reports two symptoms, latency_or_packet_loss and wireless_association, and the contract's precedence order places wireless_association ahead of latency_or_packet_loss. The remark that the password was accepted negates a credential rejection rather than describing one, so authentication_or_access does not apply."
+  },
+  {
+    "id": "NW02-1",
+    "pattern_id": "NW02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "change_request": "Please add a rule on the DMZ firewall pair permitting TCP 8443 from the partner range 203.0.113.0/24 to the new API host api-gw-2.dmz.example. No other traffic should change. Requested window: Thursday 22:00 to 23:00."
+    },
+    "expected": "firewall_policy_change",
+    "rationale": "The request adds a rule that permits traffic and changes nothing else, which is a firewall policy change."
+  },
+  {
+    "id": "NW02-2",
+    "pattern_id": "NW02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "change_request": "Replace the failed 10G optic in port 47 of switch dist-sw-3 in the Harbor Street data hall with the spare from the parts cabinet, then bring the port back up and confirm the uplink to core-1 is forwarding again."
+    },
+    "expected": "physical_change",
+    "rationale": "Hardware is replaced; the port re-enable is incidental and the stated precedence puts physical work first."
+  },
+  {
+    "id": "NW02-3",
+    "pattern_id": "NW02",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "change_request": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no change type can be read."
+  },
+  {
+    "id": "NW02-4",
+    "pattern_id": "NW02",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "change_request": "Please update the internal zone so portal.example resolves to the new web tier at 198.51.100.20, and add a permit rule on the DMZ firewall allowing TCP 443 from the internet zone to that address. No hardware, cabling, or optics are involved, and the default route and existing VLAN assignments remain untouched."
+    },
+    "expected": "firewall_policy_change",
+    "rationale": "The request describes two change types, a DNS record update and a firewall permit rule, while physical and routing changes are explicitly negated rather than requested. Among the types actually described, the precedence order places firewall_policy_change before dns_record_change."
+  },
+  {
+    "id": "NW03-1",
+    "pattern_id": "NW03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "maintenance_notice": "Maintenance notice: On Saturday 27 September between 01:00 and 03:00 local time we will replace the primary router at the Riverside campus. All Riverside users will lose wired and wireless connectivity for up to 20 minutes during the cutover. The Lakeside and Hillcrest sites are not affected."
+    },
+    "expected": "affected_scope_stated",
+    "rationale": "The notice names the affected site and user group and says what they will experience; the no-impact statement for other sites does not change that."
+  },
+  {
+    "id": "NW03-2",
+    "pattern_id": "NW03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "maintenance_notice": "Maintenance notice: Firmware on core switch cs-2 at the Elm Street data hall will be upgraded on Sunday 5 October from 02:00 to 04:00. Change ticket CHG-4471. Contact the network operations desk with questions."
+    },
+    "expected": "scope_not_stated",
+    "rationale": "The notice names the equipment and window but never says which sites, services, or users will be affected or what they will experience, and does not claim no impact."
+  },
+  {
+    "id": "NW03-3",
+    "pattern_id": "NW03",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "maintenance_notice": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so there is no notice to read."
+  },
+  {
+    "id": "NW03-4",
+    "pattern_id": "NW03",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "maintenance_notice": "Firmware upgrade on the Riverside edge router pair, Saturday 01:00 to 03:00 local time. The routers will be upgraded one at a time and the procedure is expected to be hitless; no user-visible interruption is expected for Riverside staff or for internet access. Note that the site-to-site tunnel to Harbor Point will drop for roughly two minutes during each failover, so Harbor Point users will briefly lose access to applications hosted at Riverside."
+    },
+    "expected": "affected_scope_stated",
+    "rationale": "The notice states no impact for Riverside users but an expected two-minute interruption for Harbor Point users and says what they will experience. The contract says a notice that states an interruption for some scope and no impact for other scopes is affected_scope_stated, so the prominent no-impact language does not yield no_impact_expected."
+  },
+  {
+    "id": "NW04-1",
+    "pattern_id": "NW04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "log_message": "Sep 23 04:12:51 edge-rtr-1 %LINK-3-UPDOWN: Interface GigabitEthernet0/0/2, changed state to down"
+    },
+    "expected": "link_state_change",
+    "rationale": "The line reports an interface changing state to down, which is a link state change."
+  },
+  {
+    "id": "NW04-2",
+    "pattern_id": "NW04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "log_message": "2026-09-23T09:41:07Z core-sw-2 mgd[1188]: UI_COMMIT: User 'ops-mira' requested 'commit' operation (comment: add vlan 240 for lab)"
+    },
+    "expected": "configuration_change",
+    "rationale": "The line reports a user committing configuration, which is a configuration change rather than a link or login event."
+  },
+  {
+    "id": "NW04-3",
+    "pattern_id": "NW04",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "log_message": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so there is no line to classify."
+  },
+  {
+    "id": "NW04-4",
+    "pattern_id": "NW04",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "log_message": "2026-09-21T02:14:07Z dist-sw-02.example cfgd[311]: commit 'edge-trim' by user netops (ssh from 192.0.2.44) applied 3 lines; interface ge-0/0/3 state changed Up -> AdminDown"
+    },
+    "expected": "configuration_change",
+    "rationale": "The single line reports both a configuration commit by a user and an interface state change. The contract's precedence order for a line reporting more than one kind of event places configuration_change before link_state_change."
+  },
+  {
+    "id": "NW05-1",
+    "pattern_id": "NW05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "advisory_product_text": "Affected products: Meridian NX 4000 series switches running MeridianOS 8.x and 9.x, and Meridian NX 9000 series switches running MeridianOS 9.x. Not affected: Meridian Edge 200 series access switches.",
+      "inventory_text": "Deployed: Meridian NX 4000 series switches (12 units, distribution layer), Corvex Wave 5 access points (140 units), Halden FW-60 firewalls (2 units)."
+    },
+    "expected": "family_matches",
+    "rationale": "The advisory names the Meridian NX 4000 series and the inventory names the same series as deployed; versions are left to code."
+  },
+  {
+    "id": "NW05-2",
+    "pattern_id": "NW05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "advisory_product_text": "Affected products: Halden FW-90 and FW-120 firewall appliances running HaldenOS 6.2 through 6.4.",
+      "inventory_text": "Deployed: Talvik SG-300 firewalls (2 units), Meridian NX 4000 series switches (12 units), Corvex Wave 5 access points (140 units)."
+    },
+    "expected": "family_differs",
+    "rationale": "The advisory names Halden firewall lines and the inventory names only a different vendor's firewalls and other families."
+  },
+  {
+    "id": "NW05-3",
+    "pattern_id": "NW05",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "advisory_product_text": "Affected products: Halden FW-90 and FW-120 firewall appliances running HaldenOS 6.2 through 6.4.",
+      "inventory_text": ""
+    },
+    "expected": "unknown",
+    "rationale": "The inventory description is empty, so no comparison is possible."
+  },
+  {
+    "id": "NW05-4",
+    "pattern_id": "NW05",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "advisory_product_text": "Affected products: Corvid 9000 series switches running CorvidOS releases 4.2 through 4.8. Not affected: Corvid 3000 series access switches, and any Corvid 9000 unit running CorvidOS 5.0 or later.",
+      "inventory_text": "Deployed: Corvid 9000 series core switches at both data centers, all on CorvidOS 5.1; Ridgeline 7000 series routers at the internet edge; Ridgeline access points across all offices."
+    },
+    "expected": "family_matches",
+    "rationale": "The advisory names the Corvid 9000 series and the inventory names that same family as deployed, which is all the contract asks. Whether the deployed 5.1 release falls inside or outside the affected 4.2 to 4.8 range is a version comparison the contract reserves for code and excludes from this judgment, so the advisory's own not-affected clause does not turn the label into family_differs."
+  },
+  {
+    "id": "NW06-1",
+    "pattern_id": "NW06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "runbook_step": "Step 4: On dist-sw-3, save the running configuration to flash as pre-change-0923.cfg, then shut down interface Te1/0/47 to isolate the faulty optic. To reverse this step, issue no shutdown on Te1/0/47 or restore pre-change-0923.cfg from flash."
+    },
+    "expected": "undo_stated",
+    "rationale": "The step changes interface state and names both the command and the saved configuration that reverse it."
+  },
+  {
+    "id": "NW06-2",
+    "pattern_id": "NW06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "runbook_step": "Step 6: Apply the new access list PARTNER-IN to the outside interface of fw-edge-1 and delete the old list PARTNER-IN-OLD from the device. Confirm the partner test transaction succeeds."
+    },
+    "expected": "undo_not_stated",
+    "rationale": "The step changes policy state and deletes the old list without saying how the change would be reversed."
+  },
+  {
+    "id": "NW06-3",
+    "pattern_id": "NW06",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "runbook_step": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so there is no step to read."
+  },
+  {
+    "id": "NW06-4",
+    "pattern_id": "NW06",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "runbook_step": "Step 4: Confirm that the pre-change backup dist-sw-02-prechange.cfg is present on flash and matches the running configuration, and record its checksum in the change ticket. Wait for the change lead's go-ahead in the bridge channel before continuing to step 5."
+    },
+    "expected": "no_state_change",
+    "rationale": "The step only verifies, records, and waits, which the contract says changes no device, service, or record state. Naming a saved configuration inside a verification step does not make the step a state change with a stated undo, so undo_stated does not apply."
+  },
+  {
+    "id": "NW07-1",
+    "pattern_id": "NW07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "user_report": "Nobody at the Westgate office can get online this morning. Wired desktops, laptops on Wi-Fi, and the reception phones are all down. I called the Northfield office and they say they are fine."
+    },
+    "expected": "whole_site",
+    "rationale": "The report says everyone at a location is affected, which is an entire site regardless of the other office being fine."
+  },
+  {
+    "id": "NW07-2",
+    "pattern_id": "NW07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "user_report": "My docking station stopped giving me a wired connection after last night's update. The two people next to me on the same desk row are working fine on theirs. Wi-Fi still works on my laptop."
+    },
+    "expected": "reporter_only",
+    "rationale": "The report says others nearby are working normally, so the stated scope is the reporter alone."
+  },
+  {
+    "id": "NW07-3",
+    "pattern_id": "NW07",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "user_report": ""
+    },
+    "expected": "unknown",
+    "rationale": "The only required field is empty, so no scope can be read."
+  },
+  {
+    "id": "NW07-4",
+    "pattern_id": "NW07",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "user_report": "Nobody on the finance team can print or open the shared drive since about 08:40. I asked reception and they said the entire Riverside office has been off the network since then, including the lab and the warehouse. I am on the second floor if that helps."
+    },
+    "expected": "whole_site",
+    "rationale": "The report names both a group, the finance team, and an entire site, the whole Riverside office. The contract says to select whole_site when a report names both a group and an entire site or location, so the team-level detail does not reduce the label to multiple_users."
+  },
+  {
+    "id": "NW08-1",
+    "pattern_id": "NW08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "alert_text": "CRITICAL: BGP session to upstream carrier Norwell Transit on edge-rtr-2 is DOWN (state Idle) since 03:14 UTC.",
+      "alert_policy": "Any alert reporting a carrier or upstream BGP session down requires acknowledgement by the on-call engineer within 15 minutes. Interface utilization alerts are informational unless code has marked them sustained. Certificate expiry notices are informational when code reports more than 14 days remain."
+    },
+    "expected": "requires_response",
+    "rationale": "The policy's first clause covers an upstream BGP session down and requires acknowledgement."
+  },
+  {
+    "id": "NW08-2",
+    "pattern_id": "NW08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "alert_text": "INFO: Interface Te1/0/1 on dist-sw-2 inbound utilization at 78 percent for the last 5 minutes. Sustained flag from code: no.",
+      "alert_policy": "Any alert reporting a carrier or upstream BGP session down requires acknowledgement by the on-call engineer within 15 minutes. Interface utilization alerts are informational unless code has marked them sustained. Certificate expiry notices are informational when code reports more than 14 days remain."
+    },
+    "expected": "informational_only",
+    "rationale": "The policy treats utilization alerts as informational unless marked sustained, and code has marked this one not sustained."
+  },
+  {
+    "id": "NW08-3",
+    "pattern_id": "NW08",
+    "version": 1,
+    "split": "design",
+    "author_origin": "networking_contract_author",
+    "state": {
+      "alert_text": "CRITICAL: BGP session to upstream carrier Norwell Transit on edge-rtr-2 is DOWN (state Idle) since 03:14 UTC.",
+      "alert_policy": ""
+    },
+    "expected": "unknown",
+    "rationale": "The policy text is empty, so there is no rule to apply to the alert."
+  },
+  {
+    "id": "NW08-4",
+    "pattern_id": "NW08",
+    "version": 1,
+    "split": "challenge",
+    "author_origin": "independent_challenge_author",
+    "state": {
+      "alert_text": "LINK FLAP: lab access switch, port 12, 4 transitions in 60 seconds. Environment: lab. Device: lab-sw-03.example.",
+      "alert_policy": "1. Any alert reporting an interface or link going down or flapping requires acknowledgement by the on-call engineer within 15 minutes. 2. Link flap alerts from lab access switches, regardless of transition count, are recorded only and clear on their own; no action is taken. 3. Alerts about power supply or fan failures on any device require a response."
+    },
+    "expected": "informational_only",
+    "rationale": "Clauses 1 and 2 both cover a link flap alert, and the contract says the clause that names the alert's kind more specifically wins; clause 2 names link flaps on lab access switches and is the more specific. Clause 2 also states that the transition count is irrelevant, so no unresolved threshold comparison forces unknown."
+  }
+]

@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.5.0"
+  version: "2.6.0"
 ---
 
 # Jev Question Kernel v2
@@ -10,8 +10,8 @@ metadata:
 One entry point for authoring and checking Jev question contracts. Keep the existing
 skill name for compatibility. Four research catalogs supply 120 examples, with
 12 email, 48 bug-hunting, 24 human–AI collaboration, 10 call-control, 8 storytelling,
-and 8 electrical-contracting profiles: 230 in total, separate from the three
-foundational workflow guides.
+8 electrical-contracting, and 160 domain profiles across twenty further collections:
+390 in total, separate from the three foundational workflow guides.
 Their synthetic results do not qualify a new application automatically.
 
 ## Select the work needed
@@ -30,6 +30,7 @@ Read only the references relevant to the task:
 | Prepare a request, consume an answer, check a contract, or read a message signal | [Call-control profiles](references/controls.md) | Splits, runner-up outcomes, argument targets, overlap and negation checks, credential and link signals |
 | Check manuscript text for an author or editing assistant | [Storytelling profiles](references/storytelling.md) | Scene change, viewpoint, canon, rendered emotion, speaker clarity, payoffs, voice, reader grounding |
 | Route electrical contracting text: service, permits, inspections, materials | [Electrical profiles](references/electrical.md) | Symptom, hazard signs, work type, correction routing, inspection outcome, office requests, device type, photo coverage |
+| Classify text in another domain: project management, marketing, construction, finance, executive memos, SEO, auto repair and performance, motorsport measurement, grading, HR, logistics and routing, networking, cybersecurity, web data collection, contracts, real estate, sales, data quality | [Domain profiles](references/profiles.md) and each collection's module | Eight bounded judgments per domain with stated precedence, code-owned exact checks, and domain boundaries |
 
 For a new contract intended for repeated workflow use, combine authoring with a
 proportionate evaluation. Existing qualified contracts need reevaluation when their

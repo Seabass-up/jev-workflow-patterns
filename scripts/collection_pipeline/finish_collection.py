@@ -1,9 +1,12 @@
 """Assemble a collection after authoring and challenge cases: fixtures, screen, evaluate, pages, wrappers.
 
-Steps (each idempotent, run in order): merge | screen | finish
-  merge  : design + challenge -> fixtures.json, validate structure and privacy tripwires
-  screen : one uncached Jev call per fixture (initial), then recovery for provider failures
-  finish : summary.json, evaluate.py/test wrapper, kernel module copy, pages
+Steps, run in order: merge | screen | finish
+  merge  : design + challenge -> fixtures.json, validate structure and privacy tripwires.
+           Refuses to change fixtures once any screening receipt exists.
+  screen : one uncached Jev call per fixture without a receipt (initial), then one per
+           provider failure (recovery). Append-only: stored receipts are never replaced.
+  finish : summary.json, evaluate.py/test wrapper, kernel module copy, pages. Rebuilds
+           derived files from the stored receipts, so it is safe to rerun.
 """
 import importlib.util
 import json
@@ -56,16 +59,32 @@ def merge(folder):
         print(folder, "PROBLEMS", problems)
         return False
     fixtures.sort(key=lambda f: (f["pattern_id"], f["id"]))
+    frozen = frozen_fixture_problem(root, fixtures)
+    if frozen:
+        print(folder, "REFUSED", frozen)
+        return False
     (root / "fixtures.json").write_text(json.dumps(fixtures, indent=2, ensure_ascii=False) + "\n")
     validate_collection(catalog, fixtures, json.loads((root / "sources.json").read_text()))
     print(folder, "fixtures", len(fixtures), "validated")
     return True
 
 
+def frozen_fixture_problem(root, fixtures):
+    """Expectations are frozen once screened: any change would relabel stored evidence."""
+    screened = root / "results/screening.json"
+    current = root / "fixtures.json"
+    if not screened.exists():
+        return None
+    if not current.exists() or json.loads(current.read_text()) != fixtures:
+        return ("results/screening.json exists, so fixtures.json is frozen; "
+                "version the affected contract and add new fixtures instead of rewriting these")
+    return None
+
+
 def screen(folder):
     for mode in ("initial", "recovery"):
         r = subprocess.run([sys.executable, str(HERE / "screen.py"), folder, mode], capture_output=True, text=True, cwd=REPO)
-        lines = [l for l in r.stdout.splitlines() if "differs" in l or "receipts written" in l or "no failures" in l or "->" in l and "error" in l.lower()]
+        lines = [l for l in r.stdout.splitlines() if "differs" in l or "appended" in l or "nothing to screen" in l or "->" in l and "error" in l.lower()]
         print("\n".join(lines) if lines else r.stdout[-300:])
         if r.returncode != 0:
             print(r.stderr[-500:])

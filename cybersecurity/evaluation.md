@@ -35,6 +35,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/cybersecurity/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/cybersecurity/catalog.json' | relative_url }}) and [32 fixtures]({{ '/cybersecurity/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/cybersecurity/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/cybersecurity/test_evaluate.py)
+- [Source support review]({{ '/cybersecurity/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

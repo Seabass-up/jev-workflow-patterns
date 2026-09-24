@@ -12,9 +12,9 @@ The design pass read these public pages. Each summary describes the design need,
 
 ## RE-S1: HUD: Housing Discrimination Under the Fair Housing Act
 
-[Read the source](https://www.hud.gov/program_offices/fair_housing_equal_opp/fair_housing_act_overview) · checked 2026-09-23 · SHA-256 `a4868b85f3875f26…`
+[Read the source](https://www.hud.gov/helping-americans/fair-housing-act-overview) · checked 2026-09-23 · SHA-256 `f5cc67a70cf3956c…`
 
-The federal agency's overview of the Fair Housing Act, which prohibits discrimination in the sale, rental, and advertising of housing on the basis of protected characteristics. Motivates the boundary applied across RE01, RE02, RE05, and RE08: every label reads text about a property, a document, or a request and never judges or infers anything about a person. This is motivation for the design, not evidence of Jev performance.
+HUD's overview states that housing discrimination is illegal in nearly all housing, that the Fair Housing Act protects people from discrimination when renting or buying a home, getting a mortgage, seeking housing assistance, or engaging in other housing-related activities, and lists the protected classes: race, color, national origin, religion, sex, familial status, and disability. Motivates the boundary applied across RE01, RE02, RE05, and RE08: every label reads text about a property, a document, or a request and never judges or infers anything about a person. This is motivation for the design, not legal advice.
 
 Used by: [RE01]({{ '/real-estate/patterns/re01/' | relative_url }}), [RE02]({{ '/real-estate/patterns/re02/' | relative_url }}), [RE05]({{ '/real-estate/patterns/re05/' | relative_url }}), [RE08]({{ '/real-estate/patterns/re08/' | relative_url }})
 

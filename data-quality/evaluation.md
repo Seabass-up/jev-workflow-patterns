@@ -39,6 +39,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/data-quality/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/data-quality/catalog.json' | relative_url }}) and [32 fixtures]({{ '/data-quality/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/data-quality/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/data-quality/test_evaluate.py)
+- [Source support review]({{ '/data-quality/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

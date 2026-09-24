@@ -3,7 +3,7 @@ layout: default
 title: "Logistics routing: Sources"
 description: "Public pages that motivated the question designs, with the digest of each page as read."
 permalink: /logistics-routing/sources/
-kicker: "5 sources · inspiration, not a performance claim"
+kicker: "6 sources · inspiration, not a performance claim"
 ---
 
 # Inspiration, not a performance claim
@@ -49,6 +49,14 @@ Used by: [LR08]({{ '/logistics-routing/patterns/lr08/' | relative_url }})
 Describes dispatchers in trucking, courier, and other operations who relay information, direct personnel, and make real-time adjustments as conditions and delays change. Motivates LR01, LR03, LR04, and LR05 as readings of the notes, driver reports, and customer messages a dispatcher handles; the adjustment itself stays with the dispatcher and code. Motivation only, not evidence of Jev performance.
 
 Used by: [LR01]({{ '/logistics-routing/patterns/lr01/' | relative_url }}), [LR03]({{ '/logistics-routing/patterns/lr03/' | relative_url }}), [LR04]({{ '/logistics-routing/patterns/lr04/' | relative_url }}), [LR05]({{ '/logistics-routing/patterns/lr05/' | relative_url }})
+
+## LR-S6: FMCSA: Summary of Hours of Service Regulations
+
+[Read the source](https://www.fmcsa.dot.gov/regulations/hours-service/summary-hours-service-regulations) · checked 2026-09-23 · SHA-256 `1fae6af272b66756…`
+
+FMCSA summarizes driving-time limits, the 14-hour window, required breaks, weekly limits, sleeper-berth splits, the adverse-driving-conditions extension, and the short-haul exception for property-carrying drivers. Motivates LR02 and LR04 as readings of time-window and deviation text; every hours-of-service calculation and compliance decision stays in code and with the carrier.
+
+Used by: [LR02]({{ '/logistics-routing/patterns/lr02/' | relative_url }}), [LR04]({{ '/logistics-routing/patterns/lr04/' | relative_url }})
 
 Full digests are in [sources.json]({{ '/logistics-routing/sources.json' | relative_url }}).
 

@@ -37,6 +37,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/real-estate/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/real-estate/catalog.json' | relative_url }}) and [32 fixtures]({{ '/real-estate/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/real-estate/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/real-estate/test_evaluate.py)
+- [Source support review]({{ '/real-estate/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

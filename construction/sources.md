@@ -3,7 +3,7 @@ layout: default
 title: "Construction: Sources"
 description: "Public pages that motivated the question designs, with the digest of each page as read."
 permalink: /construction/sources/
-kicker: "5 sources · inspiration, not a performance claim"
+kicker: "6 sources · inspiration, not a performance claim"
 ---
 
 # Inspiration, not a performance claim
@@ -49,6 +49,14 @@ Used by: [CN02]({{ '/construction/patterns/cn02/' | relative_url }}), [CN07]({{ 
 Describes construction management as integrating cost, schedule, quality, safety, and scope, lists quality and safety management, contract administration, and documentation and claims management among its responsibilities, states that project documentation includes diaries, logs, and daily field reports kept as records for dispute resolution, and names the warranty period and closeout as the final phase. Motivates CN02 (daily logs), CN05 (safety observations), CN06 (punch lists as a quality and closeout record), and CN08 (closeout documents); motivation only, not evidence of Jev performance.
 
 Used by: [CN02]({{ '/construction/patterns/cn02/' | relative_url }}), [CN04]({{ '/construction/patterns/cn04/' | relative_url }}), [CN05]({{ '/construction/patterns/cn05/' | relative_url }}), [CN06]({{ '/construction/patterns/cn06/' | relative_url }}), [CN08]({{ '/construction/patterns/cn08/' | relative_url }})
+
+## CN-S6: OSHA: Construction Industry
+
+[Read the source](https://www.osha.gov/construction) · checked 2026-09-23 · SHA-256 `7d3f5e6b2490fdb6…`
+
+OSHA's construction page describes construction as a high-hazard industry with serious hazards such as falls from rooftops, unguarded machinery, being struck by heavy equipment, electrocution, silica, and asbestos, and offers regulatory and guidance resources to identify, reduce, and eliminate hazards. Motivates CN05 as a reading of safety observations against a supplied stop-work list; the standards themselves stay with the safety officer.
+
+Used by: [CN05]({{ '/construction/patterns/cn05/' | relative_url }})
 
 Full digests are in [sources.json]({{ '/construction/sources.json' | relative_url }}).
 

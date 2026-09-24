@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-23 — Source pages behind bot blocks and script rendering
+
+- **Component:** source registers of all 23 collections; `results/source-review.json` in each.
+- **Symptom:** OSHA, CPSC, FMCSA, and NHTSA pages returned 403 or 404 to scripted fetches during authoring, and a Jev support check found that both NFPA overview pages and HUD's Fair Housing page had been recorded from script-rendered HTML that contained only a title or page chrome, so their summaries described the documents rather than the fetched text.
+- **Repair:** Read the blocked and script-rendered pages in the built-in browser as a person would, hashed the main text as displayed, and recorded the method with each entry; added OSHA electrical, OSHA construction, NHTSA recalls, and FMCSA hours-of-service pages to the electrical, construction, auto-repair, and logistics-routing registers. CPSC's safety-guide pages have moved and its search surfaces only recalls, so the device-type sources stay encyclopedic.
+- **Jev support check:** for each of 120 sources, code refetched the page (or used the browser text), selected the window with the most distinct summary keywords, and Jev judged whether the summary's description of the page is supported: {'partially_supported': 44, 'supported_as_written': 75, 'not_in_excerpt': 1}. No summary was contradicted. A `not_in_excerpt` label can be a window miss on a long page; the first pass showed that a raw keyword count favours sections that repeat the title, so the window now scores distinct non-title keywords. 47 live pages had changed since their recorded fetch; recorded hashes bind the text as read, not the current page.
+- **Limits:** the check reads a code-selected excerpt, not the whole page, and establishes internal consistency of the register, not source authority. Browser text hashes are of `innerText`, so they differ from raw-HTML hashes by construction.
+- **Prevention:** when a fetched page's extracted text is only a title, treat it as unread; read script-rendered pages in a real browser and say so in the register.
+
 ## 2026-09-23 — Twenty domain collections from one specification
 
 - **Component:** twenty new collections (project-management, marketing, construction, finance, executive, seo, auto-repair, auto-performance, motorsport, grading, human-resources, logistics, logistics-routing, networking, cybersecurity, web-scraping, legal-contracts, real-estate, sales, data-quality), kernel skill 2.6.0, shared `scripts/collection_tools.py`, `scripts/build_collection_pages.py`, and the `/collections/` hub.

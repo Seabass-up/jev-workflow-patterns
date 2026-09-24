@@ -37,6 +37,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/logistics-routing/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/logistics-routing/catalog.json' | relative_url }}) and [32 fixtures]({{ '/logistics-routing/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/logistics-routing/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/logistics-routing/test_evaluate.py)
+- [Source support review]({{ '/logistics-routing/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

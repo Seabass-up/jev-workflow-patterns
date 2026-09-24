@@ -37,6 +37,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/networking/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/networking/catalog.json' | relative_url }}) and [32 fixtures]({{ '/networking/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/networking/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/networking/test_evaluate.py)
+- [Source support review]({{ '/networking/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

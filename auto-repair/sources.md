@@ -3,7 +3,7 @@ layout: default
 title: "Auto repair: Sources"
 description: "Public pages that motivated the question designs, with the digest of each page as read."
 permalink: /auto-repair/sources/
-kicker: "5 sources · inspiration, not a performance claim"
+kicker: "6 sources · inspiration, not a performance claim"
 ---
 
 # Inspiration, not a performance claim
@@ -49,6 +49,14 @@ Used by: [AR05]({{ '/auto-repair/patterns/ar05/' | relative_url }})
 A state regulator's public guidance that an estimate shows parts and labor, that the customer must authorize repairs before work begins, that the invoice lists parts that are used, reconditioned, or rebuilt, and that a warranty covers defects but not parts that wear down with normal use. Motivates AR02, AR03, AR04, AR05, AR06, AR07, and AR08; the jurisdiction's rules stay in code. Motivation only, not evidence of Jev performance.
 
 Used by: [AR02]({{ '/auto-repair/patterns/ar02/' | relative_url }}), [AR03]({{ '/auto-repair/patterns/ar03/' | relative_url }}), [AR04]({{ '/auto-repair/patterns/ar04/' | relative_url }}), [AR05]({{ '/auto-repair/patterns/ar05/' | relative_url }}), [AR06]({{ '/auto-repair/patterns/ar06/' | relative_url }}), [AR07]({{ '/auto-repair/patterns/ar07/' | relative_url }}), [AR08]({{ '/auto-repair/patterns/ar08/' | relative_url }})
+
+## AR-S6: NHTSA: Check for Recalls
+
+[Read the source](https://www.nhtsa.gov/recalls) · checked 2026-09-23 · SHA-256 `9a6740786cbc9d82…`
+
+NHTSA's recalls page explains that safety recalls are issued for safety-related defects, that owner complaints are the first step toward investigations, and that the recall search does not show already-repaired recalls or non-safety customer-service campaigns. Motivates AR06 (defect versus wear versus damage narratives) and AR07 (safety items versus recommendations); recall lookup by VIN stays in code.
+
+Used by: [AR06]({{ '/auto-repair/patterns/ar06/' | relative_url }}), [AR07]({{ '/auto-repair/patterns/ar07/' | relative_url }})
 
 Full digests are in [sources.json]({{ '/auto-repair/sources.json' | relative_url }}).
 

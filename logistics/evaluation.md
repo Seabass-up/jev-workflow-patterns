@@ -35,6 +35,7 @@ These are disagreements against authored expectations, not automatically proven 
 - [Exact summary]({{ '/logistics/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/logistics/catalog.json' | relative_url }}) and [32 fixtures]({{ '/logistics/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/logistics/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/logistics/test_evaluate.py)
+- [Source support review]({{ '/logistics/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

@@ -29,6 +29,7 @@ Every case matched its authored label. A full match on 32 synthetic cases is a s
 - [Exact summary]({{ '/seo/results/summary.json' | relative_url }})
 - [Frozen question catalog]({{ '/seo/catalog.json' | relative_url }}) and [32 fixtures]({{ '/seo/fixtures.json' | relative_url }})
 - [Offline evaluator](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/seo/evaluate.py) and [regression tests](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/seo/test_evaluate.py)
+- [Source support review]({{ '/seo/results/source-review.json' | relative_url }})
 
 Run from the repository root with Python 3:
 

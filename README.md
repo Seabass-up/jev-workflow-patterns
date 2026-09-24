@@ -68,6 +68,15 @@ The [human–AI module](skills/jev-question-kernel-catalog/references/human-ai.m
 is packaged in skill version 2.3.0. Its external catalog links are optional
 reference material; an installed copy does not require this entire repository.
 
+## Build another collection
+
+The scripts that built the domain collections are under
+[`scripts/collection_pipeline/`](scripts/collection_pipeline/README.md): an authoring
+specification, a structural checker, the pre-inference overlap pass, the live screen,
+the assembly step that writes results and pages, and the source support check. The
+live steps use the local `jev-workflows` bridge; nothing in the repository holds a
+credential. Drafts and challenge cases go in a git-ignored work directory.
+
 ## Boundaries
 
 Kernel skill version 2.6.0 adds twenty domain collections (160 profiles) authored

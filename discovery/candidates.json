@@ -277,6 +277,32 @@
       "delta": "L23 judges primitive fit and L12 instruction applicability; neither inspects two labels of one contract for overlap. Applied to 26 new contracts before their fixtures were written; it prompted precedence sentences in five.",
       "next_step": "Closed; see CT08.",
       "resolution": "Published as CT08 in controls/catalog.json on 2026-09-23 after a four-fixture live screen."
+    },
+    {
+      "id": "C11",
+      "title": "Capability-claim audit with a partial outcome",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-25",
+        "harness": "claude",
+        "context": "Phase 0 source audit of two public open-source repositories: a cross-check, blind to the analysts' verdicts, of 23 capability claims from a design brief against source-cited findings."
+      },
+      "mechanism": "Remove the analyst's verdict labels from a claim-check table and give Jev only neutral, source-cited findings. Ask one supports/insufficient/contradicts question per atomic capability claim. Code compares Jev's choices with the analyst's SUPPORTED/PARTIAL/NOT FOUND verdicts and sends disagreements and low-confidence splits back for review. A three-way Choice has no partial outcome, so author each broad capability claim as two sub-claims (the capability exists; it meets the stated bar) or add an explicit partially_supports option.",
+      "jev_judges": "Whether the supplied findings support, contradict, or are insufficient for each atomic capability claim.",
+      "code_owns": "Claim atomization, removal of analyst verdicts from the evidence, source citation and retrieval, comparison with the analyst table, the review threshold, and the final verdict.",
+      "evidence": [
+        "discovery/evidence/c11/request.json",
+        "discovery/evidence/c11/result.json",
+        "Binding: result.json is the complete response-bearing receipt from jev-1.13.0 (23 check answers with probabilities). Its request_sha256 60f52090ea78a00130a405159e7e8029105f0f563affd25dd41f594b1a699afd reproduces from request.json by rebuilding the jev-workflows check body (the evidence as state, one fixed supports/contradicts/insufficient Choice per claim) and hashing its canonical JSON (sorted keys, compact separators, UTF-8). Its evidence_sha256 78d0ef33b14c34dbba30d0306792de86c4f02fee92bcfad2e7897d33b26d8fa8 equals the SHA-256 of the evidence text in request.json. File SHA-256: request.json e49b9f64ed39755a579fd51c06fd7e1909b91f0d3c1bfd5caed2f05e722394d0, result.json ddf478e8241fb59c5f3f664df3d0a3432186be82aee54ec6df9327c2ba5ec594",
+        "Observed in result.json: Jev agreed with all 16 analyst SUPPORTED verdicts; of 7 analyst PARTIAL or overstated verdicts, 3 strictly worded claims came back contradicts at confidence 0.97 or higher, 3 came back as low-confidence splits (top confidence 0.11 to 0.44), and 1 loosely worded claim came back supports at 1.0",
+        "Limitation: one run, one domain, and claim wording was authored by the same harness that held the analyst verdicts"
+      ],
+      "nearest_prior": [
+        "H37",
+        "E22"
+      ],
+      "delta": "H37 checks whether located context supports one claim, and E22 whether evidence supports one field. This applies the check to a table of broad capability claims whose truth is often partial, blind to the analyst's own verdicts. It shows that a three-way outcome turns partial truth into a low-confidence split, a confident contradiction, or a confident support, depending on claim wording.",
+      "next_step": "Write a contract with a partially_supports option (or existence and adequacy sub-claim pairs), freeze fixtures from public repositories with analyst verdicts held outside provider inputs, and screen it live against the three-way version."
     }
   ]
 }

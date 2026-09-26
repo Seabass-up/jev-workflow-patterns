@@ -25,6 +25,7 @@ SCREEN_NAMES = (
     "core-refinement-v3",
     "harness-refinement-v3",
     "h18-review-v2",
+    "precedence-review-v2",
 )
 
 
@@ -259,6 +260,28 @@ def replay(root: Path = ROOT) -> dict[str, Any]:
                 or {c["question_id"]: c["expected"] for c in receipt["checks"]} != fixture["expected"]):
             raise ValueError("H18 revision receipt binding")
     acceptance = load_json("results/final-acceptance.json").get("receipts")
+    old_precedence = load_json("results/precedence-pre-review-contracts.json")
+    new_precedence = load_json("results/precedence-revision-fixtures.json")
+    revised_ids = {"B09", "B13", "L10", "H15"}
+    if {p["id"] for p in old_precedence["patterns"]} != revised_ids or {p["id"] for p in new_precedence["patterns"]} != revised_ids:
+        raise ValueError("precedence revision pattern coverage")
+    for p in new_precedence["patterns"]:
+        if p != patterns[p["id"]] or p["contract_version"] != 2:
+            raise ValueError("precedence revision current contract mismatch")
+    for original in old_precedence["fixtures"]:
+        current = {k: v for k, v in fixtures[original["id"]].items() if k != "contract_version"}
+        if current != original or fixtures[original["id"]].get("contract_version") != 2:
+            raise ValueError("precedence original fixture changed")
+    revision_cases = {f["id"]: f for f in new_precedence["cases"]}
+    if len(revision_cases) != 25:
+        raise ValueError("precedence revision fixture coverage")
+    for fixture_id, fixture in revision_cases.items():
+        row = receipts.get("precedence-review-v2:" + fixture_id)
+        if (not row or row.get("contract_version") != 2 or row.get("pattern_id") != fixture["pattern_id"]
+                or row["request"]["state"] != fixture["state"]
+                or row["request"]["questions"] != patterns[fixture["pattern_id"]]["questions"]
+                or {c["question_id"]: c["expected"] for c in row["checks"]} != fixture["expected"]):
+            raise ValueError("precedence revision receipt binding")
     if not isinstance(acceptance, list) or len(acceptance) != len(fixtures):
         raise ValueError("final acceptance coverage mismatch")
     selected = {item.get("fixture_id"): item for item in acceptance}

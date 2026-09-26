@@ -200,6 +200,14 @@
 - **Verification:** Four unchanged regression cases and three frozen development boundaries matched 7/7. Two boundary answers had confidence 0.32/0.59 and consumer tests confirm review. The evaluator binds 175 receipts and selects 134/134 current historical fixtures; all 65 local commands pass. Revision checks reject changed original states/expectations or unbound revision evidence.
 - **Prevention/limits:** Test realistic co-occurring labels explicitly and keep uncertainty gates separate from label match. A preserved old screen verifies its original Git source, not the revised contract. Local commit only; no production qualification or deployment.
 
+## 2026-09-26 — Iteration 02 overlapping ownership, applicability, provenance and assembly labels
+
+- **Component:** B09/B13/L10/H15 typed questions and revision replay.
+- **Symptom/cause:** Explicit joint ownership also matched individual owners; a superseded artifact could be a different subject; a statement could have source and calculation support; one assembly could promote reference and omit a binding. The original questions gave no explicit precedence for these co-occurrences.
+- **Repair:** Versioned all four to v2 with explicit unresolved/conflict handling and precedence. Preserved the original contracts and 17 original fixtures; changed only their version metadata and selected fresh receipts. No original states or labels were changed.
+- **Verification:** One screen of 17 unchanged regressions and eight frozen development cases matched 25/25. Two low-confidence answers (0.60/0.79) stay in review through consumer tests. Iteration 02 passes 24 tests, binds 200 receipts and retains 134/134 final fixture matches. All-catalog checks are saved with this checkpoint.
+- **Prevention/limits:** Test co-occurrence separately from clear single-label cases. Conflict handling precedes supportive evidence; one selected label does not erase other defects or establish trust/authority. These are local synthetic revisions, not deployed or production-qualified patterns.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

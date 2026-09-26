@@ -20,7 +20,7 @@ kicker: "Iteration 2 · Published 2026-09-22"
 - 6 LLM-workflow patterns: L07 through L12.
 - 10 experimental harness designs: H11 through H20.
 - 134 final synthetic fixtures and 147 final question checks.
-- 175 preserved live synthetic Jev receipts, including failed versions and seven local H18 v2 revision checks.
+- 200 preserved live synthetic Jev receipts, including failed versions and 32 local precedence-revision checks.
 
 The final selected receipt for every current contract matched its synthetic fixture: 134 of 134 fixtures and 147 of 147 question checks. That is a regression check after prompt and fixture refinement, not an independent accuracy claim, calibration result, or production qualification.
 
@@ -70,7 +70,7 @@ The final selected receipt for every current contract matched its synthetic fixt
 
 ## Evaluation trail
 
-The initial screen found 10 mismatches across 134 requests. A version-2 refinement found two more L09 taxonomy misses; version 3 resolved that taxonomy boundary and corrected H19 terminology to its named state field. A local 2026-09-26 H18 v2 revision explicitly resolves counterevidence/missing-obligation precedence, with four unchanged regression cases and three new boundary cases. The [evaluation]({{ '/iterations/02/evaluation/' | relative_url }}) preserves all 175 request receipts and explains why fixture agreement is not a held-out result.
+The initial screen found 10 mismatches across 134 requests. A version-2 refinement found two more L09 taxonomy misses; version 3 resolved that taxonomy boundary and corrected H19 terminology to its named state field. A local 2026-09-26 H18 v2 revision explicitly resolves counterevidence/missing-obligation precedence, with four unchanged regression cases and three new boundary cases. The [evaluation]({{ '/iterations/02/evaluation/' | relative_url }}) preserves all 200 request receipts and explains why fixture agreement is not a held-out result.
 
 ## Machine-readable artifacts
 
@@ -79,3 +79,7 @@ The initial screen found 10 mismatches across 134 requests. A version-2 refineme
 <div class="callout warning">
   <p><strong>Boundary:</strong> every sample uses synthetic data. The public catalog does not include credentials, private business records, production integrations, or authority to execute an operation. Typed answers are advisory inputs to caller-controlled code.</p>
 </div>
+
+## Further local precedence revisions — 2026-09-26
+
+B09, B13, L10 and H15 are also v2, with explicit co-occurrence/conflict rules. Their 17 unchanged regressions and eight new development boundaries matched 25/25; two low-confidence results remain review-required. Original evidence is preserved, and no public deployment is claimed.

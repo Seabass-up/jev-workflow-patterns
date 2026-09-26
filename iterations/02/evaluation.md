@@ -93,3 +93,22 @@ accuracy or production qualification. `h18-review-v2` adds seven exact request b
 for 175 total; the final historical fixture selection remains 134/134 and 147/147
 question matches. The evaluator rejects changed original states/expectations and
 revision receipts not bound to the current H18 contract. No push or deployment.
+## Four further precedence revisions — 2026-09-26, local only
+
+B09/B13/L10/H15 are now contract v2. B09 explicitly prioritizes coordinated
+shared responsibility over individual-role matches, retaining unspecified for
+conflicting assignments. B13 first preserves unresolved status/scope, then selects
+superseded before different-subject. L10 preserves source conflict before support,
+then prefers direct-source support over a calculation that also supports the same
+assertion. H15 prioritizes reference promotion over an omitted binding when both
+defects are demonstrated with clear inputs; it never treats this as permission.
+
+The pre-review contracts and 17 original fixtures are preserved in
+`results/precedence-pre-review-contracts.json`. One uncached revision screen matched
+all 17 unchanged regressions and eight newly frozen synthetic development cases
+(25/25). H15-3 and the new L10 support/conflict case had confidence 0.60 and 0.79;
+consumer tests keep both in review. The evaluator checks preserved states and
+expectations, current question/version binding, and all new receipt hashes. Total
+saved bindings are 200; final historical selection is still 134/134 fixtures and
+147/147 question matches. These cases do not establish independent held-out
+performance, calibration, source authenticity, or production qualification.

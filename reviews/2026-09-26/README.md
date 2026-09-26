@@ -32,6 +32,12 @@ recovery policy and the other source-review candidates remain open.
 
 ### Iteration 02 semantic review checkpoint
 
+The subsequent wave 03 resolves B09/B13/L10/H15 at v2. All nine iteration-02
+flags are now either source-refuted with targeted checks or repaired with versioned
+regressions. The four new repairs match 25/25 cases; two low-confidence answers
+remain review-required. Original screens and source contracts remain preserved.
+The 27 not-yet-host-reviewed original flags elsewhere remain open.
+
 Wave 02 source-inspected all nine iteration-02 flags. B11/L08/L09/H13 already
 define mixed/ambiguous escapes; four fresh development cases confirm those paths.
 H18 is repaired at v2 with explicit counterevidence precedence, seven new exact

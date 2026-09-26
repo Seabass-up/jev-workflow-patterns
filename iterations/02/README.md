@@ -13,7 +13,7 @@ this directory.
 - Final catalog: 30 patterns
 - Final fixtures: 134
 - Final question checks: 147
-- Saved live synthetic receipts: 175 (including seven local H18 v2 revision checks on 2026-09-26)
+- Saved live synthetic receipts: 200 (including 32 local precedence-revision checks on 2026-09-26)
 - Final selected latest-contract receipts: 134/134 fixture matches and 147/147 question checks
 
 That final match rate is a regression result after iterations on the same

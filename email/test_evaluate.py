@@ -65,6 +65,16 @@ class EmailReplayTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.check()
 
+    def test_probability_sum_tolerance_matches_bridge(self):
+        answer = self.receipt["response"]["answers"]["decision"]
+        others = [k for k in answer["probabilities"] if k != answer["choice"]]
+        answer["probabilities"] = {k: 0 for k in answer["probabilities"]}
+        answer["probabilities"].update({answer["choice"]: 0.93, others[0]: 0.05, others[1]: 0.01})  # sum 0.99
+        self.check()
+        answer["probabilities"][answer["choice"]] = 0.90  # sum 0.96 is a real gap
+        with self.assertRaises(ValueError):
+            self.check()
+
     def test_probability_coverage(self):
         del self.receipt["response"]["answers"]["decision"]["probabilities"]["unknown"]
         with self.assertRaises(ValueError):

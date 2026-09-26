@@ -24,15 +24,26 @@ def probability(value):
     return type(value) in (int, float) and math.isfinite(value) and 0 <= value <= 1
 
 
+def distribution(values, keys):
+    """Require complete, finite distributions; allow two-decimal rounding loss."""
+    return (isinstance(values, dict) and set(values) == keys
+            and all(probability(value) for value in values.values())
+            and math.isclose(sum(values.values()), 1, rel_tol=0,
+                             abs_tol=0.005 * len(keys) + 1e-12))
+
+
 def valid_answers(questions, response):
-    if not isinstance(response, dict) or response.get("ok") is not True:
+    if (not isinstance(questions, dict) or not isinstance(response, dict)
+            or response.get("ok") is not True):
         return False
     answers = response.get("answers")
     if not isinstance(answers, dict) or set(answers) != set(questions):
         return False
     for key, question in questions.items():
+        if not isinstance(question, dict):
+            return False
         answer = answers[key]
-        if not isinstance(answer, dict) or answer.get("type") != question["type"]:
+        if not isinstance(answer, dict) or answer.get("type") != question.get("type"):
             return False
         kind = question["type"]
         if kind == "noul":
@@ -42,13 +53,22 @@ def valid_answers(questions, response):
             if not probability(answer.get("confidence")):
                 return False
             if kind == "choice":
-                if (not isinstance(answer.get("choice"), str)
-                        or answer["choice"] not in question["criteria"]):
+                criteria = question.get("criteria")
+                if (not isinstance(criteria, dict) or not criteria
+                        or not isinstance(answer.get("choice"), str)
+                        or answer["choice"] not in criteria
+                        or not distribution(answer.get("probabilities"), set(criteria))):
+                    return False
+                if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                     return False
             else:
                 value = answer.get("score")
-                if (type(value) not in (int, float) or not math.isfinite(value)
-                        or not 0 <= value <= len(question["criteria"]) - 1):
+                criteria = question.get("criteria")
+                if (not isinstance(criteria, list) or not criteria
+                        or type(value) not in (int, float) or not math.isfinite(value)
+                        or not 0 <= value <= len(criteria) - 1
+                        or not distribution(answer.get("probabilities"),
+                                            {str(i) for i in range(len(criteria))})):
                     return False
         else:
             return False

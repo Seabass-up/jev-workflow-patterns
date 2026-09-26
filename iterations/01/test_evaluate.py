@@ -17,12 +17,15 @@ def response(pid, values=None, confidence=1.0):
         value = values.get(key)
         if kind == "choice":
             answers[key] = {"type": kind, "choice": value or next(iter(q["criteria"])),
-                            "confidence": confidence}
+                            "confidence": confidence,
+                            "probabilities": {label: int(label == (value or next(iter(q["criteria"]))))
+                                              for label in q["criteria"]}}
         elif kind == "noul":
             answers[key] = {"type": kind, "noul": 0.95 if value is None else value}
         else:
             answers[key] = {"type": kind, "score": 1 if value is None else value,
-                            "confidence": confidence}
+                            "confidence": confidence,
+                            "probabilities": {str(i): int(i == 1) for i in range(len(q["criteria"]))}}
     return {"ok": True, "answers": answers}
 
 
@@ -69,6 +72,28 @@ class ReceiptTests(unittest.TestCase):
         r = response("B02")
         del r["answers"]["access"]
         self.assertEqual(plan(PATTERNS["B02"], r)["next"], "review")
+
+    def test_invalid_choice_distributions_fail_closed(self):
+        labels = PATTERNS["B01"]["questions"]["decision"]["criteria"]
+        for bad in (None, [], {}, {"unexpected": 1},
+                    {label: 0 for label in labels},
+                    {label: True for label in labels},
+                    {label: float("nan") for label in labels}):
+            with self.subTest(distribution=bad):
+                r = response("B01")
+                r["answers"]["decision"]["probabilities"] = bad
+                self.assertEqual(plan(PATTERNS["B01"], r)["next"], "review")
+
+    def test_nonmaximum_choice_fails_closed(self):
+        r = response("B01")
+        labels = list(PATTERNS["B01"]["questions"]["decision"]["criteria"])
+        r["answers"]["decision"]["probabilities"] = {label: int(label == labels[1]) for label in labels}
+        self.assertEqual(plan(PATTERNS["B01"], r)["next"], "review")
+
+    def test_missing_score_distribution_fails_closed(self):
+        r = response("E01")
+        del r["answers"]["impact"]["probabilities"]
+        self.assertEqual(plan(PATTERNS["E01"], r)["next"], "review")
 
     def test_low_confidence_is_review(self):
         self.assertEqual(plan(PATTERNS["E02"], response("E02", confidence=0.79))["next"], "review")

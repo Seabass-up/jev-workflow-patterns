@@ -167,6 +167,15 @@
 - **Prevention:** Version every altered contract with pattern-specific context, then assert the complete changed-version set before a live rerun. In negative tests, mutate the final value under test rather than using a helper parameter whose sentinel behavior can bypass the invalid case.
 - **Published verification:** [Actions run 35724928016](https://github.com/Seabass-up/jev-workflow-patterns/actions/runs/35724928016) passed both iteration suites, Jekyll build, and 68 rendered iteration-page/link checks for source commit 86735a60f6364e19be29c90507ee5b46728a4820. All 38 checked public Iteration 2 URLs returned HTTP 200; the served catalog SHA-256 matches the local artifact, and H19 is served at contract version 3. [Publication receipt](../iterations/publications/02.json). These checks do not claim visual acceptance or production performance.
 
+## 2026-09-26 — Iteration 1 incomplete provider distributions
+
+- **Component:** Iteration 1 advisory response validator.
+- **Symptom:** A Choice response with no probability distribution passed validation and reached the typed-signal proposal. Existing mocks also omitted distributions, so the original tests did not detect the gap.
+- **Confirmed cause:** Validation checked scalar labels, ranges and confidence but not full Choice/Score probability coverage. Jev identified this as a low-confidence review candidate; deterministic reproduction confirmed it.
+- **Repair:** Require complete finite distributions with bounded two-decimal rounding tolerance and reject a Choice that is not a maximum. Update mocks to supply distributions and add malformed-distribution regression tests. No question contracts or historical receipts changed.
+- **Verification:** Iteration 1 passes 34 tests, including all 136 historical request bindings and new missing/malformed/nonmaximum response cases. Full-catalog local replay is recorded in `reviews/2026-09-26/`. This is a local repair, not a deployed change or evidence of production accuracy.
+- **Prevention:** Validate the entire provider answer before planning; successful receipt replay alone does not exercise malformed response paths. Keep semantic approval separate from schema validation.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

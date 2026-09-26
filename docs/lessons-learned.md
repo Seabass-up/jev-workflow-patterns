@@ -176,6 +176,13 @@
 - **Verification:** Iteration 1 passes 34 tests, including all 136 historical request bindings and new missing/malformed/nonmaximum response cases. Full-catalog local replay is recorded in `reviews/2026-09-26/`. This is a local repair, not a deployed change or evidence of production accuracy.
 - **Prevention:** Validate the entire provider answer before planning; successful receipt replay alone does not exercise malformed response paths. Keep semantic approval separate from schema validation.
 
+## 2026-09-26 — Whole-contract review evidence and verifier paths
+
+- **Component:** Whole-catalog review tooling.
+- **Symptom/cause:** The initial verifier assumed its CLI folder was absolute and failed `relative_to` on a normal relative argument. Normalizing folder/root paths repaired that local packaging error.
+- **Repair/verification:** The verifier now binds 390 complete current contracts, 113 live screening receipts, and 12 new boundary receipts. Its tests exercise the current source plus malformed responses; the full 65-command local suite passes in `reviews/2026-09-26/semantic-wave01-local-tests.json`.
+- **Prevention/boundary:** Read every relevant contract field when screening. Inspect flags before rewriting: six initial flags were not confirmed on source inspection and targeted cases. Preserve uncertainties and false positives; a model screen can also miss defects and does not replace host review or production qualification. Normalize CLI paths before deriving repository-relative provenance. These changes are local only.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

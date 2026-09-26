@@ -9,7 +9,10 @@ No push, pull request, publication, or deployment is included.
 - `baseline.json`: all 65 existing offline replay/test commands passed.
 - `validator-repair.json`: all 65 commands passed after the iteration-01 validator repair and inventory tests.
 - Each profile row binds its complete source contract with a SHA-256 and identifies its current version.
-- Semantic and live boundary review remain pending. Existing recorded-response replay is not a new model test, calibration evidence, production qualification, or approval of every question contract.
+- Whole-contract advisory screening now covers all 390 profiles in 113 uncached Jev requests, with exact request/response binding checked by `scripts/verify_semantic_review.py`. It flagged 44 profiles for host review. No provider failures occurred.
+- Wave 01 inspected eight flagged profiles: six flags were not confirmed by source inspection and 12 new live synthetic boundary cases; two require targeted/consumer review. Thirty-six other flagged profiles remain unreviewed. Unflagged profiles also need proportionate host verification because screening can miss defects.
+- The 12 cases matched their frozen expectations. HA22's combined-target `unknown` answer has confidence 0.70, retained as uncertainty rather than promoted to confident automation. These are development screens, not independent held-out cases.
+- `semantic-and-boundary-coverage.json` is the verified screen/behavior receipt summary; `host-triage-wave01.json` records source conclusions and measured usage. Semantic screening is not calibration evidence, production qualification, or approval of every question contract.
 
 ## Confirmed repair
 
@@ -17,7 +20,7 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
-1. Review prior whole-contract screening evidence from the separate canonical checkout read-only; preserve its ongoing uncommitted work.
+1. Exact receipts for the separate canonical checkout's earlier whole-contract screen were not located in the bounded lookup. Its uncommitted changes remain untouched. Reuse source-bound evidence only where actually available; do not rely on narrative counts.
 2. Reuse only evidence bound to the exact current pattern hash/version. Independently test surviving candidates and realistic co-occurring labels, missing evidence, contradiction, and authority boundaries.
 3. Version semantic changes; preserve original contracts and receipts; run targeted live synthetic regressions and held-out boundary cases.
 4. Review the three foundational guides and kernel/tooling contracts, rerun the full suite, and commit scoped local changes.

@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "scope": "Advisory full-pattern contract screen; flags require host verification and live behavior challenges, not automatic rewriting.",
+  "source_commit": "3fe6db1",
+  "dimensions": {
+    "coherence": {
+      "type": "choice",
+      "instructions": "Review every field of the complete supplied pattern, including all questions and the declared consumer/code-owned checks. Does each question make one coherent semantic judgment with the appropriate primitive? Independent dimensions in separate questions are coherent. Do not require one-sentence instructions. Flag only a semantic mismatch, unrelated dimensions mixed in one question, or exact computation assigned to the model.",
+      "criteria": {
+        "coherent": "Primitives and question dimensions fit their meaning; exact operations remain code-owned.",
+        "needs_review": "At least one supplied question mixes independently useful unrelated judgments, assigns exact computation to the model or uses inappropriate answer semantics.",
+        "unknown": "The contract does not establish either."
+      }
+    },
+    "missing_evidence": {
+      "type": "choice",
+      "instructions": "Review the ENTIRE supplied pattern including questions.instructions, questions.criteria, required_state_fields, follow_up, policy and limits. What happens when required evidence is absent, empty, contradictory or genuinely cannot establish any ordinary label? A usable fallback explicitly defined in ANY question field counts; do not demand duplication in instructions. Classify consumer_guard only for an explicit consumer rule preventing unsupported answer use; required_state_fields alone are a precondition, not enforcement.",
+      "criteria": {
+        "defined": "The question defines a usable unresolved-evidence answer with a trigger, or a presence question governs consuming the unsupported answer.",
+        "consumer_guard": "An explicit consumer rule rejects missing/unresolved required evidence before using the unsupported answer.",
+        "precondition_only": "Required evidence is declared, but neither a usable unresolved answer nor an explicit consumer guard is supplied.",
+        "missing": "Unresolved evidence becomes an ordinary substantive label, or no usable fallback/precondition is supplied.",
+        "unknown": "The full contract does not establish its unresolved evidence behavior."
+      }
+    },
+    "label_overlap": {
+      "type": "choice",
+      "instructions": "Review instructions, criteria and pattern policy TOGETHER. Can one realistic input satisfy competing Choice labels without a rule resolving it? Priority can live in instructions OR criteria; mutually exclusive descriptions need no redundant tie-break. Do not invent overlap by ignoring an exclusion. Noul/Score questions are not competing Choice labels.",
+      "criteria": {
+        "resolved": "Choice criteria exclude each other on realistic inputs or explicitly resolve realistic co-occurrence.",
+        "unresolved": "At least one realistic input satisfies two Choice labels without an explicit resolution in the full contract.",
+        "no_choice": "The pattern contains no Choice question.",
+        "unknown": "It is not established whether realistic label co-occurrence is resolved."
+      }
+    }
+  }
+}

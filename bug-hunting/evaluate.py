@@ -58,7 +58,8 @@ def validate_receipt(receipt, fixture, pattern):
     for value in [answer.get("confidence"), *probabilities.values()]:
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError("invalid probability")
-    if not math.isclose(sum(probabilities.values()), 1, abs_tol=1e-6):
+    # Provider probabilities are rounded to two decimals; accept the bridge's 0.02 tolerance.
+    if not math.isclose(sum(probabilities.values()), 1, abs_tol=0.02):
         raise ValueError("probabilities do not sum to one")
     # TypeSafe confidence summarizes distribution shape; it is not defined
     # as the probability of the selected option. Validate it independently.
@@ -93,11 +94,44 @@ def classify_for_review(answer, *, binding_current):
     return "unresolved"
 
 
+def disagreements(selected, fixtures, pending):
+    result = []
+    for fid, r in selected.items():
+        if fid not in pending and r["response"]["answers"]["decision"]["choice"] != fixtures[fid]["expected"]:
+            a = r["response"]["answers"]["decision"]
+            result.append({"fixture_id": fid, "expected": fixtures[fid]["expected"],
+                           "observed": a["choice"], "confidence": a["confidence"]})
+    return result
+
+
+def check_attempts(attempts, fixtures, patterns):
+    """Every initial attempt binds to its fixture; failures carry an error and no answers."""
+    failed = set()
+    for fid, r in attempts.items():
+        f = fixtures[fid]
+        p = patterns[f["pattern_id"]]
+        if r["pattern_id"] != p["id"] or r["version"] != p["version"] or r["version"] != f["version"]:
+            raise ValueError("identity/version mismatch")
+        if set(r["request"]) != {"model", "state", "questions"} or r["request"]["state"] != f["state"] or r["request"]["questions"] != p["questions"]:
+            raise ValueError("request binding mismatch")
+        if r["response"].get("ok") is False:
+            if not r["response"].get("error") or r["response"].get("answers"):
+                raise ValueError("invalid provider failure receipt")
+            failed.add(fid)
+    return failed
+
+
 def report():
     patterns = unique(read("catalog.json")["patterns"], "id")
     fixtures = unique(read("fixtures.json"), "id")
+    old_patterns = unique(read("results/initial-catalog.json")["patterns"], "id")
+    old_fixtures = unique(read("results/initial-fixtures.json"), "id")
     initial = unique(read("results/screening.json"), "fixture_id")
     recovery = unique(read("results/recovery.json"), "fixture_id")
+    refinement_log = read("results/refinement-attempts.json")
+    refinement_attempts = unique(refinement_log["attempts"], "fixture_id")
+    refinement_recovery = unique(refinement_log["recovery"], "fixture_id")
+    refinement = unique(read("results/refinement.json"), "fixture_id")
     if len(patterns) != 48 or len(fixtures) != 144 or set(initial) != set(fixtures):
         raise ValueError("catalog or initial coverage mismatch")
     for pattern in patterns.values():
@@ -106,50 +140,66 @@ def report():
             raise ValueError("missing pattern contrast")
     if len({p["hypothesis"] for p in patterns.values()}) != len(patterns):
         raise ValueError("identical hypotheses")
-    failed = {fid for fid, r in initial.items() if r["response"].get("ok") is False}
+    # A revision may change its contract, but not silently rewrite the frozen test.
+    if set(old_fixtures) != set(fixtures) or set(old_patterns) != set(patterns):
+        raise ValueError("fixture or pattern identity changed")
+    for fid, before in old_fixtures.items():
+        if {k: v for k, v in before.items() if k != "version"} != {k: v for k, v in fixtures[fid].items() if k != "version"}:
+            raise ValueError("frozen fixture was rewritten")
+    if any(p["version"] <= old_patterns[pid]["version"] for pid, p in patterns.items()):
+        raise ValueError("revised catalog must carry a higher version for every pattern")
+    # Initial screen: version-1 receipts validate against the preserved version-1 contract.
+    failed = check_attempts(initial, old_fixtures, old_patterns)
     if set(recovery) != failed:
         raise ValueError("recovery must cover only original provider failures once")
-    for fid, r in initial.items():
-        f = fixtures[fid]
-        p = patterns[f["pattern_id"]]
-        if r["pattern_id"] != p["id"] or r["version"] != p["version"] or r["version"] != f["version"]:
-            raise ValueError("initial identity/version mismatch")
-        if set(r["request"]) != {"model", "state", "questions"} or r["request"]["state"] != f["state"] or r["request"]["questions"] != p["questions"]:
-            raise ValueError("initial request binding mismatch")
-        if fid in failed:
-            if not r["response"].get("error") or r["response"].get("answers"):
-                raise ValueError("invalid provider failure receipt")
-    selected = {**initial, **recovery}
-    successful = [r for r in [*initial.values(), *recovery.values()] if r["response"].get("ok") is True]
-    for r in successful:
-        f = fixtures[r["fixture_id"]]
-        validate_receipt(r, f, patterns[f["pattern_id"]])
-    pending = [fid for fid, r in selected.items() if r["response"].get("ok") is not True]
-    mismatches = []
-    for fid, r in selected.items():
-        if fid not in pending and r["response"]["answers"]["decision"]["choice"] != fixtures[fid]["expected"]:
-            a = r["response"]["answers"]["decision"]
-            mismatches.append({"fixture_id": fid, "expected": fixtures[fid]["expected"],
-                               "observed": a["choice"], "confidence": a["confidence"]})
-    initial_matches = sum(r["response"]["answers"]["decision"]["choice"] == fixtures[fid]["expected"]
+    initial_selected = {**initial, **recovery}
+    initial_successful = [r for r in [*initial.values(), *recovery.values()] if r["response"].get("ok") is True]
+    for r in initial_successful:
+        f = old_fixtures[r["fixture_id"]]
+        validate_receipt(r, f, old_patterns[f["pattern_id"]])
+    initial_pending = [fid for fid, r in initial_selected.items() if r["response"].get("ok") is not True]
+    initial_disagreements = disagreements(initial_selected, old_fixtures, initial_pending)
+    initial_matches = sum(r["response"]["answers"]["decision"]["choice"] == old_fixtures[fid]["expected"]
                           for fid, r in initial.items() if fid not in failed)
+    # Revision: every fixture re-screened once against the version-2 contract, with one bounded recovery.
+    if set(refinement_attempts) != set(fixtures):
+        raise ValueError("refinement coverage mismatch")
+    refinement_failed = check_attempts(refinement_attempts, fixtures, patterns)
+    if set(refinement_recovery) != refinement_failed:
+        raise ValueError("refinement recovery must cover only its provider failures once")
+    if set(refinement) != set(fixtures):
+        raise ValueError("refinement selection must cover every fixture")
+    for fid, r in refinement.items():
+        source = refinement_recovery.get(fid) if fid in refinement_failed else refinement_attempts[fid]
+        if r != source:
+            raise ValueError("refinement selection does not match its logged attempt")
+        validate_receipt(r, fixtures[fid], patterns[fixtures[fid]["pattern_id"]])
+    current_disagreements = disagreements(refinement, fixtures, [])
+    successful = initial_successful + list(refinement.values())
     return {
         "patterns": len(patterns),
         "fixtures": len(fixtures),
+        "contract_version": 2,
         "initial_attempts": len(initial),
         "initial_successful_responses": len(initial) - len(failed),
         "initial_label_matches": initial_matches,
         "initial_provider_failures": sorted(failed),
         "recovery_attempts": len(recovery),
-        "current_label_matches": len(fixtures) - len(pending) - len(mismatches),
-        "current_provider_unresolved": pending,
-        "current_disagreements": mismatches,
+        "initial_selected_label_matches": len(fixtures) - len(initial_pending) - len(initial_disagreements),
+        "initial_provider_unresolved": initial_pending,
+        "initial_disagreements": initial_disagreements,
+        "refinement_attempts": len(refinement_attempts),
+        "refinement_provider_failures": sorted(refinement_failed),
+        "refinement_recovery_attempts": len(refinement_recovery),
+        "current_label_matches": len(fixtures) - len(current_disagreements),
+        "current_provider_unresolved": [],
+        "current_disagreements": current_disagreements,
         "successful_request_digests_verified": len(successful),
         "models": sorted({r["response"]["model"] for r in successful}),
         "reported_input_tokens": sum(r["response"]["usage"]["input_tokens"] for r in successful),
         "reported_output_tokens": sum(r["response"]["usage"]["output_tokens"] for r in successful),
         "reported_bridge_estimated_cost_usd": round(sum(r["response"]["estimated_cost_usd"] for r in successful), 10),
-        "cost_scope": "Successful screening and recovery receipts only; failed-call billing unknown; separate design consultation excluded.",
+        "cost_scope": "Successful screening, recovery and refinement receipts only; failed-call billing unknown; separate design consultations excluded.",
         "qualification": "Authored textual scenarios, not executed reproductions or held-out production accuracy.",
     }
 

@@ -2,7 +2,7 @@
   {
     "id": "BH01-1",
     "pattern_id": "BH01",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only the current request generation may update the view.",
       "evidence": "start A; start B; resolve B -> display B; resolve A -> display A. callback unconditionally assigns result.",
@@ -13,7 +13,7 @@
   {
     "id": "BH01-2",
     "pattern_id": "BH01",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only the current request generation may update the view.",
       "evidence": "callback checks captured generation == current generation before assigning; trace resolves B then A and keeps B.",
@@ -24,7 +24,7 @@
   {
     "id": "BH01-3",
     "pattern_id": "BH01",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only the current request generation may update the view.",
       "evidence": "",
@@ -35,7 +35,7 @@
   {
     "id": "BH02-1",
     "pattern_id": "BH02",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cancelling a job must stop its owned child before the job is reported stopped.",
       "evidence": "cancel sets parent.status=stopped; child has no signal and continues writing the output.",
@@ -46,7 +46,7 @@
   {
     "id": "BH02-2",
     "pattern_id": "BH02",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cancelling a job must stop its owned child before the job is reported stopped.",
       "evidence": "cancel signals child, awaits termination, then marks parent stopped; output stops changing.",
@@ -57,7 +57,7 @@
   {
     "id": "BH02-3",
     "pattern_id": "BH02",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cancelling a job must stop its owned child before the job is reported stopped.",
       "evidence": "",
@@ -68,7 +68,7 @@
   {
     "id": "BH03-1",
     "pattern_id": "BH03",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A logical operation must cause at most one external effect across retries.",
       "evidence": "remote commits operation; response is lost; retry uses a new operation key; remote commits again.",
@@ -79,7 +79,7 @@
   {
     "id": "BH03-2",
     "pattern_id": "BH03",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A logical operation must cause at most one external effect across retries.",
       "evidence": "retry reuses a persisted operation key; remote returns the original receipt without another effect.",
@@ -90,7 +90,7 @@
   {
     "id": "BH03-3",
     "pattern_id": "BH03",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A logical operation must cause at most one external effect across retries.",
       "evidence": "",
@@ -101,7 +101,7 @@
   {
     "id": "BH04-1",
     "pattern_id": "BH04",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one worker may acquire the same available job.",
       "evidence": "A reads available; B reads available; A sets claimed; B sets claimed; both execute.",
@@ -112,7 +112,7 @@
   {
     "id": "BH04-2",
     "pattern_id": "BH04",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one worker may acquire the same available job.",
       "evidence": "atomic compare-and-set grants ownership to A; B gets a conflict and does not execute.",
@@ -123,7 +123,7 @@
   {
     "id": "BH04-3",
     "pattern_id": "BH04",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one worker may acquire the same available job.",
       "evidence": "",
@@ -134,7 +134,7 @@
   {
     "id": "BH05-1",
     "pattern_id": "BH05",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "All paths acquiring both locks must use the declared global order.",
       "evidence": "path X holds lock alpha then waits beta; path Y holds beta then waits alpha.",
@@ -145,7 +145,7 @@
   {
     "id": "BH05-2",
     "pattern_id": "BH05",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "All paths acquiring both locks must use the declared global order.",
       "evidence": "both paths acquire alpha then beta and release in finally; trace shows one completes before the other enters.",
@@ -156,7 +156,7 @@
   {
     "id": "BH05-3",
     "pattern_id": "BH05",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "All paths acquiring both locks must use the declared global order.",
       "evidence": "",
@@ -167,7 +167,7 @@
   {
     "id": "BH06-1",
     "pattern_id": "BH06",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A disposed component must not receive or apply later events.",
       "evidence": "mount registers onChange; dispose drops view reference but never unregisters; later event invokes disposed view.",
@@ -178,7 +178,7 @@
   {
     "id": "BH06-2",
     "pattern_id": "BH06",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A disposed component must not receive or apply later events.",
       "evidence": "dispose invokes stored unsubscribe; late events do not invoke the former callback.",
@@ -189,7 +189,7 @@
   {
     "id": "BH06-3",
     "pattern_id": "BH06",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A disposed component must not receive or apply later events.",
       "evidence": "",
@@ -200,7 +200,7 @@
   {
     "id": "BH07-1",
     "pattern_id": "BH07",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "An order and its inventory reservation become visible together or neither does.",
       "evidence": "write order commits; reservation write fails; readers see order without reservation; no compensation.",
@@ -211,7 +211,7 @@
   {
     "id": "BH07-2",
     "pattern_id": "BH07",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "An order and its inventory reservation become visible together or neither does.",
       "evidence": "both writes share a transaction; injected reservation failure rolls back the order.",
@@ -222,7 +222,7 @@
   {
     "id": "BH07-3",
     "pattern_id": "BH07",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "An order and its inventory reservation become visible together or neither does.",
       "evidence": "",
@@ -233,7 +233,7 @@
   {
     "id": "BH08-1",
     "pattern_id": "BH08",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Concurrent edits must preserve nonconflicting changes or report a conflict.",
       "evidence": "A and B read same record; A saves phone; B saves old whole record plus address, restoring old phone.",
@@ -244,7 +244,7 @@
   {
     "id": "BH08-2",
     "pattern_id": "BH08",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Concurrent edits must preserve nonconflicting changes or report a conflict.",
       "evidence": "save includes expected revision; B receives conflict and reloads before merging.",
@@ -255,7 +255,7 @@
   {
     "id": "BH08-3",
     "pattern_id": "BH08",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Concurrent edits must preserve nonconflicting changes or report a conflict.",
       "evidence": "",
@@ -266,7 +266,7 @@
   {
     "id": "BH09-1",
     "pattern_id": "BH09",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cached results must be isolated by tenant as well as item identity.",
       "evidence": "key=invoiceId; tenant red primes invoice X; tenant blue requests X and receives red result.",
@@ -277,7 +277,7 @@
   {
     "id": "BH09-2",
     "pattern_id": "BH09",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cached results must be isolated by tenant as well as item identity.",
       "evidence": "key=(tenantId,invoiceId); tenant blue miss fetches only blue data.",
@@ -288,7 +288,7 @@
   {
     "id": "BH09-3",
     "pattern_id": "BH09",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Cached results must be isolated by tenant as well as item identity.",
       "evidence": "",
@@ -299,7 +299,7 @@
   {
     "id": "BH10-1",
     "pattern_id": "BH10",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "After acknowledged update, subsequent reads in the specified consistency scope show the new revision.",
       "evidence": "update database then return success; cache entry is unchanged; next read returns prior revision.",
@@ -310,7 +310,7 @@
   {
     "id": "BH10-2",
     "pattern_id": "BH10",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "After acknowledged update, subsequent reads in the specified consistency scope show the new revision.",
       "evidence": "update invalidates affected key before success; next read reloads new revision.",
@@ -321,7 +321,7 @@
   {
     "id": "BH10-3",
     "pattern_id": "BH10",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "After acknowledged update, subsequent reads in the specified consistency scope show the new revision.",
       "evidence": "",
@@ -332,7 +332,7 @@
   {
     "id": "BH11-1",
     "pattern_id": "BH11",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A restart must not skip any item whose result was not committed.",
       "evidence": "persist next cursor; crash before result write; restart begins after missing item.",
@@ -343,7 +343,7 @@
   {
     "id": "BH11-2",
     "pattern_id": "BH11",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A restart must not skip any item whose result was not committed.",
       "evidence": "commit result and next cursor atomically; crash leaves either both or neither.",
@@ -354,7 +354,7 @@
   {
     "id": "BH11-3",
     "pattern_id": "BH11",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A restart must not skip any item whose result was not committed.",
       "evidence": "",
@@ -365,7 +365,7 @@
   {
     "id": "BH12-1",
     "pattern_id": "BH12",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Old and new app versions must coexist during the rollout window.",
       "evidence": "migration drops legacy_name while old reader still selects it; old version receives unknown-column error.",
@@ -376,7 +376,7 @@
   {
     "id": "BH12-2",
     "pattern_id": "BH12",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Old and new app versions must coexist during the rollout window.",
       "evidence": "expand adds new field, dual-writes/backfills, and delays legacy removal until old readers retire.",
@@ -387,7 +387,7 @@
   {
     "id": "BH12-3",
     "pattern_id": "BH12",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Old and new app versions must coexist during the rollout window.",
       "evidence": "",
@@ -398,7 +398,7 @@
   {
     "id": "BH13-1",
     "pattern_id": "BH13",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Omitted field means retain value; explicit null means clear it.",
       "evidence": "if value is not null then assign; explicit null never clears existing value.",
@@ -409,7 +409,7 @@
   {
     "id": "BH13-2",
     "pattern_id": "BH13",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Omitted field means retain value; explicit null means clear it.",
       "evidence": "handler checks field presence; assigns null when present and keeps value only when absent.",
@@ -420,7 +420,7 @@
   {
     "id": "BH13-3",
     "pattern_id": "BH13",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Omitted field means retain value; explicit null means clear it.",
       "evidence": "",
@@ -431,7 +431,7 @@
   {
     "id": "BH14-1",
     "pattern_id": "BH14",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "No matches and provider failure must remain distinct outcomes.",
       "evidence": "catch network error returns []; caller displays no records found.",
@@ -442,7 +442,7 @@
   {
     "id": "BH14-2",
     "pattern_id": "BH14",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "No matches and provider failure must remain distinct outcomes.",
       "evidence": "catch returns typed unavailable error; successful empty response alone returns [].",
@@ -453,7 +453,7 @@
   {
     "id": "BH14-3",
     "pattern_id": "BH14",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "No matches and provider failure must remain distinct outcomes.",
       "evidence": "",
@@ -464,7 +464,7 @@
   {
     "id": "BH15-1",
     "pattern_id": "BH15",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "timeout values crossing the boundary must use the callee's documented milliseconds.",
       "evidence": "caller field is timeout_seconds; passes it unchanged to a milliseconds parameter.",
@@ -475,7 +475,7 @@
   {
     "id": "BH15-2",
     "pattern_id": "BH15",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "timeout values crossing the boundary must use the callee's documented milliseconds.",
       "evidence": "caller uses the declared unit conversion helper before calling the milliseconds API.",
@@ -486,7 +486,7 @@
   {
     "id": "BH15-3",
     "pattern_id": "BH15",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "timeout values crossing the boundary must use the callee's documented milliseconds.",
       "evidence": "",
@@ -497,7 +497,7 @@
   {
     "id": "BH16-1",
     "pattern_id": "BH16",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A stored instant must round-trip independently of the reader's local timezone.",
       "evidence": "writer stores local wall-clock text without offset; reader interprets it in its own timezone.",
@@ -508,7 +508,7 @@
   {
     "id": "BH16-2",
     "pattern_id": "BH16",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A stored instant must round-trip independently of the reader's local timezone.",
       "evidence": "writer stores UTC instant with explicit offset; reader parses the same instant in every zone.",
@@ -519,7 +519,7 @@
   {
     "id": "BH16-3",
     "pattern_id": "BH16",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A stored instant must round-trip independently of the reader's local timezone.",
       "evidence": "",
@@ -530,7 +530,7 @@
   {
     "id": "BH17-1",
     "pattern_id": "BH17",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Pagination must have a stable unique order and a matching continuation predicate.",
       "evidence": "sort by created_at only; page ends within tied timestamps; next page excludes all equal timestamps.",
@@ -541,7 +541,7 @@
   {
     "id": "BH17-2",
     "pattern_id": "BH17",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Pagination must have a stable unique order and a matching continuation predicate.",
       "evidence": "sort by (created_at,id) and continue lexicographically after both cursor values.",
@@ -552,7 +552,7 @@
   {
     "id": "BH17-3",
     "pattern_id": "BH17",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Pagination must have a stable unique order and a matching continuation predicate.",
       "evidence": "",
@@ -563,7 +563,7 @@
   {
     "id": "BH18-1",
     "pattern_id": "BH18",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Identifiers declared canonically equivalent must use the same normalization before matching.",
       "evidence": "registration stores raw Unicode; lookup uses normalized form; equivalent input cannot find account.",
@@ -574,7 +574,7 @@
   {
     "id": "BH18-2",
     "pattern_id": "BH18",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Identifiers declared canonically equivalent must use the same normalization before matching.",
       "evidence": "registration and lookup apply the same documented normalization and compare normalized keys.",
@@ -585,7 +585,7 @@
   {
     "id": "BH18-3",
     "pattern_id": "BH18",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Identifiers declared canonically equivalent must use the same normalization before matching.",
       "evidence": "",
@@ -596,7 +596,7 @@
   {
     "id": "BH19-1",
     "pattern_id": "BH19",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Failed persistence must restore or clearly mark the uncommitted state.",
       "evidence": "UI updates immediately; server rejects; catch logs error but leaves saved badge and edited value.",
@@ -607,7 +607,7 @@
   {
     "id": "BH19-2",
     "pattern_id": "BH19",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Failed persistence must restore or clearly mark the uncommitted state.",
       "evidence": "failure restores prior snapshot and marks save failed with retry available.",
@@ -618,7 +618,7 @@
   {
     "id": "BH19-3",
     "pattern_id": "BH19",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Failed persistence must restore or clearly mark the uncommitted state.",
       "evidence": "",
@@ -629,7 +629,7 @@
   {
     "id": "BH20-1",
     "pattern_id": "BH20",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one in-flight submission is permitted for this form.",
       "evidence": "two clicks enter handler before disabled rendering; both call submit; no in-flight guard.",
@@ -640,7 +640,7 @@
   {
     "id": "BH20-2",
     "pattern_id": "BH20",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one in-flight submission is permitted for this form.",
       "evidence": "handler sets synchronous in-flight guard before awaiting; second activation returns.",
@@ -651,7 +651,7 @@
   {
     "id": "BH20-3",
     "pattern_id": "BH20",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Only one in-flight submission is permitted for this form.",
       "evidence": "",
@@ -662,7 +662,7 @@
   {
     "id": "BH21-1",
     "pattern_id": "BH21",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Closing the dialog must restore focus to a meaningful surviving control.",
       "evidence": "dialog removal leaves focus on document body; trigger still exists but is never focused.",
@@ -673,7 +673,7 @@
   {
     "id": "BH21-2",
     "pattern_id": "BH21",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Closing the dialog must restore focus to a meaningful surviving control.",
       "evidence": "close restores focus to trigger, or a declared fallback if trigger was removed.",
@@ -684,7 +684,7 @@
   {
     "id": "BH21-3",
     "pattern_id": "BH21",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Closing the dialog must restore focus to a meaningful surviving control.",
       "evidence": "",
@@ -695,7 +695,7 @@
   {
     "id": "BH22-1",
     "pattern_id": "BH22",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every essential action must be operable by keyboard.",
       "evidence": "custom div has click handler only, no keyboard handler or focusability; required action has no alternative.",
@@ -706,7 +706,7 @@
   {
     "id": "BH22-2",
     "pattern_id": "BH22",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every essential action must be operable by keyboard.",
       "evidence": "native button performs same action through Enter/Space and is in tab order.",
@@ -717,7 +717,7 @@
   {
     "id": "BH22-3",
     "pattern_id": "BH22",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every essential action must be operable by keyboard.",
       "evidence": "",
@@ -728,7 +728,7 @@
   {
     "id": "BH23-1",
     "pattern_id": "BH23",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "IME confirmation must not submit the form while composition is active.",
       "evidence": "keydown Enter always submits, including events with isComposing=true.",
@@ -739,7 +739,7 @@
   {
     "id": "BH23-2",
     "pattern_id": "BH23",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "IME confirmation must not submit the form while composition is active.",
       "evidence": "Enter handler excludes composition events; later non-composing Enter submits.",
@@ -750,7 +750,7 @@
   {
     "id": "BH23-3",
     "pattern_id": "BH23",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "IME confirmation must not submit the form while composition is active.",
       "evidence": "",
@@ -761,7 +761,7 @@
   {
     "id": "BH24-1",
     "pattern_id": "BH24",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Row-local state must follow stable record identity across reorder.",
       "evidence": "rows keyed by index; editing first row then sorting moves its draft state to another record.",
@@ -772,7 +772,7 @@
   {
     "id": "BH24-2",
     "pattern_id": "BH24",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Row-local state must follow stable record identity across reorder.",
       "evidence": "rows keyed by stable record ID; draft remains attached to original record after sort.",
@@ -783,7 +783,7 @@
   {
     "id": "BH24-3",
     "pattern_id": "BH24",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Row-local state must follow stable record identity across reorder.",
       "evidence": "",
@@ -794,7 +794,7 @@
   {
     "id": "BH25-1",
     "pattern_id": "BH25",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every acquired connection must be released on success and failure.",
       "evidence": "conn=pool.acquire(); query throws before later release(); no finally or scoped owner.",
@@ -805,7 +805,7 @@
   {
     "id": "BH25-2",
     "pattern_id": "BH25",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every acquired connection must be released on success and failure.",
       "evidence": "query executes in a scoped connection context that releases on exception.",
@@ -816,7 +816,7 @@
   {
     "id": "BH25-3",
     "pattern_id": "BH25",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Every acquired connection must be released on success and failure.",
       "evidence": "",
@@ -827,7 +827,7 @@
   {
     "id": "BH26-1",
     "pattern_id": "BH26",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Producer must pause or reject when the declared queue bound is reached.",
       "evidence": "producer always appends; consumer slows; full signal is ignored and backlog grows.",
@@ -838,7 +838,7 @@
   {
     "id": "BH26-2",
     "pattern_id": "BH26",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Producer must pause or reject when the declared queue bound is reached.",
       "evidence": "producer awaits capacity or returns explicit overload without enqueuing.",
@@ -849,7 +849,7 @@
   {
     "id": "BH26-3",
     "pattern_id": "BH26",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Producer must pause or reject when the declared queue bound is reached.",
       "evidence": "",
@@ -860,7 +860,7 @@
   {
     "id": "BH27-1",
     "pattern_id": "BH27",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Transient retries must be bounded and desynchronized by the declared policy.",
       "evidence": "all clients retry immediately in a tight unbounded loop after the same failure.",
@@ -871,7 +871,7 @@
   {
     "id": "BH27-2",
     "pattern_id": "BH27",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Transient retries must be bounded and desynchronized by the declared policy.",
       "evidence": "retry has capped attempts, delay and per-client jitter; terminal failure propagates.",
@@ -882,7 +882,7 @@
   {
     "id": "BH27-3",
     "pattern_id": "BH27",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Transient retries must be bounded and desynchronized by the declared policy.",
       "evidence": "",
@@ -893,7 +893,7 @@
   {
     "id": "BH28-1",
     "pattern_id": "BH28",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Long blocking computation must not execute inline on the latency-sensitive event loop.",
       "evidence": "async handler calls a synchronous blocking parser inline; heartbeat pauses until parse ends.",
@@ -904,7 +904,7 @@
   {
     "id": "BH28-2",
     "pattern_id": "BH28",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Long blocking computation must not execute inline on the latency-sensitive event loop.",
       "evidence": "handler offloads blocking parse to a bounded worker; heartbeat remains responsive.",
@@ -915,7 +915,7 @@
   {
     "id": "BH28-3",
     "pattern_id": "BH28",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Long blocking computation must not execute inline on the latency-sensitive event loop.",
       "evidence": "",
@@ -926,7 +926,7 @@
   {
     "id": "BH29-1",
     "pattern_id": "BH29",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The list endpoint must use the declared batched-fetch path for related data.",
       "evidence": "fetch list; for each item await separate owner query; batch API exists but is unused.",
@@ -937,7 +937,7 @@
   {
     "id": "BH29-2",
     "pattern_id": "BH29",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The list endpoint must use the declared batched-fetch path for related data.",
       "evidence": "collect owner IDs and issue one bounded batch query, then join results.",
@@ -948,7 +948,7 @@
   {
     "id": "BH29-3",
     "pattern_id": "BH29",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The list endpoint must use the declared batched-fetch path for related data.",
       "evidence": "",
@@ -959,7 +959,7 @@
   {
     "id": "BH30-1",
     "pattern_id": "BH30",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Metric labels must come from the declared bounded dimensions.",
       "evidence": "counter labels include unique request_id and raw URL with item IDs.",
@@ -970,7 +970,7 @@
   {
     "id": "BH30-2",
     "pattern_id": "BH30",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Metric labels must come from the declared bounded dimensions.",
       "evidence": "counter uses route template and status class; request IDs stay in bounded logs/traces.",
@@ -981,7 +981,7 @@
   {
     "id": "BH30-3",
     "pattern_id": "BH30",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Metric labels must come from the declared bounded dimensions.",
       "evidence": "",
@@ -992,7 +992,7 @@
   {
     "id": "BH31-1",
     "pattern_id": "BH31",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Authenticated callers may read only objects authorized for their tenant and role.",
       "evidence": "handler verifies login then fetches arbitrary objectId without ownership/access predicate.",
@@ -1003,7 +1003,7 @@
   {
     "id": "BH31-2",
     "pattern_id": "BH31",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Authenticated callers may read only objects authorized for their tenant and role.",
       "evidence": "fetch is scoped by verified tenant and access policy; foreign object request is denied.",
@@ -1014,7 +1014,7 @@
   {
     "id": "BH31-3",
     "pattern_id": "BH31",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Authenticated callers may read only objects authorized for their tenant and role.",
       "evidence": "",
@@ -1025,7 +1025,7 @@
   {
     "id": "BH32-1",
     "pattern_id": "BH32",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "File access must resolve inside the approved root under the actual filesystem rules.",
       "evidence": "raw path prefix is accepted before canonical resolution; resolved target is outside approved root.",
@@ -1036,7 +1036,7 @@
   {
     "id": "BH32-2",
     "pattern_id": "BH32",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "File access must resolve inside the approved root under the actual filesystem rules.",
       "evidence": "canonical target is checked against approved root and symlink policy immediately before controlled open.",
@@ -1047,7 +1047,7 @@
   {
     "id": "BH32-3",
     "pattern_id": "BH32",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "File access must resolve inside the approved root under the actual filesystem rules.",
       "evidence": "",
@@ -1058,7 +1058,7 @@
   {
     "id": "BH33-1",
     "pattern_id": "BH33",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each outbound destination, including redirect hops, must satisfy the allowlist.",
       "evidence": "initial URL checked; HTTP client follows redirect to a forbidden host without revalidation.",
@@ -1069,7 +1069,7 @@
   {
     "id": "BH33-2",
     "pattern_id": "BH33",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each outbound destination, including redirect hops, must satisfy the allowlist.",
       "evidence": "redirect following disabled or every resolved hop is checked before connecting.",
@@ -1080,7 +1080,7 @@
   {
     "id": "BH33-3",
     "pattern_id": "BH33",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each outbound destination, including redirect hops, must satisfy the allowlist.",
       "evidence": "",
@@ -1091,7 +1091,7 @@
   {
     "id": "BH34-1",
     "pattern_id": "BH34",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "User-supplied names must be passed as data, never interpolated into a shell command.",
       "evidence": "handler concatenates user name into shell command string and executes through shell.",
@@ -1102,7 +1102,7 @@
   {
     "id": "BH34-2",
     "pattern_id": "BH34",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "User-supplied names must be passed as data, never interpolated into a shell command.",
       "evidence": "fixed executable receives validated argument array with no shell interpretation.",
@@ -1113,7 +1113,7 @@
   {
     "id": "BH34-3",
     "pattern_id": "BH34",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "User-supplied names must be passed as data, never interpolated into a shell command.",
       "evidence": "",
@@ -1124,7 +1124,7 @@
   {
     "id": "BH35-1",
     "pattern_id": "BH35",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Logs and exception reports must redact designated secret fields.",
       "evidence": "error handler serializes entire request headers including Authorization into logs.",
@@ -1135,7 +1135,7 @@
   {
     "id": "BH35-2",
     "pattern_id": "BH35",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Logs and exception reports must redact designated secret fields.",
       "evidence": "structured logger drops Authorization and applies redaction before formatting errors.",
@@ -1146,7 +1146,7 @@
   {
     "id": "BH35-3",
     "pattern_id": "BH35",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Logs and exception reports must redact designated secret fields.",
       "evidence": "",
@@ -1157,7 +1157,7 @@
   {
     "id": "BH36-1",
     "pattern_id": "BH36",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Revocation must take effect before the next protected operation in this contract.",
       "evidence": "grant cached indefinitely; revoke changes database only; next request accepts cached allow.",
@@ -1168,7 +1168,7 @@
   {
     "id": "BH36-2",
     "pattern_id": "BH36",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Revocation must take effect before the next protected operation in this contract.",
       "evidence": "revoke invalidates authorization version; next request rechecks and denies.",
@@ -1179,7 +1179,7 @@
   {
     "id": "BH36-3",
     "pattern_id": "BH36",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Revocation must take effect before the next protected operation in this contract.",
       "evidence": "",
@@ -1190,7 +1190,7 @@
   {
     "id": "BH37-1",
     "pattern_id": "BH37",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A regression test must assert the observable result required by its named contract.",
       "evidence": "test invokes save and asserts only that mock was constructed; stored state never checked.",
@@ -1201,7 +1201,7 @@
   {
     "id": "BH37-2",
     "pattern_id": "BH37",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A regression test must assert the observable result required by its named contract.",
       "evidence": "test invokes save and reads stored record to assert expected fields.",
@@ -1212,7 +1212,7 @@
   {
     "id": "BH37-3",
     "pattern_id": "BH37",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A regression test must assert the observable result required by its named contract.",
       "evidence": "",
@@ -1223,7 +1223,7 @@
   {
     "id": "BH38-1",
     "pattern_id": "BH38",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The changed normalization branch must execute under the regression test.",
       "evidence": "test mocks normalize completely and asserts its canned output; real branch never runs.",
@@ -1234,7 +1234,7 @@
   {
     "id": "BH38-2",
     "pattern_id": "BH38",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The changed normalization branch must execute under the regression test.",
       "evidence": "test calls real normalize and mocks only external I/O; boundary inputs hit changed branch.",
@@ -1245,7 +1245,7 @@
   {
     "id": "BH38-3",
     "pattern_id": "BH38",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The changed normalization branch must execute under the regression test.",
       "evidence": "",
@@ -1256,7 +1256,7 @@
   {
     "id": "BH39-1",
     "pattern_id": "BH39",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Test completion must wait for its asynchronous behavior and assertions.",
       "evidence": "test starts promise.then(assertion) but neither returns nor awaits it; runner finishes first.",
@@ -1267,7 +1267,7 @@
   {
     "id": "BH39-2",
     "pattern_id": "BH39",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Test completion must wait for its asynchronous behavior and assertions.",
       "evidence": "test awaits operation and then asserts result; rejection reaches runner.",
@@ -1278,7 +1278,7 @@
   {
     "id": "BH39-3",
     "pattern_id": "BH39",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Test completion must wait for its asynchronous behavior and assertions.",
       "evidence": "",
@@ -1289,7 +1289,7 @@
   {
     "id": "BH40-1",
     "pattern_id": "BH40",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Tests modifying process-global configuration must restore it.",
       "evidence": "test changes environment flag and leaves it set; later test outcome depends on run order.",
@@ -1300,7 +1300,7 @@
   {
     "id": "BH40-2",
     "pattern_id": "BH40",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Tests modifying process-global configuration must restore it.",
       "evidence": "test saves original value and restores it in cleanup even after failure.",
@@ -1311,7 +1311,7 @@
   {
     "id": "BH40-3",
     "pattern_id": "BH40",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Tests modifying process-global configuration must restore it.",
       "evidence": "",
@@ -1322,7 +1322,7 @@
   {
     "id": "BH41-1",
     "pattern_id": "BH41",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The executable being verified must load the intended build and module.",
       "evidence": "tests import checkout; PATH command resolves old installation and reports old module path.",
@@ -1333,7 +1333,7 @@
   {
     "id": "BH41-2",
     "pattern_id": "BH41",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The executable being verified must load the intended build and module.",
       "evidence": "installed command resolves intended package revision and a real affected-path smoke passes.",
@@ -1344,7 +1344,7 @@
   {
     "id": "BH41-3",
     "pattern_id": "BH41",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "The executable being verified must load the intended build and module.",
       "evidence": "",
@@ -1355,7 +1355,7 @@
   {
     "id": "BH42-1",
     "pattern_id": "BH42",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Published artifact bytes must match the qualified artifact digest.",
       "evidence": "tests qualify build A; publish step rebuilds B; downloaded release digest differs from A.",
@@ -1366,7 +1366,7 @@
   {
     "id": "BH42-2",
     "pattern_id": "BH42",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Published artifact bytes must match the qualified artifact digest.",
       "evidence": "publish uploads exact retained build A; downloaded artifact digest matches qualification receipt.",
@@ -1377,7 +1377,7 @@
   {
     "id": "BH42-3",
     "pattern_id": "BH42",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Published artifact bytes must match the qualified artifact digest.",
       "evidence": "",
@@ -1388,7 +1388,7 @@
   {
     "id": "BH43-1",
     "pattern_id": "BH43",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Retrieved documents may provide evidence but cannot authorize tools or change task policy.",
       "evidence": "retrieved page says execute an action; planner adopts it as a higher-priority instruction and dispatches.",
@@ -1399,7 +1399,7 @@
   {
     "id": "BH43-2",
     "pattern_id": "BH43",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Retrieved documents may provide evidence but cannot authorize tools or change task policy.",
       "evidence": "retrieved text remains quoted evidence; tool authority is checked against user request and host policy.",
@@ -1410,7 +1410,7 @@
   {
     "id": "BH43-3",
     "pattern_id": "BH43",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Retrieved documents may provide evidence but cannot authorize tools or change task policy.",
       "evidence": "",
@@ -1421,7 +1421,7 @@
   {
     "id": "BH44-1",
     "pattern_id": "BH44",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A tool result must match its originating call ID and task revision.",
       "evidence": "result for call A arrives after call B; handler assigns it to latest pending call B without ID check.",
@@ -1432,7 +1432,7 @@
   {
     "id": "BH44-2",
     "pattern_id": "BH44",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A tool result must match its originating call ID and task revision.",
       "evidence": "handler resolves by exact call ID and revision; stale/unmatched result is held.",
@@ -1443,7 +1443,7 @@
   {
     "id": "BH44-3",
     "pattern_id": "BH44",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "A tool result must match its originating call ID and task revision.",
       "evidence": "",
@@ -1454,7 +1454,7 @@
   {
     "id": "BH45-1",
     "pattern_id": "BH45",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each cited claim must be supported by the cited passage in context.",
       "evidence": "claim says rollout passed; cited passage says rollout has not been tested; citation ID exists.",
@@ -1465,7 +1465,7 @@
   {
     "id": "BH45-2",
     "pattern_id": "BH45",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each cited claim must be supported by the cited passage in context.",
       "evidence": "claim says rollout remains untested; same passage directly states that status.",
@@ -1476,7 +1476,7 @@
   {
     "id": "BH45-3",
     "pattern_id": "BH45",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Each cited claim must be supported by the cited passage in context.",
       "evidence": "",
@@ -1487,7 +1487,7 @@
   {
     "id": "BH46-1",
     "pattern_id": "BH46",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Mandatory constraints must survive optional relevance filtering.",
       "evidence": "token budget top-k filter ranks all items together and drops a required no-send constraint.",
@@ -1498,7 +1498,7 @@
   {
     "id": "BH46-2",
     "pattern_id": "BH46",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Mandatory constraints must survive optional relevance filtering.",
       "evidence": "required items bypass optional ranking; if they cannot fit, context assembly refuses.",
@@ -1509,7 +1509,7 @@
   {
     "id": "BH46-3",
     "pattern_id": "BH46",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Mandatory constraints must survive optional relevance filtering.",
       "evidence": "",
@@ -1520,7 +1520,7 @@
   {
     "id": "BH47-1",
     "pattern_id": "BH47",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Completion requires the declared external receipt or readback, not merely dispatch.",
       "evidence": "tool returns accepted/queued; agent reports task completed without checking destination.",
@@ -1531,7 +1531,7 @@
   {
     "id": "BH47-2",
     "pattern_id": "BH47",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Completion requires the declared external receipt or readback, not merely dispatch.",
       "evidence": "agent reports queued until readback confirms the intended result, then reports completion.",
@@ -1542,7 +1542,7 @@
   {
     "id": "BH47-3",
     "pattern_id": "BH47",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Completion requires the declared external receipt or readback, not merely dispatch.",
       "evidence": "",
@@ -1553,7 +1553,7 @@
   {
     "id": "BH48-1",
     "pattern_id": "BH48",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Repeated recovery attempts must obey a finite budget and stop when no progress is made.",
       "evidence": "on unknown the controller reasks unchanged state forever; no attempt limit or escalation.",
@@ -1564,7 +1564,7 @@
   {
     "id": "BH48-2",
     "pattern_id": "BH48",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Repeated recovery attempts must obey a finite budget and stop when no progress is made.",
       "evidence": "controller tracks budget and evidence revision; exhausted unchanged attempts return unresolved.",
@@ -1575,7 +1575,7 @@
   {
     "id": "BH48-3",
     "pattern_id": "BH48",
-    "version": 2,
+    "version": 1,
     "state": {
       "contract": "Repeated recovery attempts must obey a finite budget and stop when no progress is made.",
       "evidence": "",

@@ -62,3 +62,18 @@ python3 -m unittest -v test_evaluate.py
 ~~~
 
 [Open all result receipts]({{ '/iterations/02/results/' | relative_url }}) · [Open the standalone evaluator]({{ '/iterations/02/evaluate.py' | relative_url }})
+## 2026-09-26 local controller evidence preflight
+
+The advisory `plan` API now requires `state=...` as a keyword argument. Omission,
+missing top-level required fields, nulls, whitespace-only strings and empty arrays
+or objects return `review / missing_required_state` before model answers are used.
+This repairs the previous API's inability to inspect required evidence. Iteration 1's
+mandatory policy-alert override remains independent of model/evidence availability.
+
+This is a structural presence check only: nonempty records may still be false,
+stale, contradictory or incomplete internally. It does not authenticate a response,
+validate nested schemas, or grant authority. Providers should also be called only
+after preflight. Branch tests use explicitly supplied synthetic evidence, not proof
+of real-world source grounding. Cross-iteration negative tests exercise all 120
+profiles in `scripts/test_iteration_state_preflight.py`; historical question
+contracts, fixtures and provider receipts are unchanged. Local repair, not deployment.

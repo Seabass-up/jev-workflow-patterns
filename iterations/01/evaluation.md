@@ -58,3 +58,18 @@ Independent questions for one fixture were batched in that fixture's request. Fi
 ## Next adoption gate
 
 Choose one narrow pilot; create an authorized domain sample with independent labels, critical counterexamples, abstentions and a simple non-Jev baseline. Measure wrong decisions, coverage, follow-up turns, review time and actual end-to-end outcomes. Predeclare thresholds according to consequences. Keep exact arithmetic, identity, authority, freshness and actions in code. Promote only when the pilot demonstrates useful results; four research cycles will not by themselves qualify any pattern for production.
+## 2026-09-26 local controller evidence preflight
+
+The advisory `plan` API now requires `state=...` as a keyword argument. Omission,
+missing top-level required fields, nulls, whitespace-only strings and empty arrays
+or objects return `review / missing_required_state` before model answers are used.
+This repairs the previous API's inability to inspect required evidence. Iteration 1's
+mandatory policy-alert override remains independent of model/evidence availability.
+
+This is a structural presence check only: nonempty records may still be false,
+stale, contradictory or incomplete internally. It does not authenticate a response,
+validate nested schemas, or grant authority. Providers should also be called only
+after preflight. Branch tests use explicitly supplied synthetic evidence, not proof
+of real-world source grounding. Cross-iteration negative tests exercise all 120
+profiles in `scripts/test_iteration_state_preflight.py`; historical question
+contracts, fixtures and provider receipts are unchanged. Local repair, not deployment.

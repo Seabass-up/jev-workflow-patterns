@@ -2,11 +2,19 @@ import copy
 import json
 import unittest
 
-from evaluate import ROOT, plan, replay, valid_answers
+from evaluate import ROOT, plan as raw_plan, replay, state_ready, valid_answers
 
 
 CATALOG = json.loads((ROOT / "catalog.json").read_text())
 PATTERNS = {p["id"]: p for p in CATALOG["patterns"]}
+
+
+def plan(pattern, signal, control=None):
+    # These pure branch tests supply nonempty synthetic evidence placeholders.
+    # They do not prove source truth or provider/state binding. Raw preflight tests
+    # below exercise omitted, empty and actual structured state directly.
+    state = {field: "synthetic branch-test evidence" for field in pattern["required_state_fields"]}
+    return raw_plan(pattern, signal, control, state=state)
 
 
 def response(pid, values=None, confidence=1.0):
@@ -34,6 +42,36 @@ def op(tool="read_log", record="sample"):
 
 
 class ReceiptTests(unittest.TestCase):
+    def test_every_profile_rejects_missing_or_empty_required_state(self):
+        for p in PATTERNS.values():
+            good = {field: "supplied evidence" for field in p["required_state_fields"]}
+            self.assertTrue(state_ready(p, good))
+            self.assertEqual(raw_plan(p, response(p["id"]))["reason"], "missing_required_state")
+            for field in p["required_state_fields"]:
+                for empty in (None, "", "  \n", [], {}):
+                    with self.subTest(pattern=p["id"], field=field, value=empty):
+                        state = {**good, field: empty}
+                        self.assertEqual(raw_plan(p, response(p["id"]), state=state)["reason"],
+                                         "missing_required_state")
+                state = dict(good)
+                del state[field]
+                self.assertFalse(state_ready(p, state))
+
+    def test_l01_empty_evidence_never_ranks_passage(self):
+        p = PATTERNS["L01"]
+        signal = response("L01", {"premise_conflict": 0.01})
+        self.assertEqual(raw_plan(p, signal, state={"query": "", "passage": "Evidence"})["next"], "review")
+        self.assertEqual(raw_plan(p, signal, state={"query": "Which item?", "passage": "Evidence"})["next"],
+                         "rank_passage")
+
+    def test_mandatory_policy_alert_survives_missing_model_evidence(self):
+        self.assertEqual(raw_plan(PATTERNS["H07"], {"ok": False}, {"mandatory_alert": True})["next"],
+                         "mandatory_policy_review")
+
+    def test_false_and_zero_are_present_evidence_not_empty(self):
+        p = {"required_state_fields": ["flag", "count"]}
+        self.assertTrue(state_ready(p, {"flag": False, "count": 0}))
+
     def test_all_receipts_bind_exact_state_and_question(self):
         result = replay()
         self.assertEqual(sum(s["request_digests_verified"] for s in result.values()), 136)

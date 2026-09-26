@@ -155,8 +155,27 @@ def check_receipt(row: dict[str, Any], screen: str) -> dict[str, int]:
     return {"requests": 1, "fixture_matches": int(all(matches)), "questions": len(checks), "question_matches": sum(matches), "request_digests_verified": 1}
 
 
-def plan(pattern: dict[str, Any], response: dict[str, Any]) -> dict[str, str]:
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern: dict[str, Any], response: dict[str, Any], *, state=None) -> dict[str, str]:
     """A deliberately non-actioning controller used only by pure tests."""
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     if not valid_answers(pattern.get("questions"), response):
         return {"next": "review"}
     return {"next": "review_or_code_owned_branch"}

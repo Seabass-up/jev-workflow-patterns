@@ -6,11 +6,17 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from evaluate import ROOT, contains_expected, plan, replay, valid_answers
+from evaluate import ROOT, contains_expected, plan as raw_plan, replay, valid_answers
 
 
 CATALOG = json.loads((ROOT / "catalog.json").read_text())
 PATTERNS = {pattern["id"]: pattern for pattern in CATALOG["patterns"]}
+
+
+def plan(pattern, signal):
+    # Pure branch tests provide nonempty synthetic evidence, not provider proof.
+    state = {field: "synthetic branch-test evidence" for field in pattern["required_state_fields"]}
+    return raw_plan(pattern, signal, state=state)
 
 
 def response(pattern_id, values=None, confidence=1.0):

@@ -279,8 +279,27 @@ def replay() -> dict[str, Any]:
     }
 
 
-def plan(pattern: dict[str, Any], response: dict[str, Any]) -> dict[str, str]:
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern: dict[str, Any], response: dict[str, Any], *, state=None) -> dict[str, str]:
     """Return a non-executing proposal; malformed/provider-failed signals fail closed."""
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     questions = pattern.get("questions", {})
     if not valid_answers(questions, response):
         return {"next": "review", "reason": "invalid_or_failed_typed_response"}

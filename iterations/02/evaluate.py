@@ -292,13 +292,32 @@ def ready(pattern: dict[str, Any], answer: dict[str, Any]) -> bool:
     return answer.get("confidence", 0.0) >= policy.get("choice_score_confidence_floor", 0.8)
 
 
-def plan(pattern: dict[str, Any], response: dict[str, Any], control: dict[str, Any] | None = None) -> dict[str, Any]:
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern: dict[str, Any], response: dict[str, Any], control: dict[str, Any] | None = None, *, state=None) -> dict[str, Any]:
     """Return a non-executing next-step proposal.
 
     Trusted control metadata is supplied and validated by caller-owned code. A
     Jev answer can choose only a review/proposal path; it never grants authority.
     """
     control = control or {}
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     if not valid_answers(pattern.get("questions"), response):
         return {"next": "review", "reason": "provider_or_schema_failure"}
     answers = response["answers"]

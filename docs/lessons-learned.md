@@ -183,6 +183,15 @@
 - **Repair/verification:** The verifier now binds 390 complete current contracts, 113 live screening receipts, and 12 new boundary receipts. Its tests exercise the current source plus malformed responses; the full 65-command local suite passes in `reviews/2026-09-26/semantic-wave01-local-tests.json`.
 - **Prevention/boundary:** Read every relevant contract field when screening. Inspect flags before rewriting: six initial flags were not confirmed on source inspection and targeted cases. Preserve uncertainties and false positives; a model screen can also miss defects and does not replace host review or production qualification. Normalize CLI paths before deriving repository-relative provenance. These changes are local only.
 
+## 2026-09-26 — Historical controllers could not inspect required evidence
+
+- **Component:** Advisory planners in iterations 01–04 (120 profiles).
+- **Symptom:** L01 returned `rank_passage` from a typed signal even when no query or passage was supplied to the planner. The other three planner APIs likewise accepted no source state.
+- **Confirmed cause:** Required-field metadata was checked in some fixture validators but not at the consuming planner boundary; the planner function had no state argument. A low-confidence Jev candidate was independently confirmed by source inspection and reproduction.
+- **Repair:** Require keyword `state=...` for planning. Missing required fields, nulls, blank strings and empty collections return review before typed-answer consumption. Preserve iteration-01's mandatory policy-alert override. Update pure branch tests to supply explicit synthetic evidence; do not silently create evidence in production.
+- **Verification:** Cross-iteration tests exercise every required field of all 120 profiles; iteration 01 passes 38 tests. All 65 local repository replay/test commands pass in `reviews/2026-09-26/state-preflight-final-tests.json`. Changed evaluator/test/document hashes in iteration-03/04 manifests are refreshed. No question contracts, fixtures or provider receipts were rewritten.
+- **Prevention/limits:** Make evidence presence an executable consumer precondition, not just metadata. Presence is not authenticity, nested-schema completeness, source/answer binding, semantic sufficiency, truth, freshness or permission. This local API change is not deployment or production qualification.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

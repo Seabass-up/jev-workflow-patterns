@@ -98,3 +98,16 @@ against source material and consuming code using the relevant module.
 Before API integration, refresh the relevant official
 [TypeSafe documentation](https://docs.typesafe.ai/llms.txt) and installed SDK schema.
 Local bridge limits must not be presented as provider-wide limits.
+
+## Record new patterns
+
+When Jev use in any task reveals a reusable question design, composition, failure
+mode or code/Jev boundary that the kernel's profiles don't already cover, add it as
+the next `C` candidate in `discovery/candidates.json` at the root of this skill's
+repository (`~/Code/jev-workflow-patterns`; process: `discovery/index.md`), run
+`python3 discovery/check_candidates.py`, and tell the user. Compare mechanisms, not
+titles; improving an existing pattern is a revision, not a candidate. Describe
+candidates with synthetic or public examples only: no client names, private
+records, mailbox content, account numbers or credentials. Adding a candidate never
+authorizes a commit, push, live screen or published-pattern change; ask first, and
+branch before committing if the repository is on `main`.

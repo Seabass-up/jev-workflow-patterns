@@ -24,7 +24,7 @@ Several bugs can coexist. Ask independent questions, rather than one exclusive C
 
 ## Screening result and limits
 
-The authored three-case screen produced 143/144 matching labels after two one-time service-error recoveries. **BH41 remains provisional:** its compliant-installation example returned insufficient. No question was tuned and no expected label was changed after inference. The 146 screening attempts include two HTTP 529 responses; all 144 successful request digests replay.
+The authored three-case screen produced 143/144 matching labels after two one-time service-error recoveries. **BH41 remains provisional:** its compliant-installation example returned insufficient. No question was tuned and no expected label was changed after inference. The 146 screening attempts include two HTTP 529 responses; all 144 successful request digests replay. Version 2 (September 26, 2026) states a tie-break for evidence that shows both a violating path and a relevant guard; the unchanged 144 scenarios were re-screened once against it with 143/144 matches and the same BH41-2 disagreement.
 
 These scenarios are natural-language descriptions of implementation or event behavior, not executed buggy/fixed programs. Passing them does not demonstrate that Jev will discover hidden bugs in a real repository. The per-pattern reproduction recipes are future verification steps, not completed tests. [Read the full evaluation]({{ '/bug-hunting/evaluation/' | relative_url }}).
 

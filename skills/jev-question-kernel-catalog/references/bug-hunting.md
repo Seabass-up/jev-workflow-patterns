@@ -46,6 +46,9 @@ cannot use one another's answers. Separate unrelated source packets.
   Low confidence does not erase a potentially high-impact lead.
 - `counterevidence`: retain a relevant guard or contradictory trace for this path.
   It is not an all-clear and cannot veto an independently reproduced defect.
+  When the evidence shows both a concrete violating path and a relevant guard, the
+  contract selects `risk_supported`: the guard narrows the finding, it does not cancel
+  it. Version 2 of every profile states this tie-break in its instructions.
 - `insufficient`: retrieve the specifically missing source or report unresolved.
   Source mismatch, stale state, and provider failure also stay unresolved, separately.
 

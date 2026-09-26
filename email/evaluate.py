@@ -58,7 +58,8 @@ def validate_receipt(receipt, fixture, pattern):
     for value in [answer.get("confidence"), *probabilities.values()]:
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError("invalid probability")
-    if not math.isclose(sum(probabilities.values()), 1, abs_tol=1e-6):
+    # Provider probabilities are rounded to two decimals; accept the bridge's 0.02 tolerance.
+    if not math.isclose(sum(probabilities.values()), 1, abs_tol=0.02):
         raise ValueError("probabilities do not sum to one")
     # TypeSafe confidence summarizes distribution shape; it is not defined
     # as the probability of the selected option. Validate it independently.

@@ -303,6 +303,31 @@
       ],
       "delta": "H37 checks whether located context supports one claim, and E22 whether evidence supports one field. This applies the check to a table of broad capability claims whose truth is often partial, blind to the analyst's own verdicts. It shows that a three-way outcome turns partial truth into a low-confidence split, a confident contradiction, or a confident support, depending on claim wording.",
       "next_step": "Write a contract with a partially_supports option (or existence and adequacy sub-claim pairs), freeze fixtures from public repositories with analyst verdicts held outside provider inputs, and screen it live against the three-way version."
+    },
+    {
+      "id": "C12",
+      "title": "New validator invariant against the producer's reachable output",
+      "status": "candidate",
+      "found": {
+        "date": "2026-09-25",
+        "harness": "claude",
+        "context": "Code-review triage of a change that added one invariant to a record validator (a count of automatic moves must not exceed a count of agreed moves) in a local toy game."
+      },
+      "mechanism": "When a change adds an invariant to a validator, ask whether any genuine producer path can emit a record that violates it. Supply the producer, the new invariant, and the upstream rule that is supposed to guarantee it, because the guarantee often lives in a different function. Code then runs the producer across its modes (a property run) and stored records through the new validator.",
+      "jev_judges": "Whether the supplied producer and upstream rules show a reachable output that violates the new invariant, show a guarantee that prevents it, or are insufficient.",
+      "code_owns": "Choosing the invariant and producer, assembling the guarantee chain, the property run over producer modes, re-validating stored records, and the final verdict.",
+      "evidence": [
+        "Receipt digest only (private project code is not published): request_sha256 f915fe5a6e3dd3bf3679bf8a5f9631019a8d3054e941da307d95d13da52f8c06",
+        "Observed: with the upstream guarantee given only as a one-line summary, the three-way Choice split 0.39 no-defect, 0.37 defect, 0.24 insufficient (confidence 0.09); twelve sibling questions in the same request answered at 0.56 to 0.99.",
+        "Observed: exact checks refuted the lead; 40 randomized producer runs across every mode, plus 10 two-sided runs, all produced records that passed the new invariant.",
+        "Synthetic example: a refund validator newly requires refunded_total <= captured_total; the refund writer caps each refund at the remaining captured amount in a separate helper. Without that helper in the packet, the question cannot be settled.",
+        "Limitation: one run and one domain; the split may reflect the packet omitting the guarantee rather than a general property."
+      ],
+      "nearest_prior": [
+        "BH12"
+      ],
+      "delta": "BH12 asks whether a migration removes a field that a supported old reader still needs. This runs the other way: the reader gains a rule, and the question is whether current or stored writer output can break it. It also records a packet requirement: include the upstream guarantee itself, not a summary of it.",
+      "next_step": "Write a contract with the guarantee chain as a required state field, freeze synthetic fixtures (guarantee present, guarantee absent, genuine violation), and screen whether including the guarantee turns the split into a confident answer."
     }
   ]
 }

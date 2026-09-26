@@ -39,7 +39,8 @@ def answer_value(answer: Any) -> Any:
 
 
 def probability_distribution(values: Any, keys: set[str]) -> bool:
-    return isinstance(values, dict) and set(values) == keys and all(probability(v) for v in values.values()) and abs(sum(values.values()) - 1) <= 0.000001
+    # Each provider probability is rounded to two decimal places.
+    return isinstance(values, dict) and set(values) == keys and all(probability(v) for v in values.values()) and abs(sum(values.values()) - 1) <= .005 * len(keys) + 1e-12
 
 
 def valid_answers(questions: Any, response: Any) -> bool:
@@ -59,6 +60,8 @@ def valid_answers(questions: Any, response: Any) -> bool:
             if not isinstance(criteria, dict) or not isinstance(answer.get("choice"), str) or answer["choice"] not in criteria:
                 return False
             if not probability(answer.get("confidence")) or not probability_distribution(answer.get("probabilities"), set(criteria)):
+                return False
+            if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                 return False
         elif kind == "score":
             criteria = question.get("criteria")

@@ -20,6 +20,23 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Iteration 03 source-triage checkpoint (wave 04)
+
+All fourteen original iteration-three flags have been source-inspected. Five are
+not confirmed as contract defects (E15/L14/L15/L16/H30); their frozen live boundary
+cases match all eleven question expectations. Nine retain specific source-confirmed
+ambiguity or missing-evidence/availability defects and need versioned repairs.
+Thirteen original iteration-four flags are still not host-reviewed. This checkpoint
+does not close the whole-pattern goal, the H05 policy issue, unflagged source review,
+foundational-guide review or kernel/tooling review.
+
+Iterations 02–04 shared a deterministic validator defect: 0.99/1.01 rounded
+distributions were rejected while nonmaximum Choice labels were accepted.
+The repaired validators use a per-value rounding bound and maximum-selection check;
+cross-iteration tests also retain malformed-distribution rejection and tied maxima.
+See `validator-rounding-reproduction.json`, `host-triage-wave04.json`, and the wave-04
+frozen fixtures/receipts. These are local synthetic checks, not live qualification.
+
 ### Controller repair checkpoint
 
 The iteration-01 L01 consumer finding is structurally repaired across all four

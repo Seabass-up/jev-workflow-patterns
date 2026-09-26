@@ -1,0 +1,62 @@
+{
+  "source_commit": "6ea79d0",
+  "scope": "Deterministic validator reproduction, not provider behavior",
+  "question": {
+    "x": {
+      "type": "choice",
+      "criteria": {
+        "a": "A",
+        "b": "B",
+        "c": "C"
+      }
+    }
+  },
+  "rounded_valid_response": {
+    "ok": true,
+    "answers": {
+      "x": {
+        "type": "choice",
+        "choice": "a",
+        "confidence": 0.49,
+        "probabilities": {
+          "a": 0.66,
+          "b": 0.22,
+          "c": 0.11
+        }
+      }
+    }
+  },
+  "nonmaximum_response": {
+    "ok": true,
+    "answers": {
+      "x": {
+        "type": "choice",
+        "choice": "b",
+        "confidence": 0.49,
+        "probabilities": {
+          "a": 0.66,
+          "b": 0.23,
+          "c": 0.11
+        }
+      }
+    }
+  },
+  "before": [
+    {
+      "iteration": 2,
+      "rounded_valid_accepted": false,
+      "nonmaximum_accepted": true
+    },
+    {
+      "iteration": 3,
+      "rounded_valid_accepted": false,
+      "nonmaximum_accepted": true
+    },
+    {
+      "iteration": 4,
+      "rounded_valid_accepted": false,
+      "nonmaximum_accepted": true
+    }
+  ],
+  "repair": "Per-value two-decimal rounding bound .005*n+epsilon; reject Choice whose selected probability is below maximum. Confidence calibration is a separate check."
+}

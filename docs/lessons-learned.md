@@ -208,6 +208,14 @@
 - **Verification:** One screen of 17 unchanged regressions and eight frozen development cases matched 25/25. Two low-confidence answers (0.60/0.79) stay in review through consumer tests. Iteration 02 passes 24 tests, binds 200 receipts and retains 134/134 final fixture matches. All-catalog checks are saved with this checkpoint.
 - **Prevention/limits:** Test co-occurrence separately from clear single-label cases. Conflict handling precedes supportive evidence; one selected label does not erase other defects or establish trust/authority. These are local synthetic revisions, not deployed or production-qualified patterns.
 
+## 2026-09-26 — Historical iteration response distribution validation
+
+- **Component:** Iteration 02/03/04 `valid_answers` and shared review receipt checks.
+- **Symptom/cause:** Exact sum tolerance rejected valid two-decimal rounded distributions (0.99/1.01); no maximum check allowed a Choice selecting a less probable option. Deterministic reproduction saved against source commit `6ea79d0`.
+- **Repair:** Allow only the per-value rounding error bound `.005 * option_count + epsilon`; require selected Choice probability to equal the maximum. Complete label coverage, finite bounded values and malformed-distribution rejection remain enforced. Added cross-iteration regressions, including Score rounding and tied Choice maxima.
+- **Verification:** Shared script tests pass 17/17; the full repository run passes 65/65 commands in `reviews/2026-09-26/iteration03-triage-validator-commit-tests.json`. Five unchanged iteration-three contracts were exercised in fresh frozen cases; all eleven expectations matched and all five consumer replays returned review. Original historical receipts and labels are unchanged.
+- **Prevention/limits:** Test actual serialized probability precision, not only one-hot mocks. Distribution shape and maximum consistency do not establish calibration, truth, permission, or production qualification. No deployment performed; nine iteration-three semantic repairs remain pending.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

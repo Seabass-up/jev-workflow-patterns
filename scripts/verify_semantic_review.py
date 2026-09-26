@@ -127,12 +127,40 @@ def verify_boundaries(folder, root=ROOT, wave="01"):
         if set(resp["answers"]) != set(p["questions"]):
             raise ValueError("boundary answer coverage")
         for qid, question in p["questions"].items():
-            validate_answer(question, resp["answers"][qid])
+            answer = resp["answers"][qid]
+            if question["type"] == "choice":
+                validate_answer(question, answer)
+            elif question["type"] == "noul":
+                value = answer.get("noul")
+                if (answer.get("type") != "noul" or type(value) not in (int, float)
+                        or not math.isfinite(value) or not 0 <= value <= 1):
+                    raise ValueError("invalid boundary Noul")
+            else:
+                raise ValueError("unsupported boundary primitive")
         expected = {"decision": f["expected"]} if isinstance(f["expected"], str) else f["expected"]
-        observed = {qid: a["choice"] for qid, a in resp["answers"].items()}
+        if set(expected) != set(p["questions"]):
+            raise ValueError("boundary expectation coverage")
+        observed = {qid: a.get("choice", a.get("noul")) for qid, a in resp["answers"].items()}
+        matches = []
+        for qid, target in expected.items():
+            if isinstance(target, str):
+                matched = observed[qid] == target
+            elif isinstance(target, dict) and set(target) == {"choice"} and p["questions"][qid]["type"] == "choice":
+                matched = observed[qid] == target["choice"]
+            elif isinstance(target, dict) and set(target) == {"range"} and p["questions"][qid]["type"] == "noul":
+                bounds = target["range"]
+                if (not isinstance(bounds, list) or len(bounds) != 2
+                        or not all(type(v) in (int, float) and math.isfinite(v) for v in bounds)
+                        or not 0 <= bounds[0] <= bounds[1] <= 1):
+                    raise ValueError("invalid boundary interval")
+                matched = bounds[0] <= observed[qid] <= bounds[1]
+            else:
+                raise ValueError("invalid boundary expectation")
+            matches.append(matched)
+        confidences = [a["confidence"] for a in resp["answers"].values() if a["type"] == "choice"]
         result.append({"id": f["id"], "key": f["key"], "expected": f["expected"],
-                       "observed": observed.get("decision", observed), "match": expected == observed,
-                       "confidence": min(a["confidence"] for a in resp["answers"].values())})
+                       "observed": observed.get("decision", observed), "match": all(matches),
+                       "confidence": min(confidences) if confidences else None})
     return result
 
 
@@ -145,6 +173,8 @@ def main():
     report["boundary_wave01"] = verify_boundaries(args.folder.resolve())
     if (args.folder / "boundary-fixtures-wave02.json").exists():
         report["boundary_wave02"] = verify_boundaries(args.folder.resolve(), wave="02")
+    if (args.folder / "boundary-fixtures-wave04.json").exists():
+        report["boundary_wave04"] = verify_boundaries(args.folder.resolve(), wave="04")
     if args.output:
         with args.output.open("x") as stream:
             json.dump(report, stream, indent=2, ensure_ascii=False, allow_nan=False)

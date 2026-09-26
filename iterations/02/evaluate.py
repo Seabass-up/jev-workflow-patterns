@@ -61,7 +61,8 @@ def probability_distribution(values: Any, keys: set[str]) -> bool:
         return False
     if not all(probability(value) for value in values.values()):
         return False
-    return abs(sum(values.values()) - 1) <= 0.000001
+    # Each provider probability is rounded to two decimal places.
+    return abs(sum(values.values()) - 1) <= .005 * len(keys) + 1e-12
 
 
 def valid_answers(questions: Any, response: Any) -> bool:
@@ -92,6 +93,8 @@ def valid_answers(questions: Any, response: Any) -> bool:
             if not probability(answer.get("confidence")):
                 return False
             if not probability_distribution(answer.get("probabilities"), set(criteria)):
+                return False
+            if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                 return False
         elif kind == "score":
             criteria = question.get("criteria")

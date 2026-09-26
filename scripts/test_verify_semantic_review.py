@@ -39,6 +39,12 @@ class SemanticReviewTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     validate_answer(q, bad)
 
+    def test_wave04_mixed_primitives_bind_and_match(self):
+        rows = verify_boundaries(ROOT / "reviews/2026-09-26", wave="04")
+        self.assertEqual(len(rows), 5)
+        self.assertTrue(all(row["match"] for row in rows))
+        self.assertIsNone(next(row for row in rows if row["id"] == "H30-independent-lanes")["confidence"])
+
 
 if __name__ == "__main__":
     unittest.main()

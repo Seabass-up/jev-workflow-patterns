@@ -1,0 +1,103 @@
+{
+  "pattern": {
+    "id": "H18",
+    "title": "Answer evidence-obligation release ledger",
+    "domain": "harness",
+    "value": "Prevent an answer plan from silently omitting a required source, caveat or known counterevidence before it reaches a user.",
+    "success_metric": "Unsupported-claim escapes and answer-completeness review time.",
+    "required_state_fields": [
+      "answer_plan",
+      "evidence_ledger"
+    ],
+    "questions": {
+      "decision": {
+        "type": "choice",
+        "instructions": "How complete is `answer_plan` against the explicit obligations in `evidence_ledger`? Assess named claim/source/counterevidence obligations only; do not generate the answer.",
+        "criteria": {
+          "complete": "Every required claim has its required evidence or stated limitation, and listed counterevidence is addressed.",
+          "partial": "At least one required claim/source/limitation obligation is missing.",
+          "counterevidence_unaddressed": "A listed direct counterevidence item is omitted or treated as supporting the claim.",
+          "insufficient": "The plan or ledger is absent, ambiguous, or cannot be matched."
+        }
+      }
+    },
+    "follow_up": "Code enforces exact obligation IDs and raw source bindings. A semantic `complete` result is only a review signal; missing deterministic IDs fails closed.",
+    "code_owns": "Build obligation ledger, validate IDs/revisions, count coverage, format answer and send it.",
+    "baseline": "Check each selected citation in isolation after drafting.",
+    "comparison_to_iteration_1": "Unlike L01's retention of counterevidence and L11's coverage score, this composes named obligations into a release gate.",
+    "source": "https://docs.typesafe.ai/cookbooks/citation_check",
+    "origin": "Task-authored iteration 2 application of documented typed-decision components. It is not a claim of global novelty.",
+    "limits": "No semantic ledger check proves an answer is factually correct.",
+    "policy": {
+      "choice_score_confidence_floor": 0.8,
+      "noul_yes_floor": 0.8,
+      "noul_no_ceiling": 0.2,
+      "threshold_status": "Provisional screening settings, not calibrated deployment thresholds."
+    },
+    "contract_version": 1,
+    "prior_patterns": [
+      "L01",
+      "L10",
+      "L11"
+    ],
+    "design_status": "Experimental composition with bounded prior-art comparison; not production-qualified."
+  },
+  "fixtures": [
+    {
+      "id": "H18-1",
+      "pattern_id": "H18",
+      "state": {
+        "answer_plan": "claim price: $10 citing price_source; claim reliability: 99.9% citing reliability_source; limitation: one-month measurement; counterevidence: none.",
+        "evidence_ledger": "Required: price->price_source; reliability->reliability_source; state measurement-window limitation. Counterevidence: none."
+      },
+      "expected": {
+        "decision": {
+          "choice": "complete"
+        }
+      },
+      "case_purpose": "All obligations present"
+    },
+    {
+      "id": "H18-2",
+      "pattern_id": "H18",
+      "state": {
+        "answer_plan": "claim price: $10 citing price_source; claim reliability: 99.9%.",
+        "evidence_ledger": "Required: price->price_source; reliability->reliability_source; state measurement-window limitation. Counterevidence: none."
+      },
+      "expected": {
+        "decision": {
+          "choice": "partial"
+        }
+      },
+      "case_purpose": "Missing evidence/limitation"
+    },
+    {
+      "id": "H18-3",
+      "pattern_id": "H18",
+      "state": {
+        "answer_plan": "claim all users can receive refunds citing policy.",
+        "evidence_ledger": "Required: refund claim->policy. Counterevidence: clearance items are excluded from refunds and must be named."
+      },
+      "expected": {
+        "decision": {
+          "choice": "counterevidence_unaddressed"
+        }
+      },
+      "case_purpose": "Known exception omitted"
+    },
+    {
+      "id": "H18-4",
+      "pattern_id": "H18",
+      "state": {
+        "answer_plan": "Give the answer.",
+        "evidence_ledger": ""
+      },
+      "expected": {
+        "decision": {
+          "choice": "insufficient"
+        }
+      },
+      "case_purpose": "No ledger"
+    }
+  ]
+}

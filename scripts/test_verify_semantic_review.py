@@ -16,6 +16,15 @@ class SemanticReviewTests(unittest.TestCase):
         self.assertEqual(len(rows), 12)
         self.assertTrue(all(r["match"] for r in rows))
 
+    def test_wave02_and_versioned_screen_are_explicit(self):
+        rows = verify_boundaries(ROOT / "reviews/2026-09-26", wave="02")
+        self.assertEqual(len(rows), 4)
+        self.assertTrue(all(r["match"] for r in rows))
+        result = verify(ROOT / "reviews/2026-09-26")
+        h18 = next(r for r in result["patterns"] if r["key"] == "iterations/02/H18")
+        self.assertFalse(h18["current_contract_match"])
+        self.assertNotEqual(h18["pattern_sha256"], h18["screened_pattern_sha256"])
+
     def test_malformed_screen_answers_rejected(self):
         q = {"criteria": {"a": "A", "b": "B"}}
         good = {"type": "choice", "choice": "a", "confidence": 1,

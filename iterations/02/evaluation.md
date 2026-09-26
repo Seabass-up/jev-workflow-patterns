@@ -77,3 +77,19 @@ after preflight. Branch tests use explicitly supplied synthetic evidence, not pr
 of real-world source grounding. Cross-iteration negative tests exercise all 120
 profiles in `scripts/test_iteration_state_preflight.py`; historical question
 contracts, fixtures and provider receipts are unchanged. Local repair, not deployment.
+## H18 counterevidence precedence revision — 2026-09-26, local only
+
+H18 v1 allowed a missing counterevidence obligation to satisfy both `partial` and
+`counterevidence_unaddressed`. V2 first uses `insufficient` for an unmatchable plan
+or ledger, then prioritizes omitted or misrepresented direct counterevidence over
+ordinary missing obligations. Original H18 v1 and its four fixtures are preserved
+in `results/h18-pre-review-contract.json`; all initial provider receipts remain.
+
+One uncached rerun of the four unchanged cases plus three frozen new synthetic
+development cases matched 7/7 labels. The unmatchable-subject and addressed-counterevidence
+cases returned confidence 0.32 and 0.59 respectively; consumer tests verify both
+route to review under the provisional 0.8 gate. This is not independent held-out
+accuracy or production qualification. `h18-review-v2` adds seven exact request bindings,
+for 175 total; the final historical fixture selection remains 134/134 and 147/147
+question matches. The evaluator rejects changed original states/expectations and
+revision receipts not bound to the current H18 contract. No push or deployment.

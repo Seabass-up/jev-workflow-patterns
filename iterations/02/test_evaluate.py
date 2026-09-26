@@ -1,6 +1,8 @@
 import copy
 import json
 import unittest
+from unittest.mock import patch
+import evaluate
 
 from evaluate import ROOT, contains_expected, plan as raw_plan, replay, valid_answers
 
@@ -48,11 +50,37 @@ def response(pattern_id, values=None, confidence=1.0):
 
 
 class ReceiptTests(unittest.TestCase):
+    def test_h18_revision_rejects_original_state_or_label_changes(self):
+        load = evaluate.load_json
+        for field in ("state", "expected"):
+            def mutated(path):
+                value = load(path)
+                if path == "fixtures.json":
+                    row = next(r for r in value if r["id"] == "H18-1")
+                    row[field] = ({"answer_plan": "changed", "evidence_ledger": "changed"}
+                                  if field == "state" else {"decision": {"choice": "partial"}})
+                return value
+            with self.subTest(field=field), patch.object(evaluate, "load_json", side_effect=mutated):
+                with self.assertRaisesRegex(ValueError, "H18 original fixture changed"):
+                    replay()
+
+    def test_h18_precedence_revision_and_uncertainty_gate(self):
+        rows = json.loads((ROOT / "results/h18-review-v2.json").read_text())
+        self.assertEqual(len(rows), 7)
+        self.assertTrue(all(r["match"] for r in rows))
+        for fixture_id in ("H18-review-overlap", "H18-review-conflict", "H18-review-addressed"):
+            row = next(r for r in rows if r["fixture_id"] == fixture_id)
+            result = raw_plan(PATTERNS["H18"], row["response"], state=row["request"]["state"])
+            if row["response"]["answers"]["decision"]["confidence"] < .8:
+                self.assertEqual(result["reason"], "uncertain_consumed_answer")
+            else:
+                self.assertEqual(result["next"], "hold_answer_release")
+
     def test_receipts_are_replayable_and_final_contracts_pass(self):
         result = replay()
         self.assertEqual(
             sum(item["request_digests_verified"] for item in result["screens"].values()),
-            168,
+            175,
         )
         self.assertEqual(result["screens"]["core-initial"]["fixture_matches"], 80)
         self.assertEqual(result["screens"]["harness-screen"]["fixture_matches"], 44)

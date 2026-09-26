@@ -30,6 +30,17 @@ to the semantic question contracts and does not establish nested schema validity
 semantic sufficiency, provenance or response-to-state binding. H05's competing-defect
 recovery policy and the other source-review candidates remain open.
 
+### Iteration 02 semantic review checkpoint
+
+Wave 02 source-inspected all nine iteration-02 flags. B11/L08/L09/H13 already
+define mixed/ambiguous escapes; four fresh development cases confirm those paths.
+H18 is repaired at v2 with explicit counterevidence precedence, seven new exact
+receipt bindings (four unchanged regressions, three new boundaries), and consumer
+tests preserving low-confidence review. B09/B13/L10/H15 retain specific co-occurrence
+questions for targeted repair; no untested fix is claimed. Twenty-seven original
+flags have not yet received host review. The full original 390-profile screen is
+preserved; H18's old screen is explicitly marked not matching its current contract.
+
 1. Exact receipts for the separate canonical checkout's earlier whole-contract screen were not located in the bounded lookup. Its uncommitted changes remain untouched. Reuse source-bound evidence only where actually available; do not rely on narrative counts.
 2. Reuse only evidence bound to the exact current pattern hash/version. Independently test surviving candidates and realistic co-occurring labels, missing evidence, contradiction, and authority boundaries.
 3. Version semantic changes; preserve original contracts and receipts; run targeted live synthetic regressions and held-out boundary cases.

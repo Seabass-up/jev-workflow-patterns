@@ -192,6 +192,14 @@
 - **Verification:** Cross-iteration tests exercise every required field of all 120 profiles; iteration 01 passes 38 tests. All 65 local repository replay/test commands pass in `reviews/2026-09-26/state-preflight-final-tests.json`. Changed evaluator/test/document hashes in iteration-03/04 manifests are refreshed. No question contracts, fixtures or provider receipts were rewritten.
 - **Prevention/limits:** Make evidence presence an executable consumer precondition, not just metadata. Presence is not authenticity, nested-schema completeness, source/answer binding, semantic sufficiency, truth, freshness or permission. This local API change is not deployment or production qualification.
 
+## 2026-09-26 — H18 counterevidence overlaps ordinary missing obligations
+
+- **Component:** Iteration 02 H18 question contract and receipt replay.
+- **Symptom/cause:** A missing named counterevidence obligation met both `partial` and `counterevidence_unaddressed`; v1 did not explicitly prioritize them. This is a contract ambiguity, not proof of a model-internal defect.
+- **Repair:** H18 v2 first handles unmatchable evidence, then prioritizes omitted/misrepresented direct counterevidence over ordinary missing obligations. Preserved original v1/fixtures and all historical receipts; versioned the four unchanged fixtures and selected new v2 receipts without relabeling them.
+- **Verification:** Four unchanged regression cases and three frozen development boundaries matched 7/7. Two boundary answers had confidence 0.32/0.59 and consumer tests confirm review. The evaluator binds 175 receipts and selects 134/134 current historical fixtures; all 65 local commands pass. Revision checks reject changed original states/expectations or unbound revision evidence.
+- **Prevention/limits:** Test realistic co-occurring labels explicitly and keep uncertainty gates separate from label match. A preserved old screen verifies its original Git source, not the revised contract. Local commit only; no production qualification or deployment.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

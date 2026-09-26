@@ -20,7 +20,7 @@ kicker: "Iteration 2 · Published 2026-09-22"
 - 6 LLM-workflow patterns: L07 through L12.
 - 10 experimental harness designs: H11 through H20.
 - 134 final synthetic fixtures and 147 final question checks.
-- 168 preserved live synthetic Jev receipts, including the failed versions that led to contract refinement.
+- 175 preserved live synthetic Jev receipts, including failed versions and seven local H18 v2 revision checks.
 
 The final selected receipt for every current contract matched its synthetic fixture: 134 of 134 fixtures and 147 of 147 question checks. That is a regression check after prompt and fixture refinement, not an independent accuracy claim, calibration result, or production qualification.
 
@@ -70,7 +70,7 @@ The final selected receipt for every current contract matched its synthetic fixt
 
 ## Evaluation trail
 
-The initial screen found 10 mismatches across 134 requests. A version-2 refinement found two more L09 taxonomy misses; version 3 resolved that taxonomy boundary and corrected H19 terminology to its named state field. The [evaluation]({{ '/iterations/02/evaluation/' | relative_url }}) preserves all 168 request receipts and explains why the final 100% fixture match is not a held-out result.
+The initial screen found 10 mismatches across 134 requests. A version-2 refinement found two more L09 taxonomy misses; version 3 resolved that taxonomy boundary and corrected H19 terminology to its named state field. A local 2026-09-26 H18 v2 revision explicitly resolves counterevidence/missing-obligation precedence, with four unchanged regression cases and three new boundary cases. The [evaluation]({{ '/iterations/02/evaluation/' | relative_url }}) preserves all 175 request receipts and explains why fixture agreement is not a held-out result.
 
 ## Machine-readable artifacts
 

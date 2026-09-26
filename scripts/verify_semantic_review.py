@@ -5,6 +5,7 @@ import json
 import math
 from pathlib import Path
 import sys
+import subprocess
 
 from review_all_patterns import ROOT, catalogs, inventory
 
@@ -44,6 +45,7 @@ def verify(folder, root=ROOT):
                 for path in catalogs(root)
                 for p in json.loads(path.read_text())["patterns"]}
     seen = {}
+    historical = {}
     counts = {}
     batches = set()
     files = sorted(folder.glob("semantic-screen-[0-9][0-9][0-9].json"))
@@ -65,8 +67,17 @@ def verify(folder, root=ROOT):
             expected_questions = {}
             for slot, row in req["state"]["patterns"].items():
                 key = row["key"]
-                if key in seen or patterns.get(key) != row["pattern"]:
-                    raise ValueError("duplicate or stale screened pattern: " + key)
+                if key in seen or key not in patterns:
+                    raise ValueError("duplicate or unknown screened pattern: " + key)
+                current_match = patterns[key] == row["pattern"]
+                if not current_match:
+                    # Preserve original screening and mark changed contracts stale.
+                    catalog_path = key.rsplit("/", 1)[0] + "/catalog.json"
+                    if catalog_path not in historical:
+                        source = subprocess.check_output(["git", "show", contract["source_commit"] + ":" + catalog_path], cwd=root)
+                        historical[catalog_path] = {p["id"]: p for p in json.loads(source)["patterns"]}
+                    if historical[catalog_path].get(row["pattern"]["id"]) != row["pattern"]:
+                        raise ValueError("screen does not bind original source: " + key)
                 answers = {}
                 for dimension, q in contract["dimensions"].items():
                     qid = slot + "_" + dimension
@@ -79,7 +90,9 @@ def verify(folder, root=ROOT):
                     label = dimension + ":" + answer["choice"]
                     counts[label] = counts.get(label, 0) + 1
                 seen[key] = {"screen_answers": answers, "screen_receipt": str(path.relative_to(root)),
-                             "batch": receipt["batch"], "host_review": "pending"}
+                             "batch": receipt["batch"], "host_review": "pending",
+                             "current_contract_match": current_match,
+                             "screened_pattern_sha256": hashlib.sha256(canonical(row["pattern"])).hexdigest()}
             if req["questions"] != expected_questions or set(resp["answers"]) != set(expected_questions):
                 raise ValueError("screen question or answer coverage mismatch")
     if set(seen) != set(patterns):
@@ -89,9 +102,9 @@ def verify(folder, root=ROOT):
             "scope": "Verified advisory screen only. Host review, live behavior boundaries, and qualification are not implied."}
 
 
-def verify_boundaries(folder, root=ROOT):
-    fixtures = json.loads((folder / "boundary-fixtures-wave01.json").read_text())["cases"]
-    receipts = json.loads((folder / "boundary-receipts-wave01.json").read_text())
+def verify_boundaries(folder, root=ROOT, wave="01"):
+    fixtures = json.loads((folder / ("boundary-fixtures-wave" + wave + ".json")).read_text())["cases"]
+    receipts = json.loads((folder / ("boundary-receipts-wave" + wave + ".json")).read_text())
     patterns = {str(path.parent.relative_to(root)) + "/" + p["id"]: p
                 for path in catalogs(root)
                 for p in json.loads(path.read_text())["patterns"]}
@@ -115,10 +128,11 @@ def verify_boundaries(folder, root=ROOT):
             raise ValueError("boundary answer coverage")
         for qid, question in p["questions"].items():
             validate_answer(question, resp["answers"][qid])
-        answer = resp["answers"]["decision"]
+        expected = {"decision": f["expected"]} if isinstance(f["expected"], str) else f["expected"]
+        observed = {qid: a["choice"] for qid, a in resp["answers"].items()}
         result.append({"id": f["id"], "key": f["key"], "expected": f["expected"],
-                       "observed": answer["choice"], "match": f["expected"] == answer["choice"],
-                       "confidence": answer["confidence"]})
+                       "observed": observed.get("decision", observed), "match": expected == observed,
+                       "confidence": min(a["confidence"] for a in resp["answers"].values())})
     return result
 
 
@@ -129,6 +143,8 @@ def main():
     args = p.parse_args()
     report = verify(args.folder)
     report["boundary_wave01"] = verify_boundaries(args.folder.resolve())
+    if (args.folder / "boundary-fixtures-wave02.json").exists():
+        report["boundary_wave02"] = verify_boundaries(args.folder.resolve(), wave="02")
     if args.output:
         with args.output.open("x") as stream:
             json.dump(report, stream, indent=2, ensure_ascii=False, allow_nan=False)

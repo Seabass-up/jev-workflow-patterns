@@ -24,6 +24,7 @@ SCREEN_NAMES = (
     "harness-refinement",
     "core-refinement-v3",
     "harness-refinement-v3",
+    "h18-review-v2",
 )
 
 
@@ -237,6 +238,26 @@ def replay(root: Path = ROOT) -> dict[str, Any]:
         metrics[name] = total
 
     patterns, fixtures = validate_final_catalog()
+    preserved = load_json("results/h18-pre-review-contract.json")
+    revision = load_json("results/h18-revision-fixtures.json")
+    if preserved["pattern"]["contract_version"] != 1 or patterns["H18"]["contract_version"] != 2:
+        raise ValueError("H18 revision version mismatch")
+    if revision["pattern"] != patterns["H18"]:
+        raise ValueError("H18 revision does not bind current contract")
+    for original in preserved["fixtures"]:
+        current = {k: v for k, v in fixtures[original["id"]].items() if k != "contract_version"}
+        if current != original or fixtures[original["id"]].get("contract_version") != 2:
+            raise ValueError("H18 original fixture changed")
+    revised = {f["id"]: f for f in revision["cases"]}
+    if len(revised) != 7:
+        raise ValueError("H18 revision fixture coverage")
+    for fixture_id, fixture in revised.items():
+        receipt = receipts.get("h18-review-v2:" + fixture_id)
+        if (not receipt or receipt.get("contract_version") != 2
+                or receipt["request"]["state"] != fixture["state"]
+                or receipt["request"]["questions"] != patterns["H18"]["questions"]
+                or {c["question_id"]: c["expected"] for c in receipt["checks"]} != fixture["expected"]):
+            raise ValueError("H18 revision receipt binding")
     acceptance = load_json("results/final-acceptance.json").get("receipts")
     if not isinstance(acceptance, list) or len(acceptance) != len(fixtures):
         raise ValueError("final acceptance coverage mismatch")

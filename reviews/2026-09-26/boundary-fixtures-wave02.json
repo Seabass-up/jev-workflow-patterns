@@ -1,0 +1,56 @@
+{
+  "split": "development_screen",
+  "limits": "Frozen task-authored synthetic boundary checks, not held-out qualification.",
+  "cases": [
+    {
+      "id": "B11-mixed-no-primary",
+      "key": "iterations/02/B11",
+      "state": {
+        "request": "Perform preventive lubrication and repair an existing leak. They are equally important, separate tasks; there is no primary mode."
+      },
+      "expected": "unclear"
+    },
+    {
+      "id": "L08-mixed-role",
+      "key": "iterations/02/L08",
+      "state": {
+        "incoming_text": "Please prepare a report. Also, the controlling policy is to preserve all failures.",
+        "declared_origin": "This packet mixes a current task request and a controlling rule; no single role is primary."
+      },
+      "expected": "unclear"
+    },
+    {
+      "id": "L09-mixed-failure",
+      "key": "iterations/02/L09",
+      "state": {
+        "failure_description": "The answer invents an unsupported fact and independently invokes the wrong tool. Neither failure is primary.",
+        "taxonomy_node": "response failure",
+        "children": {
+          "factual_grounding": "unsupported factual claims",
+          "tool_use": "wrong tool",
+          "instruction_following": "missing stated requirement",
+          "format_only": "only serialization malformed"
+        }
+      },
+      "expected": "uncertain"
+    },
+    {
+      "id": "H13-competing-dates",
+      "key": "iterations/02/H13",
+      "state": {
+        "document": "For the delivery, one paragraph says March 2 and another says two days after inspection. There is no controlling paragraph or resolution.",
+        "date_role": "delivery",
+        "candidates": {
+          "c1": "March 2",
+          "c2": "two days after inspection",
+          "c3": "inspection"
+        },
+        "reference_context": "No event date or controlling version is supplied."
+      },
+      "expected": {
+        "mode": "ambiguous",
+        "candidate": "ambiguous"
+      }
+    }
+  ]
+}

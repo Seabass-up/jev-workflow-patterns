@@ -45,7 +45,9 @@ final pre-commit audit passes 65/65 commands across 390 profiles and 30 catalogs
 
 This is a synthetic contract clarification, not a real measurement or compliance
 decision, production qualification, or independent test set. Local commit and
-post-commit verification remain; no push or deployment has occurred.
+post-commit verification are complete: `wave14-postcommit-checks.json` records all
+65 checks passing against commit `d5fed5f`. The broader pattern-review goal remains
+active; no push or deployment has occurred.
 
 ### Email profile review and EM10 v3 repair (wave 10)
 

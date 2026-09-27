@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "source_commit": "544aa4c44099f72257dfe89b5dc40dcbc8bf2208",
+  "source_paths": [
+    "iterations/03/catalog.json",
+    "iterations/03/fixtures.json",
+    "iterations/03/results/final-acceptance.json"
+  ],
+  "source_blob_shas": [
+    "b6d1504b0d8c1272c915b23c51159d95a378093a",
+    "8433d683caac63e954e00208226be961959a3637"
+  ],
+  "patterns": [
+    {
+      "id": "L17",
+      "title": "Re-check a shortlisted agent skill choice",
+      "domain": "llm",
+      "value": "Give a code-chosen shortlist a detailed choose-or-none re-check before an agent loads a skill.",
+      "success_metric": "Correct best-fit and none-fit outcomes on bounded synthetic skill descriptions.",
+      "required_state_fields": [
+        "user_task",
+        "skill_shortlist"
+      ],
+      "questions": {
+        "skill": {
+          "type": "choice",
+          "instructions": "Which offered entry in skill_shortlist best fits user_task after reading its detailed description, or choose no_skill? Select only an offered skill. A suggestion does not load it, override user instructions, or authorize an external action.",
+          "criteria": {
+            "document_editor": "The task explicitly needs the offered document editing capability.",
+            "data_analysis": "The task explicitly needs the offered structured-data analysis capability.",
+            "browser_test": "The task explicitly needs the offered browser testing capability.",
+            "no_skill": "None of the offered detailed descriptions materially fits the task."
+          }
+        }
+      },
+      "follow_up": "The agent may inspect the suggested skill first but retains ordinary applicability judgment; no_skill keeps the roster unloaded.",
+      "code_owns": "Initial broad roster ranking, candidate inclusion, skill loading, permissions, and task execution.",
+      "baseline": "Load every superficially matching skill into the prompt.",
+      "comparison_to_prior": "Unlike L04's one-pass available handler selection, this is the second, detailed choose-or-none stage after code has formed a broad roster shortlist.",
+      "source": "https://docs.typesafe.ai/cookbooks/skill_suggestion",
+      "origin": "Task-authored Iteration 3 progressive-disclosure skill selector.",
+      "limits": "It assumes the shortlist was adequate and cannot make an unloaded skill fit.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 1,
+      "prior_patterns": [
+        "L04",
+        "H11"
+      ]
+    },
+    {
+      "id": "L18",
+      "title": "Classify System One decision depth",
+      "domain": "llm",
+      "value": "Route tasks needing multistep reasoning or exact computation away from a narrow Jev-only judgment.",
+      "success_metric": "Correctly distinguish direct judgment, bounded comparison, multistep derivation, and insufficient task descriptions.",
+      "required_state_fields": [
+        "task_description",
+        "available_state"
+      ],
+      "questions": {
+        "decision_depth": {
+          "type": "choice",
+          "instructions": "What decision depth is required by task_description using available_state? Classify the requested work, not the answer. Do not perform calculations, fill missing evidence, or claim that a System One model is sufficient for a consequential action.",
+          "criteria": {
+            "direct_stated_judgment": "The task asks for one focused semantic judgment directly supported by the supplied state.",
+            "single_bounded_comparison": "The task asks for one comparison among supplied records, candidates, or criteria without a chain of derived steps.",
+            "multistep_or_indirect_derivation": "The task requires chained reasoning, external retrieval, numeric precision, or a derived result beyond one bounded judgment.",
+            "insufficient": "The task or available state does not establish the required decision shape."
+          }
+        }
+      },
+      "follow_up": "Route multistep_or_indirect_derivation to a reasoning/retrieval workflow or review, preserving the task and missing-evidence explanation.",
+      "code_owns": "Task decomposition, calculations, retrieval, permissions, thresholds, and action selection.",
+      "baseline": "Send every natural-language request to one model call.",
+      "comparison_to_prior": "Unlike L04, which picks an offered handler for a request, this categorizes the semantic depth and known limitations of a task before any handler choice.",
+      "source": "https://docs.typesafe.ai/model-jaggedness/jev-1.13",
+      "origin": "Task-authored Iteration 3 model-boundary classifier.",
+      "limits": "It is an advisory routing aid, not a benchmark or a proof that another model will solve the task.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 1,
+      "prior_patterns": [
+        "L04",
+        "L05",
+        "E04"
+      ]
+    },
+    {
+      "id": "H28",
+      "title": "Bounded speculative fan-out scheduler",
+      "domain": "harness",
+      "value": "Batch independent work while preventing stale or inapplicable speculative branches from driving an action.",
+      "success_metric": "Pure scheduler tests enforce state identity, question budget, explicit premises, and discard conditions.",
+      "required_state_fields": [
+        "state_snapshot",
+        "question_manifest",
+        "budget"
+      ],
+      "questions": {
+        "batch_status": {
+          "type": "choice",
+          "instructions": "What batching status is supported by state_snapshot, question_manifest, and budget? Classify only whether the listed questions can share one immutable state evaluation. Do not execute a question, infer a missing premise, or reuse an answer after state changes.",
+          "criteria": {
+            "batchable": "All listed questions are explicitly independent, name their premises, fit the stated budget, and target the same immutable snapshot.",
+            "dependent_sequence_required": "At least one listed question explicitly needs an earlier answer or a state fetch before it can be meaningfully asked.",
+            "over_budget_or_oversized": "The manifest explicitly exceeds a stated question, byte, cost, or latency budget.",
+            "stale_or_unverifiable_snapshot": "The state snapshot is explicitly stale, changed, or cannot be tied to the question manifest."
+          }
+        }
+      },
+      "follow_up": "Code batches only batchable questions, sequences dependencies, stamps snapshot IDs, and drops answers for stale branches.",
+      "code_owns": "Limits, serialization, request construction, cache scope, concurrency, cost, latency, and answer consumption.",
+      "baseline": "Send a separate request for every question or batch dependent questions blindly.",
+      "comparison_to_prior": "Unlike H12's repeated-decision stability gate, this controls which independent questions share one immutable request and how code discards stale speculative answers.",
+      "source": "https://docs.typesafe.ai/patterns/fan-out",
+      "origin": "Task-authored Iteration 3 fan-out scheduler.",
+      "limits": "Batching does not create cross-question reasoning or prove that a branch is relevant.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 1,
+      "prior_patterns": [
+        "H12",
+        "H16",
+        "H01"
+      ]
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "L17-document",
+      "pattern_id": "L17",
+      "state": {
+        "user_task": "Revise the headings and table in this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "document_editor"
+        }
+      }
+    },
+    {
+      "id": "L17-none",
+      "pattern_id": "L17",
+      "state": {
+        "user_task": "Explain what a DNS record is in plain language.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "no_skill"
+        }
+      }
+    },
+    {
+      "id": "L18-direct",
+      "pattern_id": "L18",
+      "state": {
+        "task_description": "Classify whether this supplied customer message asks for a refund.",
+        "available_state": "The one customer message is supplied in full."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "direct_stated_judgment"
+        }
+      }
+    },
+    {
+      "id": "L18-multistep",
+      "pattern_id": "L18",
+      "state": {
+        "task_description": "Using policies from three systems, calculate the prorated refund, apply tax, and decide whether to issue it.",
+        "available_state": "Only a short request message is supplied; the policies and transaction values are not present."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "multistep_or_indirect_derivation"
+        }
+      }
+    },
+    {
+      "id": "H28-batchable",
+      "pattern_id": "H28",
+      "state": {
+        "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
+        "question_manifest": "Three independent questions all read T-3 r9. Each names its premise. None needs another answer.",
+        "budget": "Maximum 10 questions and 8,000 input bytes; the three listed questions fit."
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "batchable"
+        }
+      }
+    },
+    {
+      "id": "H28-dependent",
+      "pattern_id": "H28",
+      "state": {
+        "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
+        "question_manifest": "Question two must use the owner selected by question one to fetch an owner's policy before it can be answered.",
+        "budget": "Maximum 10 questions and 8,000 input bytes; the two listed questions fit by size."
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "dependent_sequence_required"
+        }
+      }
+    }
+  ],
+  "selected_receipts": [
+    {
+      "fixture_id": "H28-batchable",
+      "pattern_id": "H28",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "2a5a43f566f91a9d5646c39109ee544c4a9e29a22fbb01e2348313b6430a972e",
+      "match": true
+    },
+    {
+      "fixture_id": "H28-dependent",
+      "pattern_id": "H28",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "57cccf226f74e451ce95cd7751b1beccef7b7bfe258c30f32123f4889ea30548",
+      "match": true
+    },
+    {
+      "fixture_id": "L17-document",
+      "pattern_id": "L17",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "9e7744f42eb0cec66e2583176955f25c0704830871d3abc0acb71fd462fa07ef",
+      "match": true
+    },
+    {
+      "fixture_id": "L17-none",
+      "pattern_id": "L17",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "a46bd296caa74847f00a308b9cec53dd3c623ee449ccf9cbdf09e439e0b62240",
+      "match": true
+    },
+    {
+      "fixture_id": "L18-direct",
+      "pattern_id": "L18",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "4024c167ead720950bac93cea80398657f6657f2aa8343e5a733eb4366878c22",
+      "match": true
+    },
+    {
+      "fixture_id": "L18-multistep",
+      "pattern_id": "L18",
+      "result_screen": "initial",
+      "contract_version": 1,
+      "request_sha256": "39f94ece1a07703a7a8d0dacb9257d02c1e410e4c23973141ec56fcaa990f35e",
+      "match": true
+    }
+  ]
+}

@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-26 — Iteration 3 L17 shortlist evidence boundary
+
+- **Component:** Iteration 3 L17 skill-shortlist question contract and advisory consumer.
+- **Symptom:** In a frozen synthetic v2 case, Jev selected `document_editor` at 0.99 confidence even though another offered skill had no usable description; the expected disposition was insufficient evidence.
+- **Cause:** The v2 contract did not state that every offered description must be usable before choosing among the shortlist. No provider-internal cause is asserted.
+- **Repair:** Preserved the v2 miss and unchanged six-case regression set; versioned L17 to v3 with an explicit incomplete-description precedence rule and routed `insufficient` to review/shortlist expansion without loading a skill. Added twelve development cases across L17/L18/H28 and pairwise label-separation receipts.
+- **Verification:** `python3 iterations/03/evaluate.py` reports 73/73 selected fixtures and 98/98 question checks; the v2 screen retains its one miss and the uncached v3 L17 re-screen matches 6/6. Iteration 3 unit tests pass (19); `scripts/review_all_patterns.py` completed 65 evaluation/test commands with no failures across the 390-profile/30-catalog inventory; five semantic-review verifier tests pass. The catalog and collection-hub generators produced no tracked drift. A local Jekyll build was unavailable because this checkout has no Gemfile and no `jekyll` executable. No deployment is claimed.
+- **Prevention and limit:** Require descriptions and candidate coverage to be explicit in skill selection contracts; test incomplete entries, missing capabilities, multi-skill needs and shortlist-bounded `no_skill`. Synthetic fixtures and calibrated confidence do not prove full-catalog recall or production performance.
+
 ## 2026-09-24 — Public pilot split provenance and label quality
 
 - **Component:** Question-to-consumer replay split labels and public GitHub issue-title pilot.

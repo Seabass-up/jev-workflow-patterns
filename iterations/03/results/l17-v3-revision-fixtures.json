@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "parent_contract_version": 2,
+  "contract_version": 3,
+  "source_commit": "544aa4c44099f72257dfe89b5dc40dcbc8bf2208",
+  "parent_archive": "iterations/03/results/l17-v3-pre-review-v2.json",
+  "parent_archive_sha256": "0641f3a454d199095acf36ff0841a716dcbcf543c51a0ba8b12c3c5b458334e3",
+  "pattern": {
+    "id": "L17",
+    "title": "Re-check a shortlisted agent skill choice",
+    "domain": "llm",
+    "value": "Give a code-chosen shortlist a detailed choose-or-none re-check before an agent loads a skill.",
+    "success_metric": "Distinguish complete shortlist evidence, one-skill fit, no fit within the offered shortlist, and tasks requiring multiple listed skills.",
+    "required_state_fields": [
+      "user_task",
+      "skill_shortlist"
+    ],
+    "questions": {
+      "skill": {
+        "type": "choice",
+        "instructions": "Apply these four mutually exclusive tiers in this exact order. (1) Select insufficient if user_task is missing, empty, unreadable or unclear; if skill_shortlist is missing/empty/unreadable; if any offered entry lacks a full usable description; if the needed capability set cannot be determined; or if a task-required capability is not described by any offered entry. Do not choose an apparently fitting entry while any offered description is unavailable, because an undescribed candidate cannot be compared. (2) Select multiple_required only if every relevant entry has a full usable description, no single offered entry can complete the task, and two or more distinct listed entries are each necessary and together cover it. (3) Otherwise, if one or more fully described offered entries can each complete the whole task, select the most direct/best fit; if equally fitting, select the earliest listed. (4) Select no_skill only if the task and every offered description are clear, none of the offered entries materially fits, and no specific required capability is missing from this shortlist. no_skill means no fit in this shortlist, not none in the full catalog. Judge descriptions, not names. A suggestion never loads a skill or authorizes action.",
+        "criteria": {
+          "document_editor": "One fully described offered document-editing skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+          "data_analysis": "One fully described offered structured-data analysis skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+          "browser_test": "One fully described offered browser-testing skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+          "multiple_required": "All needed entries are fully described; no single offered skill can complete the clear task, but at least two distinct listed skills are each required and together cover it.",
+          "no_skill": "The task and every offered description are clear, none of the offered skills materially fits, and no specific required capability is known to be omitted.",
+          "insufficient": "Task/list evidence is missing, empty, unreadable, or ambiguous; any offered entry lacks a full usable description; needed capabilities cannot be determined; or a clear required capability is absent from the offered shortlist."
+        }
+      }
+    },
+    "follow_up": "Code may expand the candidate search for insufficient or multiple_required results. For one selected entry, inspect that skill before loading it; no_skill means only that this shortlist has no fit.",
+    "code_owns": "Initial broad roster ranking, candidate inclusion, skill loading, permissions, and task execution.",
+    "baseline": "Load every superficially matching skill into the prompt.",
+    "comparison_to_prior": "Unlike L04's one-pass available handler selection, this is the second, detailed choose-or-none stage after code has formed a broad roster shortlist.",
+    "source": "https://docs.typesafe.ai/cookbooks/skill_suggestion",
+    "origin": "Task-authored Iteration 3 progressive-disclosure skill selector.",
+    "limits": "The result is shortlist-bounded: no_skill does not establish that the full catalog lacks a fit. Code owns candidate coverage, exact membership, skill loading, permissions and execution.",
+    "policy": {
+      "threshold_status": "Provisional synthetic screening only; model output is advisory."
+    },
+    "contract_version": 3,
+    "prior_patterns": [
+      "L04",
+      "H11"
+    ]
+  },
+  "cases": [
+    {
+      "id": "L17-document",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Revise the headings and table in this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "document_editor"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "inspect_one_offered_skill"
+    },
+    {
+      "id": "L17-none",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Explain what a DNS record is in plain language.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "no_skill"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "expand_or_review_candidate_search"
+    },
+    {
+      "id": "L17-v2-vague-task",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Help me with this.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    },
+    {
+      "id": "L17-v2-unlisted-capability",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Analyze the supplied sales CSV and summarize the trend.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    },
+    {
+      "id": "L17-v2-multiple-required",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Update the sales CSV, then verify the deployed website chart displays the updated metrics.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "multiple_required"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "sequence_multiple_skills"
+    },
+    {
+      "id": "L17-v2-incomplete-description",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Choose the skill that can edit this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents. data_analysis: description unavailable. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    }
+  ],
+  "scope": "One bounded re-screen of unchanged L17 states and expected labels after a documented v2 miss; development evidence, not qualification."
+}

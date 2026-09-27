@@ -22,6 +22,9 @@ real-world authority, or global novelty.
 | Initial frozen v1 screen | 61 | 58 / 61 | 81 / 84 | Three semantic/fixture boundaries missed; all raw receipts remain public. |
 | Targeted refinement | 6 | 6 / 6 | 17 / 17 | E16 and L14 were versioned; one H24 fixture was clarified and rerun. |
 | Original selected-contract checkpoint | 61 | 61 / 61 | 84 / 84 | Selection before the later local review revisions below. |
+| L17/L18/H28 v2 review | 18 | 17 / 18 | 17 / 18 | One L17 incomplete-description case missed; the original v2 request and expected label are preserved. |
+| Bounded L17 v3 refinement | 6 | 6 / 6 | 6 / 6 | Same six L17 states and expectations; one uncached refinement, no relabeling. |
+| Current selected synthetic contracts | 73 | 73 / 73 | 98 / 98 | L17 v3, L18/H28 v2, and the previously selected fixtures. |
 
 The 67 live synthetic calls used 33,989 billed input tokens, 4,281 output tokens, and
 an estimated provider cost of $0.001427538. Those are observed historical receipts, not
@@ -45,10 +48,46 @@ threshold or expected interval changed. The negated-resource case remains at
 availability 0.66, so code returns review rather than its frozen calculation proposal.
 Do not call this a perfect screen or qualified availability classifier.
 
-Current replay binds 105 fixture-screen receipts, five prior option-pair requests and
-the v1 baseline probe. It selects 61/61 historical fixtures and 86/86 current question
-checks (two additional availability questions), while separately reporting the open
-development miss and 6/7 consumer matches. No action or deployment is performed.
+## L17, L18 and H28 precedence review — 2026-09-26
+
+The first v2 review covers six unchanged L17/L18/H28 regressions and twelve frozen
+development boundaries. L17 returned document_editor with confidence 0.99 when one
+offered skill description was explicitly unavailable, despite an expected
+insufficient-evidence label. That raw miss is preserved in
+[pattern-review-v2.json]({{ '/iterations/03/results/pattern-review-v2.json' | relative_url }}).
+The confirmed contract gap was that v2 did not say an undescribed candidate prevents
+choosing among the shortlist. L17 v3 adds that explicit rule; one uncached re-screen of
+the exact same six states matched 6/6, including the incomplete-description case.
+No states or expected labels changed. The consumer proposes review/expansion for that
+answer rather than loading a skill.
+
+L18 v2 distinguishes requested work shape from missing answer values: chained work,
+external retrieval and exact calculation take precedence over a bounded comparison or
+single-item judgment. H28 v2 handles incomplete evidence first, then stale/unverifiable
+state, explicit over-budget evidence, dependencies, and finally batchability. Jev does
+not calculate limits; the controller proposes a code-owned snapshot/budget check before
+any batching.
+
+The v2 CT08-style screen covered 31 option pairs (all selected disjoint/precedence
+resolved; seven had confidence below 0.8). The L17 v3 check covered its 15 pairs (all
+selected disjoint; six below 0.8). These low-confidence judgments remain visible and
+advisory; they were not retried until they passed. The [pair-review receipts]({{ '/iterations/03/results/pattern-review-pair-review-v2.json' | relative_url }})
+and [L17 v3 pair review]({{ '/iterations/03/results/pattern-review-pair-review-v3.json' | relative_url }})
+retain the exact requests and responses.
+
+The side-effect-free controller replay passes for all 18 v2 cases and all six L17 v3
+cases. The selected current set is 73/73 fixtures and 98/98 question checks. This does
+not establish representative accuracy, calibration, global shortlist completeness, or
+production qualification. See the [v1 archive]({{ '/iterations/03/results/pattern-review-pre-review-contracts.json' | relative_url }}),
+[v2 frozen revision cases]({{ '/iterations/03/results/pattern-review-revision-v2.json' | relative_url }}),
+and [v3 L17 cases]({{ '/iterations/03/results/l17-v3-revision-fixtures.json' | relative_url }}).
+
+The preserved pre-review replay binds 105 fixture-screen receipts, five prior
+option-pair requests and the v1 baseline probe. That earlier selection contained
+61/61 fixtures and 86/86 checkpoint question checks (including two additional
+availability questions), while separately reporting the open development miss and
+6/7 consumer matches. The later L17/L18/H28 review and current 73-fixture selection
+are reported above; no action or deployment is performed.
 
 ## Initial misses and repairs
 

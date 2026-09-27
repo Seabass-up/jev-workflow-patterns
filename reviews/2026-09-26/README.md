@@ -45,7 +45,9 @@ saved request digests and exact summary replay; all 13 tests pass. Evidence and
 limits are recorded in ../2026-09-27/wave16-cybersecurity-review.json. The full
 pre-commit audit passes 65/65 checks across 390 profiles and 30 catalogs
 (../2026-09-27/wave16-final-checks-precommit-locked.json). No lesson entry was
-fabricated because this review did not produce a confirmed repair. The whole-pattern
+fabricated because this review did not produce a confirmed repair. After local code
+commit cc858ca, the post-commit audit again passes 65/65 checks across 390 profiles
+and 30 catalogs (../2026-09-27/wave16-postcommit-checks.json). The whole-pattern
 goal remains active; no site deployment or push.
 
 ### Construction CN05 v2 list-bound clarification (wave 15)

@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-27 — Legal-contract pattern pages distinguish requirements from executed behavior
+
+- **Component:** Required-field statements on all eight legal-contract pattern pages.
+- **Symptom:** Each page stated that code deterministically returns `unknown` for missing or empty required fields, although this collection contains no consuming application or preflight implementation.
+- **Confirmed cause:** A design requirement was phrased as verified runtime behavior; evaluator fixtures screen the Jev question and do not execute a live consumer.
+- **Repair:** Reworded all eight pages to say future consumer code must enforce the deterministic gate and explicitly state that this collection does not implement or verify it. Added regression coverage requiring each page's embedded question JSON to match the catalog exactly.
+- **Verification:** `python3 legal-contracts/evaluate.py` replays the 32 saved successful request digests; the 13-test legal-contract suite passes, including page/catalog parity and consumer-boundary wording for all eight profiles. The pre-commit repository audit passes 65/65 checks across 390 profiles and 30 catalogs. LC02-3's preserved missing-party disagreement remains `unknown` expected versus `obligation_on_party_a` observed; no contract or fixture expectation was changed. The post-commit audit remains pending and will be recorded in the wave17 review artifacts before this wave closes.
+- **Prevention:** Distinguish desired consumer behavior from implemented and tested behavior on every pattern page; require an implementation-level check before documenting a runtime guarantee.
+
 ## 2026-09-27 — Construction CN05 list-bound safety classification
 
 - **Component:** Construction CN05 question contract, fixtures, and versioned collection evaluator.

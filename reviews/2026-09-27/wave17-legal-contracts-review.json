@@ -1,0 +1,149 @@
+{
+  "review": "wave17_legal_contracts",
+  "reviewed_on": "2026-09-27",
+  "repository_branch": "review/all-patterns-20260926",
+  "base_commit": "e632401c88727cc9e00976a258915b3c3a52aeba",
+  "collection": "Contract review support: patterns for clauses, obligations, and redlines",
+  "patterns_reviewed": [
+    "LC01",
+    "LC02",
+    "LC03",
+    "LC04",
+    "LC05",
+    "LC06",
+    "LC07",
+    "LC08"
+  ],
+  "source_hashes": {
+    "legal-contracts/catalog.json": "e43b563eaf2f79e3ca2bf7e33f2129a6f88be4befae03166d73d8dea03f299b0",
+    "legal-contracts/fixtures.json": "0609a151f2173e6ae1c46e3314932b9da53b09d9dc48010e992dfcee0bca0f26",
+    "legal-contracts/results/screening.json": "ce4dbab365814b0e525a2957fc305495c61be243e41de97bf222ae0065c570d7",
+    "legal-contracts/results/summary.json": "fd37d688367f7fcdbecc0190e55f6f83a6711f3a043cadf7739c43d632616b3f",
+    "legal-contracts/results/source-review.json": "b85deb86e0b11dc8f24ceb69b4ebd72d61e386f09303152bebf0fd5298b2b775",
+    "legal-contracts/results/overlap-review.json": "cdba51b4c4b4a429691f108f21ea1bca972f5aebdcf278575d18eff3663e5f86",
+    "legal-contracts/sources.json": "582cd84bd9a38be16bdb45133522400b257d5a490777ec75938432bd65482676",
+    "legal-contracts/evaluate.py": "ff547bb15e609a386990942c9900ae52f57f3ad3645b892d39c89bd1d0469d52",
+    "legal-contracts/test_evaluate.py": "f323206ebb4d5736b06505b2809bdb218d7c7d6eeea5f3d0adaa2c111e89be17",
+    "legal-contracts/patterns/lc01.md": "ddacfa1e7b1a1e25f826aebb65725f0c5c36fa45a5da44dcd151bb105c19685b",
+    "legal-contracts/patterns/lc02.md": "954242233328cee0380491355f4f6a3b85a47e9ccc7eeedfc255768e7521abe2",
+    "legal-contracts/patterns/lc03.md": "518352971f502ec6df5c4f81fabc4afe8881970dd99d42cee2218f096dc035f1",
+    "legal-contracts/patterns/lc04.md": "2a570f0527a03b0c0be66afb5d8695b56190528bd620d6c6f68160901df98751",
+    "legal-contracts/patterns/lc05.md": "e06abe01a972861f047e1615ef765214534e14f322fa5521d6d29d7e24d940f0",
+    "legal-contracts/patterns/lc06.md": "e1745baa95618ac1d1573e27ba315f12d3a479cb5f36ca34815b282d5ff7477f",
+    "legal-contracts/patterns/lc07.md": "d140f47e8097c9a2dd11a5ee97039993b9ef4068d5e384694da8a5b7d2951334",
+    "legal-contracts/patterns/lc08.md": "7bcf6fe9a677dff1ef6ffc857415e9315b6b20adbe740db82990245abb6de23d"
+  },
+  "review_scope": [
+    "Inspected all eight complete question objects, required-state fields, criteria, code-owned boundaries, follow-up limits, verification recipes, source notes, frozen synthetic fixtures, stored receipts, and pattern pages.",
+    "Reused the existing 32-call Jev screen, source-support records, and option-overlap review; did not repeat satisfactory calls.",
+    "Confirmed the legal-contract subtree contains catalogs, fixtures, evaluation code, tests, documentation, and receipts but no Python consumer/preflight implementation. The prior page sentence therefore overstated a design requirement as already-executed behavior.",
+    "The legal-contract sources motivate the patterns; they are not legal advice, proof of Jev performance, or validation for a real contract workflow."
+  ],
+  "existing_screen": {
+    "patterns": 8,
+    "fixtures": 32,
+    "verified_request_digests": 32,
+    "design": {
+      "cases": 24,
+      "matches": 23
+    },
+    "challenge": {
+      "cases": 8,
+      "matches": 8
+    },
+    "preserved_disagreement": {
+      "fixture_id": "LC02-3",
+      "expected": "unknown",
+      "observed": "obligation_on_party_a",
+      "confidence": 0.38,
+      "reason": "party_b is empty; the contract requires missing or empty required evidence to be unknown"
+    },
+    "provisional_patterns": [
+      "LC02"
+    ]
+  },
+  "advisory_reviews": [
+    {
+      "case": "Documentation claim: distinguish existing runtime behavior from a consumer requirement",
+      "request_sha256": "bde0653315091cb678df31be3acfb106d9b501bcad04da7ae2897f39ac31e13a",
+      "model": "jev-1.13.0",
+      "cached": false,
+      "observed_at": "2026-09-27T05:40:23.233965+00:00",
+      "elapsed_ms": 351.894,
+      "input_tokens": 779,
+      "output_tokens": 127,
+      "estimated_cost_usd": 0.000032718,
+      "state": {
+        "repository_evidence": {
+          "artifacts_present": [
+            "pattern catalog JSON",
+            "synthetic fixtures",
+            "receipt replay evaluator",
+            "pattern pages",
+            "unit tests"
+          ],
+          "consumer_implementation_found": false,
+          "note": "A bounded repository inspection found no consuming workflow implementation or required-field runtime gate."
+        },
+        "original_page_statement": "Code deterministically returns unknown without invoking Jev when any required named field is absent or empty; the model is not the required-field gate. The live missing-input case below probes the contract wording, not that gate.",
+        "revised_page_statement": "Consumer code must deterministically return unknown without invoking Jev when any required named field is absent or empty; this collection does not implement or verify that gate. The live missing-input case below probes only the contract wording, not consumer behavior."
+      },
+      "results": {
+        "original_claim": {
+          "choice": "asserts_existing_behavior",
+          "confidence": 0.7,
+          "probabilities": {
+            "insufficient_context": 0.0,
+            "asserts_existing_behavior": 0.78,
+            "ambiguous": 0.13,
+            "states_requirement": 0.09
+          }
+        },
+        "revised_claim": {
+          "choice": "clear_requirement_not_verified_behavior",
+          "confidence": 1.0,
+          "probabilities": {
+            "insufficient_context": 0.0,
+            "asserts_existing_behavior": 0.0,
+            "ambiguous": 0.0,
+            "clear_requirement_not_verified_behavior": 1.0
+          }
+        }
+      },
+      "host_disposition": "Advisory wording review agrees with the deterministic repository finding; it does not establish that a consumer exists or functions."
+    }
+  ],
+  "outcome": {
+    "confirmed_documentation_defect": "All eight pages described missing-field handling as code behavior despite no corresponding consumer implementation in this collection.",
+    "repair": "Rephrased the text on all pages as a mandatory consumer-code requirement and stated explicitly that this collection does not implement or verify the gate.",
+    "contract_or_fixture_changes": false,
+    "provisional_patterns": [
+      "LC02"
+    ],
+    "reason": "The only frozen-screen disagreement remains a model miss on absent party_b evidence. No question wording or expectation was changed to fit the observed answer.",
+    "integration_follow_up": "A future consumer must reject absent or empty required fields before calling Jev and return unknown. Verify that behavior in consumer-level tests before documenting it as implemented."
+  },
+  "verification": {
+    "python3 legal-contracts/evaluate.py": "passed; exact summary replay and all 32 successful request digests validated",
+    "python3 -m unittest discover -s legal-contracts -p 'test_*.py' -v": "passed; 13 tests including catalog/page question JSON parity and consumer-boundary wording for all 8 profiles",
+    "page question JSON parity": "passed; all 8 embedded JSON objects exactly equal their catalog questions",
+    "required-field page wording": "passed; all 8 pages state the gate is a consumer requirement and not implemented or verified by this collection",
+    "old runtime-claim scan": "passed; no legal pattern page contains the prior assertion that code deterministically returns unknown",
+    "git diff --check": "passed",
+    "whole_repository_precommit": {
+      "result": "passed",
+      "report": "reviews/2026-09-27/wave17-final-checks-precommit-locked.json",
+      "source_commit": "e632401c88727cc9e00976a258915b3c3a52aeba",
+      "profile_count": 390,
+      "catalog_count": 30,
+      "checks_passed": 65,
+      "checks_failed": 0
+    }
+  },
+  "limitations": [
+    "All 32 legal-contract fixtures are synthetic, author-labelled development cases; the eight challenge cases are not a representative held-out set.",
+    "LC02 remains provisional; its missing-party case is retained unchanged as a disagreement.",
+    "No legal advice, enforceability or risk determination, actual agreement, paralegal output, lawyer disposition, consumer runtime, or production qualification was evaluated.",
+    "Jekyll/browser rendering was not verified."
+  ]
+}

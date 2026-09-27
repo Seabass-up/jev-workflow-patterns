@@ -208,6 +208,14 @@
 - **Verification:** One screen of 17 unchanged regressions and eight frozen development cases matched 25/25. Two low-confidence answers (0.60/0.79) stay in review through consumer tests. Iteration 02 passes 24 tests, binds 200 receipts and retains 134/134 final fixture matches. All-catalog checks are saved with this checkpoint.
 - **Prevention/limits:** Test co-occurrence separately from clear single-label cases. Conflict handling precedes supportive evidence; one selected label does not erase other defects or establish trust/authority. These are local synthetic revisions, not deployed or production-qualified patterns.
 
+## 2026-09-26 — Iteration 03 evidence and routing label precedence
+
+- **Component:** B19/E18/H22/H26/H27 questions and receipt replay.
+- **Symptom/cause:** A missing billing record can coexist with contradiction; replay risk with one/no observed effect; duplicates with a completeness declaration; answer candidates with conflict/incomplete scope; distinct identities with matching/conflicting descriptive fields. The original questions lacked explicit precedence.
+- **Repair:** Versioned all five to v2, defining missing evidence first and explicit co-occurrence rules. Preserved five v1 contracts and ten original fixtures against Git `f600346`; no original state or expected label changed. The selected historical cases now bind fresh v2 receipts.
+- **Verification:** One frozen screen matched 24/24 (ten unchanged regressions plus fourteen development boundaries). Thirty CT08 pair checks selected disjoint/precedence-resolved, including low-confidence checks retained without retries. Replay verifies 91 fixture receipts and five pair-review requests; regression tests reject changed originals, frozen expectations, revised contracts and pair inputs. Full repository verification is recorded with the checkpoint.
+- **Prevention/limits:** Test realistic co-occurrence and policy scope, not only isolated examples. A precedence label does not erase counterevidence or authorize billing, replay, retrieval completeness, linking, or merging. These are local synthetic repairs, not deployment or production qualification; four iteration-three semantic repairs remain.
+
 ## 2026-09-26 — Historical iteration response distribution validation
 
 - **Component:** Iteration 02/03/04 `valid_answers` and shared review receipt checks.

@@ -1,0 +1,1591 @@
+[
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "B19-supported",
+    "pattern_id": "B19",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
+        "support_bundle": "Signed field ticket WO-77: technician completed 8 diagnostic labor hours on 2026-09-20. Attached work order is WO-77."
+      },
+      "questions": {
+        "support_status": {
+          "type": "choice",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "criteria": {
+            "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
+            "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
+            "contradictory_support": "The supplied records explicitly conflict on a material item identity, quantity, period, or stated status.",
+            "insufficient": "The supplied item or records cannot establish one of the other relationships."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "e2070d5c5ea824f1aa6b51ab57d136b62ce7bb709719a6882eade0fad4b613be",
+      "observed_at": "2026-09-26T23:58:28.266511+00:00",
+      "elapsed_ms": 274.209,
+      "billed_input_tokens": 589,
+      "estimated_cost_usd": 0.000024738,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 589,
+        "output_tokens": 55
+      },
+      "answers": {
+        "support_status": {
+          "type": "choice",
+          "choice": "supported",
+          "confidence": 1,
+          "probabilities": {
+            "insufficient": 0,
+            "supported": 1,
+            "contradictory_support": 0,
+            "missing_required_support": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "support_status",
+        "expected": {
+          "choice": "supported"
+        },
+        "observed": "supported",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "B19-missing",
+    "pattern_id": "B19",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
+        "support_bundle": "Work order WO-77 is attached. It contains the original request but no signed field ticket or recorded labor hours."
+      },
+      "questions": {
+        "support_status": {
+          "type": "choice",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "criteria": {
+            "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
+            "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
+            "contradictory_support": "The supplied records explicitly conflict on a material item identity, quantity, period, or stated status.",
+            "insufficient": "The supplied item or records cannot establish one of the other relationships."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "13cae57a08f1395b0adc78ef9d3509110dfbcadc16db0bbab8912150c68c22e6",
+      "observed_at": "2026-09-26T23:58:28.234049+00:00",
+      "elapsed_ms": 240.002,
+      "billed_input_tokens": 576,
+      "estimated_cost_usd": 0.000024191999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 576,
+        "output_tokens": 57
+      },
+      "answers": {
+        "support_status": {
+          "type": "choice",
+          "choice": "missing_required_support",
+          "confidence": 0.99,
+          "probabilities": {
+            "insufficient": 0,
+            "supported": 0,
+            "contradictory_support": 0,
+            "missing_required_support": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "support_status",
+        "expected": {
+          "choice": "missing_required_support"
+        },
+        "observed": "missing_required_support",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "E18-single-effect",
+    "pattern_id": "E18",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "operation_description": "POST /orders accepts a client idempotency key and stores one order per key.",
+        "replay_trace": "First invocation created order O-55 for key K9. Second invocation with K9 returned existing order O-55 and created no second order."
+      },
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "57f69f3181c833054282f62c79c5b18d81c2f0dd14e0996eb96a697f8ad92b85",
+      "observed_at": "2026-09-26T23:58:28.260661+00:00",
+      "elapsed_ms": 265.842,
+      "billed_input_tokens": 622,
+      "estimated_cost_usd": 0.000026124,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 622,
+        "output_tokens": 69
+      },
+      "answers": {
+        "replay_evidence": {
+          "type": "choice",
+          "choice": "single_effect_demonstrated",
+          "confidence": 1,
+          "probabilities": {
+            "single_effect_demonstrated": 1,
+            "duplicate_effect_risk": 0,
+            "insufficient": 0,
+            "no_effect_before_side_effect": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "replay_evidence",
+        "expected": {
+          "choice": "single_effect_demonstrated"
+        },
+        "observed": "single_effect_demonstrated",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "E18-duplicate-risk",
+    "pattern_id": "E18",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "operation_description": "The operation sends an email and has no idempotency key or stored request identity.",
+        "replay_trace": "A timeout occurred after the email service accepted the first send. A second invocation sent the same email again."
+      },
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "7c7cf34b286443d4dcd2cf1005c7984cf502ae3de08513e179acfa06d46f5087",
+      "observed_at": "2026-09-26T23:58:28.299697+00:00",
+      "elapsed_ms": 303.25,
+      "billed_input_tokens": 612,
+      "estimated_cost_usd": 0.000025704,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 612,
+        "output_tokens": 67
+      },
+      "answers": {
+        "replay_evidence": {
+          "type": "choice",
+          "choice": "duplicate_effect_risk",
+          "confidence": 1,
+          "probabilities": {
+            "insufficient": 0,
+            "single_effect_demonstrated": 0,
+            "duplicate_effect_risk": 1,
+            "no_effect_before_side_effect": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "replay_evidence",
+        "expected": {
+          "choice": "duplicate_effect_risk"
+        },
+        "observed": "duplicate_effect_risk",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H22-exhaustive",
+    "pattern_id": "H22",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "selection_request": "Select the customer record for external ID C-18.",
+        "candidate_manifest": "The manifest is complete for external ID C-18 and lists exactly one candidate. Candidate C-18 includes source revision r2 and immutable record ID."
+      },
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "daeef7282ef4111867ea7756fed3e52919c610e20777b727b5a8e84d661cdf68",
+      "observed_at": "2026-09-26T23:58:28.257978+00:00",
+      "elapsed_ms": 262.37,
+      "billed_input_tokens": 587,
+      "estimated_cost_usd": 0.000024653999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 587,
+        "output_tokens": 72
+      },
+      "answers": {
+        "coverage": {
+          "type": "choice",
+          "choice": "exhaustive_with_provenance",
+          "confidence": 1,
+          "probabilities": {
+            "ambiguous_or_duplicate_candidates": 0,
+            "bounded_but_expandable": 0,
+            "exhaustive_with_provenance": 1,
+            "unverifiable": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "coverage",
+        "expected": {
+          "choice": "exhaustive_with_provenance"
+        },
+        "observed": "exhaustive_with_provenance",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H22-shortlist",
+    "pattern_id": "H22",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "selection_request": "Select the customer record for the name Jordan Lee.",
+        "candidate_manifest": "The manifest is a top-five text-search shortlist and may omit relevant customers. Each candidate is only a display name with no canonical ID."
+      },
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "c783c025ba4d3e4c085b17cea304df10b3d6bfd85753d570aa0bc47092f532a1",
+      "observed_at": "2026-09-26T23:58:28.244132+00:00",
+      "elapsed_ms": 246.341,
+      "billed_input_tokens": 582,
+      "estimated_cost_usd": 0.000024444,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 582,
+        "output_tokens": 70
+      },
+      "answers": {
+        "coverage": {
+          "type": "choice",
+          "choice": "bounded_but_expandable",
+          "confidence": 1,
+          "probabilities": {
+            "bounded_but_expandable": 1,
+            "unverifiable": 0,
+            "ambiguous_or_duplicate_candidates": 0,
+            "exhaustive_with_provenance": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "coverage",
+        "expected": {
+          "choice": "bounded_but_expandable"
+        },
+        "observed": "bounded_but_expandable",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H26-rank",
+    "pattern_id": "H26",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "The corpus includes tagged candidate C1: The timeout is 30 seconds. C2: Retries are disabled."
+      },
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "45fe5e9bd4642e851f326831616721f8df74ff6eb36254ac9b41a302f268e6d2",
+      "observed_at": "2026-09-26T23:58:28.270345+00:00",
+      "elapsed_ms": 271.694,
+      "billed_input_tokens": 563,
+      "estimated_cost_usd": 0.000023646,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 563,
+        "output_tokens": 64
+      },
+      "answers": {
+        "controller_route": {
+          "type": "choice",
+          "choice": "rank_eligible",
+          "confidence": 0.99,
+          "probabilities": {
+            "preserve_conflict_for_review": 0,
+            "insufficient": 0,
+            "expand_or_retrieve": 0,
+            "rank_eligible": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "controller_route",
+        "expected": {
+          "choice": "rank_eligible"
+        },
+        "observed": "rank_eligible",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H26-expand",
+    "pattern_id": "H26",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "This is a known incomplete top-three text-search shortlist. It discusses retries and logging but contains no timeout."
+      },
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "b8bf812e9a9d3878209532c73517a23d14df8e20992317304568e6a303f74cac",
+      "observed_at": "2026-09-26T23:58:28.236465+00:00",
+      "elapsed_ms": 237.252,
+      "billed_input_tokens": 562,
+      "estimated_cost_usd": 0.000023604,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 562,
+        "output_tokens": 65
+      },
+      "answers": {
+        "controller_route": {
+          "type": "choice",
+          "choice": "expand_or_retrieve",
+          "confidence": 0.98,
+          "probabilities": {
+            "expand_or_retrieve": 0.99,
+            "preserve_conflict_for_review": 0,
+            "rank_eligible": 0,
+            "insufficient": 0.01
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "controller_route",
+        "expected": {
+          "choice": "expand_or_retrieve"
+        },
+        "observed": "expand_or_retrieve",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H27-check",
+    "pattern_id": "H27",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate_pair": "Two records both say Jordan Lee at Apex Labs in Denver.",
+        "field_evidence": "Their names, organization, and location match, but no immutable employee or customer ID is supplied.",
+        "merge_policy": "A possible alignment without an immutable ID must go through an independent identity check before any link."
+      },
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "4973bd2433a1f47f751d46609593d7656fbff71ddca25ada6ddd82e6131652ed",
+      "observed_at": "2026-09-26T23:58:28.230769+00:00",
+      "elapsed_ms": 230.684,
+      "billed_input_tokens": 598,
+      "estimated_cost_usd": 0.000025115999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 598,
+        "output_tokens": 62
+      },
+      "answers": {
+        "merge_route": {
+          "type": "choice",
+          "choice": "independent_identity_check",
+          "confidence": 1,
+          "probabilities": {
+            "curator_review": 0,
+            "keep_separate": 0,
+            "insufficient": 0,
+            "independent_identity_check": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "merge_route",
+        "expected": {
+          "choice": "independent_identity_check"
+        },
+        "observed": "independent_identity_check",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H27-separate",
+    "pattern_id": "H27",
+    "contract_version": 2,
+    "split": "unchanged_regression",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate_pair": "One record is Jordan Lee at Apex Labs in Denver; the other is Jordan Lee at Harbor Foods in Portland.",
+        "field_evidence": "Organization and location explicitly differ.",
+        "merge_policy": "Explicitly distinct entities remain separate."
+      },
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "6f2c09bfdb223a419966973101f6cffb8aa8e93d183d383455955d150139b343",
+      "observed_at": "2026-09-26T23:58:28.305482+00:00",
+      "elapsed_ms": 303.939,
+      "billed_input_tokens": 585,
+      "estimated_cost_usd": 0.00002457,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 585,
+        "output_tokens": 61
+      },
+      "answers": {
+        "merge_route": {
+          "type": "choice",
+          "choice": "keep_separate",
+          "confidence": 1,
+          "probabilities": {
+            "independent_identity_check": 0,
+            "insufficient": 0,
+            "curator_review": 0,
+            "keep_separate": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "merge_route",
+        "expected": {
+          "choice": "keep_separate"
+        },
+        "observed": "keep_separate",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "B19-review-conflict-and-missing",
+    "pattern_id": "B19",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "billable_item": "WO-77 bills 8 diagnostic hours and requires a signed field ticket.",
+        "support_bundle": "Two unsigned logs report WO-77 as 8 hours and 12 hours for the same period. No signed field ticket is supplied."
+      },
+      "questions": {
+        "support_status": {
+          "type": "choice",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "criteria": {
+            "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
+            "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
+            "contradictory_support": "The supplied records explicitly conflict on a material item identity, quantity, period, or stated status.",
+            "insufficient": "The supplied item or records cannot establish one of the other relationships."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "750d19c6bb9263a34ce12cd941ad74321f6972d3715edea51d030f9c07eee2a7",
+      "observed_at": "2026-09-26T23:58:28.301974+00:00",
+      "elapsed_ms": 301.216,
+      "billed_input_tokens": 565,
+      "estimated_cost_usd": 0.000023729999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 565,
+        "output_tokens": 59
+      },
+      "answers": {
+        "support_status": {
+          "type": "choice",
+          "choice": "contradictory_support",
+          "confidence": 0.94,
+          "probabilities": {
+            "insufficient": 0,
+            "supported": 0,
+            "missing_required_support": 0.05,
+            "contradictory_support": 0.95
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "support_status",
+        "expected": {
+          "choice": "contradictory_support"
+        },
+        "observed": "contradictory_support",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "B19-review-missing-input",
+    "pattern_id": "B19",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "billable_item": "",
+        "support_bundle": "WO-77 signed ticket: 8 hours."
+      },
+      "questions": {
+        "support_status": {
+          "type": "choice",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "criteria": {
+            "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
+            "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
+            "contradictory_support": "The supplied records explicitly conflict on a material item identity, quantity, period, or stated status.",
+            "insufficient": "The supplied item or records cannot establish one of the other relationships."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "3c94e8c26ad2350b959ab19a631fc2c4dae0c4df77bfb65cb1aedd0b1fc09fa8",
+      "observed_at": "2026-09-26T23:58:28.249023+00:00",
+      "elapsed_ms": 246.555,
+      "billed_input_tokens": 531,
+      "estimated_cost_usd": 0.000022302,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 531,
+        "output_tokens": 58
+      },
+      "answers": {
+        "support_status": {
+          "type": "choice",
+          "choice": "insufficient",
+          "confidence": 0.95,
+          "probabilities": {
+            "contradictory_support": 0,
+            "insufficient": 0.96,
+            "supported": 0.02,
+            "missing_required_support": 0.02
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "support_status",
+        "expected": {
+          "choice": "insufficient"
+        },
+        "observed": "insufficient",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "E18-review-risk-and-single-effect",
+    "pattern_id": "E18",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "operation_description": "The operation has no idempotency boundary; duplicate persistent effects on replay are an explicit risk.",
+        "replay_trace": "This test invoked it twice and observed only one stored effect."
+      },
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "fdb599ddbd4c22ab56e274d1534b4436720a78a0db14157f4919ab569aa46c1d",
+      "observed_at": "2026-09-26T23:58:28.231555+00:00",
+      "elapsed_ms": 227.056,
+      "billed_input_tokens": 605,
+      "estimated_cost_usd": 0.00002541,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 605,
+        "output_tokens": 67
+      },
+      "answers": {
+        "replay_evidence": {
+          "type": "choice",
+          "choice": "duplicate_effect_risk",
+          "confidence": 0.85,
+          "probabilities": {
+            "single_effect_demonstrated": 0.11,
+            "insufficient": 0,
+            "duplicate_effect_risk": 0.89,
+            "no_effect_before_side_effect": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "replay_evidence",
+        "expected": {
+          "choice": "duplicate_effect_risk"
+        },
+        "observed": "duplicate_effect_risk",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "E18-review-risk-and-no-effect",
+    "pattern_id": "E18",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "operation_description": "The operation has no idempotency boundary; duplicate effects on replay are an explicit risk.",
+        "replay_trace": "Both test invocations failed before any persistent effect."
+      },
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "ed59a335cc80236340a7fd4a42a466d3adc15b5befa0d41a091a7b0463945aa6",
+      "observed_at": "2026-09-26T23:58:28.265188+00:00",
+      "elapsed_ms": 261.963,
+      "billed_input_tokens": 603,
+      "estimated_cost_usd": 0.000025325999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 603,
+        "output_tokens": 67
+      },
+      "answers": {
+        "replay_evidence": {
+          "type": "choice",
+          "choice": "duplicate_effect_risk",
+          "confidence": 0.91,
+          "probabilities": {
+            "duplicate_effect_risk": 0.93,
+            "single_effect_demonstrated": 0,
+            "insufficient": 0,
+            "no_effect_before_side_effect": 0.07
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "replay_evidence",
+        "expected": {
+          "choice": "duplicate_effect_risk"
+        },
+        "observed": "duplicate_effect_risk",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "E18-review-missing-input",
+    "pattern_id": "E18",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "operation_description": "Stores one order per key.",
+        "replay_trace": ""
+      },
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "13ee166aefac29ed37236031831f834111c66b7c2a3d78d849b1dcca625511ed",
+      "observed_at": "2026-09-26T23:58:28.304027+00:00",
+      "elapsed_ms": 300.106,
+      "billed_input_tokens": 579,
+      "estimated_cost_usd": 0.000024318,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 579,
+        "output_tokens": 67
+      },
+      "answers": {
+        "replay_evidence": {
+          "type": "choice",
+          "choice": "insufficient",
+          "confidence": 0.95,
+          "probabilities": {
+            "single_effect_demonstrated": 0.01,
+            "insufficient": 0.96,
+            "duplicate_effect_risk": 0.03,
+            "no_effect_before_side_effect": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "replay_evidence",
+        "expected": {
+          "choice": "insufficient"
+        },
+        "observed": "insufficient",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H22-review-complete-with-duplicates",
+    "pattern_id": "H22",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "selection_request": "Choose a record for external ID C-18.",
+        "candidate_manifest": "Declared complete for C-18 with source revisions r1 and r2. Both candidates claim the same canonical ID but mean different entities; duplicate identity remains unresolved."
+      },
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "7e0378e4a0570e2a0e0caae346415464c35531abc09e09370c1ef8f0c942ace8",
+      "observed_at": "2026-09-26T23:58:28.262842+00:00",
+      "elapsed_ms": 257.684,
+      "billed_input_tokens": 587,
+      "estimated_cost_usd": 0.000024653999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 587,
+        "output_tokens": 70
+      },
+      "answers": {
+        "coverage": {
+          "type": "choice",
+          "choice": "ambiguous_or_duplicate_candidates",
+          "confidence": 1,
+          "probabilities": {
+            "unverifiable": 0,
+            "ambiguous_or_duplicate_candidates": 1,
+            "bounded_but_expandable": 0,
+            "exhaustive_with_provenance": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "coverage",
+        "expected": {
+          "choice": "ambiguous_or_duplicate_candidates"
+        },
+        "observed": "ambiguous_or_duplicate_candidates",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H22-review-shortlist-with-duplicates",
+    "pattern_id": "H22",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "selection_request": "Choose a customer record.",
+        "candidate_manifest": "Known incomplete shortlist. Two entries share an ID but represent different customers; the duplicate remains unresolved."
+      },
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "7a3e945c6e3c5e0644bf24d1fab0fb1315fbd8d031e622ecbf110bfb9e0ba5b6",
+      "observed_at": "2026-09-26T23:58:28.261903+00:00",
+      "elapsed_ms": 256.006,
+      "billed_input_tokens": 569,
+      "estimated_cost_usd": 0.000023898,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 569,
+        "output_tokens": 70
+      },
+      "answers": {
+        "coverage": {
+          "type": "choice",
+          "choice": "ambiguous_or_duplicate_candidates",
+          "confidence": 1,
+          "probabilities": {
+            "bounded_but_expandable": 0,
+            "ambiguous_or_duplicate_candidates": 1,
+            "unverifiable": 0,
+            "exhaustive_with_provenance": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "coverage",
+        "expected": {
+          "choice": "ambiguous_or_duplicate_candidates"
+        },
+        "observed": "ambiguous_or_duplicate_candidates",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H22-review-missing-input",
+    "pattern_id": "H22",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "selection_request": "Choose a customer.",
+        "candidate_manifest": ""
+      },
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "a93d8cc2a2d00dd5b631610f70ff9d4318279f08cd57dd4ce9d85f9523222c9f",
+      "observed_at": "2026-09-26T23:58:28.239682+00:00",
+      "elapsed_ms": 233.117,
+      "billed_input_tokens": 547,
+      "estimated_cost_usd": 0.000022974,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 547,
+        "output_tokens": 68
+      },
+      "answers": {
+        "coverage": {
+          "type": "choice",
+          "choice": "unverifiable",
+          "confidence": 1,
+          "probabilities": {
+            "ambiguous_or_duplicate_candidates": 0,
+            "exhaustive_with_provenance": 0,
+            "bounded_but_expandable": 0,
+            "unverifiable": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "coverage",
+        "expected": {
+          "choice": "unverifiable"
+        },
+        "observed": "unverifiable",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H26-review-conflict-in-incomplete-corpus",
+    "pattern_id": "H26",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "Known incomplete shortlist. C1 directly states timeout is 30 seconds, C2 directly states timeout is 90 seconds. Both apply to the same configuration with no controlling version."
+      },
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "e43ca06fc6812ff67508ff7bf1729c3370ac40b7dea98952281fb2870cfaee6e",
+      "observed_at": "2026-09-26T23:58:28.304215+00:00",
+      "elapsed_ms": 297.07,
+      "billed_input_tokens": 578,
+      "estimated_cost_usd": 0.000024276,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 578,
+        "output_tokens": 66
+      },
+      "answers": {
+        "controller_route": {
+          "type": "choice",
+          "choice": "preserve_conflict_for_review",
+          "confidence": 0.96,
+          "probabilities": {
+            "rank_eligible": 0,
+            "preserve_conflict_for_review": 0.97,
+            "insufficient": 0,
+            "expand_or_retrieve": 0.03
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "controller_route",
+        "expected": {
+          "choice": "preserve_conflict_for_review"
+        },
+        "observed": "preserve_conflict_for_review",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H26-review-answer-in-incomplete-corpus",
+    "pattern_id": "H26",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "Known incomplete shortlist requiring expansion. C1 states timeout is 30 seconds. No conflicting evidence appears in this shortlist."
+      },
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "5da3b34de1c6247dbc9b7466ab722045c6915829a8f587e70d50c838bc33d367",
+      "observed_at": "2026-09-26T23:58:28.298363+00:00",
+      "elapsed_ms": 290.667,
+      "billed_input_tokens": 567,
+      "estimated_cost_usd": 0.000023814,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 567,
+        "output_tokens": 65
+      },
+      "answers": {
+        "controller_route": {
+          "type": "choice",
+          "choice": "expand_or_retrieve",
+          "confidence": 0.89,
+          "probabilities": {
+            "rank_eligible": 0.08,
+            "expand_or_retrieve": 0.92,
+            "preserve_conflict_for_review": 0,
+            "insufficient": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "controller_route",
+        "expected": {
+          "choice": "expand_or_retrieve"
+        },
+        "observed": "expand_or_retrieve",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H26-review-missing-input",
+    "pattern_id": "H26",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": ""
+      },
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "3215e79999deb85fb584ebebfa58033dc7cfb73327585fa123c665a4f07ebde9",
+      "observed_at": "2026-09-26T23:58:28.300753+00:00",
+      "elapsed_ms": 292.558,
+      "billed_input_tokens": 539,
+      "estimated_cost_usd": 0.000022638,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 539,
+        "output_tokens": 64
+      },
+      "answers": {
+        "controller_route": {
+          "type": "choice",
+          "choice": "insufficient",
+          "confidence": 0.97,
+          "probabilities": {
+            "expand_or_retrieve": 0.02,
+            "preserve_conflict_for_review": 0,
+            "rank_eligible": 0,
+            "insufficient": 0.98
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "controller_route",
+        "expected": {
+          "choice": "insufficient"
+        },
+        "observed": "insufficient",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H27-review-distinct-but-related",
+    "pattern_id": "H27",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate_pair": "Two employee records use the same name and employer.",
+        "field_evidence": "Canonical HR identifiers P1 and P2 belong to distinct people; source confirms this. Display-name and department fields match, while location records conflict.",
+        "merge_policy": "When independently established canonical IDs identify distinct people, keep separate. Otherwise conflicting descriptive fields require curator review."
+      },
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "40cbad2672bd903b51de19137e5790c50f807d62a67bb76c2cfe4d803a7c89f6",
+      "observed_at": "2026-09-26T23:58:28.250108+00:00",
+      "elapsed_ms": 241.317,
+      "billed_input_tokens": 608,
+      "estimated_cost_usd": 0.000025536,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 608,
+        "output_tokens": 61
+      },
+      "answers": {
+        "merge_route": {
+          "type": "choice",
+          "choice": "keep_separate",
+          "confidence": 1,
+          "probabilities": {
+            "curator_review": 0,
+            "independent_identity_check": 0,
+            "keep_separate": 1,
+            "insufficient": 0
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "merge_route",
+        "expected": {
+          "choice": "keep_separate"
+        },
+        "observed": "keep_separate",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H27-review-alignment-with-policy-review",
+    "pattern_id": "H27",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate_pair": "Two records share a name and employer.",
+        "field_evidence": "No canonical IDs. Their locations conflict without resolution.",
+        "merge_policy": "Unresolved field conflict requires curator review. Apparent alignment without conflict requires an independent identity check."
+      },
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "00dd3c13e98012899758eb18f0d1b10cf85a64275d33be76377c559de7559e55",
+      "observed_at": "2026-09-26T23:58:28.249559+00:00",
+      "elapsed_ms": 240.189,
+      "billed_input_tokens": 589,
+      "estimated_cost_usd": 0.000024738,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 589,
+        "output_tokens": 60
+      },
+      "answers": {
+        "merge_route": {
+          "type": "choice",
+          "choice": "curator_review",
+          "confidence": 1,
+          "probabilities": {
+            "insufficient": 0,
+            "independent_identity_check": 0,
+            "keep_separate": 0,
+            "curator_review": 1
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "merge_route",
+        "expected": {
+          "choice": "curator_review"
+        },
+        "observed": "curator_review",
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "precedence-review-v2",
+    "fixture_id": "H27-review-missing-input",
+    "pattern_id": "H27",
+    "contract_version": 2,
+    "split": "development_screen",
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate_pair": "Two matching names.",
+        "field_evidence": "Matching names, no IDs.",
+        "merge_policy": ""
+      },
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "b1f6b4a9c71cbaa184dde7421031a41530bae29bfcea556230be66648ede0c67",
+      "observed_at": "2026-09-26T23:58:28.267529+00:00",
+      "elapsed_ms": 256.838,
+      "billed_input_tokens": 559,
+      "estimated_cost_usd": 0.000023477999999999998,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 559,
+        "output_tokens": 61
+      },
+      "answers": {
+        "merge_route": {
+          "type": "choice",
+          "choice": "insufficient",
+          "confidence": 0.82,
+          "probabilities": {
+            "curator_review": 0.13,
+            "keep_separate": 0,
+            "independent_identity_check": 0,
+            "insufficient": 0.87
+          }
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "merge_route",
+        "expected": {
+          "choice": "insufficient"
+        },
+        "observed": "insufficient",
+        "match": true
+      }
+    ],
+    "match": true
+  }
+]

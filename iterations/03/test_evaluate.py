@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
+import evaluate
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -123,6 +125,37 @@ class IterationThreeTests(unittest.TestCase):
     def test_h29_routes_calculation_out_of_semantic_controller(self):
         signal = response("H29", {"precision_route": "deterministic_calculation_only"})
         self.assertEqual(plan(PATTERNS["H29"], signal)["next"], "deterministic_calculation_or_review")
+
+    def test_precedence_revision_receipts_and_pair_results(self):
+        result = replay()
+        self.assertEqual(result["screens"]["precedence-review-v2"]["requests"], 24)
+        self.assertEqual(result["screens"]["precedence-review-v2"]["fixture_matches"], 24)
+        rows = evaluate.load("results/precedence-pair-review-v2.json")
+        self.assertEqual(sum(len(row["response"]["answers"]) for row in rows), 30)
+        self.assertTrue(all(a["choice"] == "disjoint" for row in rows for a in row["response"]["answers"].values()))
+
+    def test_revision_refuses_changed_originals_and_frozen_cases(self):
+        original_load = evaluate.load
+        for path, mutate in (
+            ("results/precedence-pre-review-contracts.json", lambda d: d["fixtures"][0]["state"].update({"support_bundle": "changed"})),
+            ("results/precedence-revision-fixtures.json", lambda d: d["cases"][0]["expected"]["support_status"].update({"choice": "insufficient"})),
+            ("results/precedence-revision-fixtures.json", lambda d: d["patterns"][0]["questions"]["support_status"].update({"instructions": "changed"})),
+            ("results/precedence-pair-review-v2.json", lambda d: d[0]["request"]["state"]["pair0"].update({"question_instructions": "changed"})),
+        ):
+            with self.subTest(path=path):
+                data = copy.deepcopy(original_load(path))
+                mutate(data)
+                with patch.object(evaluate, "load", side_effect=lambda name: data if name == path else original_load(name)):
+                    with self.assertRaises(ValueError):
+                        replay()
+
+    def test_revised_missing_inputs_remain_consumer_review(self):
+        cases = {f["id"]: f for f in evaluate.load("results/precedence-revision-fixtures.json")["cases"]}
+        rows = evaluate.load("results/precedence-review-v2.json")
+        for row in rows:
+            if row["fixture_id"].endswith("missing-input"):
+                with self.subTest(fixture=row["fixture_id"]):
+                    self.assertEqual(raw_plan(PATTERNS[row["pattern_id"]], row["response"], state=cases[row["fixture_id"]]["state"])["next"], "review")
 
 
 if __name__ == "__main__":

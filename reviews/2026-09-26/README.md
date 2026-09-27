@@ -20,6 +20,17 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Iteration 03 versioned repairs (wave 05)
+
+B19/E18/H22/H26/H27 are repaired at v2. Twenty-four frozen cases (ten unchanged
+regressions and fourteen development boundaries) matched; thirty option-pair checks
+selected disjoint/precedence-resolved, with all uncertainty retained. Originals bind
+Git `f600346`, and no original state or label was changed. The evaluator verifies
+the revised questions and exact receipts before selecting new historical receipts.
+Four confirmed iteration-three repairs remain: L17, L18, H24 and H28. Thirteen
+original iteration-four flags remain unreviewed; H05, unflagged source review,
+foundational guides and kernel/tooling remain outstanding. Local-only checkpoint.
+
 ### Iteration 03 source-triage checkpoint (wave 04)
 
 All fourteen original iteration-three flags have been source-inspected. Five are

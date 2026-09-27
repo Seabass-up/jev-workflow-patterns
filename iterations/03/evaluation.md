@@ -41,6 +41,19 @@ predeclared consequence policy, and calibration against the target workflow.
 
 ## Receipt integrity
 
+### Local review revision — 2026-09-26
+
+B19/E18/H22/H26/H27 are now v2 with explicit missing-evidence and overlapping-label
+precedence. The five original v1 contracts and ten original fixtures are preserved
+and verified against Git source `f600346`. Ten unchanged regression cases plus fourteen
+frozen development boundaries matched 24/24 in one uncached screen. All thirty CT08
+option-pair judgments selected disjoint/precedence-resolved; some were low-confidence
+and remain advisory rather than qualification. The evaluator binds all 91 fixture
+receipts plus five pair-review requests, rejects changed originals or unbound revised
+cases, and keeps the final selection at 61/61 fixtures and 84/84 question checks.
+The historical cost above describes only the original 67 calls, not this added screen.
+No production behavior, authority, merge, retry permission or deployment is established.
+
 The offline evaluator verifies:
 
 - response shapes match the exact Choice, Score, or Noul question contract;

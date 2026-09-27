@@ -11,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -211,11 +212,94 @@ def validate_catalog_and_fixtures() -> tuple[dict[str, dict[str, Any]], dict[str
     return by_id, by_fixture
 
 
+def verify_precedence_revision(patterns, fixtures, rows_by_screen):
+    """Bind preserved originals to Git and the one frozen v2 screen to current source."""
+    archived = load("results/precedence-pre-review-contracts.json")
+    revised = load("results/precedence-revision-fixtures.json")
+    source = archived["source_commit"]
+    repo = ROOT.parents[1]
+    def original(path):
+        return json.loads(subprocess.check_output(["git", "show", source + ":" + path], cwd=repo))
+    old_patterns = {p["id"]: p for p in original("iterations/03/catalog.json")["patterns"]}
+    old_fixtures = {f["id"]: f for f in original("iterations/03/fixtures.json")}
+    ids = {"B19", "E18", "H22", "H26", "H27"}
+    if {p["id"] for p in archived["patterns"]} != ids or len(archived["patterns"]) != 5:
+        raise ValueError("revision archive pattern coverage")
+    for p in archived["patterns"]:
+        if p != old_patterns[p["id"]]:
+            raise ValueError("revision archive differs from Git source")
+    expected_old = [f for f in old_fixtures.values() if f["pattern_id"] in ids]
+    if archived["fixtures"] != expected_old:
+        raise ValueError("revision archive fixture changed")
+    for f in archived["fixtures"]:
+        current = {k: v for k, v in fixtures[f["id"]].items() if k != "contract_version"}
+        if current != f or fixtures[f["id"]].get("contract_version") != 2:
+            raise ValueError("original revision fixture changed")
+        receipt = rows_by_screen["initial"][f["id"]]
+        if (receipt["request"]["state"] != f["state"]
+                or receipt["request"]["questions"] != old_patterns[f["pattern_id"]]["questions"]
+                or {c["question_id"]: c["expected"] for c in receipt["checks"]} != f["expected"]):
+            raise ValueError("original revision receipt binding")
+    if revised["patterns"] != [patterns[p["id"]] for p in archived["patterns"]]:
+        raise ValueError("revision current contract binding")
+    cases = revised["cases"]
+    by_id = {f["id"]: f for f in cases}
+    rows = rows_by_screen["precedence-review-v2"]
+    if len(cases) != 24 or len(by_id) != len(cases) or set(by_id) != set(rows):
+        raise ValueError("revision case coverage")
+    for f in archived["fixtures"]:
+        case = by_id[f["id"]]
+        if (case["state"] != f["state"] or case["expected"] != f["expected"]
+                or case["split"] != "unchanged_regression"):
+            raise ValueError("revision regression changed")
+    for f in cases:
+        row = rows[f["id"]]
+        p = patterns[f["pattern_id"]]
+        if (f["pattern_id"] not in ids or p["contract_version"] != 2
+                or f["contract_version"] != 2 or row["contract_version"] != 2
+                or row["pattern_id"] != f["pattern_id"] or row["split"] != f["split"]
+                or row["request"]["state"] != f["state"]
+                or row["request"]["questions"] != p["questions"]
+                or row["request"].get("use_cache") is not False
+                or row["response"].get("cached") is not False
+                or row["response"].get("advisory_only") is not True
+                or {c["question_id"]: c["expected"] for c in row["checks"]} != f["expected"]):
+            raise ValueError("revision receipt binding")
+    # CT08 remains advisory; low confidence is retained, not retried until passing.
+    ct08 = next(p for p in original("controls/catalog.json")["patterns"] if p["id"] == "CT08")
+    pair_rows = load("results/precedence-pair-review-v2.json")
+    if len(pair_rows) != 5 or {r["pattern_id"] for r in pair_rows} != ids:
+        raise ValueError("revision pair coverage")
+    for row in pair_rows:
+        p = patterns[row["pattern_id"]]
+        question = next(iter(p["questions"].values()))
+        labels = list(question["criteria"])
+        state, questions = {}, {}
+        for a in range(len(labels)):
+            for b in range(a + 1, len(labels)):
+                slot = "pair" + str(len(state))
+                state[slot] = {"question_instructions": question["instructions"],
+                               "option_a_label": labels[a], "option_a_description": question["criteria"][labels[a]],
+                               "option_b_label": labels[b], "option_b_description": question["criteria"][labels[b]]}
+                q = dict(ct08["questions"]["decision"])
+                q["instructions"] = "Evaluate only state." + slot + ". " + q["instructions"]
+                questions[slot] = q
+        req, resp = row["request"], row["response"]
+        digest = hashlib.sha256(canonical({"model": resp["model"], "state": state, "questions": questions})).hexdigest()
+        if (row["contract_version"] != 2 or req["state"] != state or req["questions"] != questions
+                or req.get("use_cache") is not False or resp.get("cached") is not False
+                or resp.get("advisory_only") is not True or resp.get("request_sha256") != digest
+                or not valid_answers(questions, resp)):
+            raise ValueError("revision pair binding")
+    return {"patterns": 5, "unchanged_regressions": 10, "development_cases": 14,
+            "pairs": 30, "scope": "Synthetic revision evidence, not production qualification."}
+
+
 def replay() -> dict[str, Any]:
     """Verify all raw screens and selected final receipts without a network call."""
     patterns, fixtures = validate_catalog_and_fixtures()
     screen_manifest = load("screens.json").get("screens")
-    if not isinstance(screen_manifest, dict) or set(screen_manifest) != {"initial", "refinement"}:
+    if not isinstance(screen_manifest, dict) or set(screen_manifest) != {"initial", "refinement", "precedence-review-v2"}:
         raise ValueError("unexpected screen manifest")
     rows_by_screen: dict[str, dict[str, dict[str, Any]]] = {}
     metrics: dict[str, dict[str, int]] = {}
@@ -234,6 +318,8 @@ def replay() -> dict[str, Any]:
                 total[key] += value
         rows_by_screen[screen] = table
         metrics[screen] = total
+
+    revision = verify_precedence_revision(patterns, fixtures, rows_by_screen)
 
     selections = load("results/final-acceptance.json").get("receipts")
     if not isinstance(selections, list) or len(selections) != len(fixtures):
@@ -273,6 +359,7 @@ def replay() -> dict[str, Any]:
 
     return {
         "screens": metrics,
+        "precedence_revision": revision,
         "final_contract_acceptance": {
             "fixtures": len(fixtures),
             "fixture_matches": final_matches,

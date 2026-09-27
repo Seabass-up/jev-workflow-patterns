@@ -136,7 +136,7 @@
       "questions": {
         "support_status": {
           "type": "choice",
-          "instructions": "How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
           "criteria": {
             "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
             "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
@@ -153,7 +153,7 @@
       "origin": "Task-authored Iteration 3 evidence-bundle classifier.",
       "limits": "Support completeness is not legal entitlement, payment authorization, or proof that the work occurred.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["B03", "B12", "H18"]
     },
     {
@@ -319,7 +319,7 @@
       "questions": {
         "replay_evidence": {
           "type": "choice",
-          "instructions": "What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
           "criteria": {
             "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
             "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
@@ -336,7 +336,7 @@
       "origin": "Task-authored Iteration 3 replay-evidence classifier.",
       "limits": "A synthetic or partial trace cannot prove production idempotence.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["E09", "E08"]
     },
     {
@@ -669,7 +669,7 @@
       "questions": {
         "coverage": {
           "type": "choice",
-          "instructions": "What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
           "criteria": {
             "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
             "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
@@ -686,7 +686,7 @@
       "origin": "Task-authored Iteration 3 candidate-coverage controller.",
       "limits": "A declaration of completeness still needs code/source validation.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["H14", "L07", "L04"]
     },
     {
@@ -793,7 +793,7 @@
       "questions": {
         "controller_route": {
           "type": "choice",
-          "instructions": "What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
           "criteria": {
             "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
             "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
@@ -810,7 +810,7 @@
       "origin": "Task-authored Iteration 3 retrieval controller.",
       "limits": "It cannot make an incomplete corpus complete or establish source authority.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["L16", "L07", "H18"]
     },
     {
@@ -823,7 +823,7 @@
       "questions": {
         "merge_route": {
           "type": "choice",
-          "instructions": "What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
           "criteria": {
             "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
             "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
@@ -840,7 +840,7 @@
       "origin": "Task-authored Iteration 3 entity-merge hold controller.",
       "limits": "It cannot replace canonical-ID checks or resolve an entity graph conflict.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["L13", "B15", "H17"]
     },
     {

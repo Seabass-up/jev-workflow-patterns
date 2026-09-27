@@ -16,10 +16,17 @@ Thirty question patterns were authored and screened using the existing Jev bridg
 | Initial 20 core patterns | 81 | 76/81 | 99/104 | 93/104 | 93/93 |
 | Targeted refinement | 15 | 15/15 | 31/31 | 31/31 | 31/31 |
 | Ten harness components | 40 | 38/40 | 41/44 | 41/44 | 39/41 |
+| H05 version-2 multi-defect screen | 6 | 6/6 | 6/6 | 5/6 | 5/5 |
 
 The threshold metric uses Choice/Score confidence ≥ 0.8 or Noul ≤ 0.2 / ≥ 0.8. It is descriptive only; it counts labeled judgments, **not** authorized actions. Two E01 scores were deliberately unlabeled because their evidence gate said missing/conflict. Ignoring an unused branch is intentional, not an omitted failure. Full raw outputs are retained.
 
-There were **136 screening requests**, plus one source-ranking request. Eight refinement requests reused initial cases; seven were newly authored after inspecting failures. There is no independent held-out test set, blind external labeling, repeated-run stability study, long-running harness evaluation or real business data trial. The author designed both contracts and labels. Do not pool these screens into a single “accuracy” claim.
+There were **142 screening requests**, plus one source-ranking request. The original 136 request receipts remain preserved; the six-request H05 v2 screen is a separate author-designed development screen. Eight refinement requests reused initial cases; seven were newly authored after inspecting failures. There is no independent held-out test set, blind external labeling, repeated-run stability study, long-running harness evaluation or real business data trial. The author designed both contracts and labels. Do not pool these screens into a single “accuracy” claim.
+
+## H05 multiple-defect repair
+
+The original H05 v1 outcome set forced a single defect label even when independently demonstrated defects co-occurred. A bounded Jev question-contract review selected `forces_single_or_unspecified` with confidence 0.97. Its consumer-route answer was `proposes_one_repair` at confidence 0.86, but the accompanying evidence check was only 0.59 and requested further inspection; source review confirmed the branch proposes one repair for any known single label. Code now routes `multiple_demonstrated_defects` to `retain_failure_for_review` without selecting a repair.
+
+The version-1 contract and four original fixture receipts remain unchanged in `harness-screen`. Six uncached, synthetic H05 v2 requests matched the frozen expected labels 6/6, covering every current outcome. The state-mismatch case returned confidence 0.78 (top probability 0.82), below the provisional 0.8 consumer threshold, and is retained for review despite its expected label match. The multi-defect case separately exercises criterion overlap plus cross-question reasoning dependency. This is a development screen, not a held-out set or production qualification. The raw, request-bound answers are in [the H05 v2 screen receipt]({{ '/iterations/01/results/h05-v2-screen.json' | relative_url }}).
 
 ## Failures retained
 
@@ -35,9 +42,9 @@ Only B01 and B02 contracts changed. Their eight original fixtures were replayed,
 
 ## Code-level verification
 
-`evaluate.py` reconstructs each exact request from its screen's preserved question contract and state, canonicalizes the JSON and recomputes the bridge's SHA-256 request digest. **136/136 receipts bind correctly.** It recomputes expected matches instead of trusting stored pass flags.
+`evaluate.py` reconstructs each exact request from its screen's preserved question contract and state, canonicalizes the JSON and recomputes the bridge's SHA-256 request digest. **142/142 receipts bind correctly.** It recomputes expected matches instead of trusting stored pass flags.
 
-**31 offline tests passed** using Python's standard library. Tests cover output types, finite probabilities, missing/unknown answers, provider failures, unused-branch gating, counterevidence retention, dispatch clarification order, exact tool-and-argument equivalence, target-binding failure, mandatory alert preservation, bounded repair attempts and non-executing review proposals.
+**42 offline tests pass** using Python's standard library. Tests cover output types, finite probabilities, missing/unknown answers, provider failures, unused-branch gating, counterevidence retention, dispatch clarification order, exact tool-and-argument equivalence, target-binding failure, mandatory alert preservation, bounded repair attempts, H05 multi-defect and low-confidence review routes, measurable success-metric shape, and non-executing review proposals.
 
 The first offline test run exposed an incorrect test assumption that every speculative Score needed an expected label. It was repaired to allow only E01's explicitly unused impact branch when evidence is missing/conflicting. The application gate and recorded results were unchanged.
 
@@ -50,8 +57,9 @@ The reference controllers are **pure demonstration functions**. They do not read
 | Core initial | 38,472 | 0.001615824 | 546.195 ms | 710.823 ms |
 | Refinement | 7,723 | 0.000324366 | 539.582 ms | 850.896 ms |
 | Harness | 20,262 | 0.000851004 | 637.298 ms | 771.999 ms |
+| H05 v2 | 4,465 | 0.000187530 | 347.205 ms | 391.064 ms |
 
-Screening total: **66,457 input tokens; estimated $0.002791194**. Including the separate source-ranking call: **69,256 input tokens; estimated $0.002908752**. These are bridge estimates, not an independently reconciled provider invoice. They exclude Codex work, browsing, implementation, publication and human review; they are not a measured total-workflow saving.
+Screening total: **70,922 input tokens; estimated $0.002978724**. Including the separate source-ranking call: **73,721 input tokens; estimated $0.003096282**. These are bridge estimates, not an independently reconciled provider invoice. They exclude Codex work, browsing, implementation, publication and human review; they are not a measured total-workflow saving.
 
 Independent questions for one fixture were batched in that fixture's request. Fixture requests were dispatched through three workers, with bridge serialization where applicable. Elapsed values are bridge-observed request times, including its local waiting; not pure model latency or an end-to-end production SLA. Cache was disabled and no automatic retries were made.
 

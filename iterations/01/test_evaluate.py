@@ -74,10 +74,41 @@ class ReceiptTests(unittest.TestCase):
 
     def test_all_receipts_bind_exact_state_and_question(self):
         result = replay()
-        self.assertEqual(sum(s["request_digests_verified"] for s in result.values()), 136)
+        self.assertEqual(sum(s["request_digests_verified"] for s in result.values()), 142)
         self.assertEqual(result["core-initial"]["fixture_matches"], 76)
         self.assertEqual(result["core-refinement"]["fixture_matches"], 15)
         self.assertEqual(result["harness-screen"]["fixture_matches"], 38)
+        self.assertEqual(result["h05-v2-screen"]["fixture_matches"], 6)
+
+    def test_h05_v2_screen_matches_current_contract_and_covers_every_label(self):
+        screens = json.loads((ROOT / "screens.json").read_text())
+        screen = screens["h05-v2-screen"]
+        pattern = PATTERNS["H05"]
+        self.assertEqual(screen["contracts"]["H05"]["contract_version"], pattern["contract_version"])
+        self.assertEqual(screen["contracts"]["H05"]["questions"], pattern["questions"])
+        page = (ROOT / "patterns/h05.md").read_text()
+        displayed = page.split("```json\n", 1)[1].split("\n```", 1)[0]
+        self.assertEqual(json.loads(displayed), pattern["questions"])
+        labels = {fixture["expected"]["decision"]["choice"] for fixture in screen["fixtures"]}
+        self.assertEqual(labels, set(pattern["questions"]["decision"]["criteria"]))
+
+    def test_h05_success_metric_is_distinct_and_measurable(self):
+        pattern = PATTERNS["H05"]
+        metric = pattern["success_metric"].lower()
+        self.assertNotEqual(pattern["success_metric"], pattern["falsifier"])
+        self.assertIn("proportion", metric)
+        self.assertIn("unchanged-contract baseline", metric)
+        self.assertIn("regressions", metric)
+        self.assertIn("multiple-defect cases", metric)
+
+    def test_h05_low_confidence_state_mismatch_remains_review_only(self):
+        screens = json.loads((ROOT / "screens.json").read_text())
+        fixtures = {f["id"]: f for f in screens["h05-v2-screen"]["fixtures"]}
+        rows = json.loads((ROOT / "results/h05-v2-screen.json").read_text())
+        row = next(r for r in rows if r["fixture_id"] == "H05-v2-6")
+        self.assertEqual(row["response"]["answers"]["decision"]["confidence"], 0.78)
+        result = raw_plan(PATTERNS["H05"], row["response"], state=fixtures["H05-v2-6"]["state"])
+        self.assertEqual(result, {"next": "review", "reason": "uncertain_consumed_answer"})
 
     def test_catalog_domain_counts_and_unique_ids(self):
         self.assertEqual(len(PATTERNS), 30)
@@ -213,6 +244,13 @@ class ReceiptTests(unittest.TestCase):
     def test_repair_loop_is_bounded(self):
         r = response("H05", {"decision": "criterion_ambiguity"})
         self.assertEqual(plan(PATTERNS["H05"], r, {"repair_attempts": 1})["next"], "retain_failure_for_review")
+
+    def test_h05_multiple_defects_never_selects_a_single_repair(self):
+        r = response("H05", {"decision": "multiple_demonstrated_defects"})
+        result = plan(PATTERNS["H05"], r, {"repair_attempts": 0})
+        self.assertEqual(result, {"next": "retain_failure_for_review", "reason": "multiple_defects"})
+        self.assertEqual(plan(PATTERNS["H05"], r, {"repair_attempts": 1})["next"],
+                         "retain_failure_for_review")
 
     def test_example_or_unverified_argument_is_held(self):
         for choice in ("example_only", "unknown", "conflict", "task_value"):

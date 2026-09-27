@@ -7,7 +7,7 @@
 - Use `catalog.json` for current questions; `screens.json` preserves the exact question versions and synthetic fixtures used in each screen.
 - `results/` contains full synthetic Jev replies, uncertainty, request digests and accounting.
 - `evaluate.py` verifies receipts and supplies pure advisory controller examples. It does not perform operational actions.
-- `test_evaluate.py` contains 31 offline tests. No third-party packages or provider key are needed for offline replay.
+- `test_evaluate.py` contains 42 offline tests. No third-party packages or provider key are needed for offline replay.
 
 ## Offline reproduction
 
@@ -18,7 +18,7 @@ python3 evaluate.py
 python3 -m unittest discover -s . -p 'test_*.py' -v
 ```
 
-The replay recomputes 136 request hashes and label/range comparisons. Known model mismatches are reported as evidence; they are not erased to make the test suite green.
+The replay recomputes 142 request hashes and label/range comparisons, including the separate version-2 H05 multi-defect screen. Known model mismatches are reported as evidence; they are not erased to make the test suite green.
 
 ## Optional single-fixture live replay
 
@@ -32,4 +32,4 @@ The command sends only synthetic state and questions to TypeSafe, disables cachi
 
 ## Evidence boundary
 
-Original screen: 76/81 fixtures. Targeted follow-up: 15/15, comprising 8 reused and 7 fresh diagnostic cases. Harness components: 38/40. H01 is held for grounding redesign after two high-probability incorrect plausibility answers. Controllers are illustrations, not a supported SDK, authorization system or production integration. See the parent repository's ownership/license notice.
+Original screen: 76/81 fixtures. Targeted follow-up: 15/15, comprising 8 reused and 7 fresh diagnostic cases. Harness components: 38/40. H05's version-2 development screen matches 6/6 across all labels, including the multiple-defect review route; one 0.78-confidence state-mismatch answer stays review-only. This is not held-out evidence. H01 is held for grounding redesign after two high-probability incorrect plausibility answers. Controllers are illustrations, not a supported SDK, authorization system or production integration. See the parent repository's ownership/license notice.

@@ -10,7 +10,7 @@ No push, pull request, publication, or deployment is included.
 - `validator-repair.json`: all 65 commands passed after the iteration-01 validator repair and inventory tests.
 - Each profile row binds its complete source contract with a SHA-256 and identifies its current version.
 - Whole-contract advisory screening now covers all 390 profiles in 113 uncached Jev requests, with exact request/response binding checked by `scripts/verify_semantic_review.py`. It flagged 44 profiles for host review. No provider failures occurred.
-- Wave 01 inspected eight flagged profiles: six flags were not confirmed by source inspection and 12 new live synthetic boundary cases; two require targeted/consumer review. Thirty-six other flagged profiles remain unreviewed. Unflagged profiles also need proportionate host verification because screening can miss defects.
+- Source dispositions now cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The 346 unflagged profiles, three foundations, and kernel/tooling still need proportionate host review because screening can miss defects.
 - The 12 cases matched their frozen expectations. HA22's combined-target `unknown` answer has confidence 0.70, retained as uncertainty rather than promoted to confident automation. These are development screens, not independent held-out cases.
 - `semantic-and-boundary-coverage.json` is the verified screen/behavior receipt summary; `host-triage-wave01.json` records source conclusions and measured usage. Semantic screening is not calibration evidence, production qualification, or approval of every question contract.
 
@@ -19,6 +19,12 @@ No push, pull request, publication, or deployment is included.
 Iteration 01 previously accepted a Choice response missing its probability distribution and passed it to the typed-signal proposal. The repaired validator checks full Choice/Score distribution coverage, finite values, bounded rounding tolerance, and maximum-Choice consistency. Regression tests cover malformed and missing distributions. All 136 historical iteration-01 request bindings still replay. See `jev-validator-candidate.json` for the low-confidence Jev triage output that preceded deterministic reproduction and `../../docs/lessons-learned.md` for the repair lesson.
 
 ## Resumption
+
+### H05 co-occurring defect repair (wave 09)
+
+The original H05 Choice contract had no outcome for two independently demonstrated defects, while its pure consumer proposed one targeted repair for any recognized single label. A bounded Jev question-contract check selected `forces_single_or_unspecified` at 0.97 confidence. Its consumer-route answer (0.86) was accompanied by an evidence check of 0.59 and therefore remained `needs_review`; host inspection of `iterations/01/evaluate.py` confirmed the branch behavior.
+
+H05 is now version 2 with `multiple_demonstrated_defects`; the consumer routes that label to failure review instead of selecting one repair. The duplicate, non-measurable success metric was replaced with fresh-case baseline, preserved-regression, and multi-defect review-rate measures. The four historical H05 v1 fixtures and receipts remain unchanged. Six uncached v2 synthetic cases match 6/6 across every label, including independently evidenced criterion overlap plus cross-question dependency. One state-mismatch result has confidence 0.78, so the consumer retains it for review. Iteration 1 now replays 142/142 request hashes and passes 42 local tests. This is a development screen, not independent or production evidence. See `iterations/01/results/h05-v2-screen.json` and `../../docs/lessons-learned.md`.
 
 ### Iteration 4 flagged-contract overlap repair (wave 08)
 
@@ -94,7 +100,8 @@ missing/empty top-level required evidence returns review. Tests cover every decl
 field, valid branch paths, and the mandatory-alert exception. This is not a change
 to the semantic question contracts and does not establish nested schema validity,
 semantic sufficiency, provenance or response-to-state binding. H05's competing-defect
-recovery policy and the other source-review candidates remain open.
+recovery policy was subsequently addressed in wave 09; top-level presence checks still
+do not establish nested semantic sufficiency, provenance or response-to-state binding.
 
 ### Iteration 02 semantic review checkpoint
 

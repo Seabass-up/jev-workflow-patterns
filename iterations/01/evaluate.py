@@ -12,7 +12,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parent
-SCREENS = ("core-initial", "core-refinement", "harness-screen")
+SCREENS = ("core-initial", "core-refinement", "harness-screen", "h05-v2-screen")
 
 
 def canonical(value):
@@ -205,6 +205,8 @@ def plan(pattern, response, control=None, *, state=None):
                          "no_disagreement": "record_agreement"}.get(decision, "review")}
     if pid == "H05":
         used = control.get("repair_attempts", 0)
+        if decision == "multiple_demonstrated_defects":
+            return {"next": "retain_failure_for_review", "reason": "multiple_defects"}
         if type(used) is not int or used < 0 or used >= 1 or decision == "not_established":
             return {"next": "retain_failure_for_review"}
         return {"next": "propose_one_targeted_repair", "defect": decision}

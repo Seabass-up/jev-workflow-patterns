@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-26 — Iteration 1 H05 co-occurring defect recovery
+
+- **Component:** Iteration 1 H05 question contract and advisory consumer.
+- **Symptom:** Two distinct defects could be demonstrated by one failure, but the Choice contract only allowed one defect label and the consumer proposed one targeted repair for any recognized label. The recorded success metric also duplicated the falsifier rather than defining an outcome measure.
+- **Confirmed cause:** The output taxonomy modeled defects as mutually exclusive without evidence that real failures are; the branch did not distinguish a single defect from multiple independently supported defects. The metadata conflated a falsification rule with a measurable comparison.
+- **Repair:** Versioned H05 to v2 with `multiple_demonstrated_defects`; routed that label to retained failure review instead of selecting one repair. Replaced the copied success metric with measurable fresh-case, baseline, regression, and review-rate outcomes. Preserved the original four v1 receipts and added six synthetic v2 cases across all labels.
+- **Verification:** Jev's bounded v1 contract screen selected `forces_single_or_unspecified` at 0.97; its lower evidence score on consumer routing was treated as needs-review and confirmed against source. The v2 live screen matched 6/6; one state-mismatch answer at 0.78 confidence correctly remains review-only. `python3 iterations/01/evaluate.py` recomputed 142 request bindings; `python3 -m unittest discover -s iterations/01 -p 'test_*.py' -v` passed 42 tests. `git diff --check` passed. These synthetic results are not held-out or production qualification.
+- **Prevention:** Include independently co-occurring mechanisms in defect-taxonomy tests and keep success measures distinct from rejection conditions. Code should route a multi-defect answer to review for human decomposition rather than letting an advisory label choose a repair.
+
 ## 2026-09-26 — Iteration 4 Choice-label overlap and fixture coverage
 
 - **Component:** Iteration 4 patterns B22, B25, E23, E24, E26, L19, L20, L21, L24 and H40.

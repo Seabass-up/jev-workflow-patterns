@@ -15,6 +15,8 @@ The [TypeSafe documentation index](https://docs.typesafe.ai/llms.txt) was fetche
 | [Jev with coding agents](https://docs.typesafe.ai/introduction/coding-agents) | Jev supplies typed judgments, not generated fixes or an autonomous coding agent |
 | [Jev 1.13 limitations](https://docs.typesafe.ai/model-jaggedness/jev-1.13) | Keep exact arithmetic/time/identity in code, provide relevant context, and do not treat adversarial text classification as a security boundary |
 
+These official HTML pages and the documentation index were reread on September 27, 2026. The current pages still describe the Choice request/response shape, Jev as a typed-decision tool rather than a coding-agent LLM, and Jev 1.13's literal-reading and adversarial-content limitations. Browser rereads did not produce refreshed raw-page digests; this is a freshness note, not independent Jev performance evidence. The Jev 1.13 limitations page itself says it was last reviewed September 17, 2026.
+
 These are authored bug-hunting adaptations, not official TypeSafe bug-detector benchmarks or a complete prior-art survey. Individual pages define their contract rather than claiming universal language, framework, or operating-system semantics. Confirm actual runtime/library specifications when applying a profile.
 
 The catalog intentionally reuses a common three-state evidence contract. The distinctions are the adverse hypothesis, required context, counterexample, and verification method—not 48 unrelated algorithms. Existing engineering and harness catalogs contain related building blocks.

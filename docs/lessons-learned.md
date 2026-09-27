@@ -340,6 +340,15 @@
 - **Verification:** `python3 human-resources/evaluate.py` verifies the saved summary and receipt bindings; `python3 -m unittest discover -s human-resources -p 'test_*.py' -v` passes 19 tests; `python3 -m unittest scripts.test_build_collection_pages -v` passes 6 tests; `git diff --check` passes. Full-catalog audit and local commit are recorded in the Wave 23 checkpoint. These are synthetic/local checks, not production evaluation or deployment.
 - **Prevention/limits:** For every label, test criteria and instructions against missing, empty, conflicting, negated, and co-occurring evidence; test a period without an employee action. Report low confidence even when labels match. Source freshness remains limited: prior source digests are historical, and direct DOL retrieval returned 403. Do not claim consumer preflight exists in this catalog-only repository.
 
+## 2026-09-27 — Bug-hunting page parity and evaluation guidance
+
+- **Component:** Bug-hunting evaluation documentation and 48 public pattern pages.
+- **Symptom:** The evaluation page said the suite had 17 tests, but the repository actually ran 18; the evaluator tests did not compare every published question block and fixture row with its catalog sources.
+- **Confirmed cause:** The test count was manually maintained and no regression guarded against drift between the catalog, fixtures, and generated profile pages.
+- **Repair:** Removed the brittle numeric count. Added tests requiring exact question JSON, required-state field names, and expected-label rows to match across all 48 pages; added catalog-wide checks for the v2 shared evidence/guard precedence and for avoiding another hard-coded test count.
+- **Verification:** `python3 bug-hunting/evaluate.py` still verifies all 288 initial/refinement request digests and preserves the BH41-2 disagreement. `python3 -m unittest discover -s bug-hunting -p 'test_*.py' -v` passes 21 tests, including 48-page/144-fixture parity. The first full-catalog audit passes 65/65 commands across 390 profiles and 30 catalogs in `reviews/2026-09-27/wave24-final-checks-precommit.json`; `git diff --check` passes. The synthetic scenarios do not execute buggy/fixed code or establish discovery accuracy.
+- **Prevention/limits:** Derive exact contract text from one catalog source and test rendered pages against it. Avoid manually maintained counts when they can drift. Keep BH41-2 provisional and preserve the original provider errors; a matching screen is not proof that a bug-hunting profile finds real defects.
+
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 
 - **Symptom:** Initial core screening matched 76/81 fixtures. Courtesy/no-action messages overlapped with clarification; three explicit access arrangements fell below the declared yes range. A vague editor target also disagreed with its author-assigned label. Harness screening matched 38/40; H01 assigned high probability to invented meanings of “Do it.”

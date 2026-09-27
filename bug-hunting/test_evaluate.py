@@ -1,6 +1,8 @@
 import copy
 import importlib.util
+import json
 from pathlib import Path
+import re
 import unittest
 
 spec = importlib.util.spec_from_file_location("bug_catalog_evaluate", Path(__file__).with_name("evaluate.py"))
@@ -115,6 +117,50 @@ class BugCatalogTests(unittest.TestCase):
         for answer in (None, {}, {"choice": "insufficient"}, {"choice": "verified_fixed"}):
             with self.subTest(answer=answer):
                 self.assertEqual(ev.classify_for_review(answer, binding_current=True), "unresolved")
+
+    def test_all_pattern_pages_match_current_questions_and_fixture_labels(self):
+        patterns = ev.read("catalog.json")["patterns"]
+        fixtures = ev.read("fixtures.json")
+        pages = Path(__file__).resolve().parent / "patterns"
+        for pattern in patterns:
+            page = (pages / f"{pattern['id'].lower()}.md").read_text()
+            match = re.search(
+                r"## Exact question\s+```json\s*(.*?)\s*```", page, re.S,
+            )
+            with self.subTest(pattern=pattern["id"]):
+                self.assertIsNotNone(match)
+                self.assertEqual(json.loads(match.group(1)), pattern["questions"])
+                for field in pattern["required_state_fields"]:
+                    self.assertIn(field, page)
+                for fixture in fixtures:
+                    if fixture["pattern_id"] == pattern["id"]:
+                        self.assertIn(
+                            f"| {fixture['id']} | `{fixture['expected']}` |", page,
+                        )
+
+    def test_all_v2_profiles_keep_the_shared_evidence_precedence(self):
+        for pattern in ev.read("catalog.json")["patterns"]:
+            question = pattern["questions"]["decision"]
+            instructions = question["instructions"]
+            with self.subTest(pattern=pattern["id"]):
+                self.assertEqual(pattern["version"], 2)
+                self.assertEqual(pattern["required_state_fields"], ["contract", "evidence"])
+                self.assertIn("First select insufficient if contract or evidence is absent/empty", instructions)
+                self.assertIn(
+                    "If the evidence shows both a concrete violating path and a relevant guard, "
+                    "select risk_supported; the guard narrows the finding but does not cancel it.",
+                    instructions,
+                )
+                self.assertEqual(
+                    set(question["criteria"]),
+                    {"risk_supported", "counterevidence", "insufficient"},
+                )
+                self.assertIn("Do not invent execution", instructions)
+
+    def test_evaluation_page_avoids_a_brittle_test_count(self):
+        page = (Path(__file__).resolve().parent / "evaluation.md").read_text()
+        self.assertIn("The unit-test suite covers", page)
+        self.assertIsNone(re.search(r"\b\d+\s+tests?\b", page, re.I))
 
 
 if __name__ == "__main__":

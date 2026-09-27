@@ -59,7 +59,7 @@ python3 bug-hunting/evaluate.py
 python3 -m unittest discover -s bug-hunting -p 'test_*.py' -v
 ```
 
-The evaluator checks exact state/question/version binding, label membership, numerical response structure, successful request digests, original coverage, the restricted recovery set, and that the version-2 revision changed no frozen fixture. Version-1 receipts are validated against the preserved version-1 contract, version-2 receipts against the current one. It compares its result with the saved summary. Seventeen tests cover tampered state/questions/digests, stale versions, preserved version-1 binding, malformed answers, expectation separation, retained disagreement, and failure handling.
+The evaluator checks exact state/question/version binding, label membership, numerical response structure, successful request digests, original coverage, the restricted recovery set, and that the version-2 revision changed no frozen fixture. Version-1 receipts are validated against the preserved version-1 contract, version-2 receipts against the current one. It compares its result with the saved summary. The unit-test suite covers tampered state/questions/digests, stale versions, preserved version-1 binding, malformed answers, expectation separation, retained disagreement, failure handling, and exact question/fixture parity across all 48 pattern pages.
 
 A small pure `classify_for_review` helper demonstrates conservative status mapping: low-confidence leads remain candidates, counterevidence never becomes bug-free, and stale bindings remain unresolved. It is not a production review engine, permission checker, or source authenticator. These tests exercise the evaluator/controller—not the 48 proposed reproduction recipes.
 

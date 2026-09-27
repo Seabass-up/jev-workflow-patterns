@@ -20,6 +20,40 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Finance FN01–FN08 source and page review (wave 18)
+
+All eight finance contracts, required fields, criteria, code-owned boundaries,
+follow-ups, source notes, frozen fixtures, saved Jev receipts, and pages were
+reviewed. The evaluator verifies all 32 successful request digests; all 24 design
+and 8 challenge cases still match, with no provider failures or provisional
+patterns. Five saved source-support checks and the 72-pair overlap review were
+reused. Their source review dates from September 23; FN-S3 (Net D) was marked as
+changed since its prior source record and was not live-refreshed in this wave.
+
+The low-confidence overlap leads for FN07 and FN08 were reviewed with one uncached
+Jev request over two synthetic boundaries, without sending expected labels. Jev
+favored conditional approval for the contingent sign-off case (probability 0.98)
+and inconsistent for a memo with a matching counterparty but different purpose
+(probability 0.67); the conflict-rule question for FN08 favored the stated
+inconsistent rule (0.97). Host review found the existing wording adequate for
+these specific cases, so both v1 contracts and all expectations remain unchanged.
+The request and results are preserved in ../2026-09-27/wave18-finance-review.json.
+
+Confirmed the same missing-field documentation overclaim as wave 17: all eight
+pages stated that code already returns unknown, although this collection contains
+no consumer or preflight implementation. Reworded them as a future consumer-code
+requirement and added a test that checks both exact page/catalog JSON parity and
+this boundary across all eight pages. All 13 finance tests pass. The legal and
+finance page repairs are documented together in ../../docs/lessons-learned.md.
+
+The full pre-commit and post-commit audits each pass 65/65 checks across 390
+profiles and 30 catalogs. The post-commit snapshot binds to local code commit
+14d9684 in ../2026-09-27/wave18-postcommit-checks.json; the review and pre-commit
+receipt are beside it. All examples are synthetic: this is not finance advice,
+held-out performance, live ledger/approval verification, or consumer qualification.
+No Jekyll render, push, or deployment was performed; the overall goal remains
+active.
+
 ### Legal contracts LC01–LC08 source review and page-claim repair (wave 17)
 
 All eight legal-contract patterns, their complete question JSON, required fields,
@@ -43,7 +77,7 @@ the repository inspection established the missing implementation.
 The full pre-commit and post-commit audits each pass 65/65 checks across 390 profiles
 and 30 catalogs. The post-commit snapshot binds to local code commit `69b2f47` in
 `../2026-09-27/wave17-postcommit-checks.json`; the review and pre-commit receipt are
-beside it. `docs/lessons-learned.md` records the repair. These are synthetic question
+beside it. `../../docs/lessons-learned.md` records the repair. These are synthetic question
 screens, not legal advice, held-out performance, a live consumer test, or production
 qualification. No Jekyll rendering, push, or deployment was performed; the broader
 pattern-review goal remains active.

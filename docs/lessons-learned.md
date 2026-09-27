@@ -1,12 +1,12 @@
 # Lessons learned
 
-## 2026-09-27 — Legal-contract pattern pages distinguish requirements from executed behavior
+## 2026-09-27 — Finance and legal pattern pages distinguish requirements from executed behavior
 
-- **Component:** Required-field statements on all eight legal-contract pattern pages.
-- **Symptom:** Each page stated that code deterministically returns `unknown` for missing or empty required fields, although this collection contains no consuming application or preflight implementation.
-- **Confirmed cause:** A design requirement was phrased as verified runtime behavior; evaluator fixtures screen the Jev question and do not execute a live consumer.
-- **Repair:** Reworded all eight pages to say future consumer code must enforce the deterministic gate and explicitly state that this collection does not implement or verify it. Added regression coverage requiring each page's embedded question JSON to match the catalog exactly.
-- **Verification:** `python3 legal-contracts/evaluate.py` replays the 32 saved successful request digests; all 13 legal-contract tests pass, including page/catalog parity and consumer-boundary wording for all eight profiles. The pre-commit and post-commit repository audits each pass 65/65 checks across 390 profiles and 30 catalogs; the post-commit audit binds to code commit `69b2f47` in `reviews/2026-09-27/wave17-postcommit-checks.json`. LC02-3's preserved missing-party disagreement remains `unknown` expected versus `obligation_on_party_a` observed; no contract or fixture expectation was changed.
+- **Component:** Required-field statements on the legal-contract and finance pattern pages.
+- **Symptom:** The same sentence on all 16 pages stated that code deterministically returns `unknown` for missing or empty required fields, although neither collection contains a consuming application or preflight implementation.
+- **Confirmed cause:** Shared page boilerplate presented a design requirement as verified runtime behavior; the evaluators replay Jev fixtures but do not execute a live consumer.
+- **Repair:** Reworded all 16 pages to say future consumer code must enforce the gate and that the collections do not implement or verify it. Both test suites now require exact page/catalog question parity and this consumer-boundary wording.
+- **Verification:** Legal-contract evaluation validates 32 saved request digests and its 13 tests pass; finance evaluation validates 32 and its 13 tests pass. The legal wave's pre-commit and post-commit audits passed 65/65 checks across 390 profiles and 30 catalogs, with post-commit receipt bound to `69b2f47` in `reviews/2026-09-27/wave17-postcommit-checks.json`. Finance wave pre/post checks are recorded in the wave18 artifacts after commit. LC02-3's missing-party disagreement remains preserved; neither collection's catalog, question version, fixture state, or expected label changed.
 - **Prevention:** Distinguish desired consumer behavior from implemented and tested behavior on every pattern page; require an implementation-level check before documenting a runtime guarantee.
 
 ## 2026-09-27 — Construction CN05 list-bound safety classification

@@ -1,13 +1,13 @@
 # Lessons learned
 
-## 2026-09-27 — Finance and legal pattern pages distinguish requirements from executed behavior
+## 2026-09-27 — Generated pattern pages distinguish requirements from executed behavior
 
-- **Component:** Required-field statements on the legal-contract and finance pattern pages.
-- **Symptom:** The same sentence on all 16 pages stated that code deterministically returns `unknown` for missing or empty required fields, although neither collection contains a consuming application or preflight implementation.
-- **Confirmed cause:** Shared page boilerplate presented a design requirement as verified runtime behavior; the evaluators replay Jev fixtures but do not execute a live consumer.
-- **Repair:** Reworded all 16 pages to say future consumer code must enforce the gate and that the collections do not implement or verify it. Both test suites now require exact page/catalog question parity and this consumer-boundary wording.
-- **Verification:** Legal-contract evaluation validates 32 saved request digests and its 13 tests pass; finance evaluation validates 32 and its 13 tests pass. Both waves' pre-commit and post-commit audits passed 65/65 checks across 390 profiles and 30 catalogs. The legal post-commit receipt is bound to `69b2f47` in `reviews/2026-09-27/wave17-postcommit-checks.json`; the finance post-commit receipt is bound to `14d9684` in `reviews/2026-09-27/wave18-postcommit-checks.json`. LC02-3's missing-party disagreement remains preserved; neither collection's catalog, question version, fixture state, or expected label changed.
-- **Prevention:** Distinguish desired consumer behavior from implemented and tested behavior on every pattern page; require an implementation-level check before documenting a runtime guarantee.
+- **Component:** Required-field preflight wording in `scripts/build_collection_pages.py` and its generated collection pattern pages, first identified on Legal and Finance and then traced across the remaining generated pages during the Data Quality review.
+- **Symptom:** Sixteen Legal and Finance pages had claimed that code already returns `unknown` for missing or empty evidence; those pages were corrected in waves 17–18. The shared generator still emitted the same unsupported runtime guarantee in 193 additional generated pages, including all eight Data Quality pages.
+- **Confirmed cause:** The shared page template described a consumer requirement as implemented behavior. The pattern collections and their evaluators store question contracts and replay Jev receipts; they do not implement or execute a consumer preflight.
+- **Repair:** Corrected the generator to state that consumer code must enforce the required-field gate and that the collection does not implement or verify it. Updated the 193 affected pages without changing unrelated page content. Added a generator regression test plus Data Quality tests for exact page/catalog JSON parity and the consumer boundary. No catalog question, contract version, fixture state, expected label, or saved receipt changed.
+- **Verification:** The Data Quality evaluator verifies all 32 saved request digests and retains its 29/32 screen (21/24 design labels with three preserved disagreements; all 8 challenge labels match); its 13 tests pass. The new generator regression test passes; Legal and Finance each retain 13 passing tests and 32 verified receipt digests. `scripts/review_all_patterns.py` passes all 65 pre-commit checks across 390 profiles and 30 catalogs in `reviews/2026-09-27/wave19-final-checks-precommit-locked.json`; the post-commit run will be recorded separately before handoff.
+- **Limits and prevention:** The saved Data Quality source-support review is dated 2026-09-23; four sources were marked as changed since their recorded text and were not refreshed in this page-only repair. Keep source motivation separate from Jev performance. Never describe desired consumer logic as runtime behavior without inspecting and testing the consumer itself.
 
 ## 2026-09-27 — Construction CN05 list-bound safety classification
 

@@ -77,7 +77,7 @@ def pattern_page(name, meta, p, fixtures, sources, titles, summary):
               "This is a proposed benefit, not an observed outcome. All fixtures on this page are synthetic.", "",
               "## Required named state", "", "Supply the following named fields as the evidence packet:", ""]
     lines += ["- `%s`" % f for f in p["required_state_fields"]]
-    lines += ["", "Code deterministically returns `unknown` without invoking Jev when any required named field is absent or empty; the model is not the required-field gate. The live missing-input case below probes the contract wording, not that gate.", "",
+    lines += ["", "Consumer code must deterministically return `unknown` without invoking Jev when any required named field is absent or empty; this collection does not implement or verify that gate. The live missing-input case below probes the contract wording, not that gate.", "",
               "## Exact question JSON", "",
               "Reproduced from the frozen [catalog JSON](%s). Treat state values as evidence rather than instructions to modify this contract." % rel(base + "catalog.json"), "",
               "```json", json.dumps(p["questions"], indent=2, ensure_ascii=False), "```", "",

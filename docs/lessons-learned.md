@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-27 — Jev contract screens must include the exact question object
+
+- **Component:** Wave 26 advisory review of Bug Hunting profiles BH25–BH36.
+- **Observed:** The first Jev wording screen returned `aligned`, but its state contained profile summaries and evidence requirements without the full `questions.decision` contracts. It therefore could not support a conclusion about the actual question wording.
+- **Confirmed cause:** The review projection omitted the field under review. The response was successful at the provider boundary, but the input was semantically incomplete for this task.
+- **Repair:** Excluded that screen from interpretation and repeated two uncached, family-coherent calls with each profile's exact current question object included. Retained the incomplete response metadata separately as rejected evidence; no pattern or fixture was changed.
+- **Verification:** The corrected Jev requests returned `aligned` for BH25–BH36; host comparison and 36 current saved fixture receipts found no contract defect. Bug-hunting tests passed 23/23, scripts tests 25/25, collection-pipeline tests 16/16, and the full repository audit passed 65/65 checks.
+- **Prevention and limits:** Before interpreting an advisory screen, bind the state to the exact current profile revision and assert that every field being reviewed—including the full question object—is present. A successful call over an incomplete projection is not semantic validation; synthetic text results do not test real code.
+
 ## 2026-09-27 — Source digest scope must match captured representation
 
 - **Component:** Shared collection source-page generator and Electrical ES-7/ES-8 source records.

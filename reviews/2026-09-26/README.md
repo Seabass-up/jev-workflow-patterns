@@ -48,6 +48,32 @@ author-labelled development checks, not held-out accuracy or mailbox qualificati
 
 No site rendering, push, or deployment is claimed for this local checkpoint.
 
+### Call-control profile source review (wave 11)
+
+All ten `controls/` question contracts and their 40 synthetic fixture states were
+reviewed against the declared consumer boundaries. The offline evaluator verifies
+all 40 stored request digests; 28/30 design labels and 10/10 separately authored
+challenge labels match. All ten pattern pages reproduce their catalog question
+JSON exactly. The 12 call-control unit tests pass.
+
+CT03-3 remains a preserved disagreement (`unknown` expected; Jev selected
+`drops_an_action`, confidence 0.72). The described consumer has a deterministic
+preflight that returns `unknown` for an absent or empty `commands` field, so this
+screening result is not evidence to infer a missing action from empty input. CT07-2
+also remains a preserved disagreement (`not_a_complement` expected; Jev selected
+`exact_complement`, confidence 0.56); the authored example demonstrates a realistic
+co-occurrence, so CT07 remains provisional rather than relabeling the case after
+inference. No contract defect was confirmed from these receipts and no contract was
+changed in this wave. This is synthetic development evidence, not runtime or
+production qualification.
+
+Local checks: `python3 controls/evaluate.py`,
+`python3 -m unittest discover -s controls -p 'test_*.py'`, and a read-only
+catalog-to-page exact-JSON parity check (10/10) pass. See
+`controls/evaluation.md` and `controls/results/overlap-review.json` for the
+preserved screen and pre-inference overlap review. The catalog remains marked
+provisional where its recorded evidence requires it.
+
 ### H05 co-occurring defect repair (wave 09)
 
 The original H05 Choice contract had no outcome for two independently demonstrated defects, while its pure consumer proposed one targeted repair for any recognized single label. A bounded Jev question-contract check selected `forces_single_or_unspecified` at 0.97 confidence. Its consumer-route answer (0.86) was accompanied by an evidence check of 0.59 and therefore remained `needs_review`; host inspection of `iterations/01/evaluate.py` confirmed the branch behavior.

@@ -90,6 +90,29 @@ class CollectionPageBuilderTests(unittest.TestCase):
                 self.assertIn("Versioned refinement receipts", evaluation)
                 self.assertIn("Preserved version-1 disagreements", evaluation)
 
+    def test_versioned_evaluation_does_not_assume_one_challenge_per_pattern(self):
+        name = "human-resources"
+        folder = ROOT / name
+        catalog = json.loads((folder / "catalog.json").read_text(encoding="utf-8"))
+        fixtures = json.loads((folder / "fixtures.json").read_text(encoding="utf-8"))
+        summary = json.loads((folder / "results/summary.json").read_text(encoding="utf-8"))
+        rendered = builder.evaluation_page(
+            name,
+            builder.load_meta(name),
+            catalog,
+            fixtures,
+            summary,
+            json.loads((folder / "results/screening.json").read_text(encoding="utf-8")),
+            json.loads((folder / "results/recovery.json").read_text(encoding="utf-8")),
+        )
+        self.assertIn("The synthetic screen is small and targeted", rendered)
+        self.assertNotIn("one small synthetic challenge per pattern", rendered)
+        self.assertIn("Current answers below the recorded review threshold", rendered)
+        index = builder.index_page(
+            name, builder.load_meta(name), catalog, fixtures, summary, builder.all_titles()
+        )
+        self.assertIn("HR06 remains provisional", index)
+
 
 if __name__ == "__main__":
     unittest.main()

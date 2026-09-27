@@ -169,7 +169,7 @@ def index_page(name, meta, catalog, fixtures, summary, titles):
              "## What the screen established", "",
              "**%d/%d design cases and %d/%d challenge cases** matched their prewritten labels: %d/%d overall." % (d["label_matches"], d["cases"], c["label_matches"], c["cases"], total_ok, summary["fixtures"])
              + (" Unresolved service errors: %d." % (len(d["provider_unresolved"]) + len(c["provider_unresolved"])) if d["provider_unresolved"] or c["provider_unresolved"] else "")
-             + (" %s remain provisional." % ", ".join(prov) if prov else " No pattern is provisional.")
+             + (" %s %s provisional." % (", ".join(prov), "remain" if len(prov) > 1 else "remains") if prov else " No pattern is provisional.")
              + " All %d successful current-selection request digests replay." % summary["successful_request_digests_verified"], ""]
     if revision:
         original = audit_summary.get("initial", {})
@@ -290,7 +290,7 @@ def evaluation_page(name, meta, catalog, fixtures, summary, initial, recovery):
               "Successful fixture responses report %s input tokens and %s output tokens. The local bridge estimates their total cost at $%s. That is an estimate, not an invoice, and excludes design-review calls and any billing for failed calls." % (
                   format(summary["reported_input_tokens"], ","), format(summary["reported_output_tokens"], ","), summary["reported_bridge_estimated_cost_usd"]), "",
               "## What remains untested", "",
-              "There is one small synthetic challenge per pattern, no random sample, repeatability experiment, human-label agreement study, calibration assessment, subgroup assessment, or integration with a real workflow. Pattern-specific verification recipes are proposed next steps, not completed experiments.", "",
+              "The synthetic screen is small and targeted; there is no random sample, repeatability experiment, human-label agreement study, calibration assessment, subgroup assessment, or integration with a real workflow. Pattern-specific verification recipes are proposed next steps, not completed experiments.", "",
               "Before adoption, independently label representative authorized examples, choose the cost of each error, assess abstention and false positives, and measure the actual outcome. Keep deterministic missing-evidence and action controls outside the model.", "",
               "[Back to the collection](%s)" % rel(base), ""]
     return "\n".join(lines)

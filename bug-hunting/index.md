@@ -24,7 +24,7 @@ Several bugs can coexist. Ask independent questions, rather than one exclusive C
 
 ## Screening result and limits
 
-The authored three-case screen produced 143/144 matching labels after two one-time service-error recoveries. **BH41 remains provisional:** its compliant-installation example returned insufficient. No question was tuned and no expected label was changed after inference. The 146 screening attempts include two HTTP 529 responses; all 144 successful request digests replay. Version 2 (September 26, 2026) states a tie-break for evidence that shows both a violating path and a relevant guard; the unchanged 144 scenarios were re-screened once against it with 143/144 matches and the same BH41-2 disagreement.
+The latest selection matches 143/144 authored labels after two one-time service-error recoveries. **BH41 remains provisional:** its compliant-installation example returned insufficient. The 144 initial attempts plus two recovery attempts include two HTTP 529 errors; all 144 successful responses' request digests replay. Version 2 (September 26, 2026) states the shared tie-break for evidence showing both a violating path and a relevant guard; its 144 cases were re-screened once with the same BH41-2 disagreement. Version 3 (September 27, 2026) narrows BH18 from “visually equivalent” identifiers to identifiers declared **canonically equivalent** by the supplied contract. This keeps Unicode normalization distinct from security-oriented visual-confusable detection. Only BH18’s three unchanged states and expectations were screened against v3; all three matched. The v1 and v2 contracts and receipts remain preserved.
 
 These scenarios are natural-language descriptions of implementation or event behavior, not executed buggy/fixed programs. Passing them does not demonstrate that Jev will discover hidden bugs in a real repository. The per-pattern reproduction recipes are future verification steps, not completed tests. [Read the full evaluation]({{ '/bug-hunting/evaluation/' | relative_url }}).
 
@@ -59,7 +59,7 @@ These scenarios are natural-language descriptions of implementation or event beh
 | BH15 | [Unit mismatch across a boundary]({{ '/bug-hunting/patterns/bh15/' | relative_url }}) | Use a fake clock and assert actual deadline; validate conversion in code. |
 | BH16 | [Timezone lost in serialization]({{ '/bug-hunting/patterns/bh16/' | relative_url }}) | Round-trip an instant across zones with a date library; compare epoch values in code. |
 | BH17 | [Unstable pagination boundary]({{ '/bug-hunting/patterns/bh17/' | relative_url }}) | Create tied sort keys, traverse all pages, and compare exact IDs with a snapshot baseline. |
-| BH18 | [Unicode normalization mismatch]({{ '/bug-hunting/patterns/bh18/' | relative_url }}) | Use composed/decomposed fixtures and compare normalized identifiers in code. |
+| BH18 | [Canonical Unicode equivalence mismatch]({{ '/bug-hunting/patterns/bh18/' | relative_url }}) | Use composed/decomposed fixtures and compare normalized identifiers in code. |
 
 ## UI and interaction
 

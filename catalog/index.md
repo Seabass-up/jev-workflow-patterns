@@ -811,7 +811,7 @@ Search by the judgment your workflow needs. Each profile links to its required e
     </article>
     <article class="pattern-card" data-area="bug-hunting" data-collection="bug-hunting" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Bug hunting</span><span>Choice</span></div>
-      <h3><a href="{{ '/bug-hunting/patterns/bh18/' | relative_url }}">BH18 · Unicode normalization mismatch</a></h3>
+      <h3><a href="{{ '/bug-hunting/patterns/bh18/' | relative_url }}">BH18 · Canonical Unicode equivalence mismatch</a></h3>
       <p>Read the question contract and evaluation.</p>
     </article>
     <article class="pattern-card" data-area="bug-hunting" data-collection="bug-hunting" data-types="choice" data-review="">
@@ -1187,7 +1187,7 @@ Search by the judgment your workflow needs. Each profile links to its required e
     <article class="pattern-card" data-area="domain" data-collection="construction" data-types="choice" data-review="provisional">
       <div class="pattern-meta"><span>Construction</span><span>Choice</span><span class="provisional-tag">Provisional</span></div>
       <h3><a href="{{ '/construction/patterns/cn05/' | relative_url }}">CN05 · Safety observation: stop-work condition, hazard to correct, or housekeeping</a></h3>
-      <p>Classify a written safety observation against the project&#x27;s own supplied stop-work list, separating listed stop-work conditions from correctable hazards, housekeeping items, and positive observations.</p>
+      <p>Classify a written safety observation against the project&#x27;s own supplied stop-work list, separating listed stop-work conditions from unlisted correctable hazards, housekeeping items, and positive observations.</p>
     </article>
     <article class="pattern-card" data-area="domain" data-collection="construction" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Construction</span><span>Choice</span></div>
@@ -1379,15 +1379,15 @@ Search by the judgment your workflow needs. Each profile links to its required e
       <h3><a href="{{ '/executive/patterns/ce01/' | relative_url }}">CE01 · Memo states the decision being asked for</a></h3>
       <p>Classify whether a memo names the specific decision it asks its executive reader to make, or only supplies background.</p>
     </article>
-    <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="provisional">
-      <div class="pattern-meta"><span>Executive</span><span>Choice</span><span class="provisional-tag">Provisional</span></div>
+    <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="">
+      <div class="pattern-meta"><span>Executive</span><span>Choice</span></div>
       <h3><a href="{{ '/executive/patterns/ce02/' | relative_url }}">CE02 · Proposal describes a reversible or one-way commitment</a></h3>
-      <p>Classify what a proposal says about whether the commitment it asks for could be undone.</p>
+      <p>Classify what a proposal explicitly says about ending or undoing the commitment it asks its executive reader to authorize.</p>
     </article>
     <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Executive</span><span>Choice</span></div>
       <h3><a href="{{ '/executive/patterns/ce03/' | relative_url }}">CE03 · Evidence offered is data, anecdote, or none</a></h3>
-      <p>Classify the strongest kind of evidence a proposal offers for its recommendation.</p>
+      <p>Classify whether a proposal supports its recommendation with systematic quantitative evidence, one or a few examples, or no evidence.</p>
     </article>
     <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Executive</span><span>Choice</span></div>
@@ -1399,8 +1399,8 @@ Search by the judgment your workflow needs. Each profile links to its required e
       <h3><a href="{{ '/executive/patterns/ce05/' | relative_url }}">CE05 · The memo asks for a decision, information, or alignment</a></h3>
       <p>Classify the kind of response a memo asks of its executive reader.</p>
     </article>
-    <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="provisional">
-      <div class="pattern-meta"><span>Executive</span><span>Choice</span><span class="provisional-tag">Provisional</span></div>
+    <article class="pattern-card" data-area="domain" data-collection="executive" data-types="choice" data-review="">
+      <div class="pattern-meta"><span>Executive</span><span>Choice</span></div>
       <h3><a href="{{ '/executive/patterns/ce06/' | relative_url }}">CE06 · Risk section names a downside or only upside</a></h3>
       <p>Classify whether a proposal names a specific way its plan could fail, mentions risk only generically, or mentions none.</p>
     </article>
@@ -1524,8 +1524,8 @@ Search by the judgment your workflow needs. Each profile links to its required e
       <h3><a href="{{ '/human-resources/patterns/hr06/' | relative_url }}">HR06 · Offer letter states every required element</a></h3>
       <p>Check whether an offer letter states each element the organization&#x27;s checklist requires, such as title, start date, compensation, and contingencies.</p>
     </article>
-    <article class="pattern-card" data-area="domain" data-collection="human-resources" data-types="choice" data-review="provisional">
-      <div class="pattern-meta"><span>Human resources</span><span>Choice</span><span class="provisional-tag">Provisional</span></div>
+    <article class="pattern-card" data-area="domain" data-collection="human-resources" data-types="choice" data-review="">
+      <div class="pattern-meta"><span>Human resources</span><span>Choice</span></div>
       <h3><a href="{{ '/human-resources/patterns/hr07/' | relative_url }}">HR07 · Review comment cites a specific example</a></h3>
       <p>Classify whether a performance-review comment describes a specific instance, states only a general pattern or trait, or states a pattern supported by at least one instance.</p>
     </article>
@@ -1709,8 +1709,8 @@ Search by the judgment your workflow needs. Each profile links to its required e
       <h3><a href="{{ '/motorsport/patterns/mr03/' | relative_url }}">MR03 · Which property a tolerance specification constrains</a></h3>
       <p>Classify which physical property a specification text places a limit on, so code can match the text to the right measurement record.</p>
     </article>
-    <article class="pattern-card" data-area="domain" data-collection="motorsport" data-types="choice" data-review="provisional">
-      <div class="pattern-meta"><span>Motorsport</span><span>Choice</span><span class="provisional-tag">Provisional</span></div>
+    <article class="pattern-card" data-area="domain" data-collection="motorsport" data-types="choice" data-review="">
+      <div class="pattern-meta"><span>Motorsport</span><span>Choice</span></div>
       <h3><a href="{{ '/motorsport/patterns/mr04/' | relative_url }}">MR04 · Finding statement is a conformance claim, an observation, or a recommendation</a></h3>
       <p>Classify what kind of statement a finding makes so that conformance claims are verified in code before anyone acts on them.</p>
     </article>

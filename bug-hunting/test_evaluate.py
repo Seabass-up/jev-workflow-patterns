@@ -21,15 +21,18 @@ class BugCatalogTests(unittest.TestCase):
 
     def test_replay_preserves_unresolved_case(self):
         result = ev.report()
-        self.assertEqual(result["contract_version"], 2)
+        self.assertEqual(result["contract_version"], 3)
+        self.assertEqual(result["current_contract_versions"], {"2": 47, "3": 1})
         self.assertEqual(result["initial_selected_label_matches"], 143)
         self.assertEqual([x["fixture_id"] for x in result["initial_disagreements"]], ["BH41-2"])
         self.assertEqual(result["initial_provider_failures"], ["BH09-2", "BH39-1"])
-        self.assertEqual(result["refinement_attempts"], 144)
+        self.assertEqual(result["historical_v2_refinement_attempts"], 144)
+        self.assertEqual(result["current_v3_refinement_attempts"], 3)
+        self.assertEqual(result["refinement_attempts"], 147)
         self.assertEqual(result["refinement_provider_failures"], [])
         self.assertEqual(result["current_label_matches"], 143)
         self.assertEqual([x["fixture_id"] for x in result["current_disagreements"]], ["BH41-2"])
-        self.assertEqual(result["successful_request_digests_verified"], 288)
+        self.assertEqual(result["successful_request_digests_verified"], 291)
 
     def test_initial_receipt_still_binds_to_preserved_contract(self):
         r = ev.read("results/screening.json")[0]
@@ -38,6 +41,35 @@ class BugCatalogTests(unittest.TestCase):
         self.assertTrue(ev.validate_receipt(r, f, p))
         with self.assertRaises(ValueError):
             ev.validate_receipt(r, self.f, self.p)  # version-1 receipt against the version-2 contract
+
+    def test_bh18_version_2_and_version_3_receipts_remain_distinct(self):
+        snapshot = ev.read("results/bh18-version-2.json")
+        old_pattern = snapshot["pattern"]
+        old_fixture = next(f for f in snapshot["fixtures"] if f["id"] == "BH18-1")
+        old_receipt = next(r for r in ev.read("results/refinement.json") if r["fixture_id"] == "BH18-1")
+        self.assertTrue(ev.validate_receipt(old_receipt, old_fixture, old_pattern))
+
+        current_pattern = next(p for p in ev.read("catalog.json")["patterns"] if p["id"] == "BH18")
+        current_fixture = next(f for f in ev.read("fixtures.json") if f["id"] == "BH18-1")
+        current_receipt = next(
+            r for r in ev.read("results/refinement-v3.json") if r["fixture_id"] == "BH18-1"
+        )
+        self.assertTrue(ev.validate_receipt(current_receipt, current_fixture, current_pattern))
+        with self.assertRaises(ValueError):
+            ev.validate_receipt(old_receipt, current_fixture, current_pattern)
+        self.assertEqual(
+            {k: v for k, v in old_fixture.items() if k != "version"},
+            {k: v for k, v in current_fixture.items() if k != "version"},
+        )
+
+    def test_bh18_v3_uses_canonical_equivalence_not_visual_confusables(self):
+        pattern = next(p for p in ev.read("catalog.json")["patterns"] if p["id"] == "BH18")
+        question = pattern["questions"]["decision"]["instructions"]
+        self.assertEqual(pattern["version"], 3)
+        self.assertIn("canonically equivalent identifiers", pattern["hypothesis"])
+        self.assertIn("canonically equivalent identifiers", question)
+        self.assertNotIn("visually equivalent", pattern["hypothesis"])
+        self.assertNotIn("visually equivalent", question)
 
     def test_good_receipt(self):
         self.assertTrue(self.validate())
@@ -138,12 +170,12 @@ class BugCatalogTests(unittest.TestCase):
                             f"| {fixture['id']} | `{fixture['expected']}` |", page,
                         )
 
-    def test_all_v2_profiles_keep_the_shared_evidence_precedence(self):
+    def test_all_current_profiles_keep_the_shared_evidence_precedence(self):
         for pattern in ev.read("catalog.json")["patterns"]:
             question = pattern["questions"]["decision"]
             instructions = question["instructions"]
             with self.subTest(pattern=pattern["id"]):
-                self.assertEqual(pattern["version"], 2)
+                self.assertIn(pattern["version"], {2, 3})
                 self.assertEqual(pattern["required_state_fields"], ["contract", "evidence"])
                 self.assertIn("First select insufficient if contract or evidence is absent/empty", instructions)
                 self.assertIn(
@@ -159,7 +191,7 @@ class BugCatalogTests(unittest.TestCase):
 
     def test_evaluation_page_avoids_a_brittle_test_count(self):
         page = (Path(__file__).resolve().parent / "evaluation.md").read_text()
-        self.assertIn("The unit-test suite covers", page)
+        self.assertIn("Tests cover tampering", page)
         self.assertIsNone(re.search(r"\b\d+\s+tests?\b", page, re.I))
 
 

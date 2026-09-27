@@ -3,22 +3,22 @@ layout: default
 title: "Automotive performance: patterns for modifications, tuning notes, and fitment"
 description: "Eight question contracts for automotive performance text: the vehicle system a modification changes, stated use, fitment claims, tuning-note symptoms, re-inspection under rules text, install reversibility, dyno report claims, and the grounds a forum post offers."
 permalink: /auto-performance/
-kicker: "8 profiles · 32/32 labels matched · kernel 2.6.0"
+kicker: "8 profiles · 34/34 current labels matched · AP03 v2"
 ---
 
 # Automotive performance
 
 Performance shops, tuners, and enthusiasts' assistants read modification requests, fitment text, tuning logs, install instructions, dyno reports, and forum threads. These eight contracts classify that text so intake, the tuning log, the job sheet, and an advice ranker can act on a consistent reading. They are synthetic, task-authored designs and advisory. The qualified installer, the tuner, and the tech inspector decide, and every numeric comparison happens in code.
 
-Each profile includes exact Choice JSON, named evidence, a policy recorded with its option count, a bounded follow-up, three design examples, one separately authored challenge, and a proposed verification method.
+Each profile includes exact Choice JSON, named evidence, a policy recorded with its option count, a bounded follow-up, at least three design examples, and challenge cases. Versioned refinements preserve earlier states and labels and may add boundary cases; a development-added case is not described as an independent held-out challenge.
 
 [Use the kernel]({{ '/kernel/' | relative_url }}) · [Sources]({{ '/auto-performance/sources/' | relative_url }}) · [Evaluation and disagreements]({{ '/auto-performance/evaluation/' | relative_url }})
 
 ## What the screen established
 
-**24/24 design cases and 8/8 challenge cases** matched their prewritten labels: 32/32 overall. No pattern is provisional. All 32 successful request digests replay. No disagreement was rerun, tuned away, or relabeled.
+The original version-1 screen matched **24/24 design cases and 8/8 independently authored challenges** (32/32). AP03 v2 preserves and re-screens its four original states and labels, then adds two development-authored fitment-boundary challenges; all six v2 cases match. The current selected set matches **24/24 design and 10/10 challenge cases** (34/34). AP03-6's `unknown` answer has confidence 0.37, below its 0.8 review floor, so it is not an automatic pass-through. No pattern has a recorded label disagreement. The original cases were not rewritten or relabeled.
 
-The challenge author saw each contract but not its design examples or model results. That is an author-separation check, not independent human labeling, a representative test set, or a measure of benefit in use.
+The original challenge authors saw each contract but not its design examples or model results. AP03-5 and AP03-6 were added by the contract reviewer during revision and are development evidence, not independent challenges. Neither set is independent human labeling, a representative test set, or a measure of benefit in use.
 
 ## Modification intake
 

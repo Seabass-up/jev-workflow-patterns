@@ -27,9 +27,14 @@ qualification for a real shop.
 
 Choose by what the label feeds:
 
-- AP01, AP02, and AP03 feed intake. AP03 ignores model years and numeric ranges by
-  design; code compares years, bolt patterns, offsets, and part numbers exactly and
-  overrides a `supported` label when an exact check fails.
+- AP01, AP02, and AP03 feed intake. AP03 reads an unqualified fitment statement as
+  covering its named vehicle category; do not infer a vehicle-specific exclusion from
+  silence. When the source explicitly conditions fit on a drivetrain, option, prior
+  modification, or added part that the vehicle description does not settle, use
+  `condition_unresolved`. `unknown` covers missing evidence or a fitment statement too
+  vague to identify the included variant. AP03 ignores model years and numeric ranges;
+  code compares years, bolt patterns, offsets, and part numbers exactly and overrides
+  a `supported` label when an exact check fails.
 - AP04 feeds the tuning log. Code compares every reading with the tuner's targets and
   writes `reading_flags` in words before the question is asked; the tuner keeps the
   diagnosis and every calibration change.

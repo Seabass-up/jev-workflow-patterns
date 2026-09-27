@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-26 — AP03 fitment evidence and versioned boundary test
+
+- **Component:** Auto-performance AP03 v1/v2 and the shared collection replay contract.
+- **Symptom:** AP03 v1 required the fitment text to name drivetrain for `supported`, but its positive fixture described rear-wheel drive only in the vehicle state; the supplier text named model, generation, body and brake option. The original Jev response matched the expected label, so receipt replay alone did not reveal the contract/fixture mismatch.
+- **Confirmed cause:** The positive example was broader than the literal instruction, and the collection evaluator only allowed four cases per profile, leaving no additive versioned boundary case or history-integrity checks for this domain.
+- **Repair:** Clarified AP03 v2's broad-category versus explicit-condition semantics, added AP03-5 for a drivetrain-specific condition not settled by the vehicle description and AP03-6 for vague nonempty fitment text, and preserved the entire v1 catalog, fixture set, summary and receipts. Added versioned additive-case validation that refuses removed or rewritten frozen cases and contract changes without exact version increments.
+- **Verification:** A bounded Jev wording review returned `needs_review` and marked criteria meaning as a low-confidence issue; it was treated as a lead, not proof. Six uncached v2 Jev cases matched 6/6; initial v1 remains 32/32 and current selection is 34/34 across 8 profiles. AP03-6's matching `unknown` answer has confidence 0.37, below the 0.8 review floor, so the follow-up remains required. All 19 auto-performance tests and exact question JSON parity for 8/8 pages pass. The full 65-command repository run is recorded in `reviews/2026-09-26/wave12-final-checks-precommit.json`; a post-commit run will bind the same checks to the committed source.
+- **Prevention/limits:** Cross-check each expected label against the literal contract and every evidence attribute in its fixture, not only against Jev output. Distinguish an explicit unresolved condition from a vague source and honor the review floor even when the label matches. All cases are synthetic; no physical fitment, production accuracy, or shop qualification is established.
+
 ## 2026-09-26 — Iteration 1 H05 co-occurring defect recovery
 
 - **Component:** Iteration 1 H05 question contract and advisory consumer.

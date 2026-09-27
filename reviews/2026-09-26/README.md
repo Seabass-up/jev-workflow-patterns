@@ -10,7 +10,7 @@ No push, pull request, publication, or deployment is included.
 - `validator-repair.json`: all 65 commands passed after the iteration-01 validator repair and inventory tests.
 - Each profile row binds its complete source contract with a SHA-256 and identifies its current version.
 - Whole-contract advisory screening now covers all 390 profiles in 113 uncached Jev requests, with exact request/response binding checked by `scripts/verify_semantic_review.py`. It flagged 44 profiles for host review. No provider failures occurred.
-- Source dispositions now cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The 346 unflagged profiles, three foundations, and kernel/tooling still need proportionate host review because screening can miss defects.
+- Source dispositions cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The initial `semantic-coverage.json` remains a frozen screen inventory: 346 profiles were unflagged in that baseline, not a current remaining-work count. Separate source-review waves below have since covered email, call controls, and auto performance. Three foundations, remaining profiles, and kernel/tooling still need proportionate review because screening can miss defects.
 - The 12 cases matched their frozen expectations. HA22's combined-target `unknown` answer has confidence 0.70, retained as uncertainty rather than promoted to confident automation. These are development screens, not independent held-out cases.
 - `semantic-and-boundary-coverage.json` is the verified screen/behavior receipt summary; `host-triage-wave01.json` records source conclusions and measured usage. Semantic screening is not calibration evidence, production qualification, or approval of every question contract.
 
@@ -47,6 +47,33 @@ positive-integer contract-version checks. These are
 author-labelled development checks, not held-out accuracy or mailbox qualification.
 
 No site rendering, push, or deployment is claimed for this local checkpoint.
+
+### Auto-performance AP03 v2 clarification (wave 12)
+
+All eight auto-performance contracts, required fields, consumer boundaries, 32 v1
+fixtures and receipts, and eight pattern pages were source-reviewed. A bounded Jev
+wording review marked AP03 criteria meaning as an uncertain review lead; host review
+confirmed that v1 required fitment text to name drivetrain while its positive fixture
+did not. The v1 label still matched Jev, demonstrating why receipt agreement alone is
+not a contract-to-evidence audit.
+
+AP03 v2 clarifies the reading of unqualified category fitment versus explicit
+conditions and adds AP03-5 (unresolved drivetrain) and AP03-6 (vague nonempty text).
+All original AP03 fixture states and expected labels are preserved, v1
+catalog/fixture/summary snapshots remain available, and the evaluator rejects
+fixture removal or state/expectation rewrites during a versioned revision. Six
+uncached v2 Jev cases matched 6/6; the initial v1 screen remains 32/32 and the
+current selected collection is 34/34. AP03-6's `unknown` answer has confidence 0.37,
+below the 0.8 review floor, so the follow-up remains mandatory. The evaluator verifies
+38 historical/current request digests; all 19 auto-performance tests, exact question
+JSON parity on 8/8 pages, and all 65 repository check commands passed in the final
+pre-commit run (`wave12-final-checks-precommit.json`). A fresh post-commit run will
+bind repository-wide results to the committed source revision.
+
+This is a synthetic contract repair, not physical fitment confirmation, production
+qualification, calibration evidence, site rendering, or deployment. The Jekyll site
+could not be rendered locally because this checkout has no Gemfile or `jekyll`
+executable.
 
 ### Call-control profile source review (wave 11)
 

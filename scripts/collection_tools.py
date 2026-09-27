@@ -104,8 +104,12 @@ def validate_collection(catalog, fixtures, sources):
         if not p["source_ids"] or set(p["source_ids"]) - smap.keys():
             raise ValueError("unbound source")
         cases = [f for f in fixtures if f["pattern_id"] == p["id"]]
-        if len(cases) != 4 or sum(f["split"] == "challenge" for f in cases) != 1:
-            raise ValueError("each pattern needs three design and one challenge case")
+        design_count = sum(f["split"] == "design" for f in cases)
+        challenge_count = sum(f["split"] == "challenge" for f in cases)
+        if len(cases) < 4 or design_count < 3 or challenge_count < 1:
+            raise ValueError("each pattern needs at least three design and one challenge case")
+        if p["version"] == 1 and (len(cases) != 4 or design_count != 3 or challenge_count != 1):
+            raise ValueError("version-1 patterns need exactly three design and one challenge case")
         for f in cases:
             if not positive_int(f["version"]) or f["version"] != p["version"]:
                 raise ValueError("invalid fixture version")

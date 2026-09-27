@@ -76,6 +76,32 @@ qualification, calibration evidence, site rendering, or deployment. The Jekyll s
 could not be rendered locally because this checkout has no Gemfile or `jekyll`
 executable.
 
+### Auto-repair profile source review (wave 13)
+
+All eight auto-repair contracts, required fields, four frozen fixture states per
+profile, source notes, page-level code/people boundaries, follow-up limits, and
+verification recipes were inspected. Each v1 contract still matches its frozen
+whole-contract Jev screen; exact question JSON matches the catalog on all eight
+pages. The recorded Jev screening set replays 32/32 (24 design and 8 separately
+authored challenge cases), with no provider failures; all 12 collection tests pass.
+
+The earlier whole-contract and option-pair screens retained several low-confidence
+overlap judgments; the exact outputs remain preserved. Host review confirmed that
+AR01, AR03, AR04, AR05, AR06, and AR08 state how to resolve the specific pairs in
+their questions and examples. A new, uncached AR05 boundary case
+combined an independent maker brand with an explicitly remanufactured previously
+used core. Jev selected `remanufactured` at confidence 1.0, matching the host-frozen
+expectation; the expected label was not sent. The request/response and both verified
+hashes are retained in `wave13-auto-repair-review.json`. This single development
+check is not independent labeling or qualification. No source-confirmed defect was
+found, so no contract or fixture was changed; low-confidence signals remain visible.
+
+The source-support receipts refer to pages checked September 23 and were not
+live-refreshed in this wave. Their sources motivate the designs and do not establish
+Jev performance or current regulatory advice. No real repair-order action,
+authorization, warranty determination, website rendering, push, or deployment was
+performed.
+
 ### Call-control profile source review (wave 11)
 
 All ten `controls/` question contracts and their 40 synthetic fixture states were

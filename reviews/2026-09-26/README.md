@@ -10,7 +10,7 @@ No push, pull request, publication, or deployment is included.
 - `validator-repair.json`: all 65 commands passed after the iteration-01 validator repair and inventory tests.
 - Each profile row binds its complete source contract with a SHA-256 and identifies its current version.
 - Whole-contract advisory screening now covers all 390 profiles in 113 uncached Jev requests, with exact request/response binding checked by `scripts/verify_semantic_review.py`. It flagged 44 profiles for host review. No provider failures occurred.
-- Source dispositions cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The initial `semantic-coverage.json` remains a frozen screen inventory: 346 profiles were unflagged in that baseline, not a current remaining-work count. Separate source-review waves below have since covered email, call controls, and auto performance. Three foundations, remaining profiles, and kernel/tooling still need proportionate review because screening can miss defects.
+- Source dispositions cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The initial `semantic-coverage.json` remains a frozen screen inventory: 346 profiles were unflagged in that baseline, not a current remaining-work count. Separate source-review waves below have since covered email, call controls, auto performance, motorsport, and construction. Three foundations, remaining profiles, and kernel/tooling still need proportionate review because screening can miss defects.
 - The 12 cases matched their frozen expectations. HA22's combined-target `unknown` answer has confidence 0.70, retained as uncertainty rather than promoted to confident automation. These are development screens, not independent held-out cases.
 - `semantic-and-boundary-coverage.json` is the verified screen/behavior receipt summary; `host-triage-wave01.json` records source conclusions and measured usage. Semantic screening is not calibration evidence, production qualification, or approval of every question contract.
 
@@ -19,6 +19,36 @@ No push, pull request, publication, or deployment is included.
 Iteration 01 previously accepted a Choice response missing its probability distribution and passed it to the typed-signal proposal. The repaired validator checks full Choice/Score distribution coverage, finite values, bounded rounding tolerance, and maximum-Choice consistency. Regression tests cover malformed and missing distributions. All 136 historical iteration-01 request bindings still replay. See `jev-validator-candidate.json` for the low-confidence Jev triage output that preceded deterministic reproduction and `../../docs/lessons-learned.md` for the repair lesson.
 
 ## Resumption
+
+### Construction CN05 v2 list-bound clarification (wave 15)
+
+All eight construction question contracts, required state, source notes, consumer
+boundaries, fixture history, stored screening receipts, and pattern pages were
+reviewed. CN05 v1's purpose and named list defined project-policy routing, but its
+instructions also made any active exposure a stop-work condition outside the supplied
+list. A bounded Jev review favored aligning the label to the complete list (top
+probability 0.91, confidence 0.89); its scope-mismatch diagnosis was lower confidence
+(0.58, confidence 0.44) and was treated as advisory. CN05 is now v2: list-matched
+conditions are `stop_work_condition`; other deficiencies, including actively exposed
+unlisted hazards, are `hazard_to_correct` for human review. This does not say a
+condition is safe or decide work stoppage or urgency.
+
+All four v1 fixture states and expectations remain unchanged. Seven uncached v2
+reviewer-authored development cases matched 6/7. CN05-7 remains a disagreement
+(`unknown` expected for an empty list; Jev selected `positive_no_deficiency`, confidence
+0.95); the described deterministic preflight is not implemented or verified against a
+live consumer. The original v1 CN05-4 disagreement is also retained. Current selection
+is 34/35 across 35 cases; the offline evaluator validates all 39 historical/refinement
+request digests. All 24 construction tests pass, including current/archived separation,
+receipt integrity, immutable fixture history, and exact question JSON parity for all
+eight pages. Full-catalog pre-commit and post-commit checks are recorded in
+`../2026-09-27/` after completion. See `../2026-09-27/wave15-construction-review.json`
+and `../../docs/lessons-learned.md`.
+
+This is a synthetic question-contract repair, not site-specific safety policy,
+independent human agreement, live queue/notification verification, or production
+qualification. No public build, push, or deployment is included. The whole-pattern goal
+remains active.
 
 ### Motorsport MR04 v2 clarification (wave 14)
 

@@ -3,6 +3,7 @@
   "reviewed_on": "2026-09-27",
   "repository_branch": "review/all-patterns-20260926",
   "base_commit": "e632401c88727cc9e00976a258915b3c3a52aeba",
+  "local_code_commit": "69b2f47fa70d00e24eb7bdd7014f52d08368dc45",
   "collection": "Contract review support: patterns for clauses, obligations, and redlines",
   "patterns_reviewed": [
     "LC01",
@@ -85,8 +86,30 @@
           "consumer_implementation_found": false,
           "note": "A bounded repository inspection found no consuming workflow implementation or required-field runtime gate."
         },
-        "original_page_statement": "Code deterministically returns unknown without invoking Jev when any required named field is absent or empty; the model is not the required-field gate. The live missing-input case below probes the contract wording, not that gate.",
-        "revised_page_statement": "Consumer code must deterministically return unknown without invoking Jev when any required named field is absent or empty; this collection does not implement or verify that gate. The live missing-input case below probes only the contract wording, not consumer behavior."
+        "original_page_statement": "Code deterministically returns \u0060unknown\u0060 without invoking Jev when any required named field is absent or empty; the model is not the required-field gate. The live missing-input case below probes the contract wording, not that gate.",
+        "revised_page_statement": "Consumer code must deterministically return \u0060unknown\u0060 without invoking Jev when any required named field is absent or empty; this collection does not implement or verify that gate. The live missing-input case below probes only the contract wording, not consumer behavior."
+      },
+      "questions": {
+        "original_claim": {
+          "type": "choice",
+          "instructions": "Classify what the original page statement communicates in this supplied context. Choose only whether it asserts existing behavior, states a requirement, is ambiguous, or lacks enough information. Do not evaluate legal correctness.",
+          "criteria": {
+            "asserts_existing_behavior": "It clearly states implemented deterministic behavior exists now.",
+            "states_requirement": "It only prescribes behavior future consumer code should implement.",
+            "ambiguous": "It could reasonably be read either way.",
+            "insufficient_context": "The provided text does not support a determinate reading."
+          }
+        },
+        "revised_claim": {
+          "type": "choice",
+          "instructions": "Classify what the revised statement communicates in this supplied context. Choose only whether it clearly distinguishes a requirement from implemented behavior, still asserts existing behavior, is ambiguous, or lacks enough information. Do not evaluate legal correctness.",
+          "criteria": {
+            "clear_requirement_not_verified_behavior": "It prescribes a consumer requirement and explicitly says this collection does not implement or verify it.",
+            "asserts_existing_behavior": "It claims the behavior is currently implemented.",
+            "ambiguous": "It could reasonably be read either way.",
+            "insufficient_context": "The provided text does not support a determinate reading."
+          }
+        }
       },
       "results": {
         "original_claim": {
@@ -134,6 +157,15 @@
       "result": "passed",
       "report": "reviews/2026-09-27/wave17-final-checks-precommit-locked.json",
       "source_commit": "e632401c88727cc9e00976a258915b3c3a52aeba",
+      "profile_count": 390,
+      "catalog_count": 30,
+      "checks_passed": 65,
+      "checks_failed": 0
+    },
+    "whole_repository_postcommit": {
+      "result": "passed",
+      "report": "reviews/2026-09-27/wave17-postcommit-checks.json",
+      "source_commit": "69b2f47fa70d00e24eb7bdd7014f52d08368dc45",
       "profile_count": 390,
       "catalog_count": 30,
       "checks_passed": 65,

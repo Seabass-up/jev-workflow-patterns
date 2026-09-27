@@ -20,6 +20,34 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Legal contracts LC01–LC08 source review and page-claim repair (wave 17)
+
+All eight legal-contract patterns, their complete question JSON, required fields,
+criteria, code-owned boundaries, follow-ups, source notes, frozen fixtures, saved
+receipts, and pages were reviewed. The existing evaluator verifies all 32 successful
+request digests. The original screen remains 31/32: all eight challenge cases match,
+while LC02-3 remains a preserved miss (`unknown` expected; Jev chose
+`obligation_on_party_a`, confidence 0.38) because `party_b` is empty. LC02 remains
+provisional; no contract or fixture expectation was changed.
+
+Confirmed a documentation overclaim on all eight pages: they described a required
+missing-field gate as already-executed deterministic behavior, but the legal-contract
+collection contains no consumer or preflight implementation. Reworded the statements
+as a future consumer-code requirement and made the implementation limit explicit.
+A regression checks both exact catalog/page question JSON parity and this boundary on
+all eight pages; all 13 legal-contract tests pass. One uncached Jev wording check
+supported the distinction (original statement: existing behavior, 0.78 probability;
+revision: clear requirement, not verified runtime behavior, 1.00). This was advisory;
+the repository inspection established the missing implementation.
+
+The full pre-commit and post-commit audits each pass 65/65 checks across 390 profiles
+and 30 catalogs. The post-commit snapshot binds to local code commit `69b2f47` in
+`../2026-09-27/wave17-postcommit-checks.json`; the review and pre-commit receipt are
+beside it. `docs/lessons-learned.md` records the repair. These are synthetic question
+screens, not legal advice, held-out performance, a live consumer test, or production
+qualification. No Jekyll rendering, push, or deployment was performed; the broader
+pattern-review goal remains active.
+
 ### Cybersecurity CY01–CY08 source and contract review (wave 16)
 
 All eight cybersecurity contracts, required fields, criteria, code-owned

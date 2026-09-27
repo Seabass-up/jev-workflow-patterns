@@ -13,6 +13,18 @@ spec.loader.exec_module(builder)
 
 
 class CollectionPageBuilderTests(unittest.TestCase):
+    def test_browser_excerpt_sources_disclose_digest_scope(self):
+        name = "electrical"
+        folder = ROOT / name
+        catalog = json.loads((folder / "catalog.json").read_text(encoding="utf-8"))
+        sources = json.loads((folder / "sources.json").read_text(encoding="utf-8"))
+        rendered = builder.sources_page(name, builder.load_meta(name), catalog, sources)
+        self.assertIn("SHA-256 binds only the exact excerpt shown below", rendered)
+        self.assertIn("SHA-256 `61ddfd52e3a1a0c3…` (covers the recorded excerpt)", rendered)
+        self.assertIn("> Ground fault protection is integrated into GFCI receptacles and GFCI circuit breakers.", rendered)
+        self.assertIn("> AFCIs are intended to address fire hazards; GFCIs address shock hazards.", rendered)
+        self.assertNotIn("binds the page text as fetched", rendered)
+
     def test_data_quality_pages_describe_preflight_as_consumer_requirement(self):
         name = "data-quality"
         folder = ROOT / name

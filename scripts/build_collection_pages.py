@@ -302,14 +302,18 @@ def sources_page(name, meta, catalog, sources):
              'description: "Public pages that motivated the question designs, with the digest of each page as read."',
              "permalink: %ssources/" % base, 'kicker: "%d sources · inspiration, not a performance claim"' % len(sources), "---", "",
              "# Inspiration, not a performance claim", "",
-             "The design pass read these public pages. Each summary describes the design need, not Jev's effectiveness. No source is represented as endorsing this catalog; all contracts and scenarios are task-authored adaptations. The SHA-256 binds the page text as fetched on the listed date, not a claim that the page is unchanged since.", ""]
+             "The design pass read these public pages. Each summary describes the design need, not Jev's effectiveness. No source is represented as endorsing this catalog; all contracts and scenarios are task-authored adaptations. For `browser_excerpt` records, the SHA-256 binds only the exact excerpt shown below; otherwise it binds the captured page text as read on the checked date. Neither digest establishes that a source is still current.", ""]
     used = {}
     for p in catalog["patterns"]:
         for sid in p["source_ids"]:
             used.setdefault(sid, []).append(p["id"])
     for s in sources:
+        digest_scope = "the recorded excerpt" if s.get("representation") == "browser_excerpt" else "the captured page text"
         lines += ["## %s: %s" % (s["id"], s["title"]), "",
-                  "[Read the source](%s) · checked %s · SHA-256 `%s`" % (s["url"], s["checked"], s["sha256"][:16] + "…"), "", s["summary"], "",
+                  "[Read the source](%s) · checked %s · SHA-256 `%s` (covers %s)" % (s["url"], s["checked"], s["sha256"][:16] + "…", digest_scope), ""]
+        if s.get("representation") == "browser_excerpt":
+            lines += ["> " + s["excerpt"], ""]
+        lines += [s["summary"], "",
                   "Used by: " + (", ".join("[%s](%s)" % (pid, rel(base + "patterns/" + pid.lower() + "/")) for pid in used.get(s["id"], [])) or "no pattern directly"), ""]
     lines += ["Full digests are in [sources.json](%s)." % rel(base + "sources.json"), "", "[Back to the collection](%s)" % rel(base), ""]
     return "\n".join(lines)

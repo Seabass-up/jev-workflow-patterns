@@ -1,5 +1,23 @@
 # Lessons learned
 
+## 2026-09-27 — Source digest scope must match captured representation
+
+- **Component:** Shared collection source-page generator and Electrical ES-7/ES-8 source records.
+- **Observed:** The two new CPSC records hash short browser-captured excerpts, but the generated sources page said every SHA-256 covered the complete page text.
+- **Confirmed cause:** The shared template assumed a single page-text representation and did not disclose the representation or digest scope of excerpt records.
+- **Repair:** Store the exact excerpt with its digest; render excerpt text and distinguish excerpt-scoped hashes from captured-page-text hashes. Add builder coverage and an Electrical test that recomputes each excerpt digest. Keep the CPSC references explicitly limited to device-function terminology, not current installation rules.
+- **Verification:** `python3 scripts/build_collection_pages.py electrical` wrote 11 pages; the page-builder suite passed 4/4; Electrical tests passed 14/14; `python3 electrical/evaluate.py` verified 32/32 saved request digests and labels. The full repository audit and post-commit audit are recorded separately for this wave.
+- **Limits and prevention:** No Electrical question defect was confirmed, so no question version changed. The CPSC factsheets are dated 2010 and 2012; this source supplement is not code-compliance or field-performance evidence. Whenever a source record stores an excerpt rather than a complete captured page, bind and display the exact excerpt and its digest scope.
+
+## 2026-09-27 — Authoring test should use a bounded draft snapshot
+
+- **Component:** `scripts/collection_pipeline/test_pipeline.py` authoring-check exemplar.
+- **Observed:** The repository-wide audit failed `test_exemplar_passes_at_its_own_version` after the accepted Electrical catalog gained two supplemental sources and reached eight; the authoring check correctly enforces a 3–6 source limit for a draft.
+- **Confirmed cause:** The test treated the evolving published collection as an unchanged draft exemplar, coupling its expected source count to later evidence supplements.
+- **Repair:** Build an isolated temporary draft snapshot with the original six sources and matching pattern source IDs, while retaining the real registry for nearest-pattern validation. The production 3–6 draft rule was not weakened.
+- **Verification:** The collection-pipeline suite passes 16/16 after the fixture isolation. Full repository audit results after this repair are recorded in the wave 21 pre-commit snapshot; post-commit results are recorded separately.
+- **Prevention:** Tests for authoring-time constraints should use immutable in-spec draft fixtures rather than a live accepted catalog whose sources and evidence can grow over time.
+
 ## 2026-09-27 — Executive question boundaries and versioned summary support
 
 - **Components:** Executive patterns CE02/CE03/CE06 and `scripts/build_collection_pages.py`.

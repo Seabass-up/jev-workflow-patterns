@@ -59,6 +59,11 @@ contracts, and regulation text under licence out of the state unless the judgmen
 needs them and the transfer is authorized. Safety-equipment notes are handled under
 the series' rules regardless of any label.
 
+For a finding that reports a measured value and names an applicable limit but does
+not state how they relate, classify only the text as an observation. Do not compare
+the numbers or infer conformance: code performs that check against the authoritative
+measurement and tolerance records.
+
 ## Verify against the team's own records
 
 The [evaluation](https://seabass-up.github.io/jev-workflow-patterns/motorsport/evaluation/)

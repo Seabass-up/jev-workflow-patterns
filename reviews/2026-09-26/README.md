@@ -20,6 +20,33 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Motorsport MR04 v2 clarification (wave 14)
+
+All eight motorsport profiles, their question contracts, source notes, consumer
+boundaries, fixtures, stored receipts, and pattern pages were reviewed. Seven profiles
+remain unchanged. The initial v1 screen still replays 31/32, including the preserved
+MR04-4 disagreement (`observation` expected; Jev chose `conformance_claim` at
+confidence 0.4). Host review confirmed the wording gap: v1 did not explicitly say
+that a measured value accompanied by an applicable limit, without a stated relation,
+remains an observation; the numeric comparison belongs in code.
+
+MR04 is now version 2 with that boundary explicit. Its four original cases and
+expectations are preserved, and MR04-5/6 add reviewer-authored challenge cases for
+the distinction between adjacent value/limit evidence and an explicit conformance
+claim. Six uncached v2 Jev calls match 6/6. The current selection uses 28 unchanged
+v1 receipts and six v2 receipts: 34/34 labels match, with 38 historical/refinement
+request digests verified. The new evaluator rejects version skips, contract edits
+without a version increment, and removed or rewritten fixtures. All 22 motorsport
+tests pass, including exact question JSON parity on MR04's page. The full pre-commit
+final pre-commit audit passes 65/65 commands across 390 profiles and 30 catalogs
+(`wave14-final-checks-precommit-final.json`). Detailed receipts and limits are in
+`wave14-motorsport-review.json`; the repair lesson is in
+`../../docs/lessons-learned.md`.
+
+This is a synthetic contract clarification, not a real measurement or compliance
+decision, production qualification, or independent test set. Local commit and
+post-commit verification remain; no push or deployment has occurred.
+
 ### Email profile review and EM10 v3 repair (wave 10)
 
 All 12 email contracts, required-state declarations, consumer boundaries, fixtures,

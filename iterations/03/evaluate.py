@@ -295,11 +295,82 @@ def verify_precedence_revision(patterns, fixtures, rows_by_screen):
             "pairs": 30, "scope": "Synthetic revision evidence, not production qualification."}
 
 
+def verify_h24_revision(patterns, fixtures, rows_by_screen):
+    """Preserve the Score-availability misses and replay the non-executing consumer."""
+    archive = load("results/h24-pre-review-contract.json")
+    source = archive["source_commit"]
+    repo = ROOT.parents[1]
+    def original(path):
+        return json.loads(subprocess.check_output(["git", "show", source + ":" + path], cwd=repo))
+    old = next(p for p in original("iterations/03/catalog.json")["patterns"] if p["id"] == "H24")
+    old_cases = [f for f in original("iterations/03/fixtures.json") if f["pattern_id"] == "H24"]
+    if archive["pattern"] != old or archive["fixtures"] != old_cases:
+        raise ValueError("H24 archive differs from Git source")
+    old_selection = {r["fixture_id"]: r for r in original("iterations/03/results/final-acceptance.json")["receipts"]}
+    prior = load("results/h24-revision-fixtures.json")
+    final = load("results/h24-v3-revision-fixtures.json")
+    if (prior["pattern"]["contract_version"] != 2 or final["pattern"] != patterns["H24"]
+            or final["pattern"]["contract_version"] != 3 or len(prior["cases"]) != 7
+            or len(final["cases"]) != 7):
+        raise ValueError("H24 revision coverage or contract binding")
+    prior_by_id = {f["id"]: f for f in prior["cases"]}
+    final_by_id = {f["id"]: f for f in final["cases"]}
+    if len(prior_by_id) != 7 or set(prior_by_id) != set(final_by_id):
+        raise ValueError("H24 frozen case IDs")
+    for old_f in old_cases:
+        current = fixtures[old_f["id"]]
+        if (current["state"] != old_f["state"] or current.get("contract_version") != 3
+                or {k: current["expected"][k] for k in old_f["expected"]} != old_f["expected"]
+                or current["expected"] != final_by_id[old_f["id"]]["expected"]):
+            raise ValueError("H24 original fixture changed")
+        selected = old_selection[old_f["id"]]
+        old_row = rows_by_screen[selected["result_screen"]][old_f["id"]]
+        if (old_row["request"]["state"] != old_f["state"]
+                or old_row["request"]["questions"] != old["questions"]
+                or {c["question_id"]: c["expected"] for c in old_row["checks"]} != old_f["expected"]):
+            raise ValueError("H24 original receipt binding")
+    for fid, first in prior_by_id.items():
+        later = final_by_id[fid]
+        if ({k: v for k, v in first.items() if k != "contract_version"}
+                != {k: v for k, v in later.items() if k != "contract_version"}):
+            raise ValueError("H24 refinement altered frozen evidence")
+    baseline = load("results/h24-missing-burden-before.json")
+    req, resp = baseline["request"], baseline["response"]
+    digest = hashlib.sha256(canonical({"model": resp["model"], "state": req["state"], "questions": old["questions"]})).hexdigest()
+    if (baseline["contract_version"] != 1 or req["questions"] != old["questions"]
+            or req["state"] != final_by_id["H24-review-absent-burden"]["state"]
+            or req.get("use_cache") is not False or resp.get("cached") is not False
+            or resp.get("advisory_only") is not True or not valid_answers(old["questions"], resp)
+            or resp.get("request_sha256") != digest):
+        raise ValueError("H24 baseline receipt binding")
+    for version, document in ((2, prior), (3, final)):
+        rows = rows_by_screen["h24-review-v" + str(version)]
+        if set(rows) != set(final_by_id):
+            raise ValueError("H24 revision receipt coverage")
+        for f in document["cases"]:
+            row = rows[f["id"]]
+            if (f["contract_version"] != version or row["contract_version"] != version
+                    or row["pattern_id"] != "H24" or row["request"]["state"] != f["state"]
+                    or row["request"]["questions"] != document["pattern"]["questions"]
+                    or row["request"].get("use_cache") is not False
+                    or row["response"].get("cached") is not False
+                    or row["response"].get("advisory_only") is not True
+                    or {c["question_id"]: c["expected"] for c in row["checks"]} != f["expected"]):
+                raise ValueError("H24 revision receipt binding")
+    consumers = []
+    for f in final["cases"]:
+        row = rows_by_screen["h24-review-v3"][f["id"]]
+        observed = plan(patterns["H24"], row["response"], state=f["state"])["next"]
+        consumers.append({"fixture_id": f["id"], "expected": f["expected_next"],
+                          "observed": observed, "match": observed == f["expected_next"]})
+    return {"consumer_cases": consumers, "scope": "Synthetic safety repair; one conservative availability mismatch remains. Not qualified."}
+
+
 def replay() -> dict[str, Any]:
     """Verify all raw screens and selected final receipts without a network call."""
     patterns, fixtures = validate_catalog_and_fixtures()
     screen_manifest = load("screens.json").get("screens")
-    if not isinstance(screen_manifest, dict) or set(screen_manifest) != {"initial", "refinement", "precedence-review-v2"}:
+    if not isinstance(screen_manifest, dict) or set(screen_manifest) != {"initial", "refinement", "precedence-review-v2", "h24-review-v2", "h24-review-v3"}:
         raise ValueError("unexpected screen manifest")
     rows_by_screen: dict[str, dict[str, dict[str, Any]]] = {}
     metrics: dict[str, dict[str, int]] = {}
@@ -320,6 +391,7 @@ def replay() -> dict[str, Any]:
         metrics[screen] = total
 
     revision = verify_precedence_revision(patterns, fixtures, rows_by_screen)
+    availability_revision = verify_h24_revision(patterns, fixtures, rows_by_screen)
 
     selections = load("results/final-acceptance.json").get("receipts")
     if not isinstance(selections, list) or len(selections) != len(fixtures):
@@ -360,6 +432,7 @@ def replay() -> dict[str, Any]:
     return {
         "screens": metrics,
         "precedence_revision": revision,
+        "h24_availability_revision": availability_revision,
         "final_contract_acceptance": {
             "fixtures": len(fixtures),
             "fixture_matches": final_matches,
@@ -409,6 +482,12 @@ def plan(pattern: dict[str, Any], response: dict[str, Any], *, state=None) -> di
         }
     if pattern_id == "H24":
         veto = answers["named_veto"]["noul"]
+        if veto >= 0.5:
+            return {"next": "review_named_veto", "reason": "veto_signal"}
+        available = answers.get("burden_available", {}).get("noul")
+        minimum = pattern.get("policy", {}).get("burden_available_min")
+        if not probability(available) or not probability(minimum) or available < minimum:
+            return {"next": "review_missing_or_uncertain_burden", "reason": "burden_score_ignored"}
         return {
             "next": "review_named_veto" if veto >= 0.5 else "compute_versioned_score_in_code",
             "reason": "veto_signal" if veto >= 0.5 else "no_high_veto_signal",

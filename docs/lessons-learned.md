@@ -208,6 +208,14 @@
 - **Verification:** One screen of 17 unchanged regressions and eight frozen development cases matched 25/25. Two low-confidence answers (0.60/0.79) stay in review through consumer tests. Iteration 02 passes 24 tests, binds 200 receipts and retains 134/134 final fixture matches. All-catalog checks are saved with this checkpoint.
 - **Prevention/limits:** Test co-occurrence separately from clear single-label cases. Conflict handling precedes supportive evidence; one selected label does not erase other defects or establish trust/authority. These are local synthetic revisions, not deployed or production-qualified patterns.
 
+## 2026-09-26 — H24 missing operational-burden evidence
+
+- **Component:** H24 score-composition question and consumer.
+- **Symptom/cause:** A live v1 probe with no burden evidence returned burden 0.04/confidence 0.94; the consumer proposed computing a weighted score. Score levels presupposed stated burden, with no availability signal or guard. Model-internal cause is unknown.
+- **Repair:** Added independent availability Noul and provisional 0.8 consumer gate. Ignore burden Score when evidence is missing, irrelevant, conflicting or uncertain; preserve named-veto review first. V3 clarifies that stated qualitative levels suffice and fit is independent of burden/veto. V1, v2 and all misses remain preserved.
+- **Verification:** V2 matched 4/7 cases, v3 matched 6/7 and 27/28 question intervals; two original states/three original intervals per state were preserved. One conservative miss (negated-resource availability 0.66) remains review-held. Sixteen iteration-three tests exercise ignored scores 0/1/2, uncertain availability, veto precedence, threshold boundary and malformed configuration, plus archived-source/refinement anti-tampering. All 65 repository commands pass in `reviews/2026-09-26/h24-availability-final-tests.json`.
+- **Prevention/limits:** A numeric Score and its confidence cannot prove the underlying dimension was supplied. Test availability separately and never lower thresholds or relabel cases to hide misses. Safety guard is locally tested; availability calibration, one conservative development mismatch and production qualification remain open. No push/deployment.
+
 ## 2026-09-26 — Iteration 03 evidence and routing label precedence
 
 - **Component:** B19/E18/H22/H26/H27 questions and receipt replay.

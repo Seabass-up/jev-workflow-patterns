@@ -725,34 +725,62 @@
       "domain": "harness",
       "value": "Keep semantic dimensions reusable while code decides which preferences may compensate and which failures must veto.",
       "success_metric": "Tests prove a serious named veto cannot be outweighed by unrelated high scores.",
-      "required_state_fields": ["candidate", "evaluation_rubric"],
+      "required_state_fields": [
+        "candidate",
+        "evaluation_rubric"
+      ],
       "questions": {
         "fit": {
           "type": "score",
-          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome.",
-          "criteria": ["No demonstrated fit.", "Limited fit with important unmet desired outcomes.", "Strong fit for the stated desired outcome."]
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
         },
         "operational_burden": {
           "type": "score",
-          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources.",
-          "criteria": ["Low stated burden.", "Moderate stated burden.", "High stated burden."]
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
         },
         "named_veto": {
           "type": "noul",
           "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
-          "criteria": {"true": "A named veto condition is directly met by the supplied candidate.", "false": "No named veto condition is directly met by the supplied candidate."}
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
         }
       },
-      "follow_up": "Code stores raw dimensions, applies versioned weights only to compensable dimensions, and sends any high veto signal to review.",
+      "follow_up": "Code preserves a named-veto review first. Otherwise it uses a provisional burden_available >= 0.8 gate before any weighted-score proposal; unavailable or uncertain burden requires review and the burden score is ignored. One follow-up may request the missing burden evidence; no rewording until a preferred score appears.",
       "code_owns": "Weights, thresholds, veto policy, numeric calculation, source identity, and all action decisions.",
       "baseline": "Ask one opaque question such as whether a candidate is good overall.",
       "comparison_to_prior": "Unlike H19's policy hazard/severity routing matrix, this generalizes code-owned weighted preference with an explicit non-compensable veto across independent score dimensions.",
       "source": "https://docs.typesafe.ai/patterns/composite-scoring",
       "origin": "Task-authored Iteration 3 composite-scoring controller.",
       "limits": "Weights and thresholds require domain calibration; scores never authorize action.",
-      "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
-      "prior_patterns": ["H19", "E01"]
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory.",
+        "burden_available_min": 0.8
+      },
+      "contract_version": 3,
+      "prior_patterns": [
+        "H19",
+        "E01"
+      ]
     },
     {
       "id": "H25",

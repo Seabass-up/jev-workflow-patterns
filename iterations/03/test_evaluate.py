@@ -72,8 +72,8 @@ class IterationThreeTests(unittest.TestCase):
         self.assertEqual(result["final_contract_acceptance"], {
             "fixtures": 61,
             "fixture_matches": 61,
-            "questions": 84,
-            "question_matches": 84,
+            "questions": 86,
+            "question_matches": 86,
         })
 
     def test_catalog_domain_counts_and_versioned_refinements(self):
@@ -156,6 +156,48 @@ class IterationThreeTests(unittest.TestCase):
             if row["fixture_id"].endswith("missing-input"):
                 with self.subTest(fixture=row["fixture_id"]):
                     self.assertEqual(raw_plan(PATTERNS[row["pattern_id"]], row["response"], state=cases[row["fixture_id"]]["state"])["next"], "review")
+
+    def test_h24_preserves_both_screens_and_conservative_mismatch(self):
+        result = replay()
+        self.assertEqual(result["screens"]["h24-review-v2"]["fixture_matches"], 4)
+        self.assertEqual(result["screens"]["h24-review-v3"]["fixture_matches"], 6)
+        self.assertEqual(result["screens"]["h24-review-v3"]["question_matches"], 27)
+        held = next(c for c in result["h24_availability_revision"]["consumer_cases"] if not c["match"])
+        self.assertEqual(held["fixture_id"], "H24-review-negated-extra-resources")
+        self.assertEqual(held["observed"], "review_missing_or_uncertain_burden")
+
+    def test_h24_unavailable_burden_score_is_ignored(self):
+        for score in (0, 1, 2):
+            for availability in (0, .5, .799):
+                with self.subTest(score=score, availability=availability):
+                    signal = response("H24", {"fit": 2, "operational_burden": score,
+                                              "named_veto": .05, "burden_available": availability})
+                    self.assertEqual(plan(PATTERNS["H24"], signal)["next"], "review_missing_or_uncertain_burden")
+                    signal["answers"]["named_veto"]["noul"] = .95
+                    self.assertEqual(plan(PATTERNS["H24"], signal)["next"], "review_named_veto")
+
+    def test_h24_provisional_gate_and_bad_configuration(self):
+        signal = response("H24", {"fit": 2, "operational_burden": 0,
+                                  "named_veto": .05, "burden_available": .8})
+        self.assertEqual(plan(PATTERNS["H24"], signal)["next"], "compute_versioned_score_in_code")
+        for bad_minimum in (None, True, float("nan"), 1.01):
+            p = copy.deepcopy(PATTERNS["H24"])
+            p["policy"]["burden_available_min"] = bad_minimum
+            self.assertEqual(plan(p, signal)["next"], "review_missing_or_uncertain_burden")
+
+    def test_h24_refinement_cannot_change_states_or_expected_intervals(self):
+        original_load = evaluate.load
+        for path, mutate in (
+            ("results/h24-pre-review-contract.json", lambda d: d["fixtures"][0]["state"].update({"candidate": "changed"})),
+            ("results/h24-v3-revision-fixtures.json", lambda d: d["cases"][0]["expected"]["burden_available"].update({"range": [0, 1]})),
+            ("results/h24-v3-revision-fixtures.json", lambda d: d["cases"][2]["state"].update({"candidate": "changed"})),
+        ):
+            with self.subTest(path=path):
+                data = copy.deepcopy(original_load(path))
+                mutate(data)
+                with patch.object(evaluate, "load", side_effect=lambda name: data if name == path else original_load(name)):
+                    with self.assertRaises(ValueError):
+                        replay()
 
 
 if __name__ == "__main__":

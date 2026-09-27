@@ -20,6 +20,20 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### H24 availability safety repair (wave 06)
+
+V1 returned burden 0.04 at confidence 0.94 with no burden evidence and proposed score
+composition. H24 now includes a separate availability Noul and a code-owned provisional
+0.8 gate; unavailable/uncertain burden ignores the Score and returns review. A named
+veto still takes precedence. The first v2 screen's three misses are retained; one
+bounded v3 refinement matches 6/7 cases and 27/28 intervals. The negated-resource case
+is still held at availability 0.66 rather than silently accepted or relabeled.
+Current historical selection remains 61/61, with 86/86 question checks. Three other
+iteration-three contract repairs remain (L17/L18/H28), along with H24's conservative
+availability limitation, the thirteen iteration-four flags, H05, unflagged review,
+foundational guides and kernel/tooling. This is a local tested safety repair, not
+production qualification or deployment.
+
 ### Iteration 03 versioned repairs (wave 05)
 
 B19/E18/H22/H26/H27 are repaired at v2. Twenty-four frozen cases (ten unchanged

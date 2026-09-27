@@ -21,11 +21,34 @@ real-world authority, or global novelty.
 | --- | ---: | ---: | ---: | --- |
 | Initial frozen v1 screen | 61 | 58 / 61 | 81 / 84 | Three semantic/fixture boundaries missed; all raw receipts remain public. |
 | Targeted refinement | 6 | 6 / 6 | 17 / 17 | E16 and L14 were versioned; one H24 fixture was clarified and rerun. |
-| Final selected contracts | 61 | 61 / 61 | 84 / 84 | The latest matching receipt for every current fixture/contract is selected. |
+| Original selected-contract checkpoint | 61 | 61 / 61 | 84 / 84 | Selection before the later local review revisions below. |
 
 The 67 live synthetic calls used 33,989 billed input tokens, 4,281 output tokens, and
 an estimated provider cost of $0.001427538. Those are observed historical receipts, not
 a price quote or a claim about a production workload.
+
+## H24 availability safety repair — 2026-09-26
+
+The v1 baseline returned burden Score 0.04/confidence 0.94 on an explicitly unstated
+burden and proposed computing the weighted score. The consumer now requires a separate
+`burden_available` Noul at the provisional 0.8 threshold; it ignores the burden Score
+when availability is low and preserves the named-veto path first. Missing required
+top-level state still fails closed before semantic consumption.
+
+Two original regression states and their three original Score/veto intervals are
+preserved; the new availability intervals are additional expectations, not relabels.
+Five development cases exercise absent, unrelated, conflicting, negated-resource and
+veto-plus-absent burden. The v2 screen matched 4/7 cases (25/28 intervals). One bounded
+v3 refinement clarified qualitative availability and independent fit/veto semantics:
+6/7 cases and 27/28 intervals match, with every v2 miss preserved and no state,
+threshold or expected interval changed. The negated-resource case remains at
+availability 0.66, so code returns review rather than its frozen calculation proposal.
+Do not call this a perfect screen or qualified availability classifier.
+
+Current replay binds 105 fixture-screen receipts, five prior option-pair requests and
+the v1 baseline probe. It selects 61/61 historical fixtures and 86/86 current question
+checks (two additional availability questions), while separately reporting the open
+development miss and 6/7 consumer matches. No action or deployment is performed.
 
 ## Initial misses and repairs
 

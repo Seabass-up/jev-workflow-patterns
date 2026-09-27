@@ -31,6 +31,40 @@ class CollectionPageBuilderTests(unittest.TestCase):
                 self.assertIn("this collection does not implement or verify that gate", rendered)
                 self.assertNotIn("Code deterministically returns `unknown`", rendered)
 
+    def test_flat_and_versioned_summaries_resolve_to_current_selection(self):
+        flat = json.loads((ROOT / "executive/results/summary.json").read_text(encoding="utf-8"))
+        self.assertIs(builder.current_summary(flat), flat)
+        for name in ("auto-performance", "construction", "motorsport"):
+            with self.subTest(collection=name):
+                outer = json.loads((ROOT / name / "results/summary.json").read_text(encoding="utf-8"))
+                current = builder.current_summary(outer)
+                self.assertIs(current, outer["current"])
+                self.assertIn("splits", current)
+                self.assertIn("provisional_patterns", current)
+
+    def test_versioned_pages_disclose_reviewer_regressions_and_current_receipts(self):
+        for name, pattern_id in (("executive", "CE03"), ("auto-performance", "AP03"),
+                                 ("construction", "CN05"), ("motorsport", "MR04")):
+            with self.subTest(collection=name):
+                folder = ROOT / name
+                catalog = json.loads((folder / "catalog.json").read_text(encoding="utf-8"))
+                fixtures = json.loads((folder / "fixtures.json").read_text(encoding="utf-8"))
+                sources = json.loads((folder / "sources.json").read_text(encoding="utf-8"))
+                summary = json.loads((folder / "results/summary.json").read_text(encoding="utf-8"))
+                pattern = next(p for p in catalog["patterns"] if p["id"] == pattern_id)
+                meta = builder.load_meta(name)
+                rendered = builder.pattern_page(name, meta, pattern, fixtures, sources,
+                                                builder.all_titles(), summary)
+                self.assertIn("Exact question JSON", rendered)
+                self.assertIn("development regressions, not independent or held-out examples", rendered)
+                evaluation = builder.evaluation_page(
+                    name, meta, catalog, fixtures, summary,
+                    json.loads((folder / "results/screening.json").read_text(encoding="utf-8")),
+                    json.loads((folder / "results/recovery.json").read_text(encoding="utf-8")),
+                )
+                self.assertIn("Versioned refinement receipts", evaluation)
+                self.assertIn("Preserved version-1 disagreements", evaluation)
+
 
 if __name__ == "__main__":
     unittest.main()

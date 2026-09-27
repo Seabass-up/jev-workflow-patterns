@@ -47,8 +47,11 @@ and `../../docs/lessons-learned.md`.
 
 This is a synthetic question-contract repair, not site-specific safety policy,
 independent human agreement, live queue/notification verification, or production
-qualification. No public build, push, or deployment is included. The whole-pattern goal
-remains active.
+qualification. Local code commit `6043e1d` is verified by the post-commit snapshot:
+all 65 repository checks pass across 390 profiles and 30 catalogs
+(`../2026-09-27/wave15-postcommit-checks.json`). The evidence/lessons follow-up is
+recorded locally; the whole-pattern goal remains active, with no public build, push,
+or deployment.
 
 ### Motorsport MR04 v2 clarification (wave 14)
 

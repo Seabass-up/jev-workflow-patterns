@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-27 — Receipt validators must scale rounding tolerance by option count
+
+- **Component:** Shared collection receipt replay and the Jev Question Kernel qualification helper.
+- **Observed:** Both accepted a fixed absolute probability-sum tolerance of 0.03, regardless of the number of Choice or Score options. That can admit sums beyond two-decimal rounding error for small option sets and reject legitimate rounding drift for larger sets.
+- **Confirmed cause:** The shared allowance used the observed maximum for a six-option response as a constant instead of deriving the bound from the current option count.
+- **Repair:** Centralized the bound as `0.005 * option_count + 1e-9`, used it in both replay paths with relative tolerance disabled, and documented that this is response-shape validation—not calibration or correctness. Added opposite-direction boundary regressions for two and ten options; bumped the kernel skill to 2.7.2. No pattern contract, expected label, or provider receipt changed.
+- **Verification:** The kernel scripts passed 31/31 tests, shared scripts passed 27/27, and the full pre-commit audit passed 65/65 checks across 390 profiles and 30 catalogs. The detailed receipts are in the Wave 28 review record. No provider call was used to validate the arithmetic; no push or deployment occurred.
+- **Prevention and limits:** Bound per-value rounding error by the number of values, test both smaller and larger option counts, and keep probability-shape checks distinct from correctness, calibration, source authenticity, or permission.
+
 ## 2026-09-27 — Jev contract screens must include the exact question object
 
 - **Component:** Wave 26 advisory review of Bug Hunting profiles BH25–BH36.

@@ -13,7 +13,7 @@ import re
 import sys
 
 from check_contract import missing_required_fields, require
-from check_confidence import check_answer
+from check_confidence import check_answer, probability_sum_tolerance
 
 
 def digest(request):
@@ -36,7 +36,9 @@ def validate_answer(question, answer, model):
     require(isinstance(probabilities, dict) and all(number(v) for v in probabilities.values()),
             "invalid answer probabilities")
     require(number(answer.get("confidence")), "invalid answer confidence")
-    require(math.isclose(sum(probabilities.values()), 1, abs_tol=0.03), "probabilities do not sum to one")
+    require(math.isclose(sum(probabilities.values()), 1, rel_tol=0.0,
+                         abs_tol=probability_sum_tolerance(len(probabilities))),
+            "probabilities do not sum to one")
     if kind == "choice":
         labels = set(question["criteria"])
         require(set(probabilities) == labels and answer.get("choice") in labels, "Choice option mismatch")

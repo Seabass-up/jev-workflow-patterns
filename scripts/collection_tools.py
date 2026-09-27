@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/jev-question-kernel-catalog/scripts"))
-from check_confidence import check_answer  # noqa: E402
+from check_confidence import check_answer, probability_sum_tolerance  # noqa: E402
 
 
 def read(root, path):
@@ -71,9 +71,10 @@ def validate_receipt(receipt, fixture, pattern):
     for value in [answer.get("confidence"), *probabilities.values()]:
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError("invalid probability")
-    # Published probabilities are rounded to two decimals; six options can drift by up to
-    # 0.03 in total. One receipt in 786 (CY03-4, sum 0.99) showed this rounding loss.
-    if not math.isclose(sum(probabilities.values()), 1, abs_tol=0.03):
+    # Each published probability is rounded to two decimals, so bound total drift by
+    # the number of options. One receipt in 786 (CY03-4, sum 0.99) showed rounding loss.
+    if not math.isclose(sum(probabilities.values()), 1, rel_tol=0.0,
+                        abs_tol=probability_sum_tolerance(len(labels))):
         raise ValueError("probabilities do not sum to one")
     if probabilities[answer["choice"]] < max(probabilities.values()):
         raise ValueError("choice is not a maximum")

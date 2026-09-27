@@ -6,7 +6,7 @@ from pathlib import Path
 import unittest
 
 from check_contract import missing_required_fields
-from qualify_workflow import evaluate
+from qualify_workflow import evaluate, validate_answer
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +19,24 @@ SPEC.loader.exec_module(CONSUMER)
 
 
 class QualificationTests(unittest.TestCase):
+    def test_probability_rounding_bound_scales_with_choice_option_count(self):
+        labels = ["option-%d" % index for index in range(10)]
+        question = {"type": "choice", "instructions": "Choose the supported option.",
+                    "criteria": {label: label for label in labels}}
+        answer = {"type": "choice", "choice": labels[0],
+                  "probabilities": {label: (0.15 if index == 0 else 0.10)
+                                    for index, label in enumerate(labels)},
+                  "confidence": 0.05555555555555555}
+        validate_answer(question, answer, "jev-1.13.0")
+
+        two_option_question = {"type": "choice", "instructions": "Choose one.",
+                               "criteria": {"a": "A", "b": "B"}}
+        malformed_two_option_answer = {"type": "choice", "choice": "a",
+                                       "probabilities": {"a": 0.50, "b": 0.48},
+                                       "confidence": 0.0}
+        with self.assertRaisesRegex(ValueError, "probabilities do not sum"):
+            validate_answer(two_option_question, malformed_two_option_answer, "jev-1.13.0")
+
     def test_demo_replays_but_cannot_claim_held_out_qualification(self):
         result = evaluate(CONTRACT, PILOT, CONSUMER.decide)
         self.assertEqual(result["evidence_scope"], "synthetic_demo_only")

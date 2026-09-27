@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.7.1"
+  version: "2.7.2"
 ---
 
 # Jev Question Kernel v2
@@ -77,8 +77,11 @@ python3 -m unittest discover -s scripts -p 'test_*.py'
 ```
 
 `check_confidence.py` checks stored Choice confidence against its probabilities and
-converts a confidence threshold into the top probability it requires for a given
-option count. Consistency is not correctness.
+provides the option-count-specific two-decimal rounding bound used by both receipt
+replayers for Choice and Score distributions. The bound validates response shape; it
+does not establish calibration or correctness. The script also converts a confidence
+threshold into the top probability it requires for a given option count. Consistency
+is not correctness.
 
 For a mixed Choice/Noul/Score request and a side-effect-free consumer replay, run
 the [qualification example](references/qualification.md). Its invented cases

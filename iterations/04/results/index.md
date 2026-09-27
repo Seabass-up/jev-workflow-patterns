@@ -14,6 +14,9 @@ kicker: "Iteration 4 · result records"
 - [Prior-catalog duplicate screen]({{ '/iterations/04/results/candidate-duplicate-screen.json' | relative_url }})
 - [Initial live synthetic screen]({{ '/iterations/04/results/initial-screen.json' | relative_url }})
 - [Targeted v2 refinement screen]({{ '/iterations/04/results/refinement-screen.json' | relative_url }})
+- [Preserved first v2 overlap screen (41/45)]({{ '/iterations/04/results/overlap-v2-first-pass.json' | relative_url }})
+- [Current v2 overlap screen (46/46)]({{ '/iterations/04/results/overlap-v2-screen.json' | relative_url }})
+- [Whole-contract and label-pair audit]({{ '/iterations/04/results/overlap-audit.json' | relative_url }})
 - [Final current-contract acceptance]({{ '/iterations/04/results/final-acceptance.json' | relative_url }})
 - [Screen summary]({{ '/iterations/04/results/summary.json' | relative_url }})
 

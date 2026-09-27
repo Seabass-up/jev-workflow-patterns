@@ -15,7 +15,7 @@ This final four-cycle catalog adds 30 task-authored Jev contracts: seven busines
 The kernel remains: provide a small named state, ask a narrow literal question with a closed answer space, preserve a no-evidence/unknown route, and let code own candidate coverage, arithmetic, IDs, thresholds, permissions, side effects, and verification.
 
 <div class="card-grid">
-  <section class="card"><span class="tag">Frozen first</span><h3>60 synthetic fixtures</h3><p>Two independently authored fixtures per contract are stored outside all provider state.</p></section>
+  <section class="card"><span class="tag">Frozen first</span><h3>86 synthetic fixtures</h3><p>60 original cases plus 26 versioned development boundaries; expectations stay outside provider state.</p></section>
   <section class="card"><span class="tag">Prior-art screen</span><h3>90 earlier contracts</h3><p>All candidates were compared with the three earlier catalogs and three foundations; near overlaps carry explicit written deltas.</p></section>
   <section class="card"><span class="tag">Bounded outcome</span><h3>Advisory JSON</h3><p>Every contract routes uncertainty to a code- or human-owned next step. No question authorizes an operation.</p></section>
 </div>

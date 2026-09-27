@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-26 — Iteration 4 Choice-label overlap and fixture coverage
+
+- **Component:** Iteration 4 patterns B22, B25, E23, E24, E26, L19, L20, L21, L24 and H40.
+- **Symptom:** The original whole-contract screen flagged 13 patterns for label overlap. Source review found nested scopes, co-occurring role/fidelity states, and unclear precedence; three flagged patterns (B23, B26, H33) had no Choice question, so this specific overlap screen was not applicable.
+- **Confirmed cause:** Several categories could apply to one state, and instructions did not consistently define precedence or distinguish source conflict, missing evidence, compound obligations, or independent change dimensions. The original two fixtures per pattern also did not exercise every outcome label.
+- **Repair:** Versioned the ten Choice contracts to v2 with explicit boundaries/precedence, added 26 synthetic development fixtures so all current labels are represented, and preserved the first v2 screen and its four misses. L20's initially unresolved pair was refined to route multiple fidelity modes to `mixed_output_obligations`.
+- **Verification:** The preserved v2 first pass matched 41/45; the current v2 screen matched 46/46; final current selection matched 86/86 fixtures/questions. The current pair audit covers 77 label pairs; evaluator and receipt audit checks pass via `python3 iterations/04/evaluate.py` and `python3 -m unittest discover -s iterations/04 -p 'test_*.py' -v` (13 tests). These are synthetic, request-bound screening results, not production accuracy, calibration, authorization, or deployment evidence.
+- **Prevention:** Exercise every label and mixed/precedence boundary with author-frozen states kept out of provider input. Preserve first-pass misses and bind every selected answer to the exact current question/state. Treat low-confidence outputs as review signals; never infer action authority from a typed answer.
+
 ## 2026-09-26 — Iteration 3 L17 shortlist evidence boundary
 
 - **Component:** Iteration 3 L17 skill-shortlist question contract and advisory consumer.

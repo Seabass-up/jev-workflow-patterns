@@ -112,10 +112,10 @@ def validate_catalog_and_fixtures() -> tuple[dict[str, dict], dict[str, dict]]:
     got = {domain: sum(item.get("domain") == domain for item in patterns) for domain in wanted}
     if got != wanted:
         raise ValueError(f"unexpected domain counts: {got}")
-    if not isinstance(fixtures, list) or len(fixtures) != 60:
-        raise ValueError("expected exactly 60 frozen fixtures")
+    if not isinstance(fixtures, list) or len(fixtures) != 86:
+        raise ValueError("expected exactly 86 frozen fixtures")
     by_fixture = {item.get("id"): item for item in fixtures}
-    if len(by_fixture) != 60 or None in by_fixture:
+    if len(by_fixture) != 86 or None in by_fixture:
         raise ValueError("fixture IDs must be unique")
     for item in fixtures:
         pattern = by_pattern.get(item.get("pattern_id"))
@@ -123,6 +123,9 @@ def validate_catalog_and_fixtures() -> tuple[dict[str, dict], dict[str, dict]]:
         expected = item.get("expected")
         if pattern is None or not isinstance(state, dict) or contains_expected(state):
             raise ValueError("invalid fixture state: " + str(item.get("id")))
+        version = item.get("contract_version", pattern.get("contract_version"))
+        if version != pattern.get("contract_version"):
+            raise ValueError("fixture contract version mismatch: " + str(item.get("id")))
         if not set(pattern.get("required_state_fields", [])) <= set(state):
             raise ValueError("missing state field: " + str(item.get("id")))
         if not isinstance(expected, dict) or set(expected) != set(pattern.get("questions", {})):

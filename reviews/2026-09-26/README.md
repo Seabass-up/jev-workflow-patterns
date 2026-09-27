@@ -20,6 +20,30 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Iteration 4 flagged-contract overlap repair (wave 08)
+
+All 13 original Iteration 4 overlap flags were source-inspected. Ten are Choice
+contracts with overlapping or nested labels and are now version 2: B22, B25, E23,
+E24, E26, L19, L20, L21, L24 and H40. B23, B26 and H33 have no Choice question,
+so the label-overlap check did not apply; they were source-confirmed as not applicable.
+
+The first v2 synthetic screen's four misses are preserved in
+`iterations/04/results/overlap-v2-first-pass.json` (41/45). The current v2 screen
+matches 46/46 independently authored cases, covering every current label, and the
+86-fixture current selection matches 86/86. The initial v1 screen and its misses
+remain unchanged. A v1 Jev pair screen covered 64 pairs; the current v2 pair review
+covers 77, with the model selecting only `disjoint` or `precedence_resolved`.
+L20's first pair review still records an unresolved verbatim/typed overlap; its
+refinement and the new explicit `mixed_output_obligations` priority are retained in
+the audit record. Pair outputs are advisory screening, not a proof of semantic
+disjointness. L24's underspecified boundary remains low-confidence and review-only.
+
+Local verification: `python3 iterations/04/evaluate.py` and
+`python3 -m unittest discover -s iterations/04 -p 'test_*.py' -v` pass (13 tests).
+No public-site build or deployment was performed. The whole-pattern goal remains
+active: unflagged patterns, other iterations, foundational guides and kernel/tooling
+still need proportionate source review and tests.
+
 ### H24 availability safety repair (wave 06)
 
 V1 returned burden 0.04 at confidence 0.94 with no burden evidence and proposed score

@@ -20,6 +20,34 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Email profile review and EM10 v3 repair (wave 10)
+
+All 12 email contracts, required-state declarations, consumer boundaries, fixtures,
+receipts and pattern pages were source-inspected, with the email evaluator replaying
+the prior screens. Supplemental Jev overlap signals were checked against the full
+criteria: EM01 defines owner-with-others versus other-only, EM02 routes contradictory
+current/quoted intent to `unknown`, EM05 routes conflicting roles for one date phrase
+to `unknown`, EM06 makes explicit alternatives counterproposals, EM08 prioritizes
+deferral, EM09 uses `unknown` when the next step is unclear, and EM11 routes multiple
+equally primary intents to `unknown`. EM10 v1 was the confirmed gap: an out-of-office
+notice could also read as a receipt acknowledgment without a tie-break.
+
+EM10 v2 added precedence and request context but still labeled an answer-like message
+without its underlying request as `substantive_reply` (0.51 option probability,
+0.38 confidence) against a frozen `unknown` expectation. That first pass is preserved
+in `email/results/em10-v2-first-pass.json`. EM10 v3 requires a non-empty
+`underlying_request` before assigning `substantive_reply`, makes the co-occurrence
+order explicit, and retains receipt-only acknowledgments without request context.
+Seven uncached v3 synthetic cases match 7/7, including the prior miss and four added
+boundaries. The evaluator now permits version-matched regression additions only for
+revised contracts while rejecting original-case removal or rewriting. Email replay
+selects 40/40 current fixtures across 12 profiles and verifies 56 stored request
+digests; 23 offline email tests pass, including page/catalog parity and exact
+positive-integer contract-version checks. These are
+author-labelled development checks, not held-out accuracy or mailbox qualification.
+
+No site rendering, push, or deployment is claimed for this local checkpoint.
+
 ### H05 co-occurring defect repair (wave 09)
 
 The original H05 Choice contract had no outcome for two independently demonstrated defects, while its pure consumer proposed one targeted repair for any recognized single label. A bounded Jev question-contract check selected `forces_single_or_unspecified` at 0.97 confidence. Its consumer-route answer (0.86) was accompanied by an evidence check of 0.59 and therefore remained `needs_review`; host inspection of `iterations/01/evaluate.py` confirmed the branch behavior.

@@ -145,6 +145,15 @@
 - **Verification:** 146 screening attempts yielded 144 successful responses; 143/144 selected labels match. All 144 successful request digests replay. Sixteen offline evaluator/status-mapping tests pass; the 48 proposed reproduction recipes were not executed.
 - **Prevention and limits:** Separate service failure, missing evidence, model disagreement and observed runtime behavior. Low-confidence leads remain candidates; counterevidence is not bug-free and stale evidence cannot promote a finding. See [the complete evaluation](../bug-hunting/evaluation.md).
 
+## 2026-09-26 — Email EM10 response precedence and regression extensibility
+
+- **Component:** Email pattern EM10 and its replay evaluator.
+- **Symptom:** An automatic out-of-office response could also acknowledge receipt, but v1 specified no precedence. A v2 answer-like message without the original request was labeled `substantive_reply` (option probability 0.51, confidence 0.38) instead of the frozen `unknown` expectation. The evaluator rejected every new fixture ID, and a boolean version could bind as integer `1`.
+- **Confirmed cause:** The response labels overlapped without a stated order, and v2 did not require a non-empty underlying request before choosing a contextual substantive reply. The evaluator required exact equality between original and current fixture-ID sets, so it could not represent additive tests for revised contracts. Its direct revision binding also relied on Python equality, under which JSON `true` compares equal to integer version `1`.
+- **Repair:** Versioned EM10 to v3 with explicit response-kind precedence and a request-bound `substantive_reply`; answer-like text without the request now routes to `unknown`, while receipt-only acknowledgments remain classifiable. The evaluator now permits new, version-matched fixtures only for revised contracts, rejects removed or rewritten frozen cases, and requires exact positive integer versions. Preserved the full EM10 v2 first pass, including its miss, and added four current boundary fixtures.
+- **Verification:** Uncached Jev v3 responses matched 7/7 EM10 cases; the preserved v2 screen matches 6/7 with EM10-7 retained as a miss. Current email selection matches 40/40, and all 56 stored fixture request/response digests replay. Twenty-three offline email tests pass, including checks for fixture additions, removals, rewrites, boolean versions, preservation of the v2 miss, and page/catalog parity. Synthetic author-labelled tests do not establish held-out accuracy or mailbox safety; no external action, push, or deployment occurred.
+- **Prevention:** Define a literal priority when message signals co-occur; require source context for contextual claims; preserve original cases while allowing additive regression coverage under versioned contracts.
+
 ## 2026-09-22 — Email missing-input precedence and confidence validation
 
 - **Component:** Email profiles EM07/EM08 and the email receipt evaluator.

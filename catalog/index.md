@@ -712,7 +712,7 @@ Search by the judgment your workflow needs. Each profile links to its required e
     <article class="pattern-card" data-area="email" data-collection="email" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Email</span><span>Choice</span></div>
       <h3><a href="{{ '/email/patterns/em10/' | relative_url }}">EM10 · Meaning of an automatic response</a></h3>
-      <p>Keep absence notices and transport reports from being mistaken for substantive replies.</p>
+      <p>Classify automatic response types with explicit precedence and enough thread context to recognize substantive replies.</p>
     </article>
     <article class="pattern-card" data-area="email" data-collection="email" data-types="choice" data-review="">
       <div class="pattern-meta"><span>Email</span><span>Choice</span></div>

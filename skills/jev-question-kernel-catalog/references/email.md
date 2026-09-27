@@ -25,6 +25,10 @@ Read the chosen page and its evaluation; do not assume every label is tested.
 - Reject absent required context in code before inference. EM07/EM08 v1 empty-input
   misses demonstrate why no attachment claim and omitted answer are not substitutes
   for missing evidence. Their v2 questions make that precedence explicit.
+- EM10 v3 uses a clear precedence for co-occurring transport, absence, substantive,
+  and acknowledgment signals. A substantive reply requires the related
+  `underlying_request`; answer-like text alone is insufficient. Its v2
+  missing-request miss remains preserved in the evaluation record.
 
 ## Compose and drill down
 
@@ -52,6 +56,8 @@ Reported resolution is not verified work completion.
 Do not send, forward, archive, label, change contacts, schedule, pay, or close work
 without the user's applicable action authority and separate deterministic checks.
 Read back actual outcomes when an authorized integration eventually performs actions.
-This profile and its 36-case synthetic screen do not qualify such an integration.
+The current email selection contains 40 synthetic fixtures across 12 profiles;
+56 stored fixture calls include original and versioned receipts. These authored
+screens do not qualify an inbox integration.
 
 Before adapting, read the [preserved misses and test limits](https://seabass-up.github.io/jev-workflow-patterns/email/evaluation/).

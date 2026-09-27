@@ -20,6 +20,34 @@ Iteration 01 previously accepted a Choice response missing its probability distr
 
 ## Resumption
 
+### Cybersecurity CY01–CY08 source and contract review (wave 16)
+
+All eight cybersecurity contracts, required fields, criteria, code-owned
+responsibilities, verification recipes, follow-ups, source references, pattern pages
+and frozen fixtures were reviewed. Existing Jev source-support, option-overlap and
+32-case screening receipts were reused. The original screen is 31/32 (24/24 design,
+7/8 challenge); CY02-4 remains the sole disagreement (not_accounted_for expected,
+partly_accounted_for observed at confidence 0.9).
+
+A focused uncached Jev contract-fit judgment favored the frozen CY02-4 expectation
+(probability 0.91, confidence 0.88); host review confirmed the completed
+prior-evening change does not produce the 03:40 activity in the same period. The
+disagreement is preserved as a model miss, not used to tune or relabel. Two further
+boundary probes considered edition matching in CY03 and partial evidence in CY04.
+Neither established a defect: CY03 keeps exact identifier matching with code (the
+integration must confirm edition handling before consequence), and CY04's existing
+not-stated label can cover a required condition set that is not fully established.
+The patterns remain v1; no contract or fixture expectation changed.
+
+Added a regression test asserting that each of the eight pattern pages embeds the
+exact question JSON in its catalog. The cybersecurity evaluator validates all 32
+saved request digests and exact summary replay; all 13 tests pass. Evidence and
+limits are recorded in ../2026-09-27/wave16-cybersecurity-review.json. The full
+pre-commit audit passes 65/65 checks across 390 profiles and 30 catalogs
+(../2026-09-27/wave16-final-checks-precommit-locked.json). No lesson entry was
+fabricated because this review did not produce a confirmed repair. The whole-pattern
+goal remains active; no site deployment or push.
+
 ### Construction CN05 v2 list-bound clarification (wave 15)
 
 All eight construction question contracts, required state, source notes, consumer

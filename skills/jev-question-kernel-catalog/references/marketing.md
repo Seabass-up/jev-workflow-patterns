@@ -48,8 +48,11 @@ the team owns, one competitor name at a time, and the brief or comment unchanged
 Several contracts state a precedence order for text that fits more than one label,
 such as a claim that is both partly contradicted and partly supported, or copy that
 both names a competitor and compares against it; keep those sentences when adapting.
-Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence.
+`required_state_fields` describes an input contract; it does not enforce itself.
+Before calling Jev, the consuming application must check each field and return a
+local `unknown` when a value is absent or empty under that field's schema. This
+module and the collection screen do not implement or verify that consumer preflight;
+valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

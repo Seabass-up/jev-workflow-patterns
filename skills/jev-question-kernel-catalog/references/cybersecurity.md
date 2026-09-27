@@ -56,8 +56,10 @@ event per CY07 call and one question-answer pair per CY08 call. Several contract
 state a precedence order for text that satisfies more than one label (a message
 making two asks, a lockout that also records a failure, an answer that both
 declines and answers part); those sentences were added after a pre-inference overlap
-check, so keep them when adapting. Before inference, code validates
-`required_state_fields` and returns a local `unknown` for absent or empty evidence.
+check, so keep them when adapting. Before inference, the consuming application must validate
+`required_state_fields` and return a local `unknown` for absent or empty evidence.
+This module and the collection screen do not implement or verify that consumer
+preflight; valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

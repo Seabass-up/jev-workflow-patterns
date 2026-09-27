@@ -1,0 +1,147 @@
+{
+  "wave": 22,
+  "recorded_on": "2026-09-27",
+  "kind": "pattern_review",
+  "repository_branch": "review/all-patterns-20260926",
+  "base_commit": "46d303cb612f0d2309ab17b26cae0912bfdbe969",
+  "scope": {
+    "collection": "Grading support: patterns for submissions, rubrics, and feedback",
+    "profiles_reviewed": 8,
+    "profile_ids": ["GR01", "GR02", "GR03", "GR04", "GR05", "GR06", "GR07", "GR08"],
+    "reviewed_elements": [
+      "complete Choice questions, named state fields, label criteria, and missing-evidence precedence",
+      "code-owned responsibilities, follow-ups, verification recipes, and nearest-pattern distinctions",
+      "all 32 fixture states, author origin, expected labels, and rationales",
+      "all 32 saved Jev responses, exact request bindings, probabilities, and provisional status",
+      "all eight generated pages' exact question JSON and required-state lists",
+      "source summaries and preserved source-support/freshness records"
+    ],
+    "question_contract_changes": 0,
+    "fixture_or_label_changes": 0,
+    "exact_page_contract_parity": "8/8"
+  },
+  "source_revisions": {
+    "grading/catalog.json": "42db0eb070ec65bceccc068cff008bb95879af9ecae802b9125226f1ff37a2d8",
+    "grading/fixtures.json": "03ab59758ab1dad616056de9e2a201413d243245c771b558b339c3f6457eebf0",
+    "grading/results/screening.json": "476b845785350e92f059be1920909ae8a615f36155b3b769e14b4a93bcb9ee33",
+    "grading/results/summary.json": "64812ca4f8efe489b27ac4db9838cebe7e5d2d17a5171b0a6a8b7e2beb67f2cf",
+    "grading/results/source-review.json": "b573e913b3e6ef2fef2cb5beff9d2e8514d873a1337d9cb40767530ae6d22fa7",
+    "skills/jev-question-kernel-catalog/references/grading.md": "e86afcebe8d8f3b9cd5b66fc6f323d44499d9bea436046c188ef0b4e0c574c01"
+  },
+  "reused_screen": {
+    "model": "jev-1.13.0",
+    "screened_on": "2026-09-23",
+    "new_jev_decision_calls": 0,
+    "initial_attempts": 32,
+    "provider_failures": 0,
+    "recovery_attempts": 0,
+    "verified_request_digests": 32,
+    "design": {"matches": 23, "cases": 24},
+    "challenge": {"matches": 6, "cases": 8},
+    "overall": {"matches": 29, "cases": 32},
+    "preserved_disagreements": [
+      {
+        "fixture_id": "GR05-3",
+        "expected": "unknown",
+        "observed": "working_shown",
+        "confidence": 0.43,
+        "disposition": "Preserved. Empty problem evidence must be intercepted by consuming code before a Jev request; the receipt does not test that code gate."
+      },
+      {
+        "fixture_id": "GR02-4",
+        "expected": "evidence_found",
+        "observed": "evidence_partial",
+        "confidence": 0.62,
+        "disposition": "Preserved as a low-confidence rubric-count boundary disagreement; no expectation or contract was tuned to the model output."
+      },
+      {
+        "fixture_id": "GR06-4",
+        "expected": "verbatim",
+        "observed": "close_paraphrase",
+        "confidence": 0.45,
+        "disposition": "Preserved as a mixed-passage wording-relation disagreement; the contract states its precedence and the pattern remains provisional."
+      }
+    ],
+    "provisional_patterns": ["GR02", "GR05", "GR06"],
+    "interpretation": "Synthetic design and author-separated challenge evidence only; not held-out accuracy, calibration, classroom qualification, or evidence of student-level outcomes."
+  },
+  "jev_contract_advisory": {
+    "empty_evidence_attempt": {
+      "status": "invalid_contract",
+      "issue": "empty_evidence_path at /cases/GR05/problem_statement",
+      "remote_call_made": false,
+      "disposition": "The advisory linter refuses an empty evidence path; this did not test GR05-3 or make a Jev judgment."
+    },
+    "bounded_review": {
+      "status": "needs_review",
+      "model": "jev-1.13.0",
+      "cached": false,
+      "contract_sha256": "27c7993e1fb2218d571d58102993e85b1c17e17054648f72e63ae516f0ee2db2",
+      "request_sha256": "7ca04ba95ec7617c291cc96b24ddd681e89833422528027975f9a47ee2fbae34",
+      "focus": ["GR02", "GR05", "GR06"],
+      "note": "The review used the saved synthetic disagreement states except GR05's empty problem was represented by a nonempty underspecified prompt because the linter rejects empty evidence. Review selections were advisory, some dimensions were low-confidence, and no contract change was justified."
+    }
+  },
+  "source_freshness": {
+    "saved_receipt": "grading/results/source-review.json",
+    "saved_checked": "2026-09-23",
+    "page_changed_since_record": ["GR-S2", "GR-S3", "GR-S4"],
+    "not_changed_since_record": ["GR-S1", "GR-S5"],
+    "fresh_browser_read": "2026-09-27",
+    "source_hashes_refreshed": false,
+    "disposition": "Historical page-text hashes remain bound to the original captures. Fresh browser review of the official GOV.UK marking report and UNC conclusions handout was used only to confirm their continuing high-level motivation; it did not refresh hashes or establish Jev performance."
+  },
+  "confirmed_defect": {
+    "component": "Kernel domain reference modules' missing-evidence wording",
+    "symptom": "Twenty-three modules stated that code validates required fields and returns local unknown before inference, which read as behavior already implemented by the repository.",
+    "confirmed_cause": "The modules described the desired consumer-side preflight as an existing runtime guarantee. The grading collection contains a catalog, fixtures, an offline receipt evaluator, pages, and tests, not an inference consumer that runs this gate. The saved empty-input probe is consistent with that boundary: Jev was still called and selected working_shown.",
+    "scope_verified": {
+      "kernel_reference_modules_corrected": 23,
+      "modules": [
+        "auto-performance.md",
+        "auto-repair.md",
+        "controls.md",
+        "cybersecurity.md",
+        "data-quality.md",
+        "electrical.md",
+        "executive.md",
+        "finance.md",
+        "grading.md",
+        "human-ai.md",
+        "human-resources.md",
+        "legal-contracts.md",
+        "logistics-routing.md",
+        "logistics.md",
+        "marketing.md",
+        "motorsport.md",
+        "networking.md",
+        "project-management.md",
+        "real-estate.md",
+        "sales.md",
+        "seo.md",
+        "storytelling.md",
+        "web-scraping.md"
+      ],
+      "catalogs_or_saved_receipts_changed": 0,
+      "old_exact_claim_remaining": 0
+    },
+    "repair": "Reworded the affected modules to require the consuming application to preflight fields and return local unknown before calling Jev. The text now distinguishes absent/schema-empty values from valid zero and false values, and says the reference modules and collection screens do not implement or verify the consumer gate.",
+    "regression_coverage": [
+      "scripts/test_build_collection_pages.py checks reference modules do not reintroduce the unsupported implemented-gate sentence",
+      "grading/test_evaluate.py checks required fields and exact question JSON in every GR01–GR08 page, plus every fixture's expected-label row"
+    ]
+  },
+  "verification": {
+    "grading_evaluator": "32/32 saved request digests verified; no Jev replay",
+    "grading_tests": "13 passed",
+    "page_builder_tests": "5 passed",
+    "git_diff_check": "passed",
+    "repository_audit": "reviews/2026-09-27/wave22-final-checks-precommit-final.json: 65/65 checks, 390 profiles, 30 catalogs, no failures",
+    "limits": [
+      "No question contract was versioned because no question-level defect was confirmed.",
+      "The three frozen Jev disagreements remain preserved; GR02, GR05, and GR06 remain provisional.",
+      "The source digest review remains dated 2026-09-23; no new source text hashes were recorded.",
+      "No live consumer, classroom workflow, rendered Pages build, push, or deployment was tested."
+    ]
+  }
+}

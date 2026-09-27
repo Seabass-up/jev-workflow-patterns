@@ -53,9 +53,13 @@ single use, and the extracted term expression together with its clause as contex
 Several contracts state a precedence order for text that fits more than one label
 (clause types, term mechanisms, comments that are both editorial and substantive,
 carve-outs both stated and referenced); keep those sentences when adapting. Before
-inference, code validates `required_state_fields` and returns a local `unknown` for
-absent or empty evidence, and it confirms by exact match that a defined term
-actually appears in the passage supplied to LC06.
+inference. `required_state_fields` describes an input contract; it does not enforce
+itself. Before calling Jev, the consuming application must check each field and
+return a local `unknown` when a value is absent or empty under that field's schema.
+This module and the collection screen do not implement or verify that consumer
+preflight; valid `0` or `false` values must not be treated as missing. The consuming
+application must also confirm by exact match that a defined term actually appears
+in the passage supplied to LC06.
 
 ## Use the labels without taking over
 

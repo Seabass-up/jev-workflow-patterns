@@ -42,8 +42,11 @@ Supply the customer's or inspector's words unchanged, the project roles as writt
 the inspection type, and the policy lists code owns. Several contracts state a
 precedence order for reports that mention more than one symptom, work type, or party;
 those sentences were added after a pre-inference overlap check, so keep them when
-adapting. Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence.
+adapting. `required_state_fields` describes an input contract; it does not enforce
+itself. Before calling Jev, the consuming application must check each field and
+return a local `unknown` when a value is absent or empty under that field's schema.
+This module and the collection screen do not implement or verify that consumer
+preflight; valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

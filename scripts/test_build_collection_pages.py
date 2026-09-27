@@ -43,6 +43,19 @@ class CollectionPageBuilderTests(unittest.TestCase):
                 self.assertIn("this collection does not implement or verify that gate", rendered)
                 self.assertNotIn("Code deterministically returns `unknown`", rendered)
 
+    def test_kernel_reference_modules_do_not_claim_consumer_preflight_is_implemented(self):
+        references = ROOT / "skills/jev-question-kernel-catalog/references"
+        for path in sorted(references.glob("*.md")):
+            with self.subTest(reference=path.name):
+                content = path.read_text(encoding="utf-8")
+                self.assertNotRegex(
+                    content,
+                    r"(?im)Before inference, code validates `required_state_fields`",
+                )
+        grading = (references / "grading.md").read_text(encoding="utf-8")
+        self.assertIn("The consuming application must validate `required_state_fields`", grading)
+        self.assertIn("do not implement or verify that preflight", grading)
+
     def test_flat_and_versioned_summaries_resolve_to_current_selection(self):
         flat = json.loads((ROOT / "executive/results/summary.json").read_text(encoding="utf-8"))
         self.assertIs(builder.current_summary(flat), flat)

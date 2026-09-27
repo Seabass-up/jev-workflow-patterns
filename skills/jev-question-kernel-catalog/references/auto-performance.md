@@ -52,8 +52,12 @@ Supply the customer's, tuner's, or poster's words unchanged, the fitment text an
 rules text as the vendor or organizer wrote them, and the flags code computed from
 logged readings. Several contracts state a precedence order for text that describes
 more than one system, use, symptom, item, or kind of grounds; keep those sentences
-when adapting. Before inference, code validates `required_state_fields` and returns a
-local `unknown` for absent or empty evidence, including an empty `reading_flags` list.
+when adapting. `required_state_fields` describes an input contract; it does not
+enforce itself. Before calling Jev, the consuming application must check each field
+and return a local `unknown` when a value is absent or empty under that field's
+schema, including an empty `reading_flags` list. This module and the collection
+screen do not implement or verify that consumer preflight; valid `0` or `false`
+values must not be treated as missing.
 
 ## Use the labels without taking over
 

@@ -43,9 +43,12 @@ a draft.” Describe missing context explicitly; do not invent the user's intent
 For a rendered experience, capture what the person could actually see, not only
 the intended template. Keep answer keys distinct from learner-visible content.
 
-Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent, null, or schema-defined empty required evidence. Do not rely
-on Jev to implement this guard, and do not treat valid `0` or `false` as missing.
+`required_state_fields` describes an input contract; it does not enforce itself.
+Before calling Jev, the consuming application must check each field and return a
+local `unknown` when a value is absent, null, or empty under that field's schema.
+This module and the collection screen do not implement or verify that consumer
+preflight. Do not rely on Jev to implement this guard, and do not treat valid `0`
+or `false` as missing.
 Record the local reason separately from a model-generated answer. A deliberately
 missing-input model test must be identified as such; it is not the production path.
 

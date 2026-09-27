@@ -48,9 +48,12 @@ Choose by what the label feeds:
 Supply the definition, note, or record text unchanged, the entity type or taxonomy
 level code selected, and only the sibling entries at one level. Several contracts
 state a precedence order for notes that give more than one reason or describe more
-than one kind of change; keep those sentences when adapting. Before inference, code
-validates `required_state_fields` and returns a local `unknown` for absent or empty
-evidence.
+than one kind of change; keep those sentences when adapting. `required_state_fields`
+describes an input contract; it does not enforce itself. Before calling Jev, the
+consuming application must check each field and return a local `unknown` when a
+value is absent or empty under that field's schema. This module and the collection
+screen do not implement or verify that consumer preflight; valid `0` or `false`
+values must not be treated as missing.
 
 ## Use the labels without taking over
 

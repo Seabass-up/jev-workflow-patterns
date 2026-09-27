@@ -1,0 +1,152 @@
+{
+  "wave": 19,
+  "recorded_on": "2026-09-27",
+  "kind": "pattern_source_review",
+  "scope": {
+    "collection": "data-quality",
+    "profiles_reviewed": 8,
+    "profile_ids": ["DQ01", "DQ02", "DQ03", "DQ04", "DQ05", "DQ06", "DQ07", "DQ08"],
+    "question_contract_changes": 0,
+    "fixture_changes": 0,
+    "page_json_parity": "8/8",
+    "reviewed_elements": [
+      "complete Choice questions and criteria",
+      "required state fields and missing/conflicting evidence behavior",
+      "code-owned responsibilities, follow-ups, and verification recipes",
+      "all 32 frozen fixture states, rationales, labels, and saved responses",
+      "source notes and exact question JSON embedded in all eight pages"
+    ]
+  },
+  "source_revisions": {
+    "base_commit": "2cf947958b25044edd41291c568d8ea5eaeaa290",
+    "catalog_sha256": "050b1f67e54a70878845131e182ab49fe92630ea9cdc1bc035cd59a44a6ba5c6",
+    "fixtures_sha256": "adb1ea86d3a0f03b16b91b92f65df18ea8e4e3a62451fca9237dd46dd608fb52",
+    "screening_sha256": "99e9226336d7d17d423866e0b8b82c61f492d1ddd6206f20f3bcc25fca1c3a51",
+    "summary_sha256": "7305da79ff189d72f00cc211fb4f76d3215b8d0874e62d51f1d3361ed436970d",
+    "source_review_sha256": "618f8415c0f68c87958408a687d539abb6ce0223ec763a86a02911783bbd1a1c"
+  },
+  "reused_screen": {
+    "model": "jev-1.13.0",
+    "new_jev_decision_calls": 0,
+    "initial_attempts": 32,
+    "provider_failures": 0,
+    "recovery_attempts": 0,
+    "verified_request_digests": 32,
+    "design": {
+      "matches": 21,
+      "cases": 24,
+      "disagreements": [
+        {
+          "fixture_id": "DQ03-3",
+          "expected": "unknown",
+          "observed": "fits_sibling_entry",
+          "confidence": 0.32,
+          "disposition": "Preserved. proposed_entry is empty, so the explicit missing-field precedence selects unknown before sibling matching."
+        },
+        {
+          "fixture_id": "DQ06-2",
+          "expected": "admits_two_readings",
+          "observed": "single_reading",
+          "confidence": 0.42,
+          "disposition": "Preserved. The definition omits the price basis; the contract explicitly treats gross/net basis as a two-reading boundary."
+        },
+        {
+          "fixture_id": "DQ06-3",
+          "expected": "unknown",
+          "observed": "circular_or_empty",
+          "confidence": 0.92,
+          "disposition": "Preserved. An empty definition is required-field missing evidence and the contract prioritizes unknown before circular_or_empty."
+        }
+      ]
+    },
+    "challenge": {
+      "matches": 8,
+      "cases": 8,
+      "disagreements": 0
+    },
+    "overall": {
+      "matches": 29,
+      "cases": 32,
+      "provisional_patterns": ["DQ03", "DQ06"]
+    },
+    "interpretation": "Synthetic design and author-separated challenge evidence only; not held-out accuracy, calibration, or domain qualification. Existing saved Jev calls were sufficient, so no duplicate decision request was sent."
+  },
+  "source_freshness": {
+    "receipt": "data-quality/results/source-review.json",
+    "checked": "2026-09-23",
+    "changed_since_record": ["DQ-S1", "DQ-S2", "DQ-S3", "DQ-S5"],
+    "unchanged_since_record": ["DQ-S4"],
+    "refreshed_in_this_wave": false,
+    "reason": "The repair concerns an unsupported local-runtime claim; no source summary or performance claim was changed."
+  },
+  "confirmed_defect": {
+    "component": "scripts/build_collection_pages.py required-state page boilerplate",
+    "symptom": "Generated pages claimed that code deterministically returned unknown for absent or empty required fields, but the pattern collections contained no consuming preflight implementation.",
+    "cause": "The shared page template stated a design requirement as executed runtime behavior.",
+    "scope_verified": {
+      "additional_pages_corrected": 193,
+      "collection_directories": 21,
+      "changed_sentence_only": true,
+      "old_claim_remaining": 0,
+      "corrected_wording_occurrences_after_change": 209
+    },
+    "repair": "The shared template now says consumer code must implement the gate and that the collection does not implement or verify it. The 193 affected generated pages were updated without altering other page content.",
+    "regression_coverage": [
+      "scripts/test_build_collection_pages.py verifies generated Data Quality pages describe the preflight as a consumer requirement",
+      "data-quality/test_evaluate.py verifies all eight pages embed exact catalog JSON and do not claim an implemented gate",
+      "finance/test_evaluate.py and legal-contracts/test_evaluate.py continue to enforce the corrected boundary"
+    ],
+    "runtime_boundary": "The affected collection directories contain evaluator and test modules, not a consumer implementation. No live preflight was implemented or verified."
+  },
+  "verification": {
+    "data_quality_evaluator": {
+      "command": "python3 data-quality/evaluate.py",
+      "result": "passed; all 32 stored request digests verified"
+    },
+    "data_quality_tests": {
+      "command": "python3 -m unittest discover -s data-quality -p 'test_*.py' -v",
+      "result": "13 passed"
+    },
+    "generator_test": {
+      "command": "python3 -m unittest discover -s scripts -p 'test_build_collection_pages.py' -v",
+      "result": "1 passed"
+    },
+    "existing_boundary_regressions": {
+      "collections": ["finance", "legal-contracts"],
+      "result": "13 tests passed in each collection; each evaluator verifies 32 saved request digests"
+    },
+    "full_repository_precommit": {
+      "receipt": "reviews/2026-09-27/wave19-final-checks-precommit-locked.json",
+      "source_commit": "2cf947958b25044edd41291c568d8ea5eaeaa290",
+      "checks": 65,
+      "passed": 65,
+      "failed": 0,
+      "profiles": 390,
+      "catalogs": 30
+    },
+    "full_repository_postcommit": {
+      "receipt": "reviews/2026-09-27/wave19-postcommit-checks.json",
+      "source_commit": "d4e4d39dcb0705cde5bafa3f606c7d5a84aa3d09",
+      "checks": 65,
+      "passed": 65,
+      "failed": 0,
+      "profiles": 390,
+      "catalogs": 30
+    },
+    "diff_check": "git diff --cached --check passed before code commit; git diff --check passed after evidence updates"
+  },
+  "delivery": {
+    "local_code_commit": "d4e4d39dcb0705cde5bafa3f606c7d5a84aa3d09",
+    "branch": "review/all-patterns-20260926",
+    "push": false,
+    "deployment": false,
+    "site_rendered": false,
+    "overall_goal_complete": false
+  },
+  "limitations": [
+    "No live consumer preflight or external consequence was exercised.",
+    "No Jekyll/site rendering was performed in this wave.",
+    "The four source pages marked changed since their saved September 23 text were not refreshed.",
+    "This wave advances the repository-wide audit but does not complete it; foundations, remaining profiles, and kernel/tooling still require review."
+  ]
+}

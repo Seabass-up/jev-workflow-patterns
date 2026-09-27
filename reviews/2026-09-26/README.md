@@ -10,7 +10,7 @@ No push, pull request, publication, or deployment is included.
 - `validator-repair.json`: all 65 commands passed after the iteration-01 validator repair and inventory tests.
 - Each profile row binds its complete source contract with a SHA-256 and identifies its current version.
 - Whole-contract advisory screening now covers all 390 profiles in 113 uncached Jev requests, with exact request/response binding checked by `scripts/verify_semantic_review.py`. It flagged 44 profiles for host review. No provider failures occurred.
-- Source dispositions cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The initial `semantic-coverage.json` remains a frozen screen inventory: 346 profiles were unflagged in that baseline, not a current remaining-work count. Separate source-review waves below have since covered email, call controls, auto performance, motorsport, and construction. Three foundations, remaining profiles, and kernel/tooling still need proportionate review because screening can miss defects.
+- Source dispositions cover all 44 profiles originally flagged by the advisory screen across waves 01–09, including versioned repairs, source-refuted flags, and checks that did not apply to non-Choice contracts. The two wave-01 follow-ups (H05's co-occurring-defect contract and L01's required-state consumer boundary) are resolved locally. The initial `semantic-coverage.json` remains a frozen screen inventory: 346 profiles were unflagged in that baseline, not a current remaining-work count. Separate source-review waves below have since covered email, call controls, auto repair/performance, motorsport, construction, cybersecurity, legal contracts, finance, and data quality. Three foundations, remaining profiles, and kernel/tooling still need proportionate review because screening can miss defects.
 - The 12 cases matched their frozen expectations. HA22's combined-target `unknown` answer has confidence 0.70, retained as uncertainty rather than promoted to confident automation. These are development screens, not independent held-out cases.
 - `semantic-and-boundary-coverage.json` is the verified screen/behavior receipt summary; `host-triage-wave01.json` records source conclusions and measured usage. Semantic screening is not calibration evidence, production qualification, or approval of every question contract.
 
@@ -52,6 +52,43 @@ profiles and 30 catalogs. The post-commit snapshot binds to local code commit
 receipt are beside it. All examples are synthetic: this is not finance advice,
 held-out performance, live ledger/approval verification, or consumer qualification.
 No Jekyll render, push, or deployment was performed; the overall goal remains
+active.
+
+### Data Quality DQ01–DQ08 and shared preflight-claim repair (wave 19)
+
+Reviewed all eight Data Quality contracts, named evidence, criteria and precedence,
+code-owned boundaries, follow-ups, source notes, frozen fixtures, saved Jev
+responses, and pattern pages. The evaluator verifies all 32 successful request
+digests: 21/24 design cases and 8/8 separately authored challenge cases match
+(29/32 overall); DQ03 and DQ06 remain provisional. Preserved all three design
+disagreements without changing questions or labels: DQ03-3 (`unknown` expected;
+`fits_sibling_entry` observed at 0.32), DQ06-2 (`admits_two_readings` expected;
+`single_reading` at 0.42), and DQ06-3 (`unknown` expected; `circular_or_empty` at
+0.92). Contract inspection supports the frozen unknown expectations for the empty
+required fields in DQ03-3 and DQ06-3; DQ06-2's missing discount/tax basis matches
+the contract's two-readings example. No question defect was confirmed.
+
+The existing source-support receipt is dated September 23: DQ-S1, S2, S3, and S5
+were marked changed since the recorded text; S4 was unchanged. Sources were not
+refreshed because this repair concerns unsupported claims about local runtime
+behavior, not the source summaries or Jev performance.
+
+Tracing the page claim to `scripts/build_collection_pages.py` found 193 additional
+generated pattern pages with the false statement that code already performs a
+missing-field gate. Corrected the shared template and only that sentence in the
+193 pages, plus added a generator regression and Data Quality exact page/catalog
+JSON and consumer-boundary tests. Legal and Finance's 16 earlier corrections
+remain covered. No contract, version, fixture, or receipt changed. The Data Quality
+evaluator verifies 32 request digests and all 13 tests pass; the new generator test
+passes. The 65-command pre-commit audit passes across 390 profiles and 30 catalogs
+at base commit `2cf9479`; the post-commit audit passes 65/65 and binds to code
+commit `d4e4d39` in `../2026-09-27/wave19-postcommit-checks.json`. The pre-commit
+receipt is `../2026-09-27/wave19-final-checks-precommit-locked.json`; detailed
+Data Quality dispositions are in `../2026-09-27/wave19-data-quality-review.json`.
+
+This is a documentation-generator correction and synthetic pattern review, not a
+live consumer test, source refresh, production qualification, or held-out accuracy
+claim. No Jekyll rendering, push, or deployment was performed; the goal remains
 active.
 
 ### Legal contracts LC01–LC08 source review and page-claim repair (wave 17)

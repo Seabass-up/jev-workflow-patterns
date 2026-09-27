@@ -67,8 +67,9 @@ current selected collection is 34/34. AP03-6's `unknown` answer has confidence 0
 below the 0.8 review floor, so the follow-up remains mandatory. The evaluator verifies
 38 historical/current request digests; all 19 auto-performance tests, exact question
 JSON parity on 8/8 pages, and all 65 repository check commands passed in the final
-pre-commit run (`wave12-final-checks-precommit.json`). A fresh post-commit run will
-bind repository-wide results to the committed source revision.
+pre-commit run (`wave12-final-checks-precommit.json`). The post-commit snapshot
+(`wave12-postcommit-checks.json`) binds all 65 checks, across 390 profiles and 30
+catalogs, to code commit `37d3ca6`.
 
 This is a synthetic contract repair, not physical fitment confirmation, production
 qualification, calibration evidence, site rendering, or deployment. The Jekyll site

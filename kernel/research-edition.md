@@ -8,6 +8,11 @@ kicker: Kernel v2.8.0 · pinned research supplement
 
 # Ten research contracts, with their evidence limits
 
+This page describes the preserved September 27 snapshot. The later
+[2.9.0 research working import]({{ '/kernel/research-working/' | relative_url }})
+separately adds 19 audit-pending contracts, including JP-001@4 and JP-017@1,
+plus one composition. It does not alter this older bundle.
+
 The kernel now has a separate research module drawn from **Research Jev Patterns**
 at `48a8b4569a9ce5b17ce1119d63179e84a2990ae6` (September 27, 2026). It preserves
 the ten admitted v0.2.0 contracts byte-for-byte. JP-011 is version 2; the other nine

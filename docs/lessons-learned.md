@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-28 — Keep research acceptance separate from kernel qualification
+
+- **Component:** Kernel 2.9.0 audit-pending import, exact-version loader, installed skill and guide.
+- **Observed:** The kernel's prior ten-contract snapshot excluded JP-017 and older held JP-001 versions; the new handoff admits 19 working additions, including JP-001@4, while their final audit remains open. Frozen source contracts still carry pre-screen candidate statuses and JP-017 has a different listing title.
+- **Confirmed cause:** Research admission, frozen contract metadata, audited edition membership and application qualification describe different states. An unversioned selector or rewritten historical bundle could collapse them and erase held-version evidence.
+- **Repair:** Added a separate byte-preserving bundle pinned to cb69774a6a9669ff412511094bebb387b382d008, the unaltered admission list, 19 exact ID@version selectors, and AP-C01 as one separately counted composition. The loader anchors the manifest digest, verifies bundled bytes, refuses bare/held/unknown versions and requires explicit audit-pending acknowledgement. Original ten-contract assets and the 390-profile count remain unchanged. Applied scoped installed-file deltas while preserving unrelated work.
+- **Verification:** Reviewed kernel tests 65/65; installed kernel tests 64/64 (different existing baseline); both skill validations pass. All 222 referenced source Git objects match. Source checks pass: JP-001 freeze, nine safety tests, three admission tests, three inventory tests and ledger replay; AP-C01's 22 consumer tests also pass. Site-link helper tests 3/3 and catalog-builder tests 2/2 pass. One Jev documentation-boundary check returned preserved for JP-001/045/046; it is advisory and does not qualify the consumers. Detailed receipts: `reviews/2026-09-28/research-working-import/`.
+- **Prevention and limits:** Keep contract bytes, admission receipts and audit status distinct; pin ID plus version and inspect the actual consumer. JP-001 missing verification remains unknown; JP-045 is a written-plan fit-source check; JP-046 compares written scenario descriptions. No new research screen, research resumption, independent/domain qualification, push, deployment or CI workflow was run. Jekyll rendering remains unverified because this checkout has no Jekyll executable or Gemfile. The 252 unassessed pair contacts and older release-manifest drift remain open. Canonical prevention is also recorded in `/Users/scottwhitlock/Code/wiki-general/lessons-learned/cross-cutting.md`.
+
 ## 2026-09-27 — Import research contracts without promoting their evidence
 
 - **Component:** Kernel 2.8.0 research-edition module, import loader, documentation and site metadata.

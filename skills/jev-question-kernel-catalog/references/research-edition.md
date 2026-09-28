@@ -1,5 +1,10 @@
 # Research edition: ten source-bound task adapters
 
+**Snapshot note:** This module preserves the September 27 v0.2.0 import.
+Kernel 2.9.0 separately exposes [19 audit-pending working contracts](research-working.md)
+from `cb69774`, including JP-001@4 and JP-017@1, plus composition AP-C01@1.
+The historical exclusions and exact bytes below are unchanged.
+
 Use this module when one of the tasks below fits the supplied evidence and an
 application-owned, side-effect-free consumer. Kernel 2.8.0 imports ten contracts
 from **Research Jev Patterns**, checkpoint
@@ -119,7 +124,7 @@ no fresh challenge). They are not selectable contracts in this bundle.
 
 **JP-017** is recorded separately as source `ACCEPTED_RESEARCH`, with its wider
 audit `PENDING`. Its 12/12 development and 8/8 same-author challenge results do not
-place it in the frozen admitted ten. Its contract is not imported. Later held
+place it in the frozen admitted ten. Its contract is not imported into this historical bundle. Later held
 JP-015/016/018 leads also remain outside this edition; four is the v0.2.0 hold count,
 not a claim that only four candidates were ever held. Do not retry or promote them
 because a kernel lookup cannot supply a suitable admitted contract.

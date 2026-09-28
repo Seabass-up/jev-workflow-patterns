@@ -2,7 +2,7 @@
 name: jev-question-kernel-catalog
 description: Design, adapt, or evaluate Jev typed question contracts, including evidence binding, targeted follow-up, regression fixtures, and drift checks. Use when a workflow needs dependable JSON judgments from Jev.
 metadata:
-  version: "2.8.0"
+  version: "2.9.0"
 ---
 
 # Jev Question Kernel v2
@@ -15,9 +15,12 @@ skill name for compatibility. Four research catalogs supply 120 examples, with
 Their synthetic results do not qualify a new application automatically.
 
 The separate [research-edition supplement](references/research-edition.md) adds
-ten exact, source-bound task adapters from an audited research milestone. Its
-held entries and pending-audit JP-017 remain non-selectable; the research goal
-and wider audit are not completed by this import.
+ten exact, source-bound task adapters from an audited research milestone.
+A separate [audit-pending working import](references/research-working.md) adds
+19 exact contracts from `cb69774`, including JP-001@4 and JP-017@1, plus AP-C01
+as a composition. Select a working contract by exact version with explicit
+research-status acknowledgement; preserve older held versions and the original
+ten-contract bundle. The research goal remains paused and incomplete.
 
 ## Select the work needed
 
@@ -31,6 +34,7 @@ Read only the references relevant to the task:
 | Check a question through its real consumer before adoption | [Qualification](references/qualification.md) | Side-effect-free shadow replay, baseline comparison, error and review counts, and explicit evidence limits |
 | Find a domain example | [Domain profiles](references/profiles.md) | Smallest matching pattern with its version and limitations |
 | Reuse a research contract for evidence stages, diagnostics, absence claims, exact-copy selection, record relations, formatting, change impact, benefit, feedback or study assignment | [Research edition](references/research-edition.md) | One of ten pinned advisory contracts, its consumer boundary and evidence limits; no promotion of held or pending work |
+| Explore audit-pending algorithm applicability/discovery, review, test, repair, rubric, runbook or metric questions | [Research working import](references/research-working.md) | Exact version, unchanged question, admission evidence and read-only consumer boundary; 19 contracts plus one separately counted composition |
 | Interpret email evidence or assess a draft against a request | [Email profiles](references/email.md) | Typed advisory labels with mailbox and action boundaries |
 | Hunt a specific failure mechanism or check a proposed bug | [Bug-hunting profiles](references/bug-hunting.md) | Source-bound candidates, counterevidence, and independent verification recipes |
 | Improve learning materials, service communication, or collaboration with a person | [Human–AI profiles](references/human-ai.md) | Bounded checks of supplied material, explicit preferences, and practical handoffs—not judgments about the person |

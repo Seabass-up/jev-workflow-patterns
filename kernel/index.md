@@ -3,7 +3,7 @@ layout: default
 title: Jev Question Kernel v2
 description: One reusable skill for authoring Jev questions, checking evidence, and evaluating changes.
 permalink: /kernel/
-kicker: Kernel v2.7.1 · one portable skill
+kicker: Kernel v2.8.0 · one portable skill
 ---
 
 # Ask a question your software can use
@@ -26,6 +26,7 @@ into the existing `jev-question-kernel-catalog` skill.
 | Evidence and provenance | Source and revision checks, exact quotation lookup, and semantic support judgments | [Evidence](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evidence.md) |
 | Evaluation and drift | Frozen cases, retained failures, repeat audits, and a decision about reevaluation | [Evaluation](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/evaluation.md) |
 | Consumer qualification | Side-effect-free shadow replay of typed answers through consuming code, with a baseline and explicit evidence limits | [Qualification]({{ '/kernel/qualification/' | relative_url }}) |
+| Research-edition contracts | Ten pinned advisory task adapters, source provenance, exclusions and transfer lessons | [Research edition]({{ '/kernel/research-edition/' | relative_url }}) |
 | Human–AI collaboration | Checks of learning materials, service communication, retained user work, and practical handoffs | [Human–AI profiles](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/human-ai.md) |
 
 A new reusable question normally needs authoring and a proportionate evaluation.
@@ -91,6 +92,13 @@ offline check of the consumer's planned disposition. It does not execute actions
 or qualify the thresholds for a real workload.
 
 ## Choose a domain profile
+
+Skill version 2.8.0 adds a separate [research-edition supplement]({{ '/kernel/research-edition/' | relative_url }}):
+ten exact contracts from the requested `48a8b45` research checkpoint, with JP-011
+at v2 and the other nine at v1. They remain bounded research adaptations, not ten
+newly invented or production-qualified primitives. Four edition holds and pending-audit
+JP-017 stay outside the selectable bundle. The wider research audit remains open;
+the existing 390-profile catalog count does not change.
 
 Skill version 2.6.0 adds twenty domain collections of eight profiles each; the
 [collections hub]({{ '/collections/' | relative_url }}) lists them with their screen

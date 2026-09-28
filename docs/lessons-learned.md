@@ -1,5 +1,14 @@
 # Lessons learned
 
+## 2026-09-27 — Import research contracts without promoting their evidence
+
+- **Component:** Kernel 2.8.0 research-edition module, import loader, documentation and site metadata.
+- **Observed:** The separate research checkpoint was not available through the installed kernel; source documents mix historical milestones, held candidates and later working additions. An initial Jev-reviewed integration note also described JP-011 with a ratio and positive effort, while the actual consumer uses a subtraction formula and permits zero effort. The review branch's site version metadata still said 2.7.1.
+- **Confirmed cause:** A narrative summary is not the executed consumer contract; a moving research checkout and manually maintained version metadata can diverge from the intended snapshot. The Jev advisory inspected full questions but did not inspect the consumer implementation, and did not catch the arithmetic mismatch.
+- **Repair:** Imported only the ten admitted contracts as byte-identical files pinned to `48a8b4569a9ce5b17ce1119d63179e84a2990ae6`; separated four v0.2.0 exclusions and pending-audit JP-017, retained the 390-profile catalog count, and documented the real JP-011 formula and guards. Added a read-only import checker, negative tests, routing guidance and the JP-002 replay lessons. Preserved the original advisory receipt and added a host correction instead of rewriting it. Updated version-derived site metadata to 2.8.0 and registered the new guide with the site checker.
+- **Verification:** The review branch's kernel tests pass 49/49; the separately installed checkout passes 48/48 (different existing baseline suites), including the same 18 import tests. Both skill-package validations and pinned-source import checks pass. The original JP-002 source/receipt verifier reproduces 12/12 labels, nine previews, three reviews and zero wrong previews; its four adversarial tests pass without inference. Detailed local receipts are in `reviews/2026-09-27/research-kernel-import/`. No hosted CI or research batch was started. A Jekyll rendered build is not verified: the local checkout has no Jekyll executable or Gemfile.
+- **Prevention and limits:** Inspect consuming code as well as questions; keep exact source versions and admission status; distinguish discovery routes, synthetic cases, public development screens and domain qualification. An import/hash test is not a model-quality test or full historical replay. This is a local addition, not a push, deployment, research-goal completion or resolution of the older source release-manifest drift.
+
 ## 2026-09-27 — Receipt validators must scale rounding tolerance by option count
 
 - **Component:** Shared collection receipt replay and the Jev Question Kernel qualification helper.

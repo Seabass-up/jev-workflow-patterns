@@ -49,6 +49,28 @@ with a separately held-out, representative labeled set and a simpler baseline. M
 errors, review rate, cost, latency, and consequential consumer failures. Do not describe
 repeatedly tuned fixture results as production accuracy.
 
+## Research-transfer lessons
+
+The [research-edition supplement](research-edition.md) preserves a JP-002
+historical-public-record development pilot, not a production qualification. Apply
+its replay lessons when checking another saved screen:
+
+- Compare the response's recorded request digest with a fresh canonical digest of
+  the exact model, state and complete questions. Hashes detect a mismatch; they do
+  not authenticate the source or prove the provider produced the response.
+- Recompute baseline outputs, per-case dispositions, every aggregate and the final
+  gate from frozen inputs. Do not trust a saved `passed` flag or aggregate alone.
+- Bind each emitted preview to its case, exact target, source revision/hash and
+  historical date. Validate unique/full case coverage and absence of review previews.
+- Keep label accuracy, high-probability outputs, actual consumer previews, and review
+  counts separate. A host veto can send a high-probability answer to review.
+- Test request substitution, baseline/aggregate tampering and source/preview drift.
+  A replay repair should be additive when the original inference packet is frozen;
+  keep the original miss or failure and verify the repaired checker locally.
+- Count a route once, state which boundaries are actually public versus synthetic,
+  and compare with a suitable target-aware code baseline. Same-author fresh cases
+  and independent model agreement are not independently authored or specialist labels.
+
 ## Drift decision
 
 Compare question semantics/version, model or resolved alias, preprocessing, source

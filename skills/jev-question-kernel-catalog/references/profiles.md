@@ -90,6 +90,14 @@ keep their disagreements on each collection's evaluation page.
 Together these collections contain 390 question profiles. The three foundational
 workflows below are counted separately.
 
+The separate [research edition](research-edition.md) imports ten exact task adapters
+from the 2026-09-27 research checkpoint. It includes source-bound evidence-stage,
+diagnostic, absence, extraction, relation, structure, impact, benefit, feedback and
+study-assignment contracts. They are attributed adaptations with same-author
+development/challenge evidence, not ten newly invented or production-qualified
+primitives. The 390-profile catalog count remains unchanged; four edition holds
+and the separately pending-audit JP-017 are recorded but not selectable.
+
 The [three foundations](https://seabass-up.github.io/jev-workflow-patterns/) retain
 their dedicated skills for evidence-directed retrieval, lineage-aware corroboration,
 and dependency-DAG recomputation. Historical contracts and results remain versioned.

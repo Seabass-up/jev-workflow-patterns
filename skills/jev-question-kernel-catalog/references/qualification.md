@@ -54,6 +54,9 @@ The pilot JSON has `contract_id`, `version`, versioned `model`,
 `expected_disposition`, `baseline_disposition`, and `receipt`. A receipt contains
 the canonical `request_sha256` plus the unmodified provider `response`; the
 exact request is reconstructed from the frozen contract, case state, and model.
+Choice and Score probability sums allow only the worst-case two-decimal rounding
+drift for the number of options, plus a small floating-point epsilon; this is a
+shape check, not evidence of calibration or correctness.
 For preflight-missing cases, `receipt` is null. Use `development_screen` for real
 cases whose content was previewed or influenced contract design; these cases
 cannot claim held-out status or pass the held-out gate. Real held-out samples also need

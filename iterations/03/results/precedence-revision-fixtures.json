@@ -1,0 +1,569 @@
+{
+  "schema_version": 1,
+  "split": "development_screen",
+  "limits": "Ten unchanged regressions plus fourteen task-authored development boundaries; not held-out qualification.",
+  "patterns": [
+    {
+      "id": "B19",
+      "title": "Classify billing-support bundle completeness",
+      "domain": "business",
+      "value": "Identify whether named support records substantiate a stated billable item without submitting an invoice.",
+      "success_metric": "Preserved missing and contradictory support cases before invoice preparation.",
+      "required_state_fields": [
+        "billable_item",
+        "support_bundle"
+      ],
+      "questions": {
+        "support_status": {
+          "type": "choice",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "criteria": {
+            "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
+            "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
+            "contradictory_support": "The supplied records explicitly conflict on a material item identity, quantity, period, or stated status.",
+            "insufficient": "The supplied item or records cannot establish one of the other relationships."
+          }
+        }
+      },
+      "follow_up": "Request the named missing record or reconcile the conflict in the evidence package.",
+      "code_owns": "Rate calculations, accounting policy, tax, approval, invoice creation, and delivery.",
+      "baseline": "Manually inspect every billing packet from scratch.",
+      "comparison_to_prior": "Unlike B03, which classifies a customer invoice complaint, this checks an internal evidence bundle for a specified billable item before any invoice is created.",
+      "source": "https://docs.typesafe.ai/cookbooks/classifying_rag_passages",
+      "origin": "Task-authored Iteration 3 evidence-bundle classifier.",
+      "limits": "Support completeness is not legal entitlement, payment authorization, or proof that the work occurred.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "B03",
+        "B12",
+        "H18"
+      ]
+    },
+    {
+      "id": "E18",
+      "title": "Classify replay and idempotence evidence",
+      "domain": "engineering",
+      "value": "Distinguish observed replay outcomes from retry permission.",
+      "success_metric": "Preserve duplicate-effect risk and insufficient trace cases for engineering review.",
+      "required_state_fields": [
+        "operation_description",
+        "replay_trace"
+      ],
+      "questions": {
+        "replay_evidence": {
+          "type": "choice",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "criteria": {
+            "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
+            "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
+            "no_effect_before_side_effect": "The trace explicitly shows failure or cancellation before the stated persistent effect occurs.",
+            "insufficient": "The supplied description and trace do not establish one listed evidence state."
+          }
+        }
+      },
+      "follow_up": "Reproduce with a controlled test and inspect the real idempotency boundary before any retry policy change.",
+      "code_owns": "Replay execution, keys, transaction semantics, retries, and side-effect reconciliation.",
+      "baseline": "Treat every failure as safely retryable or forbid all retries.",
+      "comparison_to_prior": "Unlike E09's semantic retry posture, this classifies evidence from an operation and replay trace about observed effect multiplicity.",
+      "source": "https://docs.typesafe.ai/concepts/state",
+      "origin": "Task-authored Iteration 3 replay-evidence classifier.",
+      "limits": "A synthetic or partial trace cannot prove production idempotence.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "E09",
+        "E08"
+      ]
+    },
+    {
+      "id": "H22",
+      "title": "Candidate-universe coverage gate",
+      "domain": "harness",
+      "value": "Keep a Choice winner from becoming a real-world selection unless the candidate universe is declared adequate.",
+      "success_metric": "Pure controller refuses ambiguous, unproven, and incomplete candidate sets.",
+      "required_state_fields": [
+        "selection_request",
+        "candidate_manifest"
+      ],
+      "questions": {
+        "coverage": {
+          "type": "choice",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "criteria": {
+            "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
+            "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
+            "ambiguous_or_duplicate_candidates": "The manifest explicitly contains unresolved duplicate identities or ambiguous candidate meanings.",
+            "unverifiable": "The supplied manifest does not establish a reliable coverage status."
+          }
+        }
+      },
+      "follow_up": "Code requires an exhaustive manifest or an explicit no-match branch before it treats a selected candidate as a real-world value.",
+      "code_owns": "Candidate retrieval, uniqueness, source IDs, membership, expansion, and actual selection.",
+      "baseline": "Use the highest-probability Choice label from any shortlist.",
+      "comparison_to_prior": "Unlike H14, which verifies provenance after choosing one supplied span, this gates whether the upstream candidate universe is safe enough to treat any Choice winner as complete.",
+      "source": "https://docs.typesafe.ai/cookbooks/semantic_find",
+      "origin": "Task-authored Iteration 3 candidate-coverage controller.",
+      "limits": "A declaration of completeness still needs code/source validation.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "H14",
+        "L07",
+        "L04"
+      ]
+    },
+    {
+      "id": "H26",
+      "title": "Answerability-then-selection retrieval controller",
+      "domain": "harness",
+      "value": "Make corpus coverage a stop condition before ranking creates a forced answer candidate.",
+      "success_metric": "Controller stops, expands, or labels ambiguity instead of exposing a top candidate as an answer when coverage is absent.",
+      "required_state_fields": [
+        "query",
+        "candidate_corpus"
+      ],
+      "questions": {
+        "controller_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "criteria": {
+            "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
+            "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
+            "preserve_conflict_for_review": "The corpus explicitly contains material conflicting answer evidence that must not be collapsed into one forced answer.",
+            "insufficient": "The supplied state does not establish a safe route."
+          }
+        }
+      },
+      "follow_up": "Code runs an answerability gate, ranks only eligible candidate IDs, and retains counterevidence in a separate review lane.",
+      "code_owns": "Retrieval, corpus scope, ranking, candidate IDs, thresholds, citation, and answer generation.",
+      "baseline": "Choose the highest-ranked retrieved passage regardless of corpus coverage.",
+      "comparison_to_prior": "Unlike L16's corpus answerability question itself, this controller combines coverage with a subsequent ranking or expansion branch and preserves conflict.",
+      "source": "https://docs.typesafe.ai/cookbooks/semantic_find",
+      "origin": "Task-authored Iteration 3 retrieval controller.",
+      "limits": "It cannot make an incomplete corpus complete or establish source authority.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "L16",
+        "L07",
+        "H18"
+      ]
+    },
+    {
+      "id": "H27",
+      "title": "Entity alignment merge-hold controller",
+      "domain": "harness",
+      "value": "Make a model alignment judgment a triage signal, never an automatic merge.",
+      "success_metric": "Tests show that same-looking entities still require independent identity evidence before any link proposal.",
+      "required_state_fields": [
+        "candidate_pair",
+        "field_evidence",
+        "merge_policy"
+      ],
+      "questions": {
+        "merge_route": {
+          "type": "choice",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "criteria": {
+            "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
+            "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
+            "keep_separate": "The supplied fields explicitly establish distinct entities.",
+            "insufficient": "The pair, field evidence, or policy does not establish a route."
+          }
+        }
+      },
+      "follow_up": "Code gathers immutable IDs and provenance; only a verified policy path may create a link, while every other route holds the pair.",
+      "code_owns": "Pair generation, identifier comparison, merge/link implementation, provenance, retention, and authorization.",
+      "baseline": "Merge records when one semantic model says they are the same.",
+      "comparison_to_prior": "Unlike L13's per-pair alignment score and field signals, this is the non-mutating controller that imposes an identity-proof or curator hold after that judgment.",
+      "source": "https://docs.typesafe.ai/cookbooks/entity_alignment",
+      "origin": "Task-authored Iteration 3 entity-merge hold controller.",
+      "limits": "It cannot replace canonical-ID checks or resolve an entity graph conflict.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "L13",
+        "B15",
+        "H17"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "B19-supported",
+      "pattern_id": "B19",
+      "state": {
+        "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
+        "support_bundle": "Signed field ticket WO-77: technician completed 8 diagnostic labor hours on 2026-09-20. Attached work order is WO-77."
+      },
+      "expected": {
+        "support_status": {
+          "choice": "supported"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "B19-missing",
+      "pattern_id": "B19",
+      "state": {
+        "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
+        "support_bundle": "Work order WO-77 is attached. It contains the original request but no signed field ticket or recorded labor hours."
+      },
+      "expected": {
+        "support_status": {
+          "choice": "missing_required_support"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "E18-single-effect",
+      "pattern_id": "E18",
+      "state": {
+        "operation_description": "POST /orders accepts a client idempotency key and stores one order per key.",
+        "replay_trace": "First invocation created order O-55 for key K9. Second invocation with K9 returned existing order O-55 and created no second order."
+      },
+      "expected": {
+        "replay_evidence": {
+          "choice": "single_effect_demonstrated"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "E18-duplicate-risk",
+      "pattern_id": "E18",
+      "state": {
+        "operation_description": "The operation sends an email and has no idempotency key or stored request identity.",
+        "replay_trace": "A timeout occurred after the email service accepted the first send. A second invocation sent the same email again."
+      },
+      "expected": {
+        "replay_evidence": {
+          "choice": "duplicate_effect_risk"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H22-exhaustive",
+      "pattern_id": "H22",
+      "state": {
+        "selection_request": "Select the customer record for external ID C-18.",
+        "candidate_manifest": "The manifest is complete for external ID C-18 and lists exactly one candidate. Candidate C-18 includes source revision r2 and immutable record ID."
+      },
+      "expected": {
+        "coverage": {
+          "choice": "exhaustive_with_provenance"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H22-shortlist",
+      "pattern_id": "H22",
+      "state": {
+        "selection_request": "Select the customer record for the name Jordan Lee.",
+        "candidate_manifest": "The manifest is a top-five text-search shortlist and may omit relevant customers. Each candidate is only a display name with no canonical ID."
+      },
+      "expected": {
+        "coverage": {
+          "choice": "bounded_but_expandable"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H26-rank",
+      "pattern_id": "H26",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "The corpus includes tagged candidate C1: The timeout is 30 seconds. C2: Retries are disabled."
+      },
+      "expected": {
+        "controller_route": {
+          "choice": "rank_eligible"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H26-expand",
+      "pattern_id": "H26",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "This is a known incomplete top-three text-search shortlist. It discusses retries and logging but contains no timeout."
+      },
+      "expected": {
+        "controller_route": {
+          "choice": "expand_or_retrieve"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H27-check",
+      "pattern_id": "H27",
+      "state": {
+        "candidate_pair": "Two records both say Jordan Lee at Apex Labs in Denver.",
+        "field_evidence": "Their names, organization, and location match, but no immutable employee or customer ID is supplied.",
+        "merge_policy": "A possible alignment without an immutable ID must go through an independent identity check before any link."
+      },
+      "expected": {
+        "merge_route": {
+          "choice": "independent_identity_check"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "H27-separate",
+      "pattern_id": "H27",
+      "state": {
+        "candidate_pair": "One record is Jordan Lee at Apex Labs in Denver; the other is Jordan Lee at Harbor Foods in Portland.",
+        "field_evidence": "Organization and location explicitly differ.",
+        "merge_policy": "Explicitly distinct entities remain separate."
+      },
+      "expected": {
+        "merge_route": {
+          "choice": "keep_separate"
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_regression"
+    },
+    {
+      "id": "B19-review-conflict-and-missing",
+      "pattern_id": "B19",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "billable_item": "WO-77 bills 8 diagnostic hours and requires a signed field ticket.",
+        "support_bundle": "Two unsigned logs report WO-77 as 8 hours and 12 hours for the same period. No signed field ticket is supplied."
+      },
+      "expected": {
+        "support_status": {
+          "choice": "contradictory_support"
+        }
+      }
+    },
+    {
+      "id": "B19-review-missing-input",
+      "pattern_id": "B19",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "billable_item": "",
+        "support_bundle": "WO-77 signed ticket: 8 hours."
+      },
+      "expected": {
+        "support_status": {
+          "choice": "insufficient"
+        }
+      }
+    },
+    {
+      "id": "E18-review-risk-and-single-effect",
+      "pattern_id": "E18",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "operation_description": "The operation has no idempotency boundary; duplicate persistent effects on replay are an explicit risk.",
+        "replay_trace": "This test invoked it twice and observed only one stored effect."
+      },
+      "expected": {
+        "replay_evidence": {
+          "choice": "duplicate_effect_risk"
+        }
+      }
+    },
+    {
+      "id": "E18-review-risk-and-no-effect",
+      "pattern_id": "E18",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "operation_description": "The operation has no idempotency boundary; duplicate effects on replay are an explicit risk.",
+        "replay_trace": "Both test invocations failed before any persistent effect."
+      },
+      "expected": {
+        "replay_evidence": {
+          "choice": "duplicate_effect_risk"
+        }
+      }
+    },
+    {
+      "id": "E18-review-missing-input",
+      "pattern_id": "E18",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "operation_description": "Stores one order per key.",
+        "replay_trace": ""
+      },
+      "expected": {
+        "replay_evidence": {
+          "choice": "insufficient"
+        }
+      }
+    },
+    {
+      "id": "H22-review-complete-with-duplicates",
+      "pattern_id": "H22",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "selection_request": "Choose a record for external ID C-18.",
+        "candidate_manifest": "Declared complete for C-18 with source revisions r1 and r2. Both candidates claim the same canonical ID but mean different entities; duplicate identity remains unresolved."
+      },
+      "expected": {
+        "coverage": {
+          "choice": "ambiguous_or_duplicate_candidates"
+        }
+      }
+    },
+    {
+      "id": "H22-review-shortlist-with-duplicates",
+      "pattern_id": "H22",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "selection_request": "Choose a customer record.",
+        "candidate_manifest": "Known incomplete shortlist. Two entries share an ID but represent different customers; the duplicate remains unresolved."
+      },
+      "expected": {
+        "coverage": {
+          "choice": "ambiguous_or_duplicate_candidates"
+        }
+      }
+    },
+    {
+      "id": "H22-review-missing-input",
+      "pattern_id": "H22",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "selection_request": "Choose a customer.",
+        "candidate_manifest": ""
+      },
+      "expected": {
+        "coverage": {
+          "choice": "unverifiable"
+        }
+      }
+    },
+    {
+      "id": "H26-review-conflict-in-incomplete-corpus",
+      "pattern_id": "H26",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "Known incomplete shortlist. C1 directly states timeout is 30 seconds, C2 directly states timeout is 90 seconds. Both apply to the same configuration with no controlling version."
+      },
+      "expected": {
+        "controller_route": {
+          "choice": "preserve_conflict_for_review"
+        }
+      }
+    },
+    {
+      "id": "H26-review-answer-in-incomplete-corpus",
+      "pattern_id": "H26",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": "Known incomplete shortlist requiring expansion. C1 states timeout is 30 seconds. No conflicting evidence appears in this shortlist."
+      },
+      "expected": {
+        "controller_route": {
+          "choice": "expand_or_retrieve"
+        }
+      }
+    },
+    {
+      "id": "H26-review-missing-input",
+      "pattern_id": "H26",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "query": "What timeout is stated?",
+        "candidate_corpus": ""
+      },
+      "expected": {
+        "controller_route": {
+          "choice": "insufficient"
+        }
+      }
+    },
+    {
+      "id": "H27-review-distinct-but-related",
+      "pattern_id": "H27",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate_pair": "Two employee records use the same name and employer.",
+        "field_evidence": "Canonical HR identifiers P1 and P2 belong to distinct people; source confirms this. Display-name and department fields match, while location records conflict.",
+        "merge_policy": "When independently established canonical IDs identify distinct people, keep separate. Otherwise conflicting descriptive fields require curator review."
+      },
+      "expected": {
+        "merge_route": {
+          "choice": "keep_separate"
+        }
+      }
+    },
+    {
+      "id": "H27-review-alignment-with-policy-review",
+      "pattern_id": "H27",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate_pair": "Two records share a name and employer.",
+        "field_evidence": "No canonical IDs. Their locations conflict without resolution.",
+        "merge_policy": "Unresolved field conflict requires curator review. Apparent alignment without conflict requires an independent identity check."
+      },
+      "expected": {
+        "merge_route": {
+          "choice": "curator_review"
+        }
+      }
+    },
+    {
+      "id": "H27-review-missing-input",
+      "pattern_id": "H27",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate_pair": "Two matching names.",
+        "field_evidence": "Matching names, no IDs.",
+        "merge_policy": ""
+      },
+      "expected": {
+        "merge_route": {
+          "choice": "insufficient"
+        }
+      }
+    }
+  ]
+}

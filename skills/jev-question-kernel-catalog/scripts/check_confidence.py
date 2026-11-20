@@ -13,6 +13,14 @@ from pathlib import Path
 import sys
 
 DEFAULT_TOLERANCE = 0.03
+PROBABILITY_SUM_EPSILON = 1e-9
+
+
+def probability_sum_tolerance(option_count):
+    """Allow the worst-case two-decimal rounding error for each option."""
+    if type(option_count) is not int or option_count < 1:
+        raise ValueError("need a positive integer option count")
+    return 0.005 * option_count + PROBABILITY_SUM_EPSILON
 
 
 def finite_probability(value):

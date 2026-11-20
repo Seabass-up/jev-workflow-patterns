@@ -1,6 +1,8 @@
 import copy
 import importlib.util
+import json
 from pathlib import Path
+import re
 import unittest
 
 spec = importlib.util.spec_from_file_location("collection_evaluate", Path(__file__).with_name("evaluate.py"))
@@ -36,6 +38,27 @@ class CollectionTests(unittest.TestCase):
     def test_policy_option_counts_match_contracts(self):
         for p in self.catalog["patterns"]:
             self.assertEqual(p["policy"]["option_count"], len(p["questions"]["decision"]["criteria"]))
+
+    def test_generated_pattern_pages_match_catalog_question_and_state_fields(self):
+        for pattern in self.catalog["patterns"]:
+            with self.subTest(pattern=pattern["id"]):
+                page = (ev.ROOT / "patterns" / (pattern["id"].lower() + ".md")).read_text()
+                required_section = page.split("## Required named state", 1)[1].split(
+                    "## Exact question JSON", 1
+                )[0]
+                page_fields = re.findall(r"^- `([^`]+)`$", required_section, re.MULTILINE)
+                self.assertEqual(page_fields, pattern["required_state_fields"])
+
+                question_block = re.search(
+                    r"## Exact question JSON.*?```json\s*(.*?)\s*```", page, re.DOTALL
+                )
+                self.assertIsNotNone(question_block)
+                self.assertEqual(json.loads(question_block.group(1)), pattern["questions"])
+
+                for fixture in self.fixtures:
+                    if fixture["pattern_id"] == pattern["id"]:
+                        row = f"| `{fixture['id']}` | {fixture['split']} | `{fixture['expected']}` |"
+                        self.assertIn(row, page)
 
     def test_changed_state(self):
         self.r["request"]["state"] = {"unrelated": "replacement"}

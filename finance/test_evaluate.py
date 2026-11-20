@@ -1,6 +1,8 @@
 import copy
 import importlib.util
+import json
 from pathlib import Path
+import re
 import unittest
 
 spec = importlib.util.spec_from_file_location("collection_evaluate", Path(__file__).with_name("evaluate.py"))
@@ -36,6 +38,24 @@ class CollectionTests(unittest.TestCase):
     def test_policy_option_counts_match_contracts(self):
         for p in self.catalog["patterns"]:
             self.assertEqual(p["policy"]["option_count"], len(p["questions"]["decision"]["criteria"]))
+
+    def test_pattern_pages_match_catalog_and_bound_consumer_claims(self):
+        fence = chr(96) * 3
+        for pattern in self.catalog["patterns"]:
+            with self.subTest(pattern=pattern["id"]):
+                page = Path(__file__).parent / "patterns" / f"{pattern['id'].lower()}.md"
+                markdown = page.read_text(encoding="utf-8")
+                self.assertIn("## Exact question JSON", markdown)
+                self.assertIn("Consumer code must deterministically return", markdown)
+                self.assertIn("this collection does not implement or verify that gate", markdown)
+                question_section = markdown.split("## Exact question JSON", 1)[1]
+                match = re.search(
+                    re.escape(fence) + r"json\s*\n(.*?)\n" + re.escape(fence),
+                    question_section,
+                    re.DOTALL,
+                )
+                self.assertIsNotNone(match, "page must embed its exact JSON question")
+                self.assertEqual(json.loads(match.group(1)), pattern["questions"])
 
     def test_changed_state(self):
         self.r["request"]["state"] = {"unrelated": "replacement"}

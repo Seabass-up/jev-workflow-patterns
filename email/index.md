@@ -27,7 +27,7 @@ These 12 profiles help Jev distinguish the meaning of email evidence before a pe
 
 ## Use them with the kernel
 
-[Start with the kernel]({{ '/kernel/' | relative_url }}) and its [portable email module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/email.md). Each pattern has named state fields, exact Choice instructions and labels, an unknown outcome, code-owned controls, a drill-down plan, and three frozen examples.
+[Start with the kernel]({{ '/kernel/' | relative_url }}) and its [portable email module](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/email.md). Each pattern has named state fields, exact Choice instructions and labels, an unknown outcome, code-owned controls, a drill-down plan, and frozen examples sized to the current review evidence.
 
 For an incoming scheduling email, EM01 identifies the requested respondent, EM05 classifies a candidate date's meaning, and EM06 interprets the proposed slot response. They can run independently in one request if code builds one state containing all required context. Rename their question handles to `reply_owner`, `date_role`, and `slot_response` to avoid overwriting the shared example handle `decision`. Each still needs its full instructions. None sees another question's answer.
 
@@ -41,7 +41,7 @@ Unknown, conflicts, stale evidence, and low confidence belong in a review path. 
 
 ## Test evidence
 
-Initial versions matched **34/36** synthetic fixtures. EM07 and EM08 confused empty evidence with a negative category. Explicit missing-input precedence in v2 matched all six targeted reruns, giving a selected current set of **36/36**. All **42** request/response bindings are replayable; original misses remain published.
+Initial versions matched **34/36** synthetic fixtures. EM07 and EM08 confused empty evidence with a negative category; their v2 reruns match 6/6. EM10 v2's answer-like/no-request case missed its frozen `unknown` expectation; v3 now requires a non-empty underlying request to select `substantive_reply` and matches all 7 EM10 cases. The selected current set is **40/40** across **56** replayable fixture request/response bindings, with initial and EM10 v2 misses preserved.
 
 [Evaluation and limitations]({{ '/email/evaluation/' | relative_url }}) · [Catalog JSON]({{ '/email/catalog.json' | relative_url }}) · [Fixtures]({{ '/email/fixtures.json' | relative_url }}) · [Sources]({{ '/email/sources/' | relative_url }})
 

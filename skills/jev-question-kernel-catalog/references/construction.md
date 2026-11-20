@@ -22,8 +22,10 @@ Each question is at
 `https://seabass-up.github.io/jev-workflow-patterns/construction/patterns/<lowercase-id>/`
 with contracts in the
 [catalog JSON](https://seabass-up.github.io/jev-workflow-patterns/construction/catalog.json).
-The evaluation page reports the outcomes of the design and challenge cases; a
-small synthetic check is not qualification for a real project.
+The evaluation page reports the archived 32-case v1 screen and the current 35-case
+selection, including CN05's seven v2 development cases and its preserved
+missing-evidence disagreement. These synthetic tests are not qualification for a real
+project.
 
 Choose by what the label feeds:
 
@@ -34,11 +36,17 @@ Choose by what the label feeds:
   delay is excusable or compensable.
 - CN04 feeds the change log with the basis the requester stated; entitlement, price,
   and who pays are decided by the people who administer the contract.
-- CN05 feeds the observation queue. The project's own stop-work list is supplied in
-  state, any `stop_work_condition` label triggers the standing notification in code,
-  and the competent person on site decides whether work stops. The electrical
-  collection's EL02 applies fixed electrical hazard signs from an electrician's side;
-  CN05 covers any trade and takes its conditions from the project's safety plan.
+- CN05 feeds the observation queue. Supply the complete project stop-work list in
+  state: only a condition matching that list is `stop_work_condition`. An unlisted
+  deficiency, including an actively exposed hazard, is `hazard_to_correct` and must
+  remain subject to human review under project procedures; the label does not say a
+  condition is safe, set response urgency, or decide whether work stops. Code owns the
+  required-field gate and standing notification for a list-matched condition, while
+  the competent person on site decides whether work stops. CN05 v2's synthetic screen
+  matched 6/7 cases; the empty-list `unknown` miss remains visible and CN05 stays
+  provisional. The original v1 disagreement is preserved. The electrical collection's
+  EL02 applies fixed electrical hazard signs from an electrician's side; CN05 covers
+  any trade and uses the project's own list.
 - CN06 feeds the punch-list tracker with a trade group; code maps the group to the
   subcontractor. EL04 assigns an electrical correction item to a party from the
   electrician's side; CN06 works from the general contractor's side across trades.
@@ -52,11 +60,14 @@ Choose by what the label feeds:
 Supply the RFI, review response, log entry, narrative, observation, punch item, or
 document text unchanged, plus the lists code owns: the project's stop-work
 conditions as written in the safety plan for CN05 and the four trade-group scope
-descriptions for CN06. Several contracts state a precedence order for text that
+descriptions for CN06. For CN05, do not infer additional stop-work policy from general
+hazard or severity; missing or empty list evidence yields local `unknown`. Several
+contracts state a precedence order for text that
 gives more than one cause, basis, or type; keep those sentences when adapting.
-Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence, including an empty stop-work list or an
-empty scope mapping.
+Before inference, a consuming implementation must validate `required_state_fields`
+and return a local `unknown` for absent or empty evidence, including an empty
+stop-work list or an empty scope mapping. This patterns repository does not implement
+or verify a live construction consumer.
 
 ## Use the labels without taking over
 

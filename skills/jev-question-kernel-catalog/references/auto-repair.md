@@ -49,8 +49,12 @@ summary the customer was actually sent, and the policy text in force as written.
 Several contracts state a precedence order for text that mentions more than one
 symptom, work type, or characterization, and AR06 says to select `unknown` when a
 narrative describes more than one cause without saying which caused the failure;
-keep those sentences when adapting. Before inference, code validates
-`required_state_fields` and returns a local `unknown` for absent or empty evidence.
+keep those sentences when adapting. `required_state_fields` describes an input
+contract; it does not enforce itself. Before calling Jev, the consuming application
+must check each field and return a local `unknown` when a value is absent or empty
+under that field's schema. This module and the collection screen do not implement
+or verify that consumer preflight; valid `0` or `false` values must not be treated
+as missing.
 
 ## Use the labels without taking over
 

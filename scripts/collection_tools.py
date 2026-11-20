@@ -11,7 +11,7 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills/jev-question-kernel-catalog/scripts"))
-from check_confidence import check_answer  # noqa: E402
+from check_confidence import check_answer, probability_sum_tolerance  # noqa: E402
 
 
 def read(root, path):
@@ -71,9 +71,10 @@ def validate_receipt(receipt, fixture, pattern):
     for value in [answer.get("confidence"), *probabilities.values()]:
         if isinstance(value, bool) or not isinstance(value, (float, int)) or not math.isfinite(value) or not 0 <= value <= 1:
             raise ValueError("invalid probability")
-    # Published probabilities are rounded to two decimals; six options can drift by up to
-    # 0.03 in total. One receipt in 786 (CY03-4, sum 0.99) showed this rounding loss.
-    if not math.isclose(sum(probabilities.values()), 1, abs_tol=0.03):
+    # Each published probability is rounded to two decimals, so bound total drift by
+    # the number of options. One receipt in 786 (CY03-4, sum 0.99) showed rounding loss.
+    if not math.isclose(sum(probabilities.values()), 1, rel_tol=0.0,
+                        abs_tol=probability_sum_tolerance(len(labels))):
         raise ValueError("probabilities do not sum to one")
     if probabilities[answer["choice"]] < max(probabilities.values()):
         raise ValueError("choice is not a maximum")
@@ -104,8 +105,12 @@ def validate_collection(catalog, fixtures, sources):
         if not p["source_ids"] or set(p["source_ids"]) - smap.keys():
             raise ValueError("unbound source")
         cases = [f for f in fixtures if f["pattern_id"] == p["id"]]
-        if len(cases) != 4 or sum(f["split"] == "challenge" for f in cases) != 1:
-            raise ValueError("each pattern needs three design and one challenge case")
+        design_count = sum(f["split"] == "design" for f in cases)
+        challenge_count = sum(f["split"] == "challenge" for f in cases)
+        if len(cases) < 4 or design_count < 3 or challenge_count < 1:
+            raise ValueError("each pattern needs at least three design and one challenge case")
+        if p["version"] == 1 and (len(cases) != 4 or design_count != 3 or challenge_count != 1):
+            raise ValueError("version-1 patterns need exactly three design and one challenge case")
         for f in cases:
             if not positive_int(f["version"]) or f["version"] != p["version"]:
                 raise ValueError("invalid fixture version")

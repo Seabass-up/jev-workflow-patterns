@@ -12,7 +12,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parent
-SCREENS = ("core-initial", "core-refinement", "harness-screen")
+SCREENS = ("core-initial", "core-refinement", "harness-screen", "h05-v2-screen")
 
 
 def canonical(value):
@@ -24,15 +24,26 @@ def probability(value):
     return type(value) in (int, float) and math.isfinite(value) and 0 <= value <= 1
 
 
+def distribution(values, keys):
+    """Require complete, finite distributions; allow two-decimal rounding loss."""
+    return (isinstance(values, dict) and set(values) == keys
+            and all(probability(value) for value in values.values())
+            and math.isclose(sum(values.values()), 1, rel_tol=0,
+                             abs_tol=0.005 * len(keys) + 1e-12))
+
+
 def valid_answers(questions, response):
-    if not isinstance(response, dict) or response.get("ok") is not True:
+    if (not isinstance(questions, dict) or not isinstance(response, dict)
+            or response.get("ok") is not True):
         return False
     answers = response.get("answers")
     if not isinstance(answers, dict) or set(answers) != set(questions):
         return False
     for key, question in questions.items():
+        if not isinstance(question, dict):
+            return False
         answer = answers[key]
-        if not isinstance(answer, dict) or answer.get("type") != question["type"]:
+        if not isinstance(answer, dict) or answer.get("type") != question.get("type"):
             return False
         kind = question["type"]
         if kind == "noul":
@@ -42,13 +53,22 @@ def valid_answers(questions, response):
             if not probability(answer.get("confidence")):
                 return False
             if kind == "choice":
-                if (not isinstance(answer.get("choice"), str)
-                        or answer["choice"] not in question["criteria"]):
+                criteria = question.get("criteria")
+                if (not isinstance(criteria, dict) or not criteria
+                        or not isinstance(answer.get("choice"), str)
+                        or answer["choice"] not in criteria
+                        or not distribution(answer.get("probabilities"), set(criteria))):
+                    return False
+                if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                     return False
             else:
                 value = answer.get("score")
-                if (type(value) not in (int, float) or not math.isfinite(value)
-                        or not 0 <= value <= len(question["criteria"]) - 1):
+                criteria = question.get("criteria")
+                if (not isinstance(criteria, list) or not criteria
+                        or type(value) not in (int, float) or not math.isfinite(value)
+                        or not 0 <= value <= len(criteria) - 1
+                        or not distribution(answer.get("probabilities"),
+                                            {str(i) for i in range(len(criteria))})):
                     return False
         else:
             return False
@@ -73,7 +93,24 @@ def checks_for(fixture, response):
     return result
 
 
-def plan(pattern, response, control=None):
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern, response, control=None, *, state=None):
     """Return a proposal, never perform a tool call, write, merge or notification.
 
     control is trusted host metadata, not model output or extracted source text.
@@ -82,6 +119,8 @@ def plan(pattern, response, control=None):
     control = control or {}
     if pattern["id"] == "H07" and control.get("mandatory_alert") is True:
         return {"next": "mandatory_policy_review"}
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     if not valid_answers(pattern["questions"], response):
         return {"next": "review", "reason": "provider_or_schema_failure"}
     answers = response["answers"]
@@ -166,6 +205,8 @@ def plan(pattern, response, control=None):
                          "no_disagreement": "record_agreement"}.get(decision, "review")}
     if pid == "H05":
         used = control.get("repair_attempts", 0)
+        if decision == "multiple_demonstrated_defects":
+            return {"next": "retain_failure_for_review", "reason": "multiple_defects"}
         if type(used) is not int or used < 0 or used >= 1 or decision == "not_established":
             return {"next": "retain_failure_for_review"}
         return {"next": "propose_one_targeted_repair", "defect": decision}

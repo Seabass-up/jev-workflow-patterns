@@ -62,6 +62,7 @@
   {
     "id": "B19-supported",
     "pattern_id": "B19",
+    "contract_version": 2,
     "state": {
       "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
       "support_bundle": "Signed field ticket WO-77: technician completed 8 diagnostic labor hours on 2026-09-20. Attached work order is WO-77."
@@ -71,6 +72,7 @@
   {
     "id": "B19-missing",
     "pattern_id": "B19",
+    "contract_version": 2,
     "state": {
       "billable_item": "Invoiceable item: 8 hours of diagnostic labor for work order WO-77. Required support: signed field ticket for WO-77.",
       "support_bundle": "Work order WO-77 is attached. It contains the original request but no signed field ticket or recorded labor hours."
@@ -154,6 +156,7 @@
   {
     "id": "E18-single-effect",
     "pattern_id": "E18",
+    "contract_version": 2,
     "state": {
       "operation_description": "POST /orders accepts a client idempotency key and stores one order per key.",
       "replay_trace": "First invocation created order O-55 for key K9. Second invocation with K9 returned existing order O-55 and created no second order."
@@ -163,6 +166,7 @@
   {
     "id": "E18-duplicate-risk",
     "pattern_id": "E18",
+    "contract_version": 2,
     "state": {
       "operation_description": "The operation sends an email and has no idempotency key or stored request identity.",
       "replay_trace": "A timeout occurred after the email service accepted the first send. A second invocation sent the same email again."
@@ -331,36 +335,40 @@
       "coverage_kind": {"choice": "no_answer"}
     }
   },
-  {
-    "id": "L17-document",
-    "pattern_id": "L17",
+    {
+      "id": "L17-document",
+      "pattern_id": "L17",
+      "contract_version": 3,
     "state": {
       "user_task": "Revise the headings and table in this Word document.",
       "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
     },
     "expected": {"skill": {"choice": "document_editor"}}
   },
-  {
-    "id": "L17-none",
-    "pattern_id": "L17",
+    {
+      "id": "L17-none",
+      "pattern_id": "L17",
+      "contract_version": 3,
     "state": {
       "user_task": "Explain what a DNS record is in plain language.",
       "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
     },
     "expected": {"skill": {"choice": "no_skill"}}
   },
-  {
-    "id": "L18-direct",
-    "pattern_id": "L18",
+    {
+      "id": "L18-direct",
+      "pattern_id": "L18",
+      "contract_version": 2,
     "state": {
       "task_description": "Classify whether this supplied customer message asks for a refund.",
       "available_state": "The one customer message is supplied in full."
     },
     "expected": {"decision_depth": {"choice": "direct_stated_judgment"}}
   },
-  {
-    "id": "L18-multistep",
-    "pattern_id": "L18",
+    {
+      "id": "L18-multistep",
+      "pattern_id": "L18",
+      "contract_version": 2,
     "state": {
       "task_description": "Using policies from three systems, calculate the prorated refund, apply tax, and decide whether to issue it.",
       "available_state": "Only a short request message is supplied; the policies and transaction values are not present."
@@ -390,6 +398,7 @@
   {
     "id": "H22-exhaustive",
     "pattern_id": "H22",
+    "contract_version": 2,
     "state": {
       "selection_request": "Select the customer record for external ID C-18.",
       "candidate_manifest": "The manifest is complete for external ID C-18 and lists exactly one candidate. Candidate C-18 includes source revision r2 and immutable record ID."
@@ -399,6 +408,7 @@
   {
     "id": "H22-shortlist",
     "pattern_id": "H22",
+    "contract_version": 2,
     "state": {
       "selection_request": "Select the customer record for the name Jordan Lee.",
       "candidate_manifest": "The manifest is a top-five text-search shortlist and may omit relevant customers. Each candidate is only a display name with no canonical ID."
@@ -433,10 +443,32 @@
       "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
     },
     "expected": {
-      "fit": {"range": [1.4, 2]},
-      "operational_burden": {"range": [0, 0.6]},
-      "named_veto": {"range": [0, 0.4]}
-    }
+      "fit": {
+        "range": [
+          1.4,
+          2
+        ]
+      },
+      "operational_burden": {
+        "range": [
+          0,
+          0.6
+        ]
+      },
+      "named_veto": {
+        "range": [
+          0,
+          0.4
+        ]
+      },
+      "burden_available": {
+        "range": [
+          0.8,
+          1
+        ]
+      }
+    },
+    "contract_version": 3
   },
   {
     "id": "H24-veto",
@@ -446,10 +478,32 @@
       "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
     },
     "expected": {
-      "fit": {"range": [0, 0.6]},
-      "operational_burden": {"range": [1.4, 2]},
-      "named_veto": {"range": [0.6, 1]}
-    }
+      "fit": {
+        "range": [
+          0,
+          0.6
+        ]
+      },
+      "operational_burden": {
+        "range": [
+          1.4,
+          2
+        ]
+      },
+      "named_veto": {
+        "range": [
+          0.6,
+          1
+        ]
+      },
+      "burden_available": {
+        "range": [
+          0.8,
+          1
+        ]
+      }
+    },
+    "contract_version": 3
   },
   {
     "id": "H25-stitch",
@@ -470,6 +524,7 @@
   {
     "id": "H26-rank",
     "pattern_id": "H26",
+    "contract_version": 2,
     "state": {
       "query": "What timeout is stated?",
       "candidate_corpus": "The corpus includes tagged candidate C1: The timeout is 30 seconds. C2: Retries are disabled."
@@ -479,6 +534,7 @@
   {
     "id": "H26-expand",
     "pattern_id": "H26",
+    "contract_version": 2,
     "state": {
       "query": "What timeout is stated?",
       "candidate_corpus": "This is a known incomplete top-three text-search shortlist. It discusses retries and logging but contains no timeout."
@@ -488,6 +544,7 @@
   {
     "id": "H27-check",
     "pattern_id": "H27",
+    "contract_version": 2,
     "state": {
       "candidate_pair": "Two records both say Jordan Lee at Apex Labs in Denver.",
       "field_evidence": "Their names, organization, and location match, but no immutable employee or customer ID is supplied.",
@@ -498,6 +555,7 @@
   {
     "id": "H27-separate",
     "pattern_id": "H27",
+    "contract_version": 2,
     "state": {
       "candidate_pair": "One record is Jordan Lee at Apex Labs in Denver; the other is Jordan Lee at Harbor Foods in Portland.",
       "field_evidence": "Organization and location explicitly differ.",
@@ -505,9 +563,10 @@
     },
     "expected": {"merge_route": {"choice": "keep_separate"}}
   },
-  {
-    "id": "H28-batchable",
-    "pattern_id": "H28",
+    {
+      "id": "H28-batchable",
+      "pattern_id": "H28",
+      "contract_version": 2,
     "state": {
       "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
       "question_manifest": "Three independent questions all read T-3 r9. Each names its premise. None needs another answer.",
@@ -515,16 +574,157 @@
     },
     "expected": {"batch_status": {"choice": "batchable"}}
   },
-  {
-    "id": "H28-dependent",
-    "pattern_id": "H28",
+    {
+      "id": "H28-dependent",
+      "pattern_id": "H28",
+      "contract_version": 2,
     "state": {
       "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
       "question_manifest": "Question two must use the owner selected by question one to fetch an owner's policy before it can be answered.",
       "budget": "Maximum 10 questions and 8,000 input bytes; the two listed questions fit by size."
     },
-    "expected": {"batch_status": {"choice": "dependent_sequence_required"}}
-  },
+      "expected": {"batch_status": {"choice": "dependent_sequence_required"}}
+    },
+    {
+      "id": "L17-v2-vague-task",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Help me with this.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {"skill": {"choice": "insufficient"}}
+    },
+    {
+      "id": "L17-v2-unlisted-capability",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Analyze the supplied sales CSV and summarize the trend.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. browser_test: tests websites in a browser."
+      },
+      "expected": {"skill": {"choice": "insufficient"}}
+    },
+    {
+      "id": "L17-v2-multiple-required",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Update the sales CSV, then verify the deployed website chart displays the updated metrics.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {"skill": {"choice": "multiple_required"}}
+    },
+    {
+      "id": "L17-v2-incomplete-description",
+      "pattern_id": "L17",
+      "contract_version": 3,
+      "state": {
+        "user_task": "Choose the skill that can edit this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents. data_analysis: description unavailable. browser_test: tests websites in a browser."
+      },
+      "expected": {"skill": {"choice": "insufficient"}}
+    },
+    {
+      "id": "L18-v2-vague",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "What should I do?",
+        "available_state": "Two customer messages are supplied."
+      },
+      "expected": {"decision_depth": {"choice": "insufficient"}}
+    },
+    {
+      "id": "L18-v2-bounded-comparison",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Compare the two supplied customer messages and identify which one asks for a refund.",
+        "available_state": "Message A: Please refund order 12. Message B: Where is my order?"
+      },
+      "expected": {"decision_depth": {"choice": "single_bounded_comparison"}}
+    },
+    {
+      "id": "L18-v2-exact-computation-missing-values",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Calculate the exact prorated refund, add tax, and state the final amount.",
+        "available_state": "The order amount, service dates, refund policy, and tax rate are not supplied."
+      },
+      "expected": {"decision_depth": {"choice": "multistep_or_indirect_derivation"}}
+    },
+    {
+      "id": "L18-v2-comparison-plus-derivation",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Compare three orders with their policies, calculate each prorated refund, then rank them by final amount.",
+        "available_state": "Three order descriptions are supplied; policy values and tax rates are not."
+      },
+      "expected": {"decision_depth": {"choice": "multistep_or_indirect_derivation"}}
+    },
+    {
+      "id": "H28-v2-budget-unverified",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {"id": "T-8", "revision": "r3", "status": "current"},
+        "question_manifest": {
+          "snapshot_target": {"id": "T-8", "revision": "r3"},
+          "questions": [{"id": "q1", "depends_on": []}, {"id": "q2", "depends_on": []}],
+          "budget_assessment": "No assessment states whether this exact manifest fits."
+        },
+        "budget": {"max_questions": 10, "max_input_bytes": 8000}
+      },
+      "expected": {"batch_status": {"choice": "insufficient"}}
+    },
+    {
+      "id": "H28-v2-stale-over-budget",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {"id": "T-8", "revision": "r2", "current_revision": "r3", "status": "stale"},
+        "question_manifest": {
+          "snapshot_target": {"id": "T-8", "revision": "r2"},
+          "questions": [{"id": "q1", "depends_on": []}, {"id": "q2", "depends_on": []}],
+          "budget_assessment": "This exact two-question manifest exceeds the one-question hard limit."
+        },
+        "budget": {"max_questions": 1, "max_input_bytes": 8000}
+      },
+      "expected": {"batch_status": {"choice": "stale_or_unverifiable_snapshot"}}
+    },
+    {
+      "id": "H28-v2-over-budget-before-dependency",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {"id": "T-8", "revision": "r3", "status": "current"},
+        "question_manifest": {
+          "snapshot_target": {"id": "T-8", "revision": "r3"},
+          "questions": [{"id": "q1", "depends_on": []}, {"id": "q2", "depends_on": ["q1"]}],
+          "budget_assessment": "This exact two-question manifest exceeds the one-question hard limit."
+        },
+        "budget": {"max_questions": 1, "max_input_bytes": 8000}
+      },
+      "expected": {"batch_status": {"choice": "over_budget_or_oversized"}}
+    },
+    {
+      "id": "H28-v2-over-budget-independent",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {"id": "T-8", "revision": "r3", "status": "current"},
+        "question_manifest": {
+          "snapshot_target": {"id": "T-8", "revision": "r3"},
+          "questions": [{"id": "q1", "depends_on": []}, {"id": "q2", "depends_on": []}],
+          "budget_assessment": "This exact manifest has a serialized size of 9000 bytes, above the 8000 byte hard limit."
+        },
+        "budget": {"max_questions": 10, "max_input_bytes": 8000}
+      },
+      "expected": {"batch_status": {"choice": "over_budget_or_oversized"}}
+    },
   {
     "id": "H29-semantic-then-code",
     "pattern_id": "H29",

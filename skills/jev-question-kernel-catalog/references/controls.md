@@ -50,10 +50,13 @@ mass matters only when the runner-up would lead somewhere else; CT01 exists for 
 Bind the exact request, tool description, handler descriptions, contract text, or
 message under judgment, with its revision. For CT09 and CT10, code supplies the
 credential list and the organization-to-host registry; the model never parses a URL
-or decides policy. Before inference, code validates `required_state_fields` and
-returns a local `unknown` for absent or empty required evidence. Three missing-input
-probes in this screen were classified instead of returning unknown, which is why
-that gate is code's job, not the model's.
+or decides policy. `required_state_fields` describes an input contract; it does not
+enforce itself. Before calling Jev, the consuming application must check each field
+and return a local `unknown` when a value is absent or empty under that field's
+schema. This module and the collection screen do not implement or verify that
+consumer preflight; valid `0` or `false` values must not be treated as missing.
+Three missing-input probes in this screen were classified instead of returning
+unknown, which is why that gate is the consumer's job, not the model's.
 
 ## Use the labels without taking over
 

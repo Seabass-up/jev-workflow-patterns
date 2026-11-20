@@ -1,0 +1,327 @@
+{
+  "pattern": {
+    "id": "H24",
+    "title": "Atomic score composition with veto policy",
+    "domain": "harness",
+    "value": "Keep semantic dimensions reusable while code decides which preferences may compensate and which failures must veto.",
+    "success_metric": "Tests prove a serious named veto cannot be outweighed by unrelated high scores.",
+    "required_state_fields": [
+      "candidate",
+      "evaluation_rubric"
+    ],
+    "questions": {
+      "fit": {
+        "type": "score",
+        "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome.",
+        "criteria": [
+          "No demonstrated fit.",
+          "Limited fit with important unmet desired outcomes.",
+          "Strong fit for the stated desired outcome."
+        ]
+      },
+      "operational_burden": {
+        "type": "score",
+        "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+        "criteria": [
+          "Low stated burden.",
+          "Moderate stated burden.",
+          "High stated burden."
+        ]
+      },
+      "named_veto": {
+        "type": "noul",
+        "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+        "criteria": {
+          "true": "A named veto condition is directly met by the supplied candidate.",
+          "false": "No named veto condition is directly met by the supplied candidate."
+        }
+      },
+      "burden_available": {
+        "type": "noul",
+        "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto.",
+        "criteria": {
+          "true": "Relevant, explicit burden information about this candidate supports an interpretable level under the supplied rubric.",
+          "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+        }
+      }
+    },
+    "follow_up": "Code preserves a named-veto review first. Otherwise it uses a provisional burden_available >= 0.8 gate before any weighted-score proposal; unavailable or uncertain burden requires review and the burden score is ignored. One follow-up may request the missing burden evidence; no rewording until a preferred score appears.",
+    "code_owns": "Weights, thresholds, veto policy, numeric calculation, source identity, and all action decisions.",
+    "baseline": "Ask one opaque question such as whether a candidate is good overall.",
+    "comparison_to_prior": "Unlike H19's policy hazard/severity routing matrix, this generalizes code-owned weighted preference with an explicit non-compensable veto across independent score dimensions.",
+    "source": "https://docs.typesafe.ai/patterns/composite-scoring",
+    "origin": "Task-authored Iteration 3 composite-scoring controller.",
+    "limits": "Weights and thresholds require domain calibration; scores never authorize action.",
+    "policy": {
+      "threshold_status": "Provisional synthetic screening only; model output is advisory.",
+      "burden_available_min": 0.8
+    },
+    "contract_version": 2,
+    "prior_patterns": [
+      "H19",
+      "E01"
+    ]
+  },
+  "cases": [
+    {
+      "id": "H24-good",
+      "pattern_id": "H24",
+      "state": {
+        "candidate": "Candidate fulfills every desired outcome, has a low stated operational burden, and does not trigger any named veto.",
+        "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0.8,
+            1
+          ]
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_state_regression",
+      "expected_next": "compute_versioned_score_in_code"
+    },
+    {
+      "id": "H24-veto",
+      "pattern_id": "H24",
+      "state": {
+        "candidate": "Candidate does not meet the desired outcome, has a high stated operational burden, and handles regulated payment-card data without an approved boundary.",
+        "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0.6,
+            1
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0.8,
+            1
+          ]
+        }
+      },
+      "contract_version": 2,
+      "split": "unchanged_state_regression",
+      "expected_next": "review_named_veto"
+    },
+    {
+      "id": "H24-review-absent-burden",
+      "pattern_id": "H24",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate": "Candidate implements every requested feature. It handles no regulated data. No cost, time, resource use or operational burden is described.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0,
+            0.2
+          ]
+        }
+      },
+      "expected_next": "review_missing_or_uncertain_burden"
+    },
+    {
+      "id": "H24-review-other-candidate-burden",
+      "pattern_id": "H24",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate": "Candidate A implements every requested feature and handles no regulated data. Candidate B has low operational burden. No burden is stated for A.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary. Evaluate Candidate A only."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0,
+            0.2
+          ]
+        }
+      },
+      "expected_next": "review_missing_or_uncertain_burden"
+    },
+    {
+      "id": "H24-review-conflicting-burden",
+      "pattern_id": "H24",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate": "Candidate A implements every requested feature and handles no regulated data. One equally applicable report says A has low burden, another says high burden; no source controls.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0,
+            0.2
+          ]
+        }
+      },
+      "expected_next": "review_missing_or_uncertain_burden"
+    },
+    {
+      "id": "H24-review-negated-extra-resources",
+      "pattern_id": "H24",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate": "Candidate implements every requested feature, handles no regulated data, and does not require additional hardware, staffing or ongoing maintenance.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary. No additional hardware, staffing or ongoing maintenance constitutes low operational burden."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0.8,
+            1
+          ]
+        }
+      },
+      "expected_next": "compute_versioned_score_in_code"
+    },
+    {
+      "id": "H24-review-veto-with-absent-burden",
+      "pattern_id": "H24",
+      "contract_version": 2,
+      "split": "development_screen",
+      "state": {
+        "candidate": "Candidate implements every requested feature and handles regulated payment-card data without an approved boundary. No burden is described.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "expected": {
+        "fit": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "operational_burden": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "named_veto": {
+          "range": [
+            0.6,
+            1
+          ]
+        },
+        "burden_available": {
+          "range": [
+            0,
+            0.2
+          ]
+        }
+      },
+      "expected_next": "review_named_veto"
+    }
+  ],
+  "limits": "Two unchanged-state regressions retain all three original score/veto intervals and add an availability interval; five frozen development cases. Burden interval [0,2] on unavailable cases is not a claim about the burden. Synthetic regression evidence only."
+}

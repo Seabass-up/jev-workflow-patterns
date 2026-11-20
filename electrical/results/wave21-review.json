@@ -1,0 +1,116 @@
+{
+  "wave": 21,
+  "date": "2026-09-27",
+  "collection": "electrical",
+  "scope": {
+    "patterns": ["EL01", "EL02", "EL03", "EL04", "EL05", "EL06", "EL07", "EL08"],
+    "reviewed": ["question instructions and criteria", "named state fields", "code-owned boundaries", "follow-up and verification guidance", "source references", "all 32 fixtures and rationales", "saved Jev results", "generated pages", "offline evaluator and tests"],
+    "synthetic_only": true
+  },
+  "saved_screen": {
+    "model": "jev-1.13.0",
+    "source": "results/summary.json and results/screening.json",
+    "fixtures": 32,
+    "label_matches": 32,
+    "design_matches": "24/24",
+    "challenge_matches": "8/8",
+    "request_digests_verified": 32,
+    "provider_failures": 0,
+    "provisional_patterns": [],
+    "interpretation": "Reused the saved screen; did not repeat its 32 calls. Synthetic author labels and this small screen do not establish field accuracy, calibration, safety qualification, or permit compliance."
+  },
+  "pattern_review": {
+    "EL01": "Primary symptom classification has explicit precedence, does not diagnose cause, and leaves the immediate burning/heat escalation to code. No defect confirmed.",
+    "EL02": "The question classifies reported hazard signs only; the on-site electrician and lockout/de-energizing procedures remain authoritative in code. The result must not be treated as a safety determination. No defect confirmed.",
+    "EL03": "The model classifies work type only; jurisdiction-specific permit rules, revision, and fee remain code-owned. No permit decision is inferred. No defect confirmed.",
+    "EL04": "The contract uses named project roles and an explicit utility/electrical/other-trade/owner precedence for mixed items. The challenge rationale describes an item whose utility action is a prerequisite; routing does not decide payment responsibility. The fixed precedence remains a policy choice to check against local dispatch practice, not evidence of a model defect.",
+    "EL05": "The question classifies inspector note wording; the jurisdiction record remains authoritative and disagreement is escalated. Partial approvals with corrections have explicit precedence. No defect confirmed.",
+    "EL06": "The question reads the first requested office action; dates, uploads, fees, and tracking remain code-owned. The challenge distinguishes message subject framing from the first request in the body. No defect confirmed.",
+    "EL07": "The question classifies protection function, while code compares required_type and exact ratings/listing. The current state carries required_type even though instructions say not to compare it; a contrastive Jev pair with the same explicit AFCI-only description and required_type values gfci/afci selected afci at confidence 1.0 in both. This one pair found no output change but does not establish invariance; the question was not versioned.",
+    "EL08": "The model reads only the technician's text description. Code attaches the actual photo and leaves acceptance to the inspector; a description is explicitly not treated as the photo. No defect confirmed."
+  },
+  "contract_advisory": {
+    "pattern_id": "EL07",
+    "status": "needs_review",
+    "model": "jev-1.13.0",
+    "contract_sha256": "80a9757a101513bef1d5c316671faf6384737d59c6a890f156e61f1b37221e25",
+    "source_pattern_sha256": "b40852a93467459d39afaacf17be8f25be968ada38094d04058e72d15fc9c3ed",
+    "request_sha256": null,
+    "request_sha256_prefix": "7405f5232aee97308637aae5b10c9521560c6e0faf799",
+    "request_digest_status": "The available record contained only this truncated prefix; the full request digest is unavailable. No repeat Jev request was issued.",
+    "review_result": "Goal alignment, focus and evidence meaning selected satisfied; answer-shape and criteria-meaning dimensions were below the advisory confidence threshold. Treat as a review prompt, not a finding or approval. Freshness was not verified by this tool."
+  },
+  "contrastive_tests": [
+    {
+      "description": "Single-pole branch-circuit breaker marked AFCI. The product description states that it provides arc-fault circuit-interrupter protection only and has no ground-fault function.",
+      "required_type": "gfci",
+      "expected_and_observed": "afci",
+      "confidence": 1.0,
+      "request_sha256": "741a759882e0c5b487510a50a8c62865ed5b464c8fbe09324f08560dad3fcc94"
+    },
+    {
+      "description": "Same product description as the preceding case.",
+      "required_type": "afci",
+      "expected_and_observed": "afci",
+      "confidence": 1.0,
+      "request_sha256": "0dc286bb502dd31a8f068b1b534b31fdc10b26d15c63c18c914072d75894d334"
+    }
+  ],
+  "source_supplement": {
+    "prior_register_review_date": "2026-09-23",
+    "historical_sources_retained": ["ES-3", "ES-5"],
+    "new_primary_sources": [
+      {
+        "id": "ES-7",
+        "url": "https://www.cpsc.gov/s3fs-public/099_0.pdf",
+        "landing_page": "https://www.cpsc.gov/safety-education/safety-guides/electronics-and-electrical-home/gfci-fact-sheet",
+        "publication_date": "2010-09",
+        "checked": "2026-09-27",
+        "representation": "browser_excerpt",
+        "excerpt": "Ground fault protection is integrated into GFCI receptacles and GFCI circuit breakers.",
+        "excerpt_sha256": "61ddfd52e3a1a0c363a5ca791057ed90dbde48196c02ac0407050482b0007461"
+      },
+      {
+        "id": "ES-8",
+        "url": "https://www.cpsc.gov/s3fs-public/5133%281%29.pdf",
+        "landing_page": "https://www.cpsc.gov/safety-education/safety-guides/home/afci-fact-sheet",
+        "publication_date": "2012-04",
+        "checked": "2026-09-27",
+        "representation": "browser_excerpt",
+        "excerpt": "AFCIs are intended to address fire hazards; GFCIs address shock hazards. Combination devices include both AFCI and GFCI protection in one unit.",
+        "excerpt_sha256": "3ca48c47e0a94972e50f407b4fbed37f88e8ef8d95cd8bf20e1d9ce69602cec9"
+      }
+    ],
+    "jev_check_claims": {
+      "model": "jev-1.13.0",
+      "status": "ok",
+      "request_sha256": "d780514595ce864f9151f21a4baab07e653e246cfc871a26682321baae78afb5",
+      "evidence_sha256": "352c24b291077e8ef675a5a498d43fd936a35f66a769e236a12c8e05ee7899a0",
+      "claims_supported": "2/2 at confidence 1.0",
+      "interpretation": "Advisory comparison of host-authored claims with supplied excerpts; not independent verification of the URLs, currentness, or installation requirements."
+    },
+    "limits": [
+      "The original source-support receipt remains immutable and describes the sources as read in its September 23 session; its browser hash comparison did not establish that those pages remain unchanged today.",
+      "The NFPA 70 and 70E URLs were opened today, but the browser exposed no readable page body for those pages; their records are not claimed refreshed by this wave.",
+      "The new CPSC factsheets are official but date from 2010 and 2012. They support device-function terminology only. No NEC installation rule, jurisdictional adoption, or current permit requirement was checked."
+    ]
+  },
+  "verification": {
+    "python3 electrical/evaluate.py": "pass; 32/32 saved fixture labels and request digests replay",
+    "electrical_tests_before_supplement": "12/12 pass",
+    "electrical_tests_after_supplement": "14/14 pass, including exact catalog-question/page parity and source excerpt digest checks",
+    "scripts/test_build_collection_pages.py": "4/4 pass, including excerpt digest-scope and displayed-quote checks",
+    "scripts/collection_pipeline/test_pipeline.py": "16/16 pass after isolating the authoring-rule test to its six-source draft snapshot",
+    "full_repository_precommit_audit": {
+      "receipt": "reviews/2026-09-27/wave21-final-checks-precommit-final.json",
+      "profiles": 390,
+      "catalogs": 30,
+      "checks": 65,
+      "failed_checks": 0,
+      "source_commit": "1c85c37efe428e318bc3e23eb896b8ad0cafc8f5"
+    },
+    "page_parity_tests_added": true,
+    "public_build_or_deployment": false
+  },
+  "disposition": "No question defect was confirmed in EL01-EL08. Added two official CPSC device-function sources to EL07 as supplemental motivation, retained original source notes and Jev receipts, and added page/catalog parity coverage. Keep all operational, safety, permit, purchasing, and inspection decisions with code and qualified people."
+}

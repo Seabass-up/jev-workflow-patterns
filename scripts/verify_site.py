@@ -3,10 +3,11 @@ from html.parser import HTMLParser
 import json
 from pathlib import Path
 import sys
-from urllib.parse import unquote, urlsplit
+from urllib.parse import quote, unquote, urljoin, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "/jev-workflow-patterns/"
+SITE_HOST = "seabass-up.github.io"
 
 
 class Links(HTMLParser):
@@ -28,12 +29,20 @@ class Links(HTMLParser):
 
 def check_local_link(site, page, link):
     parsed = urlsplit(link)
-    if parsed.scheme or parsed.netloc or not parsed.path.startswith("/"):
+    if parsed.scheme not in ("", "http", "https") or (parsed.netloc and parsed.netloc.lower() != SITE_HOST):
         return
-    if not parsed.path.startswith(BASE):
+    if not parsed.path:
+        return
+    page_path = Path(page)
+    if page_path.is_relative_to(site):
+        page_path = page_path.relative_to(site)
+    path = urljoin(BASE + quote(page_path.as_posix()), parsed.path)
+    if not path.startswith(BASE):
         raise ValueError("internal link omits project base URL from " + str(page) + ": " + link)
-    target = site / unquote(parsed.path[len(BASE):])
-    if parsed.path.endswith("/"):
+    target = (site / unquote(path[len(BASE):])).resolve()
+    if not target.is_relative_to(site.resolve()):
+        raise ValueError("internal link leaves site from " + str(page) + ": " + link)
+    if path.endswith("/") or target.is_dir():
         target /= "index.html"
     if not target.is_file():
         raise ValueError("broken internal link from " + str(page) + ": " + link)
@@ -109,6 +118,8 @@ def verify(site):
             pages.append(site / folder / name)
             collection_count += 1
     pages.extend([site / "index.html", site / "kernel" / "index.html", site / "kernel" / "qualification" / "index.html",
+                  site / "kernel" / "research-edition" / "index.html",
+                  site / "kernel" / "research-working" / "index.html",
                   site / "kernel" / "qualification" / "public-issue-pilot" / "index.html", site / "collections" / "index.html",
                   site / "catalog" / "index.html",
                   site / "discovery" / "index.html",
@@ -136,7 +147,7 @@ def verify(site):
             "bug_hunting_pages_verified": bug_count,
             "human_ai_pages_verified": human_count,
             "collection_pages_verified": collection_count,
-            "kernel_home_hub_and_discovery_pages_verified": 8,
+            "kernel_home_hub_and_discovery_pages_verified": 10,
             "catalog_profiles_verified": catalog_profiles}
 
 

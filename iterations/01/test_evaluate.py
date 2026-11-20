@@ -2,11 +2,19 @@ import copy
 import json
 import unittest
 
-from evaluate import ROOT, plan, replay, valid_answers
+from evaluate import ROOT, plan as raw_plan, replay, state_ready, valid_answers
 
 
 CATALOG = json.loads((ROOT / "catalog.json").read_text())
 PATTERNS = {p["id"]: p for p in CATALOG["patterns"]}
+
+
+def plan(pattern, signal, control=None):
+    # These pure branch tests supply nonempty synthetic evidence placeholders.
+    # They do not prove source truth or provider/state binding. Raw preflight tests
+    # below exercise omitted, empty and actual structured state directly.
+    state = {field: "synthetic branch-test evidence" for field in pattern["required_state_fields"]}
+    return raw_plan(pattern, signal, control, state=state)
 
 
 def response(pid, values=None, confidence=1.0):
@@ -17,12 +25,15 @@ def response(pid, values=None, confidence=1.0):
         value = values.get(key)
         if kind == "choice":
             answers[key] = {"type": kind, "choice": value or next(iter(q["criteria"])),
-                            "confidence": confidence}
+                            "confidence": confidence,
+                            "probabilities": {label: int(label == (value or next(iter(q["criteria"]))))
+                                              for label in q["criteria"]}}
         elif kind == "noul":
             answers[key] = {"type": kind, "noul": 0.95 if value is None else value}
         else:
             answers[key] = {"type": kind, "score": 1 if value is None else value,
-                            "confidence": confidence}
+                            "confidence": confidence,
+                            "probabilities": {str(i): int(i == 1) for i in range(len(q["criteria"]))}}
     return {"ok": True, "answers": answers}
 
 
@@ -31,12 +42,73 @@ def op(tool="read_log", record="sample"):
 
 
 class ReceiptTests(unittest.TestCase):
+    def test_every_profile_rejects_missing_or_empty_required_state(self):
+        for p in PATTERNS.values():
+            good = {field: "supplied evidence" for field in p["required_state_fields"]}
+            self.assertTrue(state_ready(p, good))
+            self.assertEqual(raw_plan(p, response(p["id"]))["reason"], "missing_required_state")
+            for field in p["required_state_fields"]:
+                for empty in (None, "", "  \n", [], {}):
+                    with self.subTest(pattern=p["id"], field=field, value=empty):
+                        state = {**good, field: empty}
+                        self.assertEqual(raw_plan(p, response(p["id"]), state=state)["reason"],
+                                         "missing_required_state")
+                state = dict(good)
+                del state[field]
+                self.assertFalse(state_ready(p, state))
+
+    def test_l01_empty_evidence_never_ranks_passage(self):
+        p = PATTERNS["L01"]
+        signal = response("L01", {"premise_conflict": 0.01})
+        self.assertEqual(raw_plan(p, signal, state={"query": "", "passage": "Evidence"})["next"], "review")
+        self.assertEqual(raw_plan(p, signal, state={"query": "Which item?", "passage": "Evidence"})["next"],
+                         "rank_passage")
+
+    def test_mandatory_policy_alert_survives_missing_model_evidence(self):
+        self.assertEqual(raw_plan(PATTERNS["H07"], {"ok": False}, {"mandatory_alert": True})["next"],
+                         "mandatory_policy_review")
+
+    def test_false_and_zero_are_present_evidence_not_empty(self):
+        p = {"required_state_fields": ["flag", "count"]}
+        self.assertTrue(state_ready(p, {"flag": False, "count": 0}))
+
     def test_all_receipts_bind_exact_state_and_question(self):
         result = replay()
-        self.assertEqual(sum(s["request_digests_verified"] for s in result.values()), 136)
+        self.assertEqual(sum(s["request_digests_verified"] for s in result.values()), 142)
         self.assertEqual(result["core-initial"]["fixture_matches"], 76)
         self.assertEqual(result["core-refinement"]["fixture_matches"], 15)
         self.assertEqual(result["harness-screen"]["fixture_matches"], 38)
+        self.assertEqual(result["h05-v2-screen"]["fixture_matches"], 6)
+
+    def test_h05_v2_screen_matches_current_contract_and_covers_every_label(self):
+        screens = json.loads((ROOT / "screens.json").read_text())
+        screen = screens["h05-v2-screen"]
+        pattern = PATTERNS["H05"]
+        self.assertEqual(screen["contracts"]["H05"]["contract_version"], pattern["contract_version"])
+        self.assertEqual(screen["contracts"]["H05"]["questions"], pattern["questions"])
+        page = (ROOT / "patterns/h05.md").read_text()
+        displayed = page.split("```json\n", 1)[1].split("\n```", 1)[0]
+        self.assertEqual(json.loads(displayed), pattern["questions"])
+        labels = {fixture["expected"]["decision"]["choice"] for fixture in screen["fixtures"]}
+        self.assertEqual(labels, set(pattern["questions"]["decision"]["criteria"]))
+
+    def test_h05_success_metric_is_distinct_and_measurable(self):
+        pattern = PATTERNS["H05"]
+        metric = pattern["success_metric"].lower()
+        self.assertNotEqual(pattern["success_metric"], pattern["falsifier"])
+        self.assertIn("proportion", metric)
+        self.assertIn("unchanged-contract baseline", metric)
+        self.assertIn("regressions", metric)
+        self.assertIn("multiple-defect cases", metric)
+
+    def test_h05_low_confidence_state_mismatch_remains_review_only(self):
+        screens = json.loads((ROOT / "screens.json").read_text())
+        fixtures = {f["id"]: f for f in screens["h05-v2-screen"]["fixtures"]}
+        rows = json.loads((ROOT / "results/h05-v2-screen.json").read_text())
+        row = next(r for r in rows if r["fixture_id"] == "H05-v2-6")
+        self.assertEqual(row["response"]["answers"]["decision"]["confidence"], 0.78)
+        result = raw_plan(PATTERNS["H05"], row["response"], state=fixtures["H05-v2-6"]["state"])
+        self.assertEqual(result, {"next": "review", "reason": "uncertain_consumed_answer"})
 
     def test_catalog_domain_counts_and_unique_ids(self):
         self.assertEqual(len(PATTERNS), 30)
@@ -69,6 +141,28 @@ class ReceiptTests(unittest.TestCase):
         r = response("B02")
         del r["answers"]["access"]
         self.assertEqual(plan(PATTERNS["B02"], r)["next"], "review")
+
+    def test_invalid_choice_distributions_fail_closed(self):
+        labels = PATTERNS["B01"]["questions"]["decision"]["criteria"]
+        for bad in (None, [], {}, {"unexpected": 1},
+                    {label: 0 for label in labels},
+                    {label: True for label in labels},
+                    {label: float("nan") for label in labels}):
+            with self.subTest(distribution=bad):
+                r = response("B01")
+                r["answers"]["decision"]["probabilities"] = bad
+                self.assertEqual(plan(PATTERNS["B01"], r)["next"], "review")
+
+    def test_nonmaximum_choice_fails_closed(self):
+        r = response("B01")
+        labels = list(PATTERNS["B01"]["questions"]["decision"]["criteria"])
+        r["answers"]["decision"]["probabilities"] = {label: int(label == labels[1]) for label in labels}
+        self.assertEqual(plan(PATTERNS["B01"], r)["next"], "review")
+
+    def test_missing_score_distribution_fails_closed(self):
+        r = response("E01")
+        del r["answers"]["impact"]["probabilities"]
+        self.assertEqual(plan(PATTERNS["E01"], r)["next"], "review")
 
     def test_low_confidence_is_review(self):
         self.assertEqual(plan(PATTERNS["E02"], response("E02", confidence=0.79))["next"], "review")
@@ -150,6 +244,13 @@ class ReceiptTests(unittest.TestCase):
     def test_repair_loop_is_bounded(self):
         r = response("H05", {"decision": "criterion_ambiguity"})
         self.assertEqual(plan(PATTERNS["H05"], r, {"repair_attempts": 1})["next"], "retain_failure_for_review")
+
+    def test_h05_multiple_defects_never_selects_a_single_repair(self):
+        r = response("H05", {"decision": "multiple_demonstrated_defects"})
+        result = plan(PATTERNS["H05"], r, {"repair_attempts": 0})
+        self.assertEqual(result, {"next": "retain_failure_for_review", "reason": "multiple_defects"})
+        self.assertEqual(plan(PATTERNS["H05"], r, {"repair_attempts": 1})["next"],
+                         "retain_failure_for_review")
 
     def test_example_or_unverified_argument_is_held(self):
         for choice in ("example_only", "unknown", "conflict", "task_value"):

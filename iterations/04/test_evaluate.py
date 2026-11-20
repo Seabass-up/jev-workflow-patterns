@@ -6,11 +6,17 @@ import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from evaluate import ROOT, contains_expected, plan, replay, valid_answers
+from evaluate import ROOT, contains_expected, plan as raw_plan, replay, valid_answers
 
 
 CATALOG = json.loads((ROOT / "catalog.json").read_text())
 PATTERNS = {item["id"]: item for item in CATALOG["patterns"]}
+
+
+def plan(pattern, signal):
+    # Pure branch tests provide nonempty synthetic evidence, not provider proof.
+    state = {field: "synthetic branch-test evidence" for field in pattern["required_state_fields"]}
+    return raw_plan(pattern, signal, state=state)
 
 
 def response(pattern_id, values=None, confidence=1.0):
@@ -38,11 +44,23 @@ class IterationFourTests(unittest.TestCase):
 
     def test_frozen_labels_never_enter_provider_state(self):
         fixtures = json.loads((ROOT / "fixtures.json").read_text())
-        self.assertEqual(len(fixtures), 60)
+        self.assertEqual(len(fixtures), 86)
+        self.assertEqual(sum(item.get("contract_version") == 2 for item in fixtures), 46)
         for item in fixtures:
             with self.subTest(fixture=item["id"]):
                 self.assertFalse(contains_expected(item["state"]))
                 self.assertEqual(set(item["expected"]), set(PATTERNS[item["pattern_id"]]["questions"]))
+                self.assertEqual(item.get("contract_version", PATTERNS[item["pattern_id"]]["contract_version"]), PATTERNS[item["pattern_id"]]["contract_version"])
+
+    def test_revised_choice_contracts_cover_every_current_label(self):
+        fixtures = json.loads((ROOT / "fixtures.json").read_text())
+        changed = {"B22", "B25", "E23", "E24", "E26", "L19", "L20", "L21", "L24", "H40"}
+        self.assertTrue(all(PATTERNS[pattern_id]["contract_version"] == 2 for pattern_id in changed))
+        for pattern_id in changed:
+            with self.subTest(pattern=pattern_id):
+                question_id, question = next(iter(PATTERNS[pattern_id]["questions"].items()))
+                labels = {item["expected"][question_id]["choice"] for item in fixtures if item["pattern_id"] == pattern_id}
+                self.assertEqual(labels, set(question["criteria"]))
 
     def test_invalid_answer_shapes_fail_closed(self):
         invalid = response("B22", {"buyer_role": "invented"})
@@ -64,10 +82,10 @@ class IterationFourTests(unittest.TestCase):
 
     def test_final_selection_covers_every_current_fixture(self):
         result = replay()
-        self.assertEqual(result["final_contract_acceptance"]["fixtures"], 60)
-        self.assertEqual(result["final_contract_acceptance"]["questions"], 60)
-        self.assertEqual(result["final_contract_acceptance"]["fixture_matches"], 60)
-        self.assertEqual(result["final_contract_acceptance"]["question_matches"], 60)
+        self.assertEqual(result["final_contract_acceptance"]["fixtures"], 86)
+        self.assertEqual(result["final_contract_acceptance"]["questions"], 86)
+        self.assertEqual(result["final_contract_acceptance"]["fixture_matches"], 86)
+        self.assertEqual(result["final_contract_acceptance"]["question_matches"], 86)
 
 
 if __name__ == "__main__":

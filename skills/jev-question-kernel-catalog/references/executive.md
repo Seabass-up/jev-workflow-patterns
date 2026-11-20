@@ -30,12 +30,21 @@ Choose by what the label feeds:
 - CE01 and CE05 feed the docket. A memo whose decision is unspecified or that asks
   for nothing goes back to the author or to a reading queue; the chief of staff
   sets the agenda, not the label.
-- CE02 feeds how much scrutiny a proposal gets. The label reads what the proposal
-  says about undoing the action; whether the action is in fact reversible is the
-  executive's judgment.
+- CE02 feeds how much scrutiny a proposal gets. The label reads explicit terms for
+  ending or undoing the proposed commitment. A deadline, lost opportunity, or harm
+  from declining is not evidence that the commitment itself is one-way; "binding"
+  alone does not prove there is no exit. Unstated exit terms remain
+  `reversibility_not_addressed`; conflicting terms remain `unknown`. Whether the
+  action is legally or practically reversible is the executive's judgment.
 - CE03, CE04, CE06, and CE07 feed a completeness note returned to the author before
-  the meeting. None of them says the evidence is correct, the rejected alternative
-  was worse, the risk is real, or the metric is the right one.
+  the meeting. CE03 treats systematic measurements as quantitative evidence, but a
+  number embedded in a single anecdote or a requested budget by itself is not
+  systematic support for the recommendation. CE06 counts only a specific downside
+  of adopting or carrying out the recommended course; harms of declining or delaying
+  belong to the alternative, not the plan. Generic plan-risk language without a
+  specific plan downside is `generic_risk_only`; no plan-risk discussion is
+  `upside_only`. None of these profiles says the evidence is correct, the rejected
+  alternative was worse, the risk is real, or the metric is the right one.
 - CE08 feeds routing. Code supplies the policy text from the current revision, and
   any condition that turns on an amount, date, or count is compared in code after
   the label.
@@ -47,8 +56,11 @@ policy text at its current revision. Do not summarize a memo before asking; a su
 can add a decision statement or a metric the author never wrote. Several contracts
 state a precedence order for text that does more than one thing, such as naming a
 decision after long background or citing both data and an anecdote; keep those
-sentences when adapting. Before inference, code validates `required_state_fields`
-and returns a local `unknown` for absent or empty evidence.
+sentences when adapting. `required_state_fields` describes an input contract; it does
+not enforce itself. Before calling Jev, the consuming application must check each
+field and return a local `unknown` when a value is absent or empty under that field's
+schema. This module and the collection screen do not implement or verify that
+consumer preflight; valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 
@@ -67,3 +79,10 @@ actually triaged a quarter of memos, which proposals were returned for missing
 alternatives, risks, or metrics, and which escalations the executive team accepted
 as within policy. Measure memos labeled `decision_stated` that the executive team
 could not act on first.
+
+The current CE02, CE03, and CE06 v2 fixtures include regression cases added after
+boundary findings in the preserved v1 screen. They matched the authored labels in the
+synthetic screen, but they are not held out. CE02-5 returned confidence 0.56, below
+its recorded 0.8 review threshold, so the policy routes that output to a person rather
+than allowing the match alone to pass through. Other current answers below policy
+thresholds are listed on the evaluation page as well.

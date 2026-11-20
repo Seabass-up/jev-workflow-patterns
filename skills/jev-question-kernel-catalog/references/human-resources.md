@@ -52,9 +52,13 @@ as written, the offer letter with its checklist, and the intake policy text as t
 organization publishes it. Several contracts state a precedence for text that fits
 more than one label (a question spanning two areas, a concern fitting two routes, a
 request asking for two things, a comment naming two reasons); keep those sentences when
-adapting. Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence. Keep names, employee identifiers, health
-details, and anything the judgment does not need out of the state; a routing label
+adapting. `required_state_fields` describes an input contract; it does not enforce
+itself. Before calling Jev, the consuming application must check each field and
+return a local `unknown` when a value is absent or empty under that field's schema.
+This module and the collection screen do not implement or verify that consumer
+preflight; valid `0` or `false` values must not be treated as missing. Keep names,
+employee identifiers, health details, and anything the judgment does not need out
+of the state; a routing label
 needs the request, not the employee record.
 
 ## Use the labels without taking over

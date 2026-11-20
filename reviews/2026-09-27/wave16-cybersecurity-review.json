@@ -1,0 +1,132 @@
+{
+  "review": "wave16_cybersecurity",
+  "reviewed_on": "2026-09-27",
+  "repository_branch": "review/all-patterns-20260926",
+  "base_commit": "12733b90c4ab2d44a5c258fe0cbaa7cdcc672aad",
+  "local_code_commit": "cc858ca51d6ffe4f518800ef6216cf20842ef9a0",
+  "collection": "Cybersecurity operations: patterns for triage, requests, and advisories",
+  "source_hashes": {
+    "cybersecurity/catalog.json": "1954a35003d161ecaaf595eba595a88a5d9366b49e11a1c8423bf35c40d51136",
+    "cybersecurity/fixtures.json": "9f3850dd6364d1eb2712ea3ed697ffaef0a60177576626c00f3c6094862532fc",
+    "cybersecurity/results/screening.json": "b0e7d0c96129868952ef04c90eccf4c0da7a6f55d5f5130161812e32f652a",
+    "cybersecurity/results/summary.json": "974caf271edf08f06034db6f5b7508544bd7aedc3d859521097fdc5191dc440b",
+    "cybersecurity/results/source-review.json": "4980293c8dafc99cfd9e885d418299b5eff2375f1b3838f6d3e51cbcff140bfb",
+    "cybersecurity/results/overlap-review.json": "d5fe84b295a3babb550c11414ded388c010ee6a59801d9e85124422958cbf699",
+    "cybersecurity/sources.json": "696c80696f2260ab3e534356b7d6d02dfcc35f0b5ce038e149765f39363fc93b"
+  },
+  "patterns_reviewed": [
+    "CY01",
+    "CY02",
+    "CY03",
+    "CY04",
+    "CY05",
+    "CY06",
+    "CY07",
+    "CY08"
+  ],
+  "review_scope": [
+    "Inspected every contract, required field, answer criterion, code-owned responsibility, verification recipe, follow-up, nearest-pattern distinction, source reference, pattern page and frozen fixture.",
+    "Reused the existing 32-call Jev screen, five source-support receipts and post-precedence option-overlap review; these were not repeated.",
+    "The five source pages were checked on 2026-09-23. They motivate the designs and do not establish Jev performance or source endorsement.",
+    "Two additional uncached Jev judgments screened only CY02-4 contract fit and two candidate boundaries in CY03/CY04; results were advisory and host-reviewed."
+  ],
+  "existing_screen": {
+    "path": "cybersecurity/results/screening.json",
+    "patterns": 8,
+    "fixtures": 32,
+    "verified_request_digests": 32,
+    "design": {
+      "cases": 24,
+      "matches": 24
+    },
+    "challenge": {
+      "cases": 8,
+      "matches": 7
+    },
+    "preserved_disagreement": {
+      "fixture_id": "CY02-4",
+      "expected": "not_accounted_for",
+      "observed": "partly_accounted_for",
+      "confidence": 0.9
+    }
+  },
+  "advisory_reviews": [
+    {
+      "case": "CY02-4 frozen expectation versus contract",
+      "request_sha256": "3b5b1035c747b4ef27cecc1a82a9d547e2f2ad2cf4c98716db1b6711a4b0d3fd",
+      "model": "jev-1.13.0",
+      "cached": false,
+      "input_tokens": 1049,
+      "output_tokens": 66,
+      "estimated_cost_usd": 0.000044058,
+      "result": "expected_supported",
+      "probability": 0.91,
+      "confidence": 0.88,
+      "host_disposition": "The completed prior-evening change does not produce the described 03:40 activity in the same period. Preserve the disagreement as a model miss; do not tune or relabel the fixture."
+    },
+    {
+      "case": "CY03 edition matching and CY04 partial-condition coverage",
+      "request_sha256": "ac5da7857ebfbb216b2844108acb3f78947e273c5cd4a207081bb269c4b45888",
+      "model": "jev-1.13.0",
+      "cached": false,
+      "input_tokens": 934,
+      "output_tokens": 109,
+      "estimated_cost_usd": 0.000039228,
+      "results": {
+        "CY03": {
+          "choice": "material_collapse",
+          "probability": 0.72,
+          "confidence": 0.58
+        },
+        "CY04": {
+          "choice": "determinate_existing_label",
+          "probability": 0.84,
+          "confidence": 0.75
+        }
+      },
+      "host_disposition": {
+        "CY03": "The signal is low-confidence. The catalog assigns exact advisory/product-identifier matching to code, but there is no consumer implementation here to verify edition handling. Keep the question unchanged and record exact edition matching as an integration requirement before version checks or remediation.",
+        "CY04": "The existing conditions_not_stated option can reasonably cover a required set that is not fully established. The probe does not prove an answer-space defect, so do not version the contract from this synthetic case alone."
+      }
+    }
+  ],
+  "outcome": {
+    "confirmed_contract_defects": [],
+    "catalog_or_fixture_changes": false,
+    "provisional_patterns": [
+      "CY02"
+    ],
+    "reason": "The only frozen disagreement is supported by the written same-period rule on host review. Other candidate boundaries did not yield a source-supported defect. All original expectations and receipts remain unchanged.",
+    "follow_up": "When a consumer exists, verify exact product and edition identity matching before any downstream version comparison or remediation scheduling; independently label authorized real examples before adoption."
+  },
+  "verification": {
+    "python3 cybersecurity/evaluate.py": "passed; exact summary replay and 32 successful request digests validated",
+    "python3 -m unittest discover -s cybersecurity -p 'test_*.py' -v": "passed; 13 tests including exact catalog question JSON parity for all 8 pages",
+    "git diff --check": "passed",
+    "whole_repository_precommit": {
+      "result": "passed",
+      "report": "reviews/2026-09-27/wave16-final-checks-precommit-locked.json",
+      "source_commit": "12733b90c4ab2d44a5c258fe0cbaa7cdcc672aad",
+      "profile_count": 390,
+      "catalog_count": 30,
+      "checks_passed": 65,
+      "checks_failed": 0
+    },
+    "whole_repository_postcommit": {
+      "result": "passed",
+      "report": "reviews/2026-09-27/wave16-postcommit-checks.json",
+      "source_commit": "cc858ca51d6ffe4f518800ef6216cf20842ef9a0",
+      "profile_count": 390,
+      "catalog_count": 30,
+      "checks_passed": 65,
+      "checks_failed": 0
+    }
+  },
+  "limitations": [
+    "All fixtures are synthetic, and the single challenge per pattern is not a held-out validation set.",
+    "CY02 remains provisional because its one challenge disagrees; the additional contract-fit judgment does not establish reliability.",
+    "CY03's deterministic edition/product-identifier handling is specified but no consuming implementation was reviewed.",
+    "No real alerts, severity decisions, access grants, policy exceptions, supplier responses, remediation or production controls were evaluated.",
+    "Jekyll/browser rendering was not verified."
+  ]
+}

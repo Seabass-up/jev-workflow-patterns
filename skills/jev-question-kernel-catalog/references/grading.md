@@ -49,8 +49,10 @@ comment as written, and the source passage code paired with the student's passag
 Several contracts state a precedence for mixed cases: partial coverage beside
 unrelated material, an evaluation beside a concrete step, verbatim sentences beside
 original ones, and restating beside new material; keep those sentences when adapting.
-Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence. Remove student names, identifiers, and any
+The consuming application must validate `required_state_fields` before invoking
+Jev and return a local `unknown` for absent or schema-defined empty evidence. This
+module and the collection screen do not implement or verify that preflight. Remove
+student names, identifiers, and any
 detail the judgment does not need.
 
 ## Use the labels without taking over

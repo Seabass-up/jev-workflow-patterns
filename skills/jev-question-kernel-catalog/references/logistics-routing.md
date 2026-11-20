@@ -44,9 +44,12 @@ Choose by what the label feeds:
 Supply the customer's or driver's words unchanged, and for LR07 the stop list code has
 already identified. Several contracts state a precedence order for text that mentions
 more than one constraint, instruction, cause, or timing preference; those sentences
-resolve overlaps found during authoring, so keep them when adapting. Before inference,
-code validates `required_state_fields` and returns a local `unknown` for absent or
-empty evidence.
+resolve overlaps found during authoring, so keep them when adapting.
+`required_state_fields` describes an input contract; it does not enforce itself.
+Before calling Jev, the consuming application must check each field and return a
+local `unknown` when a value is absent or empty under that field's schema. This
+module and the collection screen do not implement or verify that consumer preflight;
+valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

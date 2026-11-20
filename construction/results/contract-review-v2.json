@@ -1,0 +1,95 @@
+{
+  "purpose": "CN05 v1 bounded contract review before versioned repair.",
+  "model": "jev-1.13.0",
+  "request_sha256": "7f1b80b76340bba38049729ffd96e3599e1489f5fc05a833a3820c7186dad1bb",
+  "observed_at": "2026-09-27T04:43:51.282116+00:00",
+  "elapsed_ms": 379.456,
+  "usage": {
+    "input_tokens": 1372,
+    "output_tokens": 120
+  },
+  "estimated_cost_usd": 0.000057624,
+  "cached": false,
+  "tool_call": {
+    "name": "mcp__jev_workflows__jev_decide",
+    "use_cache": false
+  },
+  "request_sha256_note": "Provider-returned hash retained with the exact supplied state and questions; this advisory review call was not independently rehashed with the collection receipt helper.",
+  "request": {
+    "state": {
+      "pattern": "CN05 v1: Safety observation classification",
+      "purpose": "Classify a written safety observation against the project's own supplied stop-work list, separating listed stop-work conditions from correctable hazards, housekeeping items, and positive observations.",
+      "stop_work_conditions_field": "The state supplies the project's safety-plan conditions that require work to stop.",
+      "instructions": "First, if any required field (observation_text, stop_work_conditions) is absent, empty, or lacks the information needed for this judgment, select unknown before considering other labels. stop_work_conditions lists, as written in the project's safety plan, the conditions on this project that require work to stop. Classify what observation_text describes. An observation that describes a condition on stop_work_conditions, or states that a person is currently exposed to the hazard it describes while work continues, is a stop-work condition. An observation whose only deficiency is debris, stored material, clutter, a spill, or an obstructed walkway or stair, with no injury or near miss described, is housekeeping. An observation that describes any other deficiency not on the stop-work list, such as missing or damaged protection, unsafe equipment, missing PPE, an expired inspection, an unsafe act, or housekeeping with an injury or near miss, is a hazard to correct. An observation that records compliant or safe work and describes no deficiency is positive. If more than one applies, select first: stop_work_condition, hazard_to_correct, housekeeping, positive_no_deficiency.",
+      "preserved_challenge": {
+        "observation_summary": "A grinder is being used with its guard and side handle missing; sparks reach the operator's face/neck, no face shield is worn, and cutting continues. The supplied project stop-work list contains excavation, fall-edge, confined-space, and crane/utility conditions, but not grinders.",
+        "expected_v1": "stop_work_condition",
+        "observed_jev_v1": "hazard_to_correct",
+        "confidence": 1
+      },
+      "boundary": "No actual project safety policy or site authority is supplied. This question only checks contract consistency, not safety classification or whether work should stop."
+    },
+    "questions": {
+      "diagnosis": {
+        "type": "choice",
+        "instructions": "Compare the stated purpose, stop_work_conditions field meaning, full rule and categories, and preserved challenge. Identify the strongest contract-level diagnosis. Do not decide whether the described condition is safe or whether work must stop.",
+        "criteria": {
+          "scope_mismatch": "The contract's purpose and supplied project list define list-based stop-work categories, but instructions add a broader unlisted-exposure trigger, creating a scope/policy mismatch that should be resolved in the contract.",
+          "expectation_conflict": "The expected challenge label contradicts the contract's explicit precedence, so the fixture expectation is the primary defect.",
+          "model_miss_only": "Purpose, project-list scope, instructions, categories, and expected label are semantically aligned; the only supported issue is Jev's one disagreement, with no contract defect.",
+          "insufficient_context": "The supplied evidence cannot establish the intended boundary without site-specific policy; do not choose a contract revision direction."
+        }
+      },
+      "revision": {
+        "type": "choice",
+        "instructions": "Choose the most defensible reusable-contract boundary when the only supplied authority is a project safety-plan list explicitly described as conditions requiring work to stop. Do not infer safety policy. Preserve that a human decides actual work stoppage.",
+        "criteria": {
+          "list_bound": "Only a condition matching the supplied project list is labeled stop_work_condition. Other unlisted deficiencies, including a currently exposed unlisted hazard, are hazard_to_correct and routed for the human/site safety review required by the workflow.",
+          "broad_rule_explicit": "Keep currently exposed hazards as stop_work_condition regardless of list membership, but explicitly define that as an additional generic policy rule separate from the supplied project list.",
+          "retain_and_test": "Keep v1 unchanged because the current rule has explicit precedence; add fixtures to measure the overlap, without changing the intended boundary.",
+          "insufficient_context": "Do not choose between these contract policies without an actual project or company safety policy authorizing one."
+        }
+      }
+    }
+  },
+  "response": {
+    "ok": true,
+    "advisory_only": true,
+    "cached": false,
+    "request_sha256": "7f1b80b76340bba38049729ffd96e3599e1489f5fc05a833a3820c7186dad1bb",
+    "observed_at": "2026-09-27T04:43:51.282116+00:00",
+    "elapsed_ms": 379.456,
+    "billed_input_tokens": 1372,
+    "estimated_cost_usd": 0.000057623999999999996,
+    "model": "jev-1.13.0",
+    "usage": {
+      "input_tokens": 1372,
+      "output_tokens": 120
+    },
+    "answers": {
+      "diagnosis": {
+        "type": "choice",
+        "choice": "scope_mismatch",
+        "confidence": 0.44,
+        "probabilities": {
+          "scope_mismatch": 0.58,
+          "expectation_conflict": 0.24,
+          "insufficient_context": 0,
+          "model_miss_only": 0.18
+        }
+      },
+      "revision": {
+        "type": "choice",
+        "choice": "list_bound",
+        "confidence": 0.89,
+        "probabilities": {
+          "retain_and_test": 0.03,
+          "list_bound": 0.91,
+          "broad_rule_explicit": 0.05,
+          "insufficient_context": 0.01
+        }
+      }
+    }
+  },
+  "interpretation": "Advisory only. Jev favored the list-bound revision (top probability 0.91, confidence 0.89); the diagnosis was less decisive (scope_mismatch 0.58, confidence 0.44). Host review confirmed the purpose/list inconsistency; no site-specific safety policy was inferred."
+}

@@ -16,7 +16,9 @@ Each profile includes exact Choice JSON, named evidence, a policy recorded with 
 
 ## What the screen established
 
-**24/24 design cases and 8/8 challenge cases** matched their prewritten labels: 32/32 overall. No pattern is provisional. All 32 successful request digests replay. No disagreement was rerun, tuned away, or relabeled.
+**24/24 design cases and 8/8 challenge cases** matched their prewritten labels: 32/32 overall. No pattern is provisional. All 32 successful current-selection request digests replay.
+
+No disagreement was rerun, tuned away, or relabeled.
 
 The challenge author saw each contract but not its design examples or model results. That is an author-separation check, not independent human labeling, a representative test set, or a measure of benefit in use.
 

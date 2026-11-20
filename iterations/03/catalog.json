@@ -136,7 +136,7 @@
       "questions": {
         "support_status": {
           "type": "choice",
-          "instructions": "How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
+          "instructions": "First select insufficient if billable_item or support_bundle is missing, empty, or cannot be related to the named item. For interpretable evidence, contradictory_support takes precedence over missing_required_support, which takes precedence over supported. A missing required record does not erase an explicit material conflict. How does support_bundle relate to the stated billable_item? Judge whether the named records support the item, lack a needed stated record, contradict it, or are insufficient. Do not decide whether to invoice, whether work is payable, or whether any party approved payment.",
           "criteria": {
             "supported": "The supplied records consistently identify the stated work or commercial item and its required named support.",
             "missing_required_support": "The item names a necessary support record or fact that the bundle does not provide.",
@@ -153,7 +153,7 @@
       "origin": "Task-authored Iteration 3 evidence-bundle classifier.",
       "limits": "Support completeness is not legal entitlement, payment authorization, or proof that the work occurred.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["B03", "B12", "H18"]
     },
     {
@@ -319,7 +319,7 @@
       "questions": {
         "replay_evidence": {
           "type": "choice",
-          "instructions": "What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
+          "instructions": "First select insufficient if operation_description or replay_trace is missing, empty, or cannot establish the operation and relevant invocation scope. Within that scope, duplicate_effect_risk takes precedence over both single_effect_demonstrated and no_effect_before_side_effect. Then select single_effect_demonstrated when repeated invocations produce one persistent effect, even if another invocation stopped before its effect; select no_effect_before_side_effect only when no relevant persistent effect is shown. Preserve the observed trace even when risk takes precedence. What replay or idempotence evidence is explicitly shown by operation_description and replay_trace? Classify the observed or stated effect only. Do not authorize another replay, assume an idempotency key works, or infer side effects absent from the trace.",
           "criteria": {
             "single_effect_demonstrated": "The trace explicitly shows repeated invocation resolving to one intended persistent effect under the stated conditions.",
             "duplicate_effect_risk": "The trace or operation description explicitly shows multiple effects, an absent idempotency boundary, or a stated duplicate-effect risk.",
@@ -336,7 +336,7 @@
       "origin": "Task-authored Iteration 3 replay-evidence classifier.",
       "limits": "A synthetic or partial trace cannot prove production idempotence.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["E09", "E08"]
     },
     {
@@ -574,29 +574,31 @@
       "title": "Re-check a shortlisted agent skill choice",
       "domain": "llm",
       "value": "Give a code-chosen shortlist a detailed choose-or-none re-check before an agent loads a skill.",
-      "success_metric": "Correct best-fit and none-fit outcomes on bounded synthetic skill descriptions.",
+      "success_metric": "Distinguish complete shortlist evidence, one-skill fit, no fit within the offered shortlist, and tasks requiring multiple listed skills.",
       "required_state_fields": ["user_task", "skill_shortlist"],
       "questions": {
         "skill": {
           "type": "choice",
-          "instructions": "Which offered entry in skill_shortlist best fits user_task after reading its detailed description, or choose no_skill? Select only an offered skill. A suggestion does not load it, override user instructions, or authorize an external action.",
+          "instructions": "Apply these four mutually exclusive tiers in this exact order. (1) Select insufficient if user_task is missing, empty, unreadable or unclear; if skill_shortlist is missing/empty/unreadable; if any offered entry lacks a full usable description; if the needed capability set cannot be determined; or if a task-required capability is not described by any offered entry. Do not choose an apparently fitting entry while any offered description is unavailable, because an undescribed candidate cannot be compared. (2) Select multiple_required only if every relevant entry has a full usable description, no single offered entry can complete the task, and two or more distinct listed entries are each necessary and together cover it. (3) Otherwise, if one or more fully described offered entries can each complete the whole task, select the most direct/best fit; if equally fitting, select the earliest listed. (4) Select no_skill only if the task and every offered description are clear, none of the offered entries materially fits, and no specific required capability is missing from this shortlist. no_skill means no fit in this shortlist, not none in the full catalog. Judge descriptions, not names. A suggestion never loads a skill or authorizes action.",
           "criteria": {
-            "document_editor": "The task explicitly needs the offered document editing capability.",
-            "data_analysis": "The task explicitly needs the offered structured-data analysis capability.",
-            "browser_test": "The task explicitly needs the offered browser testing capability.",
-            "no_skill": "None of the offered detailed descriptions materially fits the task."
+            "document_editor": "One fully described offered document-editing skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+            "data_analysis": "One fully described offered structured-data analysis skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+            "browser_test": "One fully described offered browser-testing skill, used alone, directly and sufficiently performs the clear requested task; all offered entries have usable descriptions.",
+            "multiple_required": "All needed entries are fully described; no single offered skill can complete the clear task, but at least two distinct listed skills are each required and together cover it.",
+            "no_skill": "The task and every offered description are clear, none of the offered skills materially fits, and no specific required capability is known to be omitted.",
+            "insufficient": "Task/list evidence is missing, empty, unreadable, or ambiguous; any offered entry lacks a full usable description; needed capabilities cannot be determined; or a clear required capability is absent from the offered shortlist."
           }
         }
       },
-      "follow_up": "The agent may inspect the suggested skill first but retains ordinary applicability judgment; no_skill keeps the roster unloaded.",
+      "follow_up": "Code may expand the candidate search for insufficient or multiple_required results. For one selected entry, inspect that skill before loading it; no_skill means only that this shortlist has no fit.",
       "code_owns": "Initial broad roster ranking, candidate inclusion, skill loading, permissions, and task execution.",
       "baseline": "Load every superficially matching skill into the prompt.",
       "comparison_to_prior": "Unlike L04's one-pass available handler selection, this is the second, detailed choose-or-none stage after code has formed a broad roster shortlist.",
       "source": "https://docs.typesafe.ai/cookbooks/skill_suggestion",
       "origin": "Task-authored Iteration 3 progressive-disclosure skill selector.",
-      "limits": "It assumes the shortlist was adequate and cannot make an unloaded skill fit.",
+      "limits": "The result is shortlist-bounded: no_skill does not establish that the full catalog lacks a fit. Code owns candidate coverage, exact membership, skill loading, permissions and execution.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 3,
       "prior_patterns": ["L04", "H11"]
     },
     {
@@ -609,12 +611,12 @@
       "questions": {
         "decision_depth": {
           "type": "choice",
-          "instructions": "What decision depth is required by task_description using available_state? Classify the requested work, not the answer. Do not perform calculations, fill missing evidence, or claim that a System One model is sufficient for a consequential action.",
+          "instructions": "Classify requested work shape, not whether the evidence suffices to answer it. First select insufficient if task_description is missing, empty, or too vague to identify the operation; or if available_state is missing/empty and the task alone does not establish the operation or comparison scope. Do not choose insufficient merely because values or source material needed for a clearly specified task are absent. Select multistep_or_indirect_derivation whenever the task requires chained steps, external retrieval, exact calculation, or a derived result, even if it also compares records or includes a direct judgment. Otherwise select single_bounded_comparison only for one comparison of two or more supplied records/candidates without a chain. Select direct_stated_judgment only for one focused semantic judgment about one supplied item, with no comparison or chain. If none clearly applies, select insufficient. Do not calculate, fill evidence gaps, or claim Jev suffices for consequential action.",
           "criteria": {
-            "direct_stated_judgment": "The task asks for one focused semantic judgment directly supported by the supplied state.",
-            "single_bounded_comparison": "The task asks for one comparison among supplied records, candidates, or criteria without a chain of derived steps.",
-            "multistep_or_indirect_derivation": "The task requires chained reasoning, external retrieval, numeric precision, or a derived result beyond one bounded judgment.",
-            "insufficient": "The task or available state does not establish the required decision shape."
+            "direct_stated_judgment": "One focused semantic judgment about one supplied item; no comparison across multiple records and no chained, retrieved, calculated, or derived result.",
+            "single_bounded_comparison": "One explicit comparison of two or more supplied records or candidates; no chained, externally retrieved, calculated, or derived result.",
+            "multistep_or_indirect_derivation": "The task requires chained reasoning, external retrieval, exact calculation, or any derived result; this takes precedence over comparison or direct judgment also present.",
+            "insufficient": "The requested operation or comparison scope cannot be determined from task_description and available_state; missing answer values alone do not make a clear operation insufficient."
           }
         }
       },
@@ -626,7 +628,7 @@
       "origin": "Task-authored Iteration 3 model-boundary classifier.",
       "limits": "It is an advisory routing aid, not a benchmark or a proof that another model will solve the task.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["L04", "L05", "E04"]
     },
     {
@@ -669,7 +671,7 @@
       "questions": {
         "coverage": {
           "type": "choice",
-          "instructions": "What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
+          "instructions": "First select unverifiable if selection_request or candidate_manifest is missing, empty, has irreconcilable scope declarations, or cannot establish an applicable candidate universe. For an interpretable declaration, ambiguous_or_duplicate_candidates takes precedence over either completeness label. Otherwise an explicitly known incomplete shortlist selects bounded_but_expandable, not exhaustive_with_provenance; only a complete applicable universe with source identities and no unresolved duplicates selects exhaustive_with_provenance. What coverage status is explicitly described by candidate_manifest for selection_request? Classify the candidate-set declaration, not which candidate should win. Do not infer missing candidates or select a value.",
           "criteria": {
             "exhaustive_with_provenance": "The manifest explicitly says the applicable candidate universe is complete and gives each candidate a source identity.",
             "bounded_but_expandable": "The manifest explicitly says it is a known shortlist that may omit relevant candidates.",
@@ -686,7 +688,7 @@
       "origin": "Task-authored Iteration 3 candidate-coverage controller.",
       "limits": "A declaration of completeness still needs code/source validation.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["H14", "L07", "L04"]
     },
     {
@@ -725,34 +727,62 @@
       "domain": "harness",
       "value": "Keep semantic dimensions reusable while code decides which preferences may compensate and which failures must veto.",
       "success_metric": "Tests prove a serious named veto cannot be outweighed by unrelated high scores.",
-      "required_state_fields": ["candidate", "evaluation_rubric"],
+      "required_state_fields": [
+        "candidate",
+        "evaluation_rubric"
+      ],
       "questions": {
         "fit": {
           "type": "score",
-          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome.",
-          "criteria": ["No demonstrated fit.", "Limited fit with important unmet desired outcomes.", "Strong fit for the stated desired outcome."]
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
         },
         "operational_burden": {
           "type": "score",
-          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources.",
-          "criteria": ["Low stated burden.", "Moderate stated burden.", "High stated burden."]
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
         },
         "named_veto": {
           "type": "noul",
           "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
-          "criteria": {"true": "A named veto condition is directly met by the supplied candidate.", "false": "No named veto condition is directly met by the supplied candidate."}
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
         }
       },
-      "follow_up": "Code stores raw dimensions, applies versioned weights only to compensable dimensions, and sends any high veto signal to review.",
+      "follow_up": "Code preserves a named-veto review first. Otherwise it uses a provisional burden_available >= 0.8 gate before any weighted-score proposal; unavailable or uncertain burden requires review and the burden score is ignored. One follow-up may request the missing burden evidence; no rewording until a preferred score appears.",
       "code_owns": "Weights, thresholds, veto policy, numeric calculation, source identity, and all action decisions.",
       "baseline": "Ask one opaque question such as whether a candidate is good overall.",
       "comparison_to_prior": "Unlike H19's policy hazard/severity routing matrix, this generalizes code-owned weighted preference with an explicit non-compensable veto across independent score dimensions.",
       "source": "https://docs.typesafe.ai/patterns/composite-scoring",
       "origin": "Task-authored Iteration 3 composite-scoring controller.",
       "limits": "Weights and thresholds require domain calibration; scores never authorize action.",
-      "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
-      "prior_patterns": ["H19", "E01"]
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory.",
+        "burden_available_min": 0.8
+      },
+      "contract_version": 3,
+      "prior_patterns": [
+        "H19",
+        "E01"
+      ]
     },
     {
       "id": "H25",
@@ -793,7 +823,7 @@
       "questions": {
         "controller_route": {
           "type": "choice",
-          "instructions": "What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
+          "instructions": "First select insufficient if query or candidate_corpus is missing, empty, or cannot establish the relevant corpus scope. For interpretable evidence, preserve_conflict_for_review takes precedence over expand_or_retrieve and rank_eligible. Without material conflict, a known incomplete shortlist selects expand_or_retrieve even if it contains an answer-bearing candidate; only answer-bearing evidence without the named conflict or expansion condition selects rank_eligible. What retrieval-controller route is supported by the stated query and candidate_corpus coverage? This selects the next bounded workflow branch, not an answer or source authority.",
           "criteria": {
             "rank_eligible": "The corpus explicitly contains answer-bearing candidates that can proceed to a ranking stage.",
             "expand_or_retrieve": "The corpus explicitly lacks an answer or is only a known incomplete shortlist requiring expansion.",
@@ -810,7 +840,7 @@
       "origin": "Task-authored Iteration 3 retrieval controller.",
       "limits": "It cannot make an incomplete corpus complete or establish source authority.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["L16", "L07", "H18"]
     },
     {
@@ -823,7 +853,7 @@
       "questions": {
         "merge_route": {
           "type": "choice",
-          "instructions": "What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
+          "instructions": "First select insufficient if candidate_pair, field_evidence, or merge_policy is missing, empty, or cannot establish a policy route. If the supplied policy and explicit identity evidence establish distinct entities, keep_separate takes precedence over related, matching, incomplete, or conflicting descriptive fields. Otherwise select curator_review when the policy requires review of unresolved conflict or ambiguity; this takes precedence over apparent alignment. Select independent_identity_check only when an applicable policy requires that check and no preceding condition applies. What merge-handling route is supported by candidate_pair, field_evidence, and merge_policy? Classify the route only. Do not merge, edit, or delete an entity.",
           "criteria": {
             "independent_identity_check": "The pair appears alignable but policy requires an independent deterministic identity check before a link.",
             "curator_review": "The supplied fields are related, incomplete, or conflicting and policy requires human review.",
@@ -840,7 +870,7 @@
       "origin": "Task-authored Iteration 3 entity-merge hold controller.",
       "limits": "It cannot replace canonical-ID checks or resolve an entity graph conflict.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["L13", "B15", "H17"]
     },
     {
@@ -848,29 +878,30 @@
       "title": "Bounded speculative fan-out scheduler",
       "domain": "harness",
       "value": "Batch independent work while preventing stale or inapplicable speculative branches from driving an action.",
-      "success_metric": "Pure scheduler tests enforce state identity, question budget, explicit premises, and discard conditions.",
+      "success_metric": "Distinguish incomplete manifests, stale state, exact over-budget results, dependencies, and batchable work with explicit precedence.",
       "required_state_fields": ["state_snapshot", "question_manifest", "budget"],
       "questions": {
         "batch_status": {
           "type": "choice",
-          "instructions": "What batching status is supported by state_snapshot, question_manifest, and budget? Classify only whether the listed questions can share one immutable state evaluation. Do not execute a question, infer a missing premise, or reuse an answer after state changes.",
+          "instructions": "Use only explicit fields in state_snapshot, question_manifest, and budget; do not calculate size, cost, or limits. First select insufficient if any required field is absent, empty, or unreadable; if question_manifest lacks an explicit snapshot target, per-question dependency information, or a clear budget assessment against applicable hard limits; or if budget lacks applicable hard limits. Next select stale_or_unverifiable_snapshot if the snapshot is marked stale/changed or its identity and revision cannot be bound to the manifest; this takes precedence over budget and dependency. Next select over_budget_or_oversized only when the manifest and budget explicitly establish that this exact manifest exceeds a supplied hard limit; this takes precedence over dependency. Next select dependent_sequence_required if any listed question requires an earlier answer or state fetch. Select batchable only when every question is explicitly independent, targets the same immutable snapshot, and the budget evidence says this exact manifest fits all supplied hard limits. Otherwise select insufficient. Never execute questions or reuse answers after state changes.",
           "criteria": {
-            "batchable": "All listed questions are explicitly independent, name their premises, fit the stated budget, and target the same immutable snapshot.",
-            "dependent_sequence_required": "At least one listed question explicitly needs an earlier answer or a state fetch before it can be meaningfully asked.",
-            "over_budget_or_oversized": "The manifest explicitly exceeds a stated question, byte, cost, or latency budget.",
-            "stale_or_unverifiable_snapshot": "The state snapshot is explicitly stale, changed, or cannot be tied to the question manifest."
+            "batchable": "All listed questions explicitly have no dependency on earlier answers or fetches, target the same immutable current snapshot, and the budget evidence states that this exact manifest fits every supplied hard limit.",
+            "dependent_sequence_required": "At least one question explicitly requires an earlier answer or state fetch, when the snapshot is current/bindable and no stated budget limit is exceeded.",
+            "over_budget_or_oversized": "The manifest and budget explicitly establish that this exact manifest exceeds at least one hard question, byte, cost, or latency limit, after the current-snapshot check.",
+            "stale_or_unverifiable_snapshot": "The snapshot is explicitly stale/changed, or its identity/revision cannot be bound to the manifest, provided required evidence is present.",
+            "insufficient": "Required evidence or hard limits are missing/empty/unreadable; the manifest lacks an explicit target, per-question dependency information, or clear budget assessment; or remaining evidence does not establish a determinate status."
           }
         }
       },
-      "follow_up": "Code batches only batchable questions, sequences dependencies, stamps snapshot IDs, and drops answers for stale branches.",
+      "follow_up": "Code independently validates exact snapshot identity, dependency edges, serialization, and declared budgets before batching; sequence dependencies, refresh stale snapshots, and drop answers after state changes.",
       "code_owns": "Limits, serialization, request construction, cache scope, concurrency, cost, latency, and answer consumption.",
       "baseline": "Send a separate request for every question or batch dependent questions blindly.",
       "comparison_to_prior": "Unlike H12's repeated-decision stability gate, this controls which independent questions share one immutable request and how code discards stale speculative answers.",
       "source": "https://docs.typesafe.ai/patterns/fan-out",
       "origin": "Task-authored Iteration 3 fan-out scheduler.",
-      "limits": "Batching does not create cross-question reasoning or prove that a branch is relevant.",
+      "limits": "A Jev batchability answer is advisory. Code owns exact limits, serialization, request construction, cache scope, concurrency, cost, latency, freshness checks, and answer consumption; batching creates no cross-question reasoning.",
       "policy": {"threshold_status": "Provisional synthetic screening only; model output is advisory."},
-      "contract_version": 1,
+      "contract_version": 2,
       "prior_patterns": ["H12", "H16", "H01"]
     },
     {

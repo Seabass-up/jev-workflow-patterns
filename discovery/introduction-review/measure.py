@@ -3,6 +3,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+import re
 import statistics
 import sys
 
@@ -25,24 +26,36 @@ def walk(value):
             yield from walk(child)
 
 
-def sha256(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
 def load_all():
-    """Pin inputs to the saved snapshot so later receipts cannot silently change it."""
-    if SAVED.exists():
-        pinned = json.loads(SAVED.read_text())["input_files"]
-        for name, digest in pinned.items():
-            if sha256(REPO / name) != digest:
-                raise SystemExit("pinned input changed: " + name)
-        paths = [REPO / name for name in pinned]
+    """Read each selected input once, binding its parsed data to its actual digest."""
+    replay = SAVED.is_file()
+    if replay:
+        inputs = json.loads(SAVED.read_bytes())["input_files"]
     else:
-        paths = [p for folder in RECEIPT_DIRS for p in sorted(folder.rglob("*.json"))]
-    documents = [(p.relative_to(REPO).as_posix(), json.loads(p.read_text())) for p in paths]
-    return [(name, doc) for name, doc in documents
-            if is_catalog(name) or any(True for _ in answers(doc))
-            or any("elapsed_ms" in n for n in walk(doc))]
+        inputs = {p.relative_to(REPO).as_posix(): None for folder in RECEIPT_DIRS
+                  for p in sorted(folder.rglob("*.json"))}
+    documents = []
+    digests = {}
+    for name, expected in inputs.items():
+        relative = Path(name)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise SystemExit("invalid input path: " + name)
+        path = REPO / relative
+        if replay:
+            if not isinstance(expected, str) or not re.fullmatch(r"[0-9a-f]{64}", expected):
+                raise SystemExit("invalid pinned digest: " + name)
+            frozen = ROOT / "frozen-inputs" / (expected + ".json")
+            if frozen.is_file():
+                path = frozen
+        raw = path.read_bytes()
+        digest = hashlib.sha256(raw).hexdigest()
+        if replay and digest != expected:
+            raise SystemExit("pinned input changed: " + name)
+        doc = json.loads(raw)
+        if is_catalog(name) or any(True for _ in answers(doc)) or any("elapsed_ms" in n for n in walk(doc)):
+            documents.append((name, doc))
+            digests[name] = digest
+    return documents, digests
 
 
 def is_catalog(name):
@@ -171,10 +184,10 @@ def source_comparison():
 
 
 def report():
-    documents = load_all()
+    documents, digests = load_all()
     return {"schema_version": 1,
             "inputs": "Preserved iteration and email receipts in this repository; offline replay.",
-            "input_files": {name: sha256(REPO / name) for name, _ in documents},
+            "input_files": digests,
             "confidence_fit": confidence_fit(documents),
             "latency": latency(documents),
             "flat_threshold_audit": flat_threshold_audit(documents),

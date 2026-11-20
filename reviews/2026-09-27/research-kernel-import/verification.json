@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-27",
+  "task": "Import the requested research checkpoint into the Jev question kernel; do not resume or promote the research.",
+  "kernel_version": "2.8.0",
+  "source_commit": "48a8b4569a9ce5b17ce1119d63179e84a2990ae6",
+  "source_checkout_observed_later": {
+    "commit": "8f40a61f45ccae67bd1fcc958b41ebe7a224ca0f",
+    "untracked": "research/pattern-expansion/wave-01/",
+    "disposition": "Separate ongoing work left untouched. Import reads pinned Git objects, not this moving checkout."
+  },
+  "review_branch": "review/all-patterns-20260926",
+  "review_base_commit": "5f9a1ccded64dd333f71c92a34df3272dc077610",
+  "delivery": {
+    "local_only": true,
+    "installed_skill": "/Users/scottwhitlock/.agents/skills/jev-question-kernel-catalog",
+    "symlink_target": "/Users/scottwhitlock/Code/jev-workflow-patterns/skills/jev-question-kernel-catalog",
+    "pushed": false,
+    "deployed": false,
+    "goal_changed": false
+  },
+  "tests": [
+    {
+      "command": "python3 -m unittest discover -s skills/jev-question-kernel-catalog/scripts -p 'test_*.py'",
+      "checkout": "review branch",
+      "exit_code": 0,
+      "tests": 49,
+      "new_import_tests": 18
+    },
+    {
+      "command": "python3 -m unittest discover -s skills/jev-question-kernel-catalog/scripts -p 'test_*.py'",
+      "checkout": "installed canonical checkout",
+      "exit_code": 0,
+      "tests": 48,
+      "new_import_tests": 18,
+      "note": "Baseline suites differ; existing canonical edits were preserved rather than overwritten by the reviewed branch."
+    },
+    {
+      "command": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+      "checkout": "review branch",
+      "exit_code": 0,
+      "tests": 27,
+      "elapsed_seconds": 73.83
+    },
+    {
+      "command": "uv run --offline --with pyyaml python .../skill-creator/scripts/quick_validate.py SKILL_FOLDER",
+      "checkouts": [
+        "review branch",
+        "installed symlink"
+      ],
+      "exit_code": 0,
+      "result": "Skill is valid!"
+    },
+    {
+      "command": "python3 scripts/check_research_import.py --source-root RESEARCH_REPOSITORY",
+      "checkouts": [
+        "review branch skill",
+        "installed symlink"
+      ],
+      "exit_code": 0,
+      "contracts": 10,
+      "source_git_objects": 28,
+      "excluded": 4,
+      "pending_not_imported": [
+        "JP-017"
+      ]
+    },
+    {
+      "command": "Bundled Python: research/evidence-stage-public-transfer/verify_post_screen.py",
+      "checkout": "source research",
+      "exit_code": 0,
+      "correct": 12,
+      "previews": 9,
+      "public_previews": 5,
+      "reviews": 3,
+      "wrong_previews": 0,
+      "baseline_public_previews": 0,
+      "canonical_request_sha256": "90db0a614efd9e14d2bd36de65a1c45ab6920e733d7b3988d8edeebf9fa47901"
+    },
+    {
+      "command": "Bundled Python: -m unittest discover -s research/evidence-stage-public-transfer -p 'test_*.py' -v",
+      "checkout": "source research",
+      "exit_code": 0,
+      "tests": 4
+    },
+    {
+      "command": "python3 scripts/build_catalog.py",
+      "checkout": "review branch",
+      "exit_code": 0,
+      "total_profiles": 390,
+      "source_catalogs": 30,
+      "kernel_version": "2.8.0",
+      "note": "Only version-derived catalog metadata changes; no profile-count inflation."
+    },
+    {
+      "command": "git diff --check",
+      "checkout": "review branch",
+      "exit_code": 0
+    }
+  ],
+  "copy_parity": {
+    "files": 15,
+    "different": [],
+    "hashes": {
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-002.v1.json": "05262e820a2de420073bed4d48a5ed7cf167ffe6ce1eacff00d8894715eeb213",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-003.v1.json": "5f73b1ab19f3cffe51a4e074236f45f1026859d30d052e8b3d0299afae513ef9",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-004.v1.json": "6616f69be6ce03a73de1ee6ec0ecb625cf3ee091daecc025d7a06cbf14981015",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-005.v1.json": "eaf2939d38ed047c3f220127900a48b753c2498380f7426f006285518e1835fc",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-007.v1.json": "f18df4a6396c64923764474dc2c4c5f8032ba4dd41562bba46abf4e200d88d6d",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-008.v1.json": "9af95c24e77a8b20ba1f35f3ffe3775105371a26d5c330d2e98a5b09bd34b18a",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-010.v1.json": "2c98511c3f818e8c09586111722c058c61842ec0a2c9cd6e0221002877ef66ab",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-011.v2.json": "1bf8aed994fdfc96f0e7af20b0c40c8be48cf0a05f20bab5611715fb7014e1b1",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-012.v1.json": "a1c49af0682d606ca7e941c77149f3e342a614d92342b0ff9ba72086ae90eb3f",
+      "skills/jev-question-kernel-catalog/assets/research-edition/contracts/JP-013.v1.json": "d4f6b8caffe8fe88407f114d24464c7916d16e4d9459b79a4e136be8e424e7ac",
+      "skills/jev-question-kernel-catalog/assets/research-edition/manifest.json": "b8bf51e40c1f97cadef1e00ade919200267be4445ca9c7915d9469887d6576ae",
+      "skills/jev-question-kernel-catalog/references/research-edition.md": "e7fc60a2bf4a88f24faef5c45058ff2931884f125b623fdf0b5315de18eeab56",
+      "skills/jev-question-kernel-catalog/scripts/check_research_import.py": "35a306b88ca1a15400a9fe147e9dc973bd4a1b92ba94c1f78a6c6e9364cac163",
+      "skills/jev-question-kernel-catalog/scripts/test_research_import.py": "86600f339043fc56150c4153db738b091f0d5b087c54b41511898ebe113c0e12",
+      "kernel/research-edition.md": "adaf0a7411d6e8d9a92460f994c21e009833803d804f56cc2976845c6c3692cb"
+    }
+  },
+  "preservation": {
+    "verified_unchanged": 57,
+    "drift": [],
+    "scoped_existing_files": [
+      "skills/jev-question-kernel-catalog/SKILL.md",
+      "skills/jev-question-kernel-catalog/references/profiles.md",
+      "skills/jev-question-kernel-catalog/references/evaluation.md",
+      "kernel/index.md",
+      "_data/catalog_summary.json"
+    ]
+  },
+  "jev_assistance": {
+    "calls": 1,
+    "cached": false,
+    "purpose": "Consumer-summary integration advisory, not re-screening the ten patterns",
+    "result": "Ten preserves_boundary choices; host found and corrected JP-011 formula/effort mismatch by inspecting consumer code.",
+    "receipt": "jev-advisory.json",
+    "host_review": "host-review.json"
+  },
+  "environment_attempts": [
+    "Default Python and the existing Jev venv lack PyYAML; quick_validate succeeded using the already-cached offline uv environment.",
+    "Offline uv could not resolve pdfplumber from its cache. The existing Codex bundled Python supplied it and completed the original replay and adversarial tests; no dependency installation was required."
+  ],
+  "ci_boundary": {
+    "mode": "targeted local verification, not a full CI run",
+    "github_actions_triggered": false,
+    "claude_runner": "/Users/scottwhitlock/Seabass-build/.worktrees/ci-local/scripts/ci-local.sh",
+    "runner_used": false,
+    "reason": "Runner is bound to Seabass Build's Rust workflow, matrix and known-step drift guard. No unrelated Rust CI was run and the runner was not modified."
+  },
+  "limitations": [
+    "No new accuracy screen, whole-agent savings measure, domain qualification or admission occurred.",
+    "Source full-release replay is not claimed; twelve historical release-manifest mismatches remain research work.",
+    "No Jekyll executable or Gemfile was available; rendered-page build/visual verification is unrun.",
+    "No push, remote CI or deployment; new web guide is local source only.",
+    "Original four edition holds and pending-audit JP-017 remain outside selectable imports."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "wave": 11,
+  "name": "Call-control profile source review",
+  "reviewed_commit": "8171662e73acfc50cd87fdcb48b8755ab74c252c",
+  "scope": {
+    "catalog": "controls/catalog.json",
+    "pattern_ids": ["CT01", "CT02", "CT03", "CT04", "CT05", "CT06", "CT07", "CT08", "CT09", "CT10"],
+    "pattern_count": 10,
+    "fixture_count": 40,
+    "reviewed": [
+      "question contracts and criteria",
+      "required-state and consumer boundaries",
+      "synthetic design and challenge fixture states",
+      "stored Jev evaluation receipts",
+      "pattern-page question JSON parity"
+    ]
+  },
+  "verification": {
+    "evaluator": {
+      "command": "python3 controls/evaluate.py",
+      "exit_code": 0,
+      "request_digests_verified": "40/40",
+      "design_matches": "28/30",
+      "challenge_matches": "10/10",
+      "provider_failures": 0
+    },
+    "unit_tests": {
+      "command": "python3 -m unittest discover -s controls -p 'test_*.py'",
+      "exit_code": 0,
+      "passed": 12
+    },
+    "page_question_parity": {
+      "result": "10/10 pages exactly match catalog question JSON"
+    }
+  },
+  "preserved_disagreements": [
+    {
+      "fixture_id": "CT03-3",
+      "expected": "unknown",
+      "observed": "drops_an_action",
+      "confidence": 0.72,
+      "disposition": "Retained. The described consumer has a deterministic preflight that returns unknown for an absent or empty commands field; the screen does not authorize inference from missing input."
+    },
+    {
+      "fixture_id": "CT07-2",
+      "expected": "not_a_complement",
+      "observed": "exact_complement",
+      "confidence": 0.56,
+      "disposition": "Retained as provisional. The fixture demonstrates a realistic co-occurrence; do not relabel after inference."
+    }
+  ],
+  "result": "No call-control contract defect was confirmed from the reviewed source and stored receipts; no contract was changed in this wave.",
+  "limitations": [
+    "Synthetic development screening only; not production accuracy, calibration, or runtime qualification.",
+    "No public-site rendering, push, pull request, publication, or deployment was performed."
+  ]
+}

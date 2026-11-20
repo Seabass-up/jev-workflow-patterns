@@ -38,10 +38,13 @@ Choose between nearby checks by the context code can supply:
 
 Supply the exact passage, its scene boundaries, and the author's own summaries,
 profiles, and ledgers with their revisions. Keep omniscient or multi-viewpoint
-sections out of ST02. Before inference, code validates `required_state_fields` and
-returns a local `unknown` for absent or empty evidence; an empty character name and
-an empty reader-knowledge list were both classified in this screen instead of
-returning unknown.
+sections out of ST02. `required_state_fields` describes an input contract; it does
+not enforce itself. Before calling Jev, the consuming application must check each
+field and return a local `unknown` when a value is absent or empty under that field's
+schema. This module and the collection screen do not implement or verify that
+consumer preflight; valid `0` or `false` values must not be treated as missing. In
+this screen, an empty character name and an empty reader-knowledge list were both
+classified instead of returning unknown.
 
 ## Use the labels without taking over
 

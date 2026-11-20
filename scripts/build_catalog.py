@@ -5,7 +5,7 @@ import json
 import re
 from pathlib import Path
 
-from build_collection_pages import pattern_url
+from build_collection_pages import current_summary, pattern_url
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +31,7 @@ def source_groups():
             meta = json.loads(source.read_text()) if source.name == "collection.json" else None
             if meta:
                 label = meta["short"]
-                summary = json.loads((folder / "results/summary.json").read_text())
+                summary = current_summary(json.loads((folder / "results/summary.json").read_text()))
                 provisional = set(summary["provisional_patterns"])
             elif area_slug == "research":
                 label = "Research iteration " + folder.name.lstrip("0")

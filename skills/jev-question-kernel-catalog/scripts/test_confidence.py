@@ -5,10 +5,18 @@ import tempfile
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from check_confidence import check, check_answer, choice_confidence, required_top_probability
+from check_confidence import (check, check_answer, choice_confidence,
+                              probability_sum_tolerance, required_top_probability)
 
 
 class ConfidenceTests(unittest.TestCase):
+    def test_probability_sum_tolerance_scales_with_option_count(self):
+        for count in (2, 6, 10, 32):
+            self.assertAlmostEqual(probability_sum_tolerance(count), 0.005 * count + 1e-9)
+        for invalid in (True, 0, -1, 2.0):
+            with self.assertRaises(ValueError):
+                probability_sum_tolerance(invalid)
+
     def test_documented_quickstart_answer_is_consistent(self):
         # docs.typesafe.ai/introduction/quickstart: technical 0.85, billing 0.15, sales 0.0 -> 0.78
         answer = {"type": "choice", "choice": "technical", "confidence": 0.78,

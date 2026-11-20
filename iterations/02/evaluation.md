@@ -6,7 +6,7 @@ permalink: /iterations/02/evaluation/
 kicker: "Evaluation · Synthetic design checks"
 ---
 
-[← Iteration 2 catalog]({{ '/iterations/02/' | relative_url }}) · [Question kernel]({{ '/iterations/02/question-kernel/' | relative_url }}) · [Raw summary JSON]({{ '/iterations/02/results/summary.json' | relative_url }})
+[← Iteration 2 catalog]({{ '/iterations/02/' | relative_url }}) · [Question kernel]({{ '/iterations/02/question-kernel/' | relative_url }}) · [Raw summary JSON]({{ '/iterations/02/results/summary.json' | relative_url }}) · [Kernel authoring guide](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md)
 
 # Evaluation: preserve the miss, repair the contract, rerun the affected case
 
@@ -62,3 +62,53 @@ python3 -m unittest -v test_evaluate.py
 ~~~
 
 [Open all result receipts]({{ '/iterations/02/results/' | relative_url }}) · [Open the standalone evaluator]({{ '/iterations/02/evaluate.py' | relative_url }})
+## 2026-09-26 local controller evidence preflight
+
+The advisory `plan` API now requires `state=...` as a keyword argument. Omission,
+missing top-level required fields, nulls, whitespace-only strings and empty arrays
+or objects return `review / missing_required_state` before model answers are used.
+This repairs the previous API's inability to inspect required evidence. Iteration 1's
+mandatory policy-alert override remains independent of model/evidence availability.
+
+This is a structural presence check only: nonempty records may still be false,
+stale, contradictory or incomplete internally. It does not authenticate a response,
+validate nested schemas, or grant authority. Providers should also be called only
+after preflight. Branch tests use explicitly supplied synthetic evidence, not proof
+of real-world source grounding. Cross-iteration negative tests exercise all 120
+profiles in `scripts/test_iteration_state_preflight.py`; historical question
+contracts, fixtures and provider receipts are unchanged. Local repair, not deployment.
+## H18 counterevidence precedence revision — 2026-09-26, local only
+
+H18 v1 allowed a missing counterevidence obligation to satisfy both `partial` and
+`counterevidence_unaddressed`. V2 first uses `insufficient` for an unmatchable plan
+or ledger, then prioritizes omitted or misrepresented direct counterevidence over
+ordinary missing obligations. Original H18 v1 and its four fixtures are preserved
+in `results/h18-pre-review-contract.json`; all initial provider receipts remain.
+
+One uncached rerun of the four unchanged cases plus three frozen new synthetic
+development cases matched 7/7 labels. The unmatchable-subject and addressed-counterevidence
+cases returned confidence 0.32 and 0.59 respectively; consumer tests verify both
+route to review under the provisional 0.8 gate. This is not independent held-out
+accuracy or production qualification. `h18-review-v2` adds seven exact request bindings,
+for 175 total; the final historical fixture selection remains 134/134 and 147/147
+question matches. The evaluator rejects changed original states/expectations and
+revision receipts not bound to the current H18 contract. No push or deployment.
+## Four further precedence revisions — 2026-09-26, local only
+
+B09/B13/L10/H15 are now contract v2. B09 explicitly prioritizes coordinated
+shared responsibility over individual-role matches, retaining unspecified for
+conflicting assignments. B13 first preserves unresolved status/scope, then selects
+superseded before different-subject. L10 preserves source conflict before support,
+then prefers direct-source support over a calculation that also supports the same
+assertion. H15 prioritizes reference promotion over an omitted binding when both
+defects are demonstrated with clear inputs; it never treats this as permission.
+
+The pre-review contracts and 17 original fixtures are preserved in
+`results/precedence-pre-review-contracts.json`. One uncached revision screen matched
+all 17 unchanged regressions and eight newly frozen synthetic development cases
+(25/25). H15-3 and the new L10 support/conflict case had confidence 0.60 and 0.79;
+consumer tests keep both in review. The evaluator checks preserved states and
+expectations, current question/version binding, and all new receipt hashes. Total
+saved bindings are 200; final historical selection is still 134/134 fixtures and
+147/147 question matches. These cases do not establish independent held-out
+performance, calibration, source authenticity, or production qualification.

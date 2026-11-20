@@ -26,7 +26,39 @@ def unique(items, key):
     return result
 
 
+def valid_version(value):
+    return type(value) is int and value > 0
+
+
+def validate_fixture_history(old_fixtures, fixtures, old_patterns, patterns):
+    before, after = unique(old_fixtures, "id"), unique(fixtures, "id")
+    old_pattern_map = unique(old_patterns, "id")
+    pattern_map = unique(patterns, "id")
+    if any(not valid_version(item.get("version")) for item in old_fixtures + fixtures):
+        raise ValueError("invalid fixture version")
+    if any(not valid_version(item.get("version")) for item in old_patterns + patterns):
+        raise ValueError("invalid pattern version")
+    if not set(before).issubset(after):
+        raise ValueError("frozen fixture removed")
+    for fid, original in before.items():
+        current = after[fid]
+        old_content = {k: v for k, v in original.items() if k != "version"}
+        current_content = {k: v for k, v in current.items() if k != "version"}
+        if old_content != current_content:
+            raise ValueError("frozen fixture was rewritten")
+    for fid, fixture in after.items():
+        pattern = pattern_map.get(fixture["pattern_id"])
+        if pattern is None or fixture["version"] != pattern["version"]:
+            raise ValueError("fixture version does not match current contract")
+        if fid not in before:
+            old_pattern = old_pattern_map.get(fixture["pattern_id"])
+            if old_pattern is None or pattern["version"] <= old_pattern["version"]:
+                raise ValueError("new fixture must target a revised contract")
+
+
 def validate_receipt(receipt, fixture, pattern):
+    if any(not valid_version(item.get("version")) for item in (receipt, fixture, pattern)):
+        raise ValueError("invalid contract version")
     if receipt["fixture_id"] != fixture["id"] or receipt["pattern_id"] != pattern["id"]:
         raise ValueError("identity mismatch")
     if fixture["pattern_id"] != pattern["id"]:
@@ -85,19 +117,26 @@ def report():
     catalog, fixtures = read("catalog.json"), read("fixtures.json")
     old_catalog, old_fixtures = read("results/initial-catalog.json"), read("results/initial-fixtures.json")
     initial, refinement = read("results/initial.json"), read("results/refinement.json")
+    em10_v2 = read("results/em10-v2-first-pass.json")
     revised_ids = {p["id"] for p in catalog["patterns"] if p["version"] > 1}
     revised_fixtures = [f for f in fixtures if f["pattern_id"] in revised_ids]
     selected = [r for r in initial if r["pattern_id"] not in revised_ids] + refinement
-    # A revision may change its contract, but not silently rewrite the frozen test.
-    before, after = unique(old_fixtures, "id"), unique(fixtures, "id")
-    if set(before) != set(after):
-        raise ValueError("fixture identity changed")
-    for fid in before:
-        if {k: v for k, v in before[fid].items() if k != "version"} != {k: v for k, v in after[fid].items() if k != "version"}:
-            raise ValueError("frozen fixture was rewritten")
-    runs = initial + refinement
+    # Revisions may add version-matched regression cases, but cannot remove or
+    # rewrite any original state/expectation. New cases must target a revised
+    # contract so their receipts cannot silently alter a baseline pattern.
+    validate_fixture_history(old_fixtures, fixtures, old_catalog["patterns"], catalog["patterns"])
+    current_em10 = next(pattern for pattern in catalog["patterns"] if pattern["id"] == "EM10")
+    validate_fixture_history(
+        em10_v2["fixtures"],
+        [fixture for fixture in fixtures if fixture["pattern_id"] == "EM10"],
+        [em10_v2["pattern"]],
+        [current_em10],
+    )
+    em10_v2_first_pass = score(em10_v2["receipts"], em10_v2["fixtures"], [em10_v2["pattern"]])
+    runs = initial + refinement + em10_v2["receipts"]
     return {
         "initial": score(initial, old_fixtures, old_catalog["patterns"]),
+        "em10_v2_first_pass": em10_v2_first_pass,
         "refinement": score(refinement, revised_fixtures, catalog["patterns"]),
         "current": score(selected, fixtures, catalog["patterns"]),
         "request_digests_verified": len(runs),

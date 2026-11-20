@@ -48,7 +48,7 @@ cannot use one another's answers. Separate unrelated source packets.
   It is not an all-clear and cannot veto an independently reproduced defect.
   When the evidence shows both a concrete violating path and a relevant guard, the
   contract selects `risk_supported`: the guard narrows the finding, it does not cancel
-  it. Version 2 of every profile states this tie-break in its instructions.
+  it. Every current profile version states this tie-break in its instructions.
 - `insufficient`: retrieve the specifically missing source or report unresolved.
   Source mismatch, stale state, and provider failure also stay unresolved, separately.
 

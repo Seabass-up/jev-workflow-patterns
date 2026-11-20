@@ -47,8 +47,12 @@ quantity as the request names it, and nothing the model should compute: no toler
 bands to compare, no unit conversions, no expected results. Several contracts state a
 precedence order for text that does more than one thing, such as a finding that both
 observes and claims, a note that raises two subjects, or a note that attributes two
-causes; keep those sentences when adapting. Before inference, code validates
-`required_state_fields` and returns a local `unknown` for absent or empty evidence.
+causes; keep those sentences when adapting. `required_state_fields` describes an
+input contract; it does not enforce itself. Before calling Jev, the consuming
+application must check each field and return a local `unknown` when a value is absent
+or empty under that field's schema. This module and the collection screen do not
+implement or verify that consumer preflight; valid `0` or `false` values must not
+be treated as missing.
 
 ## Use the labels without taking over
 
@@ -58,6 +62,11 @@ provider path; keep driver identities, chassis and part serial numbers, supplier
 contracts, and regulation text under licence out of the state unless the judgment
 needs them and the transfer is authorized. Safety-equipment notes are handled under
 the series' rules regardless of any label.
+
+For a finding that reports a measured value and names an applicable limit but does
+not state how they relate, classify only the text as an observation. Do not compare
+the numbers or infer conformance: code performs that check against the authoritative
+measurement and tolerance records.
 
 ## Verify against the team's own records
 

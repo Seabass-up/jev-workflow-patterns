@@ -1,0 +1,1066 @@
+[
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-good",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate fulfills every desired outcome, has a low stated operational burden, and does not trigger any named veto.",
+        "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "0862944b462f62dd7f16dda93a7e5f49c5dc5b0029626978f426abc48064fadd",
+      "observed_at": "2026-09-27T00:08:35.375447+00:00",
+      "elapsed_ms": 241.663,
+      "billed_input_tokens": 815,
+      "estimated_cost_usd": 0.000034229999999999996,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 815,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2,
+          "confidence": 0.99,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 0,
+          "confidence": 1,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 1,
+            "1": 0,
+            "2": 0
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.94
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "observed": 0,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "observed": 0.04,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0.8,
+            1
+          ]
+        },
+        "observed": 0.94,
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-veto",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate does not meet the desired outcome, has a high stated operational burden, and handles regulated payment-card data without an approved boundary.",
+        "evaluation_rubric": "Desired outcome: full fit. Burden levels: low, moderate, high. Non-compensable veto: handling regulated payment-card data without an approved boundary."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "824d9ca9cd5aa1e6282e8e83d0a553a9686e5ed19dd8362e51252d8d7189bfdb",
+      "observed_at": "2026-09-27T00:08:35.387118+00:00",
+      "elapsed_ms": 256.385,
+      "billed_input_tokens": 819,
+      "estimated_cost_usd": 0.000034398,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 819,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 0.23,
+          "confidence": 0.66,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0.78,
+            "1": 0.22,
+            "2": 0
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 2,
+          "confidence": 0.99,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.98
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.93
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "observed": 0.23,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0.6,
+            1
+          ]
+        },
+        "observed": 0.98,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0.8,
+            1
+          ]
+        },
+        "observed": 0.93,
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-review-absent-burden",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate implements every requested feature. It handles no regulated data. No cost, time, resource use or operational burden is described.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "4c4d96ac4ca3e3dda15d639d63f69ed999aacc2f4bfda7d22f5ac1bfdf8c236b",
+      "observed_at": "2026-09-27T00:08:35.357959+00:00",
+      "elapsed_ms": 220.958,
+      "billed_input_tokens": 816,
+      "estimated_cost_usd": 0.000034272,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 816,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 1.99,
+          "confidence": 0.99,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 0.33,
+          "confidence": 0.5,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 0.79,
+            "1": 0.08,
+            "2": 0.13
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.05
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 1.99,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "observed": 0.33,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "observed": 0.04,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0,
+            0.2
+          ]
+        },
+        "observed": 0.05,
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-review-other-candidate-burden",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate A implements every requested feature and handles no regulated data. Candidate B has low operational burden. No burden is stated for A.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary. Evaluate Candidate A only."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "968095357019cfa991e72714564cdb6bed3d16f4500242cdd127a700dff53d18",
+      "observed_at": "2026-09-27T00:08:35.356015+00:00",
+      "elapsed_ms": 220.911,
+      "billed_input_tokens": 822,
+      "estimated_cost_usd": 0.000034524,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 822,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2,
+          "confidence": 1,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 0.83,
+          "confidence": 0.1,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 0.39,
+            "1": 0.39,
+            "2": 0.22
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.06
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.06
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "observed": 0.83,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "observed": 0.06,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0,
+            0.2
+          ]
+        },
+        "observed": 0.06,
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-review-conflicting-burden",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate A implements every requested feature and handles no regulated data. One equally applicable report says A has low burden, another says high burden; no source controls.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "ac4a171a239f0e97ce3ddcb17d026fc0b8ac2c76525a417f8e8bcef4241ae657",
+      "observed_at": "2026-09-27T00:08:35.470843+00:00",
+      "elapsed_ms": 332.907,
+      "billed_input_tokens": 822,
+      "estimated_cost_usd": 0.000034524,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 822,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2,
+          "confidence": 1,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 1.15,
+          "confidence": 0.23,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 0.18,
+            "1": 0.49,
+            "2": 0.33
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.05
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.07
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "observed": 1.15,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "observed": 0.05,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0,
+            0.2
+          ]
+        },
+        "observed": 0.07,
+        "match": true
+      }
+    ],
+    "match": true
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-review-negated-extra-resources",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate implements every requested feature, handles no regulated data, and does not require additional hardware, staffing or ongoing maintenance.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary. No additional hardware, staffing or ongoing maintenance constitutes low operational burden."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "8d8677286860035c15d96d6a5f401d5cdf9f06a29a39a0b707686b41754a3730",
+      "observed_at": "2026-09-27T00:08:35.365549+00:00",
+      "elapsed_ms": 226.817,
+      "billed_input_tokens": 827,
+      "estimated_cost_usd": 0.000034733999999999996,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 827,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2,
+          "confidence": 1,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 0,
+          "confidence": 1,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 1,
+            "1": 0,
+            "2": 0
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.04
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.66
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            0.6
+          ]
+        },
+        "observed": 0,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0,
+            0.4
+          ]
+        },
+        "observed": 0.04,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0.8,
+            1
+          ]
+        },
+        "observed": 0.66,
+        "match": false
+      }
+    ],
+    "match": false
+  },
+  {
+    "screen": "h24-review-v3",
+    "fixture_id": "H24-review-veto-with-absent-burden",
+    "pattern_id": "H24",
+    "contract_version": 3,
+    "request": {
+      "model": "jev-1.13.0",
+      "state": {
+        "candidate": "Candidate implements every requested feature and handles regulated payment-card data without an approved boundary. No burden is described.",
+        "evaluation_rubric": "Desired outcome: all requested features. Burden levels: low, moderate, high. Named veto: handling regulated payment-card data without an approved boundary."
+      },
+      "questions": {
+        "fit": {
+          "type": "score",
+          "instructions": "Rate how well candidate fits the stated desired outcome in evaluation_rubric. Judge only supplied semantic fit; do not decide the final policy outcome. Assess desired-outcome fit independently of operational burden and the named-veto condition. A triggered veto does not reduce this fit score when the stated desired outcomes are fulfilled; code handles the veto separately.",
+          "criteria": [
+            "No demonstrated fit.",
+            "Limited fit with important unmet desired outcomes.",
+            "Strong fit for the stated desired outcome."
+          ]
+        },
+        "operational_burden": {
+          "type": "score",
+          "instructions": "Rate the operational burden explicitly stated for candidate under evaluation_rubric. Do not invent cost, timing, or resources. This numeric output is usable only when code accepts the independent burden_available signal; when burden evidence is missing or conflicting, code ignores this score rather than treating it as low burden.",
+          "criteria": [
+            "Low stated burden.",
+            "Moderate stated burden.",
+            "High stated burden."
+          ]
+        },
+        "named_veto": {
+          "type": "noul",
+          "instructions": "Does candidate explicitly trigger a non-compensable veto condition named in evaluation_rubric?",
+          "criteria": {
+            "true": "A named veto condition is directly met by the supplied candidate.",
+            "false": "No named veto condition is directly met by the supplied candidate."
+          }
+        },
+        "burden_available": {
+          "type": "noul",
+          "instructions": "Does candidate provide enough explicit, relevant operational-burden evidence under evaluation_rubric to assign a stated burden level meaningfully? Judge only whether burden evidence is available and interpretable for this candidate, not whether the burden is low. A missing burden statement, burden for another candidate only, or materially conflicting statements without a controlling resolution does not establish availability. Do not infer burden from feature fit or from absence of a veto. An explicit qualitative statement that this candidate has low, moderate, or high operational burden counts as available evidence under a rubric with those levels; no numeric measurement, resource breakdown or justification is required for this availability judgment.",
+          "criteria": {
+            "true": "Relevant explicit burden information supports an interpretable rubric level, including a directly stated qualitative low/moderate/high level without numeric measurements.",
+            "false": "Burden evidence is absent, irrelevant to this candidate, or materially conflicting without a resolution."
+          }
+        }
+      },
+      "use_cache": false
+    },
+    "response": {
+      "ok": true,
+      "advisory_only": true,
+      "cached": false,
+      "request_sha256": "f9230d7aae852748a40e08b4777aa6900a4e1dcef3ad3cf022a29ea87340240e",
+      "observed_at": "2026-09-27T00:08:35.362796+00:00",
+      "elapsed_ms": 223.303,
+      "billed_input_tokens": 812,
+      "estimated_cost_usd": 0.000034104,
+      "model": "jev-1.13.0",
+      "usage": {
+        "input_tokens": 812,
+        "output_tokens": 71
+      },
+      "answers": {
+        "fit": {
+          "type": "score",
+          "score": 2,
+          "confidence": 1,
+          "legend": {
+            "0": "No demonstrated fit.",
+            "1": "Limited fit with important unmet desired outcomes.",
+            "2": "Strong fit for the stated desired outcome."
+          },
+          "probabilities": {
+            "0": 0,
+            "1": 0,
+            "2": 1
+          }
+        },
+        "operational_burden": {
+          "type": "score",
+          "score": 0.64,
+          "confidence": 0.04,
+          "legend": {
+            "0": "Low stated burden.",
+            "1": "Moderate stated burden.",
+            "2": "High stated burden."
+          },
+          "probabilities": {
+            "0": 0.66,
+            "1": 0.04,
+            "2": 0.3
+          }
+        },
+        "named_veto": {
+          "type": "noul",
+          "noul": 0.97
+        },
+        "burden_available": {
+          "type": "noul",
+          "noul": 0.04
+        }
+      }
+    },
+    "checks": [
+      {
+        "question_id": "fit",
+        "expected": {
+          "range": [
+            1.4,
+            2
+          ]
+        },
+        "observed": 2,
+        "match": true
+      },
+      {
+        "question_id": "operational_burden",
+        "expected": {
+          "range": [
+            0,
+            2
+          ]
+        },
+        "observed": 0.64,
+        "match": true
+      },
+      {
+        "question_id": "named_veto",
+        "expected": {
+          "range": [
+            0.6,
+            1
+          ]
+        },
+        "observed": 0.97,
+        "match": true
+      },
+      {
+        "question_id": "burden_available",
+        "expected": {
+          "range": [
+            0,
+            0.2
+          ]
+        },
+        "observed": 0.04,
+        "match": true
+      }
+    ],
+    "match": true
+  }
+]

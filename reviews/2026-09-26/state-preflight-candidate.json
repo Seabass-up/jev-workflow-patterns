@@ -1,0 +1,52 @@
+{
+  "request": {
+    "state": {
+      "source_commit": "386d0ce",
+      "source": "def plan(pattern, response, control=None):\n    \"\"\"Return a proposal, never perform a tool call, write, merge or notification.\n\n    control is trusted host metadata, not model output or extracted source text.\n    Fresh source/authority checks and an external permission layer remain required.\n    \"\"\"\n    control = control or {}\n    if pattern[\"id\"] == \"H07\" and control.get(\"mandatory_alert\") is True:\n        return {\"next\": \"mandatory_policy_review\"}\n    if not valid_answers(pattern[\"questions\"], response):\n        return {\"next\": \"review\", \"reason\": \"provider_or_schema_failure\"}\n    answers = response[\"answers\"]\n    pid = pattern[\"id\"]\n    if pid == \"E01\":\n        evidence = answers[\"evidence\"]\n        if not ready(evidence) or evidence[\"choice\"] != \"enough\":\n            return {\"next\": \"request_impact_evidence\"}  # Ignore unused score.\n        if not ready(answers[\"impact\"]):\n            return {\"next\": \"review\", \"reason\": \"uncertain_impact\"}\n        return {\"next\": \"review_priority\", \"score\": answers[\"impact\"][\"score\"]}\n    if pid == \"H01\":\n        if not (control.get(\"request_target_bound\") is True\n                and control.get(\"candidates_complete\") is True):\n            return {\"next\": \"clarify\", \"reason\": \"unbound_target_or_incomplete_candidates\"}\n        # A middle probability remains possible, not silently dropped.\n        plausible = [k for k, a in answers.items() if a[\"noul\"] > 0.2]\n        operations = control.get(\"operations\", {})\n        if not plausible:\n            return {\"next\": \"clarify\", \"reason\": \"no_matching_interpretation\"}\n        selected = []\n        for key in plausible:\n            op = operations.get(key)\n            if (not isinstance(op, dict) or not isinstance(op.get(\"tool\"), str)\n                    or not isinstance(op.get(\"args\"), dict)\n                    or op.get(\"authorized\") is not True\n                    or op.get(\"read_only\") is not True):\n",
+      "declared_required_fields": [
+        "query",
+        "passage"
+      ],
+      "contract": "L01 returns a relevance ranking only for supplied required evidence. Source/permission and nonempty query/passage must be host checked, not inferred from model confidence."
+    },
+    "questions": {
+      "evidence_gate": {
+        "type": "choice",
+        "instructions": "Does the shown plan enforce supplied, nonempty required state fields before using L01 relevance? Judge only shown code; answer state_absent if the planner cannot receive the state.",
+        "criteria": {
+          "enforced": "Shown code inspects required fields before consuming relevance.",
+          "state_absent": "The function accepts no state and cannot inspect its required evidence.",
+          "unknown": "Supplied excerpts do not establish either."
+        }
+      }
+    },
+    "use_cache": false
+  },
+  "response": {
+    "ok": true,
+    "advisory_only": true,
+    "cached": false,
+    "request_sha256": "482c5c6dad8aeb6985b382a87a5a11e0c289a95dbbc115eef8d4f15f57e6f031",
+    "observed_at": "2026-09-26T23:28:06.296406+00:00",
+    "elapsed_ms": 251.637,
+    "billed_input_tokens": 904,
+    "estimated_cost_usd": 0.000037968,
+    "model": "jev-1.13.0",
+    "usage": {
+      "input_tokens": 904,
+      "output_tokens": 47
+    },
+    "answers": {
+      "evidence_gate": {
+        "type": "choice",
+        "choice": "state_absent",
+        "confidence": 0.28,
+        "probabilities": {
+          "state_absent": 0.52,
+          "enforced": 0.01,
+          "unknown": 0.47
+        }
+      }
+    }
+  }
+}

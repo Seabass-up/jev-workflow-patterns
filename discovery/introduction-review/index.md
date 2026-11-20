@@ -31,6 +31,9 @@ the agent skill page, and the smart-home demo. Hashes for every page read are in
 
 Measurements replay offline from 25 hash-pinned receipt and catalog files:
 [measurements.json]({{ '/discovery/introduction-review/measurements.json' | relative_url }}).
+The original four iteration catalogs and the email refinement receipt are stored
+under `frozen-inputs/<sha256>.json`. Their paths and hashes are recorded in the
+measurement report. A fresh measurement reads the current catalogs and receipts.
 
 | Claim | What the receipts show |
 | --- | --- |

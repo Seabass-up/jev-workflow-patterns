@@ -1,0 +1,524 @@
+{
+  "schema_version": 1,
+  "contract_version": 2,
+  "source_commit": "544aa4c44099f72257dfe89b5dc40dcbc8bf2208",
+  "patterns": [
+    {
+      "id": "L17",
+      "title": "Re-check a shortlisted agent skill choice",
+      "domain": "llm",
+      "value": "Give a code-chosen shortlist a detailed choose-or-none re-check before an agent loads a skill.",
+      "success_metric": "Distinguish one-skill fit, no fit within the offered shortlist, incomplete evidence, and tasks requiring multiple listed skills.",
+      "required_state_fields": [
+        "user_task",
+        "skill_shortlist"
+      ],
+      "questions": {
+        "skill": {
+          "type": "choice",
+          "instructions": "Apply these four mutually exclusive tiers in this exact order. (1) Select insufficient if user_task or skill_shortlist is missing, empty, unreadable or unclear; if capability needs cannot be determined; or if a task-required capability is not described by any offered entry. (2) Select multiple_required only if no single offered entry can complete the task and two or more distinct listed entries are each necessary and together cover it. (3) Otherwise, if one or more single offered entries can each complete the whole task, select the most direct/best fit; if equally fitting, select the earliest listed. (4) Select no_skill only if the task and descriptions are clear, none of the offered entries materially fits, and no specific required capability is missing from this shortlist. no_skill means no fit in this shortlist, not none in the full catalog. Judge full descriptions, not names. A suggestion never loads a skill or authorizes action.",
+          "criteria": {
+            "document_editor": "One offered document-editing skill, used alone, directly and sufficiently performs the clear requested task.",
+            "data_analysis": "One offered structured-data analysis skill, used alone, directly and sufficiently performs the clear requested task.",
+            "browser_test": "One offered browser-testing skill, used alone, directly and sufficiently performs the clear requested task.",
+            "multiple_required": "No single offered skill can complete the clear task, but at least two distinct listed skills are each required and together cover it.",
+            "no_skill": "The task and listed descriptions are clear, none of the offered skills materially fits, and no specific required capability is known to be omitted.",
+            "insufficient": "Required task/list evidence is missing, empty, unreadable, or ambiguous; the task's scope or needed capability set cannot be determined; or a clear required capability is absent from the offered shortlist."
+          }
+        }
+      },
+      "follow_up": "Code may expand the candidate search for insufficient or multiple_required results. For one selected entry, inspect that skill before loading it; no_skill means only that this shortlist has no fit.",
+      "code_owns": "Initial broad roster ranking, candidate inclusion, skill loading, permissions, and task execution.",
+      "baseline": "Load every superficially matching skill into the prompt.",
+      "comparison_to_prior": "Unlike L04's one-pass available handler selection, this is the second, detailed choose-or-none stage after code has formed a broad roster shortlist.",
+      "source": "https://docs.typesafe.ai/cookbooks/skill_suggestion",
+      "origin": "Task-authored Iteration 3 progressive-disclosure skill selector.",
+      "limits": "The result is shortlist-bounded: no_skill does not establish that the full catalog lacks a fit. Code owns candidate coverage, exact membership, skill loading, permissions and execution.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "L04",
+        "H11"
+      ]
+    },
+    {
+      "id": "L18",
+      "title": "Classify System One decision depth",
+      "domain": "llm",
+      "value": "Route tasks needing multistep reasoning or exact computation away from a narrow Jev-only judgment.",
+      "success_metric": "Correctly distinguish direct judgment, bounded comparison, multistep derivation, and insufficient task descriptions.",
+      "required_state_fields": [
+        "task_description",
+        "available_state"
+      ],
+      "questions": {
+        "decision_depth": {
+          "type": "choice",
+          "instructions": "Classify requested work shape, not whether the evidence suffices to answer it. First select insufficient if task_description is missing, empty, or too vague to identify the operation; or if available_state is missing/empty and the task alone does not establish the operation or comparison scope. Do not choose insufficient merely because values or source material needed for a clearly specified task are absent. Select multistep_or_indirect_derivation whenever the task requires chained steps, external retrieval, exact calculation, or a derived result, even if it also compares records or includes a direct judgment. Otherwise select single_bounded_comparison only for one comparison of two or more supplied records/candidates without a chain. Select direct_stated_judgment only for one focused semantic judgment about one supplied item, with no comparison or chain. If none clearly applies, select insufficient. Do not calculate, fill evidence gaps, or claim Jev suffices for consequential action.",
+          "criteria": {
+            "direct_stated_judgment": "One focused semantic judgment about one supplied item; no comparison across multiple records and no chained, retrieved, calculated, or derived result.",
+            "single_bounded_comparison": "One explicit comparison of two or more supplied records or candidates; no chained, externally retrieved, calculated, or derived result.",
+            "multistep_or_indirect_derivation": "The task requires chained reasoning, external retrieval, exact calculation, or any derived result; this takes precedence over comparison or direct judgment also present.",
+            "insufficient": "The requested operation or comparison scope cannot be determined from task_description and available_state; missing answer values alone do not make a clear operation insufficient."
+          }
+        }
+      },
+      "follow_up": "Route multistep_or_indirect_derivation to a reasoning/retrieval workflow or review, preserving the task and missing-evidence explanation.",
+      "code_owns": "Task decomposition, calculations, retrieval, permissions, thresholds, and action selection.",
+      "baseline": "Send every natural-language request to one model call.",
+      "comparison_to_prior": "Unlike L04, which picks an offered handler for a request, this categorizes the semantic depth and known limitations of a task before any handler choice.",
+      "source": "https://docs.typesafe.ai/model-jaggedness/jev-1.13",
+      "origin": "Task-authored Iteration 3 model-boundary classifier.",
+      "limits": "It is an advisory routing aid, not a benchmark or a proof that another model will solve the task.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "L04",
+        "L05",
+        "E04"
+      ]
+    },
+    {
+      "id": "H28",
+      "title": "Bounded speculative fan-out scheduler",
+      "domain": "harness",
+      "value": "Batch independent work while preventing stale or inapplicable speculative branches from driving an action.",
+      "success_metric": "Distinguish incomplete manifests, stale state, exact over-budget results, dependencies, and batchable work with explicit precedence.",
+      "required_state_fields": [
+        "state_snapshot",
+        "question_manifest",
+        "budget"
+      ],
+      "questions": {
+        "batch_status": {
+          "type": "choice",
+          "instructions": "Use only explicit fields in state_snapshot, question_manifest, and budget; do not calculate size, cost, or limits. First select insufficient if any required field is absent, empty, or unreadable; if question_manifest lacks an explicit snapshot target, per-question dependency information, or a clear budget assessment against applicable hard limits; or if budget lacks applicable hard limits. Next select stale_or_unverifiable_snapshot if the snapshot is marked stale/changed or its identity and revision cannot be bound to the manifest; this takes precedence over budget and dependency. Next select over_budget_or_oversized only when the manifest and budget explicitly establish that this exact manifest exceeds a supplied hard limit; this takes precedence over dependency. Next select dependent_sequence_required if any listed question requires an earlier answer or state fetch. Select batchable only when every question is explicitly independent, targets the same immutable snapshot, and the budget evidence says this exact manifest fits all supplied hard limits. Otherwise select insufficient. Never execute questions or reuse answers after state changes.",
+          "criteria": {
+            "batchable": "All listed questions explicitly have no dependency on earlier answers or fetches, target the same immutable current snapshot, and the budget evidence states that this exact manifest fits every supplied hard limit.",
+            "dependent_sequence_required": "At least one question explicitly requires an earlier answer or state fetch, when the snapshot is current/bindable and no stated budget limit is exceeded.",
+            "over_budget_or_oversized": "The manifest and budget explicitly establish that this exact manifest exceeds at least one hard question, byte, cost, or latency limit, after the current-snapshot check.",
+            "stale_or_unverifiable_snapshot": "The snapshot is explicitly stale/changed, or its identity/revision cannot be bound to the manifest, provided required evidence is present.",
+            "insufficient": "Required evidence or hard limits are missing/empty/unreadable; the manifest lacks an explicit target, per-question dependency information, or clear budget assessment; or remaining evidence does not establish a determinate status."
+          }
+        }
+      },
+      "follow_up": "Code independently validates exact snapshot identity, dependency edges, serialization, and declared budgets before batching; sequence dependencies, refresh stale snapshots, and drop answers after state changes.",
+      "code_owns": "Limits, serialization, request construction, cache scope, concurrency, cost, latency, and answer consumption.",
+      "baseline": "Send a separate request for every question or batch dependent questions blindly.",
+      "comparison_to_prior": "Unlike H12's repeated-decision stability gate, this controls which independent questions share one immutable request and how code discards stale speculative answers.",
+      "source": "https://docs.typesafe.ai/patterns/fan-out",
+      "origin": "Task-authored Iteration 3 fan-out scheduler.",
+      "limits": "A Jev batchability answer is advisory. Code owns exact limits, serialization, request construction, cache scope, concurrency, cost, latency, freshness checks, and answer consumption; batching creates no cross-question reasoning.",
+      "policy": {
+        "threshold_status": "Provisional synthetic screening only; model output is advisory."
+      },
+      "contract_version": 2,
+      "prior_patterns": [
+        "H12",
+        "H16",
+        "H01"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "L17-document",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Revise the headings and table in this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "document_editor"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "inspect_one_offered_skill"
+    },
+    {
+      "id": "L17-none",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Explain what a DNS record is in plain language.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests a website in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "no_skill"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "expand_or_review_candidate_search"
+    },
+    {
+      "id": "L18-direct",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Classify whether this supplied customer message asks for a refund.",
+        "available_state": "The one customer message is supplied in full."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "direct_stated_judgment"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "single_system_one_judgment"
+    },
+    {
+      "id": "L18-multistep",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Using policies from three systems, calculate the prorated refund, apply tax, and decide whether to issue it.",
+        "available_state": "Only a short request message is supplied; the policies and transaction values are not present."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "multistep_or_indirect_derivation"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "route_to_reasoning_or_retrieval"
+    },
+    {
+      "id": "H28-batchable",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
+        "question_manifest": "Three independent questions all read T-3 r9. Each names its premise. None needs another answer.",
+        "budget": "Maximum 10 questions and 8,000 input bytes; the three listed questions fit."
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "batchable"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "verify_budget_and_snapshot_in_code"
+    },
+    {
+      "id": "H28-dependent",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": "Immutable ticket snapshot T-3 revision r9.",
+        "question_manifest": "Question two must use the owner selected by question one to fetch an owner's policy before it can be answered.",
+        "budget": "Maximum 10 questions and 8,000 input bytes; the two listed questions fit by size."
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "dependent_sequence_required"
+        }
+      },
+      "split": "unchanged_regression",
+      "expected_next": "sequence_dependencies_before_batching"
+    },
+    {
+      "id": "L17-v2-vague-task",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Help me with this.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    },
+    {
+      "id": "L17-v2-unlisted-capability",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Analyze the supplied sales CSV and summarize the trend.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    },
+    {
+      "id": "L17-v2-multiple-required",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Update the sales CSV, then verify the deployed website chart displays the updated metrics.",
+        "skill_shortlist": "document_editor: edits Word documents, headings, tables, and comments. data_analysis: analyzes CSV and spreadsheet data. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "multiple_required"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "sequence_multiple_skills"
+    },
+    {
+      "id": "L17-v2-incomplete-description",
+      "pattern_id": "L17",
+      "contract_version": 2,
+      "state": {
+        "user_task": "Choose the skill that can edit this Word document.",
+        "skill_shortlist": "document_editor: edits Word documents. data_analysis: description unavailable. browser_test: tests websites in a browser."
+      },
+      "expected": {
+        "skill": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_or_expand_shortlist"
+    },
+    {
+      "id": "L18-v2-vague",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "What should I do?",
+        "available_state": "Two customer messages are supplied."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_task_shape"
+    },
+    {
+      "id": "L18-v2-bounded-comparison",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Compare the two supplied customer messages and identify which one asks for a refund.",
+        "available_state": "Message A: Please refund order 12. Message B: Where is my order?"
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "single_bounded_comparison"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "bounded_comparison"
+    },
+    {
+      "id": "L18-v2-exact-computation-missing-values",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Calculate the exact prorated refund, add tax, and state the final amount.",
+        "available_state": "The order amount, service dates, refund policy, and tax rate are not supplied."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "multistep_or_indirect_derivation"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "route_to_reasoning_or_retrieval"
+    },
+    {
+      "id": "L18-v2-comparison-plus-derivation",
+      "pattern_id": "L18",
+      "contract_version": 2,
+      "state": {
+        "task_description": "Compare three orders with their policies, calculate each prorated refund, then rank them by final amount.",
+        "available_state": "Three order descriptions are supplied; policy values and tax rates are not."
+      },
+      "expected": {
+        "decision_depth": {
+          "choice": "multistep_or_indirect_derivation"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "route_to_reasoning_or_retrieval"
+    },
+    {
+      "id": "H28-v2-budget-unverified",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {
+          "id": "T-8",
+          "revision": "r3",
+          "status": "current"
+        },
+        "question_manifest": {
+          "snapshot_target": {
+            "id": "T-8",
+            "revision": "r3"
+          },
+          "questions": [
+            {
+              "id": "q1",
+              "depends_on": []
+            },
+            {
+              "id": "q2",
+              "depends_on": []
+            }
+          ],
+          "budget_assessment": "No assessment states whether this exact manifest fits."
+        },
+        "budget": {
+          "max_questions": 10,
+          "max_input_bytes": 8000
+        }
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "insufficient"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "review_manifest_and_budget_evidence"
+    },
+    {
+      "id": "H28-v2-stale-over-budget",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {
+          "id": "T-8",
+          "revision": "r2",
+          "current_revision": "r3",
+          "status": "stale"
+        },
+        "question_manifest": {
+          "snapshot_target": {
+            "id": "T-8",
+            "revision": "r2"
+          },
+          "questions": [
+            {
+              "id": "q1",
+              "depends_on": []
+            },
+            {
+              "id": "q2",
+              "depends_on": []
+            }
+          ],
+          "budget_assessment": "This exact two-question manifest exceeds the one-question hard limit."
+        },
+        "budget": {
+          "max_questions": 1,
+          "max_input_bytes": 8000
+        }
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "stale_or_unverifiable_snapshot"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "refresh_snapshot_and_rebuild_manifest"
+    },
+    {
+      "id": "H28-v2-over-budget-before-dependency",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {
+          "id": "T-8",
+          "revision": "r3",
+          "status": "current"
+        },
+        "question_manifest": {
+          "snapshot_target": {
+            "id": "T-8",
+            "revision": "r3"
+          },
+          "questions": [
+            {
+              "id": "q1",
+              "depends_on": []
+            },
+            {
+              "id": "q2",
+              "depends_on": [
+                "q1"
+              ]
+            }
+          ],
+          "budget_assessment": "This exact two-question manifest exceeds the one-question hard limit."
+        },
+        "budget": {
+          "max_questions": 1,
+          "max_input_bytes": 8000
+        }
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "over_budget_or_oversized"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "split_or_review_budget"
+    },
+    {
+      "id": "H28-v2-over-budget-independent",
+      "pattern_id": "H28",
+      "contract_version": 2,
+      "state": {
+        "state_snapshot": {
+          "id": "T-8",
+          "revision": "r3",
+          "status": "current"
+        },
+        "question_manifest": {
+          "snapshot_target": {
+            "id": "T-8",
+            "revision": "r3"
+          },
+          "questions": [
+            {
+              "id": "q1",
+              "depends_on": []
+            },
+            {
+              "id": "q2",
+              "depends_on": []
+            }
+          ],
+          "budget_assessment": "This exact manifest has a serialized size of 9000 bytes, above the 8000 byte hard limit."
+        },
+        "budget": {
+          "max_questions": 10,
+          "max_input_bytes": 8000
+        }
+      },
+      "expected": {
+        "batch_status": {
+          "choice": "over_budget_or_oversized"
+        }
+      },
+      "split": "development_screen",
+      "expected_next": "split_or_review_budget"
+    }
+  ],
+  "review_summary": {
+    "unchanged_regressions": 6,
+    "development_screen": 12,
+    "preflight_blocked_fixtures": 0
+  },
+  "scope": "Synthetic development screen, not qualification; original states and labels preserved."
+}

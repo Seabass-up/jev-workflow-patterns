@@ -46,8 +46,11 @@ category definition or expected purpose code owns, and the variance line as code
 states it. Several contracts state a precedence order for text that does more than
 one thing, such as a message that both disputes and demands payment, or a terms clause
 that states both a discount and a net period; keep those sentences when adapting.
-Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence. Keep bank account numbers, card numbers,
+`required_state_fields` describes an input contract; it does not enforce itself.
+Before calling Jev, the consuming application must check each field and return a
+local `unknown` when a value is absent or empty under that field's schema. This
+module and the collection screen do not implement or verify that consumer preflight;
+valid `0` or `false` values must not be treated as missing. Keep bank account numbers, card numbers,
 tax identifiers, and personal details out of the state unless the judgment needs
 them and the transfer is authorized.
 

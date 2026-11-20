@@ -1,0 +1,190 @@
+{
+  "review": "wave15_construction",
+  "reviewed_on": "2026-09-27",
+  "repository_branch": "review/all-patterns-20260926",
+  "base_commit": "9691ba3",
+  "local_commit": "6043e1dd93fb32dfba641f89b1c95bb1f431f576",
+  "collection": "Construction",
+  "source_review": {
+    "patterns_reviewed": [
+      "CN01",
+      "CN02",
+      "CN03",
+      "CN04",
+      "CN05",
+      "CN06",
+      "CN07",
+      "CN08"
+    ],
+    "decision": "CN01-CN04 and CN06-CN08 remain unchanged; no source-supported contract defect was identified in those seven profiles.",
+    "confirmed_defect": {
+      "pattern_id": "CN05",
+      "original_version": 1,
+      "symptom": "CN05 described classification against the project's supplied stop-work list but separately classified any currently exposed hazard as stop-work, even outside that list. Jev chose hazard_to_correct for CN05-4 against the frozen stop_work_condition expectation at confidence 1.0.",
+      "cause": "The purpose and named state treated the supplied list as the policy boundary, while instructions introduced a broader, unsupported trigger. The site-specific authority was not supplied.",
+      "repair": "Versioned CN05 to v2. Only a condition matching the complete supplied project list is stop_work_condition; other deficiencies, including active unlisted hazards, are hazard_to_correct for human review. The label does not determine safety, response urgency, or whether work stops."
+    },
+    "advisory_contract_review": {
+      "artifact": "construction/results/contract-review-v2.json",
+      "model": "jev-1.13.0",
+      "uncached": true,
+      "diagnosis": "scope_mismatch",
+      "diagnosis_top_probability": 0.58,
+      "diagnosis_confidence": 0.44,
+      "proposed_boundary": "list_bound",
+      "boundary_top_probability": 0.91,
+      "boundary_confidence": 0.89,
+      "limitation": "Advisory only; no site safety policy was inferred. Provider-returned request hash is retained but not independently rehashed."
+    }
+  },
+  "version_1": {
+    "fixtures": 32,
+    "verified_request_digests": 32,
+    "design": {
+      "cases": 24,
+      "matches": 24
+    },
+    "challenge": {
+      "cases": 8,
+      "matches": 7
+    },
+    "preserved_disagreement": {
+      "fixture_id": "CN05-4",
+      "expected": "stop_work_condition",
+      "observed": "hazard_to_correct",
+      "confidence": 1
+    },
+    "snapshot_paths": [
+      "construction/results/initial-catalog.json",
+      "construction/results/initial-fixtures.json",
+      "construction/results/initial-summary.json",
+      "construction/results/screening.json"
+    ]
+  },
+  "version_2": {
+    "pattern_ids": [
+      "CN05"
+    ],
+    "version": 2,
+    "uncached_calls": 7,
+    "recovery_calls": 0,
+    "design": {
+      "cases": 3,
+      "matches": 2
+    },
+    "challenge": {
+      "cases": 4,
+      "matches": 4
+    },
+    "cases": [
+      {
+        "fixture_id": "CN05-5",
+        "expected": "stop_work_condition",
+        "observed": "stop_work_condition",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "2e7e0c2894a7c419d7fe9c422065427f71a49453123de6cb235d2594891f2925"
+      },
+      {
+        "fixture_id": "CN05-6",
+        "expected": "housekeeping",
+        "observed": "housekeeping",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "b5b8eee9d5e4cca8a5816df92d7e647ebda8646569cad4af37be90635575413b"
+      },
+      {
+        "fixture_id": "CN05-7",
+        "expected": "unknown",
+        "observed": "positive_no_deficiency",
+        "confidence": 0.95,
+        "cached": false,
+        "request_sha256": "f6f86c31d8529b11919b059878ffdfeac02c838221335653eaca6c338b60068a"
+      },
+      {
+        "fixture_id": "CN05-8",
+        "expected": "hazard_to_correct",
+        "observed": "hazard_to_correct",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "9899e06ebd3e703368cba8608296720f84c735b2584bc1b98eda36289a71aef7"
+      },
+      {
+        "fixture_id": "CN05-9",
+        "expected": "hazard_to_correct",
+        "observed": "hazard_to_correct",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "80e844c5e92a03bf963dbc090573f1c70dde64e39fec58e0193bd3c69d2cb0fa"
+      },
+      {
+        "fixture_id": "CN05-10",
+        "expected": "positive_no_deficiency",
+        "observed": "positive_no_deficiency",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "08bfe4f985480f3ff8dd056a7126a0db911e9ef19577c8bbe6cbda6a13db4dd4"
+      },
+      {
+        "fixture_id": "CN05-11",
+        "expected": "hazard_to_correct",
+        "observed": "hazard_to_correct",
+        "confidence": 0.98,
+        "cached": false,
+        "request_sha256": "0557da846816310193b131bed9f0931b17081ac90cc49c637d402c6d9943921c"
+      }
+    ],
+    "new_fixture_ids": [
+      "CN05-10",
+      "CN05-11",
+      "CN05-5",
+      "CN05-6",
+      "CN05-7",
+      "CN05-8",
+      "CN05-9"
+    ],
+    "receipts_path": "construction/results/refinement.json",
+    "provisional_patterns": [
+      "CN05"
+    ]
+  },
+  "current_selection": {
+    "fixtures": 35,
+    "design": {
+      "cases": 24,
+      "matches": 23
+    },
+    "challenge": {
+      "cases": 11,
+      "matches": 11
+    },
+    "provisional_patterns": [
+      "CN05"
+    ],
+    "successful_request_digests_verified": 35,
+    "all_history_request_digests_verified": 39,
+    "input_tokens": 33606,
+    "output_tokens": 2833,
+    "bridge_estimated_cost_usd": 0.001411452,
+    "model": [
+      "jev-1.13.0"
+    ]
+  },
+  "verification": {
+    "python3 construction/evaluate.py": "passed; exact summary replay and 39 request digests validated",
+    "python3 -m unittest discover -s construction -p 'test_*.py' -v": "passed; 24 tests, including exact question JSON parity for all 8 pages",
+    "git diff --check": "passed",
+    "frozen_v1_snapshots": "passed: initial catalog, fixtures, and summary exactly match the corresponding files at base commit 9691ba3",
+    "full_catalog_precommit": "passed; 65 of 65 checks, 390 profiles in 30 catalogs; see wave15-final-checks-precommit-locked.json",
+    "full_catalog_postcommit": "passed; 65 of 65 checks across 390 profiles and 30 catalogs against local commit 6043e1dd93fb32dfba641f89b1c95bb1f431f576; see wave15-postcommit-checks.json",
+    "postcommit_artifact_commit_match": true,
+    "postcommit_construction_evaluator": "passed; exact summary replay and all 39 historical/refinement request digests validated",
+    "postcommit_construction_tests": "passed; 24 tests"
+  },
+  "limitations": [
+    "All construction fixtures are synthetic; the v2 challenge cases are reviewer-authored development screens, not independent or held out.",
+    "CN05 remains provisional because CN05-7 expected unknown but Jev chose positive_no_deficiency at confidence 0.95. The cause is unknown; the described consumer-side empty-list preflight is not implemented or verified in this repository.",
+    "The collection does not implement or verify a live consumer, site notification, safety-manager review, work-stoppage decision, or response-urgency policy.",
+    "No Jekyll executable or Gemfile was found in the current checkout; browser-rendered layout was not verified."
+  ]
+}

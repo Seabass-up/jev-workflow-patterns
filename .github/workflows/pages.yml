@@ -23,6 +23,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - name: Verify iteration receipts and controller tests
         env:
           PYTHONDONTWRITEBYTECODE: "1"
@@ -79,9 +81,12 @@ jobs:
           done
       - name: Verify generated catalog and collection hub
         run: |
+          outputs=(_data/catalog_summary.json catalog/index.md collections/index.md)
+          git ls-files --error-unmatch -- "${outputs[@]}" > /dev/null
+          for path in "${outputs[@]}"; do test -f "$path"; done
           python3 scripts/build_catalog.py
           python3 scripts/build_collection_pages.py --hub
-          git diff --exit-code -- _data/catalog_summary.json catalog/index.md collections/index.md
+          git diff --exit-code HEAD -- "${outputs[@]}"
       - name: Configure Pages
         uses: actions/configure-pages@v6
       - name: Build site with Jekyll

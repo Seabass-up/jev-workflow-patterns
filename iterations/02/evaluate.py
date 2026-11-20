@@ -24,6 +24,8 @@ SCREEN_NAMES = (
     "harness-refinement",
     "core-refinement-v3",
     "harness-refinement-v3",
+    "h18-review-v2",
+    "precedence-review-v2",
 )
 
 
@@ -59,7 +61,8 @@ def probability_distribution(values: Any, keys: set[str]) -> bool:
         return False
     if not all(probability(value) for value in values.values()):
         return False
-    return abs(sum(values.values()) - 1) <= 0.000001
+    # Each provider probability is rounded to two decimal places.
+    return abs(sum(values.values()) - 1) <= .005 * len(keys) + 1e-12
 
 
 def valid_answers(questions: Any, response: Any) -> bool:
@@ -90,6 +93,8 @@ def valid_answers(questions: Any, response: Any) -> bool:
             if not probability(answer.get("confidence")):
                 return False
             if not probability_distribution(answer.get("probabilities"), set(criteria)):
+                return False
+            if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                 return False
         elif kind == "score":
             criteria = question.get("criteria")
@@ -237,7 +242,49 @@ def replay(root: Path = ROOT) -> dict[str, Any]:
         metrics[name] = total
 
     patterns, fixtures = validate_final_catalog()
+    preserved = load_json("results/h18-pre-review-contract.json")
+    revision = load_json("results/h18-revision-fixtures.json")
+    if preserved["pattern"]["contract_version"] != 1 or patterns["H18"]["contract_version"] != 2:
+        raise ValueError("H18 revision version mismatch")
+    if revision["pattern"] != patterns["H18"]:
+        raise ValueError("H18 revision does not bind current contract")
+    for original in preserved["fixtures"]:
+        current = {k: v for k, v in fixtures[original["id"]].items() if k != "contract_version"}
+        if current != original or fixtures[original["id"]].get("contract_version") != 2:
+            raise ValueError("H18 original fixture changed")
+    revised = {f["id"]: f for f in revision["cases"]}
+    if len(revised) != 7:
+        raise ValueError("H18 revision fixture coverage")
+    for fixture_id, fixture in revised.items():
+        receipt = receipts.get("h18-review-v2:" + fixture_id)
+        if (not receipt or receipt.get("contract_version") != 2
+                or receipt["request"]["state"] != fixture["state"]
+                or receipt["request"]["questions"] != patterns["H18"]["questions"]
+                or {c["question_id"]: c["expected"] for c in receipt["checks"]} != fixture["expected"]):
+            raise ValueError("H18 revision receipt binding")
     acceptance = load_json("results/final-acceptance.json").get("receipts")
+    old_precedence = load_json("results/precedence-pre-review-contracts.json")
+    new_precedence = load_json("results/precedence-revision-fixtures.json")
+    revised_ids = {"B09", "B13", "L10", "H15"}
+    if {p["id"] for p in old_precedence["patterns"]} != revised_ids or {p["id"] for p in new_precedence["patterns"]} != revised_ids:
+        raise ValueError("precedence revision pattern coverage")
+    for p in new_precedence["patterns"]:
+        if p != patterns[p["id"]] or p["contract_version"] != 2:
+            raise ValueError("precedence revision current contract mismatch")
+    for original in old_precedence["fixtures"]:
+        current = {k: v for k, v in fixtures[original["id"]].items() if k != "contract_version"}
+        if current != original or fixtures[original["id"]].get("contract_version") != 2:
+            raise ValueError("precedence original fixture changed")
+    revision_cases = {f["id"]: f for f in new_precedence["cases"]}
+    if len(revision_cases) != 25:
+        raise ValueError("precedence revision fixture coverage")
+    for fixture_id, fixture in revision_cases.items():
+        row = receipts.get("precedence-review-v2:" + fixture_id)
+        if (not row or row.get("contract_version") != 2 or row.get("pattern_id") != fixture["pattern_id"]
+                or row["request"]["state"] != fixture["state"]
+                or row["request"]["questions"] != patterns[fixture["pattern_id"]]["questions"]
+                or {c["question_id"]: c["expected"] for c in row["checks"]} != fixture["expected"]):
+            raise ValueError("precedence revision receipt binding")
     if not isinstance(acceptance, list) or len(acceptance) != len(fixtures):
         raise ValueError("final acceptance coverage mismatch")
     selected = {item.get("fixture_id"): item for item in acceptance}
@@ -292,13 +339,32 @@ def ready(pattern: dict[str, Any], answer: dict[str, Any]) -> bool:
     return answer.get("confidence", 0.0) >= policy.get("choice_score_confidence_floor", 0.8)
 
 
-def plan(pattern: dict[str, Any], response: dict[str, Any], control: dict[str, Any] | None = None) -> dict[str, Any]:
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern: dict[str, Any], response: dict[str, Any], control: dict[str, Any] | None = None, *, state=None) -> dict[str, Any]:
     """Return a non-executing next-step proposal.
 
     Trusted control metadata is supplied and validated by caller-owned code. A
     Jev answer can choose only a review/proposal path; it never grants authority.
     """
     control = control or {}
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     if not valid_answers(pattern.get("questions"), response):
         return {"next": "review", "reason": "provider_or_schema_failure"}
     answers = response["answers"]

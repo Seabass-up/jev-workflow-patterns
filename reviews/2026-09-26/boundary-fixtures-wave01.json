@@ -1,0 +1,114 @@
+{
+  "split": "development_screen",
+  "limits": "Task-authored synthetic cases frozen before inference, not independent held-out or production qualification.",
+  "cases": [
+    {
+      "id": "EM03-correction-and-addition",
+      "key": "email/EM03",
+      "state": {
+        "previous_message": "Deliver the replacement on Tuesday.",
+        "latest_message": "Correction: deliver on Wednesday, not Tuesday. Also include a spare cable."
+      },
+      "expected": "correction"
+    },
+    {
+      "id": "EM03-addition",
+      "key": "email/EM03",
+      "state": {
+        "previous_message": "Deliver the replacement on Tuesday.",
+        "latest_message": "Keep Tuesday. Also include a spare cable."
+      },
+      "expected": "addition"
+    },
+    {
+      "id": "EM06-accepted-with-alternative",
+      "key": "email/EM06",
+      "state": {
+        "offered_slot_text": "Can we meet Friday at 10 am?",
+        "current_body": "Friday at 10 works, but please change it to Monday at 10 instead."
+      },
+      "expected": "counterproposal"
+    },
+    {
+      "id": "EM06-condition",
+      "key": "email/EM06",
+      "state": {
+        "offered_slot_text": "Can we meet Friday at 10 am?",
+        "current_body": "Friday at 10 might work if my manager approves; I cannot confirm yet."
+      },
+      "expected": "tentative"
+    },
+    {
+      "id": "EM06-refusal-no-alternative",
+      "key": "email/EM06",
+      "state": {
+        "offered_slot_text": "Can we meet Friday at 10 am?",
+        "current_body": "No, I cannot attend that slot."
+      },
+      "expected": "declines"
+    },
+    {
+      "id": "HA22-inseparable",
+      "key": "human-ai/HA22",
+      "state": {
+        "displayed_result": "The dashboard recommends Option A instead of B.",
+        "explanation_request": "Explain the source basis, comparison against B, and how I can correct this result together; no one target is primary."
+      },
+      "expected": "unknown"
+    },
+    {
+      "id": "HA22-comparison",
+      "key": "human-ai/HA22",
+      "state": {
+        "displayed_result": "The dashboard recommends Option A instead of B.",
+        "explanation_request": "Why was A preferred to B?"
+      },
+      "expected": "alternative_comparison"
+    },
+    {
+      "id": "B01-two-unrelated",
+      "key": "iterations/01/B01",
+      "state": {
+        "current_message": "Please fix my existing pump and separately explain the duplicate charge. Both are equally urgent; neither is the primary request."
+      },
+      "expected": "clarify"
+    },
+    {
+      "id": "B01-quoted-history",
+      "key": "iterations/01/B01",
+      "state": {
+        "current_message": "Earlier I wrote 'please explain my invoice'. That is resolved. Now please repair my installed pump."
+      },
+      "expected": "service"
+    },
+    {
+      "id": "B03-inseparable",
+      "key": "iterations/01/B03",
+      "state": {
+        "complaint": "My inseparable dispute is that the billed work was not requested and was left incomplete; neither concern is primary.",
+        "invoice_scope": "Installation of replacement fixtures."
+      },
+      "expected": "insufficient"
+    },
+    {
+      "id": "H04-rubric",
+      "key": "iterations/01/H04",
+      "state": {
+        "review_a": "We agree this patch takes two hours and passes the tests. Reject it because minimizing implementation time is the priority.",
+        "review_b": "We agree this patch takes two hours and passes the tests. Accept it because maintainability should dominate implementation time.",
+        "shared_context": "Both reviews concern exactly patch R1 and agree on every supplied source fact."
+      },
+      "expected": "rubric_tradeoff"
+    },
+    {
+      "id": "H04-factgap",
+      "key": "iterations/01/H04",
+      "state": {
+        "review_a": "Patch R1 fails the crash regression.",
+        "review_b": "Patch R1 passes the same crash regression.",
+        "shared_context": "Both reviewed patch R1 and test C1; no test output is supplied to resolve this conflict."
+      },
+      "expected": "fact_gap"
+    }
+  ]
+}

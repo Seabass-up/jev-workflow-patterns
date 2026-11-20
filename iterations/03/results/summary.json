@@ -25,16 +25,91 @@
     "final_contract_acceptance": {
       "fixture_matches": 61,
       "fixtures": 61,
-      "question_matches": 84,
-      "questions": 84
+      "question_matches": 86,
+      "questions": 86
+    },
+    "h24_availability_revision": {
+      "consumer_cases": [
+        {
+          "expected": "compute_versioned_score_in_code",
+          "fixture_id": "H24-good",
+          "match": true,
+          "observed": "compute_versioned_score_in_code"
+        },
+        {
+          "expected": "review_named_veto",
+          "fixture_id": "H24-veto",
+          "match": true,
+          "observed": "review_named_veto"
+        },
+        {
+          "expected": "review_missing_or_uncertain_burden",
+          "fixture_id": "H24-review-absent-burden",
+          "match": true,
+          "observed": "review_missing_or_uncertain_burden"
+        },
+        {
+          "expected": "review_missing_or_uncertain_burden",
+          "fixture_id": "H24-review-other-candidate-burden",
+          "match": true,
+          "observed": "review_missing_or_uncertain_burden"
+        },
+        {
+          "expected": "review_missing_or_uncertain_burden",
+          "fixture_id": "H24-review-conflicting-burden",
+          "match": true,
+          "observed": "review_missing_or_uncertain_burden"
+        },
+        {
+          "expected": "compute_versioned_score_in_code",
+          "fixture_id": "H24-review-negated-extra-resources",
+          "match": false,
+          "observed": "review_missing_or_uncertain_burden"
+        },
+        {
+          "expected": "review_named_veto",
+          "fixture_id": "H24-review-veto-with-absent-burden",
+          "match": true,
+          "observed": "review_named_veto"
+        }
+      ],
+      "scope": "Synthetic safety repair; one conservative availability mismatch remains. Not qualified."
+    },
+    "precedence_revision": {
+      "development_cases": 14,
+      "pairs": 30,
+      "patterns": 5,
+      "scope": "Synthetic revision evidence, not production qualification.",
+      "unchanged_regressions": 10
     },
     "screens": {
+      "h24-review-v2": {
+        "fixture_matches": 4,
+        "question_matches": 25,
+        "questions": 28,
+        "request_digests_verified": 7,
+        "requests": 7
+      },
+      "h24-review-v3": {
+        "fixture_matches": 6,
+        "question_matches": 27,
+        "questions": 28,
+        "request_digests_verified": 7,
+        "requests": 7
+      },
       "initial": {
         "fixture_matches": 58,
         "question_matches": 81,
         "questions": 84,
         "request_digests_verified": 61,
         "requests": 61
+      },
+      "precedence-review-v2": {
+        "fixture_matches": 24,
+        "question_matches": 24,
+        "questions": 24,
+        "request_digests_verified": 24,
+        "requests": 24
       },
       "refinement": {
         "fixture_matches": 6,
@@ -61,5 +136,36 @@
       "observed": "fit score 0.63",
       "repair": "Clarified the synthetic fixture from limited fit to no fit; H24 contract remained v1."
     }
-  ]
+  ],
+  "local_review_20260926": {
+    "additional_fixture_calls": 24,
+    "additional_pair_review_calls": 5,
+    "total_saved_fixture_receipts": 91,
+    "split": "Ten unchanged regressions plus fourteen development cases; not held-out qualification.",
+    "original_source_commit": "f600346",
+    "results_file": "results/precedence-review-v2.json",
+    "pair_results_file": "results/precedence-pair-review-v2.json"
+  },
+  "h24_availability_review_20260926": {
+    "baseline_probes": 1,
+    "additional_fixture_calls": 14,
+    "total_saved_fixture_receipts": 105,
+    "version2": {
+      "matches": 4,
+      "cases": 7,
+      "question_matches": 25,
+      "questions": 28
+    },
+    "version3": {
+      "matches": 6,
+      "cases": 7,
+      "question_matches": 27,
+      "questions": 28
+    },
+    "consumer_matches": 6,
+    "consumer_cases": 7,
+    "threshold_unchanged": 0.8,
+    "remaining_mismatch": "H24-review-negated-extra-resources: availability 0.66, review instead of frozen expected calculation proposal.",
+    "limits": "Synthetic safety repair; no production qualification. Historical cost fields exclude later review calls."
+  }
 }

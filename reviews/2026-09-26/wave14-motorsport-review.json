@@ -1,0 +1,163 @@
+{
+  "review": "wave14_motorsport",
+  "reviewed_on": "2026-09-26",
+  "repository_branch": "review/all-patterns-20260926",
+  "base_commit": "83d1ce9",
+  "local_commit": "d5fed5f",
+  "collection": "Motorsport measurement",
+  "source_review": {
+    "patterns_reviewed": [
+      "MR01",
+      "MR02",
+      "MR03",
+      "MR04",
+      "MR05",
+      "MR06",
+      "MR07",
+      "MR08"
+    ],
+    "decision": "MR01-MR03 and MR05-MR08 remain unchanged; no source-supported contract defect was identified in those seven profiles.",
+    "confirmed_defect": {
+      "pattern_id": "MR04",
+      "original_version": 1,
+      "symptom": "MR04-4 states a measured value and an applicable limit but does not explicitly state their relationship. Jev selected conformance_claim while the frozen expected label was observation, confidence 0.4.",
+      "cause": "The v1 wording distinguished assertions from observations but did not explicitly say that adjacent value-and-limit text without a stated relationship remains an observation; this made the boundary ambiguous.",
+      "repair": "Version 2 explicitly classifies a measurement plus applicable limit without a stated relation as observation and prohibits numeric comparison or inferred pass/fail in the text judgment. Code retains the exact comparison."
+    }
+  },
+  "version_1": {
+    "fixtures": 32,
+    "verified_request_digests": 32,
+    "design": {
+      "cases": 24,
+      "matches": 24
+    },
+    "challenge": {
+      "cases": 8,
+      "matches": 7
+    },
+    "preserved_disagreement": {
+      "fixture_id": "MR04-4",
+      "expected": "observation",
+      "observed": "conformance_claim",
+      "confidence": 0.4
+    },
+    "snapshot_paths": [
+      "motorsport/results/initial-catalog.json",
+      "motorsport/results/initial-fixtures.json",
+      "motorsport/results/initial-summary.json",
+      "motorsport/results/screening.json"
+    ]
+  },
+  "version_2": {
+    "pattern_ids": [
+      "MR04"
+    ],
+    "version": 2,
+    "uncached_calls": 6,
+    "recovery_calls": 0,
+    "design": {
+      "cases": 3,
+      "matches": 3
+    },
+    "challenge": {
+      "cases": 3,
+      "matches": 3
+    },
+    "cases": [
+      {
+        "fixture_id": "MR04-1",
+        "expected": "conformance_claim",
+        "observed": "conformance_claim",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "70e0e207a78ec20066db28aa174c48aa4a21b6cde3498432b5af90ce98439de0"
+      },
+      {
+        "fixture_id": "MR04-2",
+        "expected": "recommendation",
+        "observed": "recommendation",
+        "confidence": 0.97,
+        "cached": false,
+        "request_sha256": "c23d6ab9d123cccc066894ae2bcdc93db8793fc825f8267fa765474728762e0f"
+      },
+      {
+        "fixture_id": "MR04-3",
+        "expected": "unknown",
+        "observed": "unknown",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "699ea20a85b45f47af3a67eea1377bc988f3ae1d1b0dce1ed664a4d20b1af2b3"
+      },
+      {
+        "fixture_id": "MR04-4",
+        "expected": "observation",
+        "observed": "observation",
+        "confidence": 0.97,
+        "cached": false,
+        "request_sha256": "21bd1e67a37fcec2dc48c3a9d7771542ebb4ae133ec882c26663752970322880"
+      },
+      {
+        "fixture_id": "MR04-5",
+        "expected": "observation",
+        "observed": "observation",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "1b68440b18c415db34153bef1b0b67b648232a685c51ba1bab990f17726b4fcd"
+      },
+      {
+        "fixture_id": "MR04-6",
+        "expected": "conformance_claim",
+        "observed": "conformance_claim",
+        "confidence": 1,
+        "cached": false,
+        "request_sha256": "adfe24a8301e21fcdd521384f3948dfb326f32c9a009b3bd5facc4b283fce8c6"
+      }
+    ],
+    "new_fixture_ids": [
+      "MR04-5",
+      "MR04-6"
+    ],
+    "receipts_path": "motorsport/results/refinement.json"
+  },
+  "current_selection": {
+    "fixtures": 34,
+    "design": {
+      "cases": 24,
+      "matches": 24
+    },
+    "challenge": {
+      "cases": 10,
+      "matches": 10
+    },
+    "provisional_patterns": [],
+    "successful_request_digests_verified": 34,
+    "all_history_request_digests_verified": 38,
+    "input_tokens": 25768,
+    "output_tokens": 2254,
+    "bridge_estimated_cost_usd": 0.001082256,
+    "model": [
+      "jev-1.13.0"
+    ]
+  },
+  "verification": {
+    "python3 motorsport/evaluate.py": "passed; exact summary replay, 38 stored request digests validated",
+    "python3 -m unittest discover -s motorsport -p 'test_*.py' -v": "passed; 22 tests",
+    "python3 scripts/review_all_patterns.py --output reviews/2026-09-26/wave14-final-checks-precommit-final.json": "passed; 65 of 65 checks, 390 profiles in 30 catalogs",
+    "git diff --check": "passed",
+    "frozen_v1_catalog_and_fixtures": "passed: git show 83d1ce9:motorsport/catalog.json | diff - motorsport/results/initial-catalog.json; git show 83d1ce9:motorsport/fixtures.json | diff - motorsport/results/initial-fixtures.json"
+  },
+  "post_commit_verification": {
+    "artifact": "reviews/2026-09-26/wave14-postcommit-checks.json",
+    "source_commit": "d5fed5fac4e43ba44c3a547c034f4a6caa5c9217",
+    "passed_checks": 65,
+    "failed_checks": 0,
+    "profiles": 390,
+    "catalogs": 30
+  },
+  "limitations": [
+    "All cases are synthetic and reviewer-authored where noted; this is not a held-out or representative test set.",
+    "No real measurements, tolerance decisions, scrutineering actions, production accuracy, calibration, or workflow qualification are established.",
+    "The prior source-support pages were not refreshed as part of this review."
+  ]
+}

@@ -3,7 +3,7 @@ layout: default
 title: "Executive: Sources"
 description: "Public pages that motivated the question designs, with the digest of each page as read."
 permalink: /executive/sources/
-kicker: "5 sources · inspiration, not a performance claim"
+kicker: "6 sources · inspiration, not a performance claim"
 ---
 
 # Inspiration, not a performance claim
@@ -49,6 +49,14 @@ Used by: [CE02]({{ '/executive/patterns/ce02/' | relative_url }})
 Describes a management style in which routine matters are handled at lower levels and only cases that deviate from the norm or exceed set limits are brought to management's attention. Motivates CE08 as a check of an escalation request against the organization's stated escalation conditions, with any numeric limit compared in code. This is motivation for the question, not evidence of Jev performance.
 
 Used by: [CE08]({{ '/executive/patterns/ce08/' | relative_url }})
+
+## CE-S6: Lenos Trigeorgis: Real Options: A Primer (University of Cyprus; Columbia-hosted PDF)
+
+[Read the source](https://business.columbia.edu/sites/default/files-efs/imce-uploads/CITI/Articles/978-0-585-33314-4_1.pdf) · checked 2026-09-27 · SHA-256 `7373958be9978f1d…`
+
+Introduces corporate real-options valuation and describes management flexibility to defer investment, expand capacity, abandon a project, or switch uses as uncertainty resolves. Provides conceptual motivation for CE02's narrow reading of whether a proposal states exit or irrevocability terms; it does not ask Jev to value the option or establish Jev performance.
+
+Used by: [CE02]({{ '/executive/patterns/ce02/' | relative_url }})
 
 Full digests are in [sources.json]({{ '/executive/sources.json' | relative_url }}).
 

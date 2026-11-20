@@ -1,5 +1,160 @@
 # Lessons learned
 
+## 2026-11-20 — Preserve Git history and measurement inputs in local CI
+
+The clean review commit `d281847` failed three CI steps. The disposable
+repository discarded two Git ancestors used by the iteration and semantic
+review checks. Five live inputs had also changed since the discovery report.
+A separate working tree passed while its generated-file guard accepted an
+untracked replacement and its link checker skipped four broken relative links.
+
+- The local runner fetches the submitted commit and its ancestors from disk.
+  Clean sources keep the original commit ID. The snapshot retains Git tracking
+  status for dirty sources. CI checks each generated output before rebuilding.
+- The discovery loader parses and hashes the same bytes. Five originals from
+  `e42fdb2` are stored by digest for historical replay. Each iteration
+  evaluation links to the published guide, and the page verifier resolves
+  internal links from the rendered URL.
+- Docker inspection, build and cleanup use one explicit local socket. The
+  runner writes the active step and its terminal status when interrupted.
+- `python3 -B -m unittest discover -s scripts -p 'test_ci_local.py'` passed
+  12 tests. The discovery suite passed 13 tests and the link suite passed four.
+  The historical replay matched all 25 inputs. A fresh baseline bound all 42
+  current inputs to their actual bytes and reproduced its report on replay.
+
+For release verification, run `python3 scripts/ci-local.py --run --keep-going`
+on the committed branch. Check the receipt's source HEAD, clean status,
+snapshot commit and step results together. Hosted publication has a separate
+deployment receipt.
+
+## 2026-09-28 — Keep research acceptance separate from kernel qualification
+
+- **Component:** Kernel 2.9.0 audit-pending import, exact-version loader, installed skill and guide.
+- **Observed:** The kernel's prior ten-contract snapshot excluded JP-017 and older held JP-001 versions; the new handoff admits 19 working additions, including JP-001@4, while their final audit remains open. Frozen source contracts still carry pre-screen candidate statuses and JP-017 has a different listing title.
+- **Confirmed cause:** Research admission, frozen contract metadata, audited edition membership and application qualification describe different states. An unversioned selector or rewritten historical bundle could collapse them and erase held-version evidence.
+- **Repair:** Added a separate byte-preserving bundle pinned to cb69774a6a9669ff412511094bebb387b382d008, the unaltered admission list, 19 exact ID@version selectors, and AP-C01 as one separately counted composition. The loader anchors the manifest digest, verifies bundled bytes, refuses bare/held/unknown versions and requires explicit audit-pending acknowledgement. Original ten-contract assets and the 390-profile count remain unchanged. Applied scoped installed-file deltas while preserving unrelated work.
+- **Verification:** Reviewed kernel tests 65/65; installed kernel tests 64/64 (different existing baseline); both skill validations pass. All 222 referenced source Git objects match. Source checks pass: JP-001 freeze, nine safety tests, three admission tests, three inventory tests and ledger replay; AP-C01's 22 consumer tests also pass. Site-link helper tests 3/3 and catalog-builder tests 2/2 pass. One Jev documentation-boundary check returned preserved for JP-001/045/046; it is advisory and does not qualify the consumers. Detailed receipts: `reviews/2026-09-28/research-working-import/`.
+- **Prevention and limits:** Keep contract bytes, admission receipts and audit status distinct; pin ID plus version and inspect the actual consumer. JP-001 missing verification remains unknown; JP-045 is a written-plan fit-source check; JP-046 compares written scenario descriptions. No new research screen, research resumption, independent/domain qualification, push, deployment or CI workflow was run. Jekyll rendering remains unverified because this checkout has no Jekyll executable or Gemfile. The 252 unassessed pair contacts and older release-manifest drift remain open. Canonical prevention is also recorded in `/Users/scottwhitlock/Code/wiki-general/lessons-learned/cross-cutting.md`.
+
+## 2026-09-27 — Import research contracts without promoting their evidence
+
+- **Component:** Kernel 2.8.0 research-edition module, import loader, documentation and site metadata.
+- **Observed:** The separate research checkpoint was not available through the installed kernel; source documents mix historical milestones, held candidates and later working additions. An initial Jev-reviewed integration note also described JP-011 with a ratio and positive effort, while the actual consumer uses a subtraction formula and permits zero effort. The review branch's site version metadata still said 2.7.1.
+- **Confirmed cause:** A narrative summary is not the executed consumer contract; a moving research checkout and manually maintained version metadata can diverge from the intended snapshot. The Jev advisory inspected full questions but did not inspect the consumer implementation, and did not catch the arithmetic mismatch.
+- **Repair:** Imported only the ten admitted contracts as byte-identical files pinned to `48a8b4569a9ce5b17ce1119d63179e84a2990ae6`; separated four v0.2.0 exclusions and pending-audit JP-017, retained the 390-profile catalog count, and documented the real JP-011 formula and guards. Added a read-only import checker, negative tests, routing guidance and the JP-002 replay lessons. Preserved the original advisory receipt and added a host correction instead of rewriting it. Updated version-derived site metadata to 2.8.0 and registered the new guide with the site checker.
+- **Verification:** The review branch's kernel tests pass 49/49; the separately installed checkout passes 48/48 (different existing baseline suites), including the same 18 import tests. Both skill-package validations and pinned-source import checks pass. The original JP-002 source/receipt verifier reproduces 12/12 labels, nine previews, three reviews and zero wrong previews; its four adversarial tests pass without inference. Detailed local receipts are in `reviews/2026-09-27/research-kernel-import/`. No hosted CI or research batch was started. A Jekyll rendered build is not verified: the local checkout has no Jekyll executable or Gemfile.
+- **Prevention and limits:** Inspect consuming code as well as questions; keep exact source versions and admission status; distinguish discovery routes, synthetic cases, public development screens and domain qualification. An import/hash test is not a model-quality test or full historical replay. This is a local addition, not a push, deployment, research-goal completion or resolution of the older source release-manifest drift.
+
+## 2026-09-27 — Receipt validators must scale rounding tolerance by option count
+
+- **Component:** Shared collection receipt replay and the Jev Question Kernel qualification helper.
+- **Observed:** Both accepted a fixed absolute probability-sum tolerance of 0.03, regardless of the number of Choice or Score options. That can admit sums beyond two-decimal rounding error for small option sets and reject legitimate rounding drift for larger sets.
+- **Confirmed cause:** The shared allowance used the observed maximum for a six-option response as a constant instead of deriving the bound from the current option count.
+- **Repair:** Centralized the bound as `0.005 * option_count + 1e-9`, used it in both replay paths with relative tolerance disabled, and documented that this is response-shape validation—not calibration or correctness. Added opposite-direction boundary regressions for two and ten options; bumped the kernel skill to 2.7.2. No pattern contract, expected label, or provider receipt changed.
+- **Verification:** The kernel scripts passed 31/31 tests, shared scripts passed 27/27, and both pre-commit and post-commit audits passed 65/65 checks across 390 profiles and 30 catalogs. The post-commit receipt binds local commit `cf784cf89aa1dff5d6076325f07546452b67297c`. The detailed receipts are in the Wave 28 review record. No provider call was used to validate the arithmetic; no push or deployment occurred.
+- **Prevention and limits:** Bound per-value rounding error by the number of values, test both smaller and larger option counts, and keep probability-shape checks distinct from correctness, calibration, source authenticity, or permission.
+
+## 2026-09-27 — Jev contract screens must include the exact question object
+
+- **Component:** Wave 26 advisory review of Bug Hunting profiles BH25–BH36.
+- **Observed:** The first Jev wording screen returned `aligned`, but its state contained profile summaries and evidence requirements without the full `questions.decision` contracts. It therefore could not support a conclusion about the actual question wording.
+- **Confirmed cause:** The review projection omitted the field under review. The response was successful at the provider boundary, but the input was semantically incomplete for this task.
+- **Repair:** Excluded that screen from interpretation and repeated two uncached, family-coherent calls with each profile's exact current question object included. Retained the incomplete response metadata separately as rejected evidence; no pattern or fixture was changed.
+- **Verification:** The corrected Jev requests returned `aligned` for BH25–BH36; host comparison and 36 current saved fixture receipts found no contract defect. Bug-hunting tests passed 23/23, scripts tests 25/25, collection-pipeline tests 16/16, and the full repository audit passed 65/65 checks.
+- **Prevention and limits:** Before interpreting an advisory screen, bind the state to the exact current profile revision and assert that every field being reviewed—including the full question object—is present. A successful call over an incomplete projection is not semantic validation; synthetic text results do not test real code.
+
+## 2026-09-27 — Source digest scope must match captured representation
+
+- **Component:** Shared collection source-page generator and Electrical ES-7/ES-8 source records.
+- **Observed:** The two new CPSC records hash short browser-captured excerpts, but the generated sources page said every SHA-256 covered the complete page text.
+- **Confirmed cause:** The shared template assumed a single page-text representation and did not disclose the representation or digest scope of excerpt records.
+- **Repair:** Store the exact excerpt with its digest; render excerpt text and distinguish excerpt-scoped hashes from captured-page-text hashes. Add builder coverage and an Electrical test that recomputes each excerpt digest. Keep the CPSC references explicitly limited to device-function terminology, not current installation rules.
+- **Verification:** `python3 scripts/build_collection_pages.py electrical` wrote 11 pages; the page-builder suite passed 4/4; Electrical tests passed 14/14; `python3 electrical/evaluate.py` verified 32/32 saved request digests and labels. The full repository audit and post-commit audit are recorded separately for this wave.
+- **Limits and prevention:** No Electrical question defect was confirmed, so no question version changed. The CPSC factsheets are dated 2010 and 2012; this source supplement is not code-compliance or field-performance evidence. Whenever a source record stores an excerpt rather than a complete captured page, bind and display the exact excerpt and its digest scope.
+
+## 2026-09-27 — Authoring test should use a bounded draft snapshot
+
+- **Component:** `scripts/collection_pipeline/test_pipeline.py` authoring-check exemplar.
+- **Observed:** The repository-wide audit failed `test_exemplar_passes_at_its_own_version` after the accepted Electrical catalog gained two supplemental sources and reached eight; the authoring check correctly enforces a 3–6 source limit for a draft.
+- **Confirmed cause:** The test treated the evolving published collection as an unchanged draft exemplar, coupling its expected source count to later evidence supplements.
+- **Repair:** Build an isolated temporary draft snapshot with the original six sources and matching pattern source IDs, while retaining the real registry for nearest-pattern validation. The production 3–6 draft rule was not weakened.
+- **Verification:** The collection-pipeline suite passes 16/16 after the fixture isolation. Full repository audit results after this repair are recorded in the wave 21 pre-commit snapshot; post-commit results are recorded separately.
+- **Prevention:** Tests for authoring-time constraints should use immutable in-spec draft fixtures rather than a live accepted catalog whose sources and evidence can grow over time.
+
+## 2026-09-27 — Executive question boundaries and versioned summary support
+
+- **Components:** Executive patterns CE02/CE03/CE06, `scripts/build_collection_pages.py`, and `scripts/build_catalog.py`.
+- **Observed:** V1 challenge answers blurred proposal deadlines with commitment irreversibility (CE02-4, 0.39) and harms of declining with downsides of the plan (CE06-4, 0.51). Contract inspection also found CE03's "quantitative data" wording could absorb a numeric anecdote or unrelated budget. During page generation, the collection hub failed on versioned summaries that nest current results under `current`.
+- **Confirmed causes:** CE02 and CE06 did not explicitly separate the plan's own terms/consequences from consequences of waiting or declining; CE03 did not require systematic evidence supporting the recommendation. The shared page builder assumed every summary was flat and read `splits` at the top level.
+- **Repair:** Versioned CE02, CE03, and CE06 to v2 with explicit boundaries and additive reviewer-authored regression fixtures. Preserved every v1 state, expected label, summary, receipt, and both original challenge misses. Extended the shared builder to resolve flat or versioned summaries and recognize versioned regression provenance; added regression coverage and regenerated Executive pages and the hub locally. Tightened fixture-version validation to reject booleans, floats, zero, and null rather than relying on Python equality.
+- **Verification:** `python3 executive/evaluate.py` verifies 35 current fixture digests and 47 historical request digests; current authored labels match 35/35, with the v1 misses retained. Fifteen v2 calls match 15/15. CE01-4 (0.67), CE07-2 (0.59), and CE02-5 (0.56) remain human-review cases below the 0.8 policy threshold. Executive tests pass 14/14, including exact positive-integer fixture versions; collection-builder tests pass 3/3; `python3 scripts/build_collection_pages.py executive` writes 11 pages and `python3 scripts/build_collection_pages.py --hub` writes 23 collections/186 profiles. Full pre-commit checks pass 65/65 in `reviews/2026-09-27/wave20-final-checks-precommit-final.json`; after local code commit `4629e28b596f80224f34c95b158344b763e77b23`, full post-commit checks again pass 65/65 in `reviews/2026-09-27/wave20-postcommit-checks.json` across 390 profiles and 30 catalogs.
+- **Limits and prevention:** All examples are synthetic author-labelled cases, not held-out accuracy or executive-workflow qualification. Two Jev wording reviews returned `needs_review`; their low-confidence selections were treated as review prompts, not validation. CE-S6 is motivation-only, while older CE-S4 remains flagged as changed since its recorded source snapshot. No public build, push, or deployment occurred. Keep consequence direction and systematic-support criteria literal, preserve pre-revision evidence, and test every supported summary shape before updating generated collection pages.
+
+**Follow-up — September 27, 2026 (pattern-finder generator):** A whole-repository check found that `scripts/build_catalog.py` still read `provisional_patterns` only at the summary's top level. `auto-performance`, `construction`, and `motorsport` use versioned summaries with the selected values under `current`, so the finder failed before generation. Reused the shared `current_summary` resolver and added tests for all three live versioned collections and collection-scoped provisional flags. `python3 -m unittest discover -s scripts -p 'test_build_catalog.py' -v` passes 2/2; `python3 scripts/build_catalog.py` emits 390 profiles across 30 catalogs; and `python3 scripts/review_all_patterns.py` passes 65/65 checks in [the locked pre-commit receipt](../reviews/2026-09-27/wave25-final-checks-precommit-locked.json). After local implementation commit `ae38fb5addc6fe9107eed82c4a7716a882d617b1`, the post-commit audit also passes 65/65 in [its receipt](../reviews/2026-09-27/wave25-postcommit-checks.json). The exact Jekyll render remains unverified locally.
+
+## 2026-09-27 — Pattern and kernel guidance distinguish requirements from executed behavior
+
+- **Component:** Required-field preflight wording in `scripts/build_collection_pages.py`, generated collection pages, and `skills/jev-question-kernel-catalog/references/*.md`; first identified on Legal and Finance and later traced across generated pages and kernel modules.
+- **Symptom:** Sixteen Legal and Finance pages initially claimed that code already returns `unknown`; the shared generator later emitted the same unsupported runtime guarantee in 193 more pages. While reviewing Grading, the same statement remained in 23 domain reference modules, although the repository screens question contracts rather than executing a consuming application's gate.
+- **Confirmed cause:** Guidance templates phrased a consumer requirement as implemented behavior, and prior fixes updated the page generator but not the older kernel reference modules. Empty-evidence Jev receipts show why instructions in a question do not substitute for local code preflight.
+- **Repair:** The generator now states that consumer code must enforce the required-field gate and that the collection does not implement or verify it. The 193 affected generated pages were refreshed. Updated the 23 affected kernel reference modules to distinguish input-contract metadata from a consumer implementation and to keep schema-defined emptiness (and valid `0`/`false`) explicit. No catalog question, contract version, fixture state, expected label, or saved receipt changed.
+- **Verification:** The Data Quality evaluator verifies all 32 saved request digests and retains its 29/32 screen (21/24 design labels with three preserved disagreements; all 8 challenge labels match); its 13 tests pass. The new generator regression test passes; Legal and Finance each retain 13 passing tests and 32 verified receipt digests. Wave 22 `python3 grading/evaluate.py` verified 32/32 saved request digests without replaying Jev; 13 Grading tests passed, including exact catalog/page question and required-field parity for GR01–GR08; the page-builder suite passed 5/5 with a kernel-reference regression; and `git diff --check` passed. Local code/docs commit `608790a2e1708c546fc29f274e0843ec6dd83120` passed the post-commit `scripts/review_all_patterns.py` audit (65/65 checks across 390 profiles and 30 catalogs) recorded in `reviews/2026-09-27/wave22-postcommit-checks.json`. The earlier `scripts/review_all_patterns.py` run passed 65/65 pre-commit checks in `reviews/2026-09-27/wave19-final-checks-precommit-locked.json` and 65/65 post-commit checks across 390 profiles and 30 catalogs, bound to `d4e4d39` in `reviews/2026-09-27/wave19-postcommit-checks.json`.
+- **Limits and prevention:** The saved Data Quality source-support review is dated 2026-09-23; four sources were marked as changed since their recorded text and were not refreshed in this documentation repair. Keep source motivation separate from Jev performance. Never describe desired consumer logic as runtime behavior without inspecting and testing the consumer itself.
+
+## 2026-09-27 — Construction CN05 list-bound safety classification
+
+- **Component:** Construction CN05 question contract, fixtures, and versioned collection evaluator.
+- **Symptom:** V1 described a project-supplied stop-work list, but also classified any currently exposed hazard as stop-work even when absent from that list. The frozen CN05-4 challenge fell into the unlisted-hazard example while also satisfying that added trigger; Jev chose `hazard_to_correct` against the frozen `stop_work_condition` label at confidence 1.0.
+- **Confirmed cause:** The question's purpose and named state treated the project list as the stop-work authority, while the instruction added a second, broader rule without supplied policy support. The cause of the separate CN05-7 v2 miss (`unknown` expected; `positive_no_deficiency` observed at 0.95) is not established; the deterministic consumer preflight remains responsible for empty-list input.
+- **Repair:** Versioned CN05 to v2 so only a match to the complete supplied list is `stop_work_condition`; unlisted deficiencies, including active exposure, remain `hazard_to_correct` for human review. Explicitly prohibited the label from declaring safety, setting urgency, or deciding work stoppage. Kept all four v1 fixtures and receipts unchanged; added seven v2 development cases and evaluator support that separates archived from current-version fixtures.
+- **Verification:** Jev's bounded contract review favored list-bound scope (top probability 0.91, confidence 0.89); diagnosis confidence was lower (0.44), and host review checked the contract against its stated purpose. The uncached v2 screen matched 6/7 and retained CN05-7's disagreement; CN05 remains provisional. `python3 construction/evaluate.py` verifies 39 historical/refinement request digests. All 24 construction tests pass, including page/catalog JSON parity for 8/8 patterns, immutable v1 history, and versioned receipt binding. The pre-commit audit passes 65/65 checks in `reviews/2026-09-27/wave15-final-checks-precommit-locked.json`; after local code commit `6043e1dd93fb32dfba641f89b1c95bb1f431f576`, the full post-commit audit again passes 65/65 checks across 390 profiles and 30 catalogs in `reviews/2026-09-27/wave15-postcommit-checks.json`. No live consumer, project policy, site rendering, deployment, or safety outcome was verified.
+- **Prevention:** When a contract consumes a policy-owned list, make clear whether it is complete and do not infer extra policy from general semantics. Test unlisted active and inactive hazards, missing list evidence, and every label; preserve disagreement and keep safety decisions with the competent person.
+
+## 2026-09-26 — Motorsport MR04 measurement-versus-limit wording
+
+- **Component:** Motorsport MR04 finding classification, catalog versioning, and replay evaluator.
+- **Symptom:** The frozen MR04-4 challenge listed an 8.6 mm measurement and a 9.0 mm minimum without stating their relationship. Under the v1 wording, Jev chose `conformance_claim` against the frozen `observation` label at confidence 0.4.
+- **Confirmed cause:** Version 1 did not explicitly resolve value-plus-limit text when the finding itself stated no comparison. The issue was contract ambiguity, not evidence that the numeric comparison belonged to Jev.
+- **Repair:** Versioned MR04 to v2 with an explicit observation rule for a measurement and applicable limit with no stated relationship; kept comparison, conversion, and pass/fail in code. Preserved the original v1 catalog, fixtures, summary, and receipt; retained its unchanged fixture as a v2 regression and added MR04-5/6 for implicit versus explicit comparison. The evaluator now replays v1, v2, and current selections separately and rejects rewritten history.
+- **Verification:** Six uncached v2 calls matched 6/6; the archived v1 collection remains 31/32, while current selection is 34/34. The offline evaluator verifies 38 historical/refinement request digests; all 22 motorsport tests, exact page/catalog JSON parity, v1 snapshot comparisons, and `git diff --check` pass. Pre-commit and post-commit runs of `scripts/review_all_patterns.py` each pass 65/65 checks across 390 profiles and 30 catalogs; `reviews/2026-09-26/wave14-postcommit-checks.json` binds the latter to code commit `d5fed5f`. See `reviews/2026-09-26/wave14-motorsport-review.json` and `motorsport/evaluation.md`.
+- **Prevention/limits:** When both a measurement and limit appear in evidence, ask only whether the source text explicitly relates them; keep numeric comparison deterministic. Preserve a model disagreement when refining wording, and re-screen original cases plus new boundaries. These are synthetic author-labelled checks, not calibration, held-out accuracy, regulatory interpretation, or motorsport qualification.
+
+## 2026-09-26 — AP03 fitment evidence and versioned boundary test
+
+- **Component:** Auto-performance AP03 v1/v2 and the shared collection replay contract.
+- **Symptom:** AP03 v1 required the fitment text to name drivetrain for `supported`, but its positive fixture described rear-wheel drive only in the vehicle state; the supplier text named model, generation, body and brake option. The original Jev response matched the expected label, so receipt replay alone did not reveal the contract/fixture mismatch.
+- **Confirmed cause:** The positive example was broader than the literal instruction, and the collection evaluator only allowed four cases per profile, leaving no additive versioned boundary case or history-integrity checks for this domain.
+- **Repair:** Clarified AP03 v2's broad-category versus explicit-condition semantics, added AP03-5 for a drivetrain-specific condition not settled by the vehicle description and AP03-6 for vague nonempty fitment text, and preserved the entire v1 catalog, fixture set, summary and receipts. Added versioned additive-case validation that refuses removed or rewritten frozen cases and contract changes without exact version increments.
+- **Verification:** A bounded Jev wording review returned `needs_review` and marked criteria meaning as a low-confidence issue; it was treated as a lead, not proof. Six uncached v2 Jev cases matched 6/6; initial v1 remains 32/32 and current selection is 34/34 across 8 profiles. AP03-6's matching `unknown` answer has confidence 0.37, below the 0.8 review floor, so the follow-up remains required. All 19 auto-performance tests and exact question JSON parity for 8/8 pages pass. The final pre-commit run and post-commit snapshot (`reviews/2026-09-26/wave12-postcommit-checks.json`) each report 65 checks across 390 profiles and 30 catalogs with no failures; the latter's source commit is `37d3ca6`.
+- **Prevention/limits:** Cross-check each expected label against the literal contract and every evidence attribute in its fixture, not only against Jev output. Distinguish an explicit unresolved condition from a vague source and honor the review floor even when the label matches. All cases are synthetic; no physical fitment, production accuracy, or shop qualification is established.
+
+## 2026-09-26 — Iteration 1 H05 co-occurring defect recovery
+
+- **Component:** Iteration 1 H05 question contract and advisory consumer.
+- **Symptom:** Two distinct defects could be demonstrated by one failure, but the Choice contract only allowed one defect label and the consumer proposed one targeted repair for any recognized label. The recorded success metric also duplicated the falsifier rather than defining an outcome measure.
+- **Confirmed cause:** The output taxonomy modeled defects as mutually exclusive without evidence that real failures are; the branch did not distinguish a single defect from multiple independently supported defects. The metadata conflated a falsification rule with a measurable comparison.
+- **Repair:** Versioned H05 to v2 with `multiple_demonstrated_defects`; routed that label to retained failure review instead of selecting one repair. Replaced the copied success metric with measurable fresh-case, baseline, regression, and review-rate outcomes. Preserved the original four v1 receipts and added six synthetic v2 cases across all labels.
+- **Verification:** Jev's bounded v1 contract screen selected `forces_single_or_unspecified` at 0.97; its lower evidence score on consumer routing was treated as needs-review and confirmed against source. The v2 live screen matched 6/6; one state-mismatch answer at 0.78 confidence correctly remains review-only. `python3 iterations/01/evaluate.py` recomputed 142 request bindings; `python3 -m unittest discover -s iterations/01 -p 'test_*.py' -v` passed 42 tests. `git diff --check` passed. These synthetic results are not held-out or production qualification.
+- **Prevention:** Include independently co-occurring mechanisms in defect-taxonomy tests and keep success measures distinct from rejection conditions. Code should route a multi-defect answer to review for human decomposition rather than letting an advisory label choose a repair.
+
+## 2026-09-26 — Iteration 4 Choice-label overlap and fixture coverage
+
+- **Component:** Iteration 4 patterns B22, B25, E23, E24, E26, L19, L20, L21, L24 and H40.
+- **Symptom:** The original whole-contract screen flagged 13 patterns for label overlap. Source review found nested scopes, co-occurring role/fidelity states, and unclear precedence; three flagged patterns (B23, B26, H33) had no Choice question, so this specific overlap screen was not applicable.
+- **Confirmed cause:** Several categories could apply to one state, and instructions did not consistently define precedence or distinguish source conflict, missing evidence, compound obligations, or independent change dimensions. The original two fixtures per pattern also did not exercise every outcome label.
+- **Repair:** Versioned the ten Choice contracts to v2 with explicit boundaries/precedence, added 26 synthetic development fixtures so all current labels are represented, and preserved the first v2 screen and its four misses. L20's initially unresolved pair was refined to route multiple fidelity modes to `mixed_output_obligations`.
+- **Verification:** The preserved v2 first pass matched 41/45; the current v2 screen matched 46/46; final current selection matched 86/86 fixtures/questions. The current pair audit covers 77 label pairs; evaluator and receipt audit checks pass via `python3 iterations/04/evaluate.py` and `python3 -m unittest discover -s iterations/04 -p 'test_*.py' -v` (13 tests). These are synthetic, request-bound screening results, not production accuracy, calibration, authorization, or deployment evidence.
+- **Prevention:** Exercise every label and mixed/precedence boundary with author-frozen states kept out of provider input. Preserve first-pass misses and bind every selected answer to the exact current question/state. Treat low-confidence outputs as review signals; never infer action authority from a typed answer.
+
+## 2026-09-26 — Iteration 3 L17 shortlist evidence boundary
+
+- **Component:** Iteration 3 L17 skill-shortlist question contract and advisory consumer.
+- **Symptom:** In a frozen synthetic v2 case, Jev selected `document_editor` at 0.99 confidence even though another offered skill had no usable description; the expected disposition was insufficient evidence.
+- **Cause:** The v2 contract did not state that every offered description must be usable before choosing among the shortlist. No provider-internal cause is asserted.
+- **Repair:** Preserved the v2 miss and unchanged six-case regression set; versioned L17 to v3 with an explicit incomplete-description precedence rule and routed `insufficient` to review/shortlist expansion without loading a skill. Added twelve development cases across L17/L18/H28 and pairwise label-separation receipts.
+- **Verification:** `python3 iterations/03/evaluate.py` reports 73/73 selected fixtures and 98/98 question checks; the v2 screen retains its one miss and the uncached v3 L17 re-screen matches 6/6. Iteration 3 unit tests pass (19); `scripts/review_all_patterns.py` completed 65 evaluation/test commands with no failures across the 390-profile/30-catalog inventory; five semantic-review verifier tests pass. The catalog and collection-hub generators produced no tracked drift. A local Jekyll build was unavailable because this checkout has no Gemfile and no `jekyll` executable. No deployment is claimed.
+- **Prevention and limit:** Require descriptions and candidate coverage to be explicit in skill selection contracts; test incomplete entries, missing capabilities, multi-skill needs and shortlist-bounded `no_skill`. Synthetic fixtures and calibrated confidence do not prove full-catalog recall or production performance.
+
 ## 2026-09-24 — Public pilot split provenance and label quality
 
 - **Component:** Question-to-consumer replay split labels and public GitHub issue-title pilot.
@@ -118,6 +273,15 @@
 - **Verification:** 146 screening attempts yielded 144 successful responses; 143/144 selected labels match. All 144 successful request digests replay. Sixteen offline evaluator/status-mapping tests pass; the 48 proposed reproduction recipes were not executed.
 - **Prevention and limits:** Separate service failure, missing evidence, model disagreement and observed runtime behavior. Low-confidence leads remain candidates; counterevidence is not bug-free and stale evidence cannot promote a finding. See [the complete evaluation](../bug-hunting/evaluation.md).
 
+## 2026-09-26 — Email EM10 response precedence and regression extensibility
+
+- **Component:** Email pattern EM10 and its replay evaluator.
+- **Symptom:** An automatic out-of-office response could also acknowledge receipt, but v1 specified no precedence. A v2 answer-like message without the original request was labeled `substantive_reply` (option probability 0.51, confidence 0.38) instead of the frozen `unknown` expectation. The evaluator rejected every new fixture ID, and a boolean version could bind as integer `1`.
+- **Confirmed cause:** The response labels overlapped without a stated order, and v2 did not require a non-empty underlying request before choosing a contextual substantive reply. The evaluator required exact equality between original and current fixture-ID sets, so it could not represent additive tests for revised contracts. Its direct revision binding also relied on Python equality, under which JSON `true` compares equal to integer version `1`.
+- **Repair:** Versioned EM10 to v3 with explicit response-kind precedence and a request-bound `substantive_reply`; answer-like text without the request now routes to `unknown`, while receipt-only acknowledgments remain classifiable. The evaluator now permits new, version-matched fixtures only for revised contracts, rejects removed or rewritten frozen cases, and requires exact positive integer versions. Preserved the full EM10 v2 first pass, including its miss, and added four current boundary fixtures.
+- **Verification:** Uncached Jev v3 responses matched 7/7 EM10 cases; the preserved v2 screen matches 6/7 with EM10-7 retained as a miss. Current email selection matches 40/40, and all 56 stored fixture request/response digests replay. Twenty-three offline email tests pass, including checks for fixture additions, removals, rewrites, boolean versions, preservation of the v2 miss, and page/catalog parity. Synthetic author-labelled tests do not establish held-out accuracy or mailbox safety; no external action, push, or deployment occurred.
+- **Prevention:** Define a literal priority when message signals co-occur; require source context for contextual claims; preserve original cases while allowing additive regression coverage under versioned contracts.
+
 ## 2026-09-22 — Email missing-input precedence and confidence validation
 
 - **Component:** Email profiles EM07/EM08 and the email receipt evaluator.
@@ -166,6 +330,89 @@
 - **Verification:** The Iteration 2 unittest discovery command passed 20 tests; the Iteration 2 evaluator reproduced 168 request-digest bindings and selected 134/134 current fixtures with 147/147 current question checks. Publication/deployment verification remains pending at this entry.
 - **Prevention:** Version every altered contract with pattern-specific context, then assert the complete changed-version set before a live rerun. In negative tests, mutate the final value under test rather than using a helper parameter whose sentinel behavior can bypass the invalid case.
 - **Published verification:** [Actions run 35724928016](https://github.com/Seabass-up/jev-workflow-patterns/actions/runs/35724928016) passed both iteration suites, Jekyll build, and 68 rendered iteration-page/link checks for source commit 86735a60f6364e19be29c90507ee5b46728a4820. All 38 checked public Iteration 2 URLs returned HTTP 200; the served catalog SHA-256 matches the local artifact, and H19 is served at contract version 3. [Publication receipt](../iterations/publications/02.json). These checks do not claim visual acceptance or production performance.
+
+## 2026-09-26 — Iteration 1 incomplete provider distributions
+
+- **Component:** Iteration 1 advisory response validator.
+- **Symptom:** A Choice response with no probability distribution passed validation and reached the typed-signal proposal. Existing mocks also omitted distributions, so the original tests did not detect the gap.
+- **Confirmed cause:** Validation checked scalar labels, ranges and confidence but not full Choice/Score probability coverage. Jev identified this as a low-confidence review candidate; deterministic reproduction confirmed it.
+- **Repair:** Require complete finite distributions with bounded two-decimal rounding tolerance and reject a Choice that is not a maximum. Update mocks to supply distributions and add malformed-distribution regression tests. No question contracts or historical receipts changed.
+- **Verification:** Iteration 1 passes 34 tests, including all 136 historical request bindings and new missing/malformed/nonmaximum response cases. Full-catalog local replay is recorded in `reviews/2026-09-26/`. This is a local repair, not a deployed change or evidence of production accuracy.
+- **Prevention:** Validate the entire provider answer before planning; successful receipt replay alone does not exercise malformed response paths. Keep semantic approval separate from schema validation.
+
+## 2026-09-26 — Whole-contract review evidence and verifier paths
+
+- **Component:** Whole-catalog review tooling.
+- **Symptom/cause:** The initial verifier assumed its CLI folder was absolute and failed `relative_to` on a normal relative argument. Normalizing folder/root paths repaired that local packaging error.
+- **Repair/verification:** The verifier now binds 390 complete current contracts, 113 live screening receipts, and 12 new boundary receipts. Its tests exercise the current source plus malformed responses; the full 65-command local suite passes in `reviews/2026-09-26/semantic-wave01-local-tests.json`.
+- **Prevention/boundary:** Read every relevant contract field when screening. Inspect flags before rewriting: six initial flags were not confirmed on source inspection and targeted cases. Preserve uncertainties and false positives; a model screen can also miss defects and does not replace host review or production qualification. Normalize CLI paths before deriving repository-relative provenance. These changes are local only.
+
+## 2026-09-26 — Historical controllers could not inspect required evidence
+
+- **Component:** Advisory planners in iterations 01–04 (120 profiles).
+- **Symptom:** L01 returned `rank_passage` from a typed signal even when no query or passage was supplied to the planner. The other three planner APIs likewise accepted no source state.
+- **Confirmed cause:** Required-field metadata was checked in some fixture validators but not at the consuming planner boundary; the planner function had no state argument. A low-confidence Jev candidate was independently confirmed by source inspection and reproduction.
+- **Repair:** Require keyword `state=...` for planning. Missing required fields, nulls, blank strings and empty collections return review before typed-answer consumption. Preserve iteration-01's mandatory policy-alert override. Update pure branch tests to supply explicit synthetic evidence; do not silently create evidence in production.
+- **Verification:** Cross-iteration tests exercise every required field of all 120 profiles; iteration 01 passes 38 tests. All 65 local repository replay/test commands pass in `reviews/2026-09-26/state-preflight-final-tests.json`. Changed evaluator/test/document hashes in iteration-03/04 manifests are refreshed. No question contracts, fixtures or provider receipts were rewritten.
+- **Prevention/limits:** Make evidence presence an executable consumer precondition, not just metadata. Presence is not authenticity, nested-schema completeness, source/answer binding, semantic sufficiency, truth, freshness or permission. This local API change is not deployment or production qualification.
+
+## 2026-09-26 — H18 counterevidence overlaps ordinary missing obligations
+
+- **Component:** Iteration 02 H18 question contract and receipt replay.
+- **Symptom/cause:** A missing named counterevidence obligation met both `partial` and `counterevidence_unaddressed`; v1 did not explicitly prioritize them. This is a contract ambiguity, not proof of a model-internal defect.
+- **Repair:** H18 v2 first handles unmatchable evidence, then prioritizes omitted/misrepresented direct counterevidence over ordinary missing obligations. Preserved original v1/fixtures and all historical receipts; versioned the four unchanged fixtures and selected new v2 receipts without relabeling them.
+- **Verification:** Four unchanged regression cases and three frozen development boundaries matched 7/7. Two boundary answers had confidence 0.32/0.59 and consumer tests confirm review. The evaluator binds 175 receipts and selects 134/134 current historical fixtures; all 65 local commands pass. Revision checks reject changed original states/expectations or unbound revision evidence.
+- **Prevention/limits:** Test realistic co-occurring labels explicitly and keep uncertainty gates separate from label match. A preserved old screen verifies its original Git source, not the revised contract. Local commit only; no production qualification or deployment.
+
+## 2026-09-26 — Iteration 02 overlapping ownership, applicability, provenance and assembly labels
+
+- **Component:** B09/B13/L10/H15 typed questions and revision replay.
+- **Symptom/cause:** Explicit joint ownership also matched individual owners; a superseded artifact could be a different subject; a statement could have source and calculation support; one assembly could promote reference and omit a binding. The original questions gave no explicit precedence for these co-occurrences.
+- **Repair:** Versioned all four to v2 with explicit unresolved/conflict handling and precedence. Preserved the original contracts and 17 original fixtures; changed only their version metadata and selected fresh receipts. No original states or labels were changed.
+- **Verification:** One screen of 17 unchanged regressions and eight frozen development cases matched 25/25. Two low-confidence answers (0.60/0.79) stay in review through consumer tests. Iteration 02 passes 24 tests, binds 200 receipts and retains 134/134 final fixture matches. All-catalog checks are saved with this checkpoint.
+- **Prevention/limits:** Test co-occurrence separately from clear single-label cases. Conflict handling precedes supportive evidence; one selected label does not erase other defects or establish trust/authority. These are local synthetic revisions, not deployed or production-qualified patterns.
+
+## 2026-09-26 — H24 missing operational-burden evidence
+
+- **Component:** H24 score-composition question and consumer.
+- **Symptom/cause:** A live v1 probe with no burden evidence returned burden 0.04/confidence 0.94; the consumer proposed computing a weighted score. Score levels presupposed stated burden, with no availability signal or guard. Model-internal cause is unknown.
+- **Repair:** Added independent availability Noul and provisional 0.8 consumer gate. Ignore burden Score when evidence is missing, irrelevant, conflicting or uncertain; preserve named-veto review first. V3 clarifies that stated qualitative levels suffice and fit is independent of burden/veto. V1, v2 and all misses remain preserved.
+- **Verification:** V2 matched 4/7 cases, v3 matched 6/7 and 27/28 question intervals; two original states/three original intervals per state were preserved. One conservative miss (negated-resource availability 0.66) remains review-held. Sixteen iteration-three tests exercise ignored scores 0/1/2, uncertain availability, veto precedence, threshold boundary and malformed configuration, plus archived-source/refinement anti-tampering. All 65 repository commands pass in `reviews/2026-09-26/h24-availability-final-tests.json`.
+- **Prevention/limits:** A numeric Score and its confidence cannot prove the underlying dimension was supplied. Test availability separately and never lower thresholds or relabel cases to hide misses. Safety guard is locally tested; availability calibration, one conservative development mismatch and production qualification remain open. No push/deployment.
+
+## 2026-09-26 — Iteration 03 evidence and routing label precedence
+
+- **Component:** B19/E18/H22/H26/H27 questions and receipt replay.
+- **Symptom/cause:** A missing billing record can coexist with contradiction; replay risk with one/no observed effect; duplicates with a completeness declaration; answer candidates with conflict/incomplete scope; distinct identities with matching/conflicting descriptive fields. The original questions lacked explicit precedence.
+- **Repair:** Versioned all five to v2, defining missing evidence first and explicit co-occurrence rules. Preserved five v1 contracts and ten original fixtures against Git `f600346`; no original state or expected label changed. The selected historical cases now bind fresh v2 receipts.
+- **Verification:** One frozen screen matched 24/24 (ten unchanged regressions plus fourteen development boundaries). Thirty CT08 pair checks selected disjoint/precedence-resolved, including low-confidence checks retained without retries. Replay verifies 91 fixture receipts and five pair-review requests; regression tests reject changed originals, frozen expectations, revised contracts and pair inputs. Full repository verification is recorded with the checkpoint.
+- **Prevention/limits:** Test realistic co-occurrence and policy scope, not only isolated examples. A precedence label does not erase counterevidence or authorize billing, replay, retrieval completeness, linking, or merging. These are local synthetic repairs, not deployment or production qualification; four iteration-three semantic repairs remain.
+
+## 2026-09-26 — Historical iteration response distribution validation
+
+- **Component:** Iteration 02/03/04 `valid_answers` and shared review receipt checks.
+- **Symptom/cause:** Exact sum tolerance rejected valid two-decimal rounded distributions (0.99/1.01); no maximum check allowed a Choice selecting a less probable option. Deterministic reproduction saved against source commit `6ea79d0`.
+- **Repair:** Allow only the per-value rounding error bound `.005 * option_count + epsilon`; require selected Choice probability to equal the maximum. Complete label coverage, finite bounded values and malformed-distribution rejection remain enforced. Added cross-iteration regressions, including Score rounding and tied Choice maxima.
+- **Verification:** Shared script tests pass 17/17; the full repository run passes 65/65 commands in `reviews/2026-09-26/iteration03-triage-validator-commit-tests.json`. Five unchanged iteration-three contracts were exercised in fresh frozen cases; all eleven expectations matched and all five consumer replays returned review. Original historical receipts and labels are unchanged.
+- **Prevention/limits:** Test actual serialized probability precision, not only one-hot mocks. Distribution shape and maximum consistency do not establish calibration, truth, permission, or production qualification. No deployment performed; nine iteration-three semantic repairs remain pending.
+
+## 2026-09-27 — Human Resources question boundaries and versioned evaluation
+
+- **Component:** HR05 exit-interview theme, HR06 offer-letter completeness, HR07 performance-review evidence, and shared collection-page generation.
+- **Symptom:** HR05 gave two different tie-break rules for multi-theme comments; HR06's instructions prioritized conflicting values over missing values while its criteria required all elements to be present before calling them inconsistent; HR07 said an instance must include an employee action but its criteria allowed an event/period alone. The versioned evaluation omitted below-threshold matching answers, and its page builder made a false one-challenge-per-pattern claim and used plural grammar for one provisional pattern.
+- **Confirmed cause:** Contract instructions and option criteria were authored inconsistently for co-occurring evidence; the versioned evaluator reported mismatches but not all policy-threshold review cases; shared page text assumed a fixed fixture shape and count.
+- **Repair:** Versioned HR05/06/07 to v2 with explicit precedence/instance criteria, preserved v1 artifacts and receipts, added five reviewer-authored regression fixtures, reported all current below-threshold answers, and corrected the builder with regression tests. HR06's empty required-elements case remains a mismatch and is still marked provisional; the consuming application must reject absent/empty required evidence before calling Jev.
+- **Verification:** `python3 human-resources/evaluate.py` verifies the saved summary and receipt bindings; `python3 -m unittest discover -s human-resources -p 'test_*.py' -v` passes 19 tests; `python3 -m unittest scripts.test_build_collection_pages -v` passes 6 tests; `git diff --check` passes. Full-catalog audit and local commit are recorded in the Wave 23 checkpoint. These are synthetic/local checks, not production evaluation or deployment.
+- **Prevention/limits:** For every label, test criteria and instructions against missing, empty, conflicting, negated, and co-occurring evidence; test a period without an employee action. Report low confidence even when labels match. Source freshness remains limited: prior source digests are historical, and direct DOL retrieval returned 403. Do not claim consumer preflight exists in this catalog-only repository.
+
+## 2026-09-27 — Bug-hunting page parity and evaluation guidance
+
+- **Component:** Bug-hunting evaluation documentation and 48 public pattern pages.
+- **Symptom:** The evaluation page said the suite had 17 tests, but the repository actually ran 18; the evaluator tests did not compare every published question block and fixture row with its catalog sources.
+- **Confirmed cause:** The test count was manually maintained and no regression guarded against drift between the catalog, fixtures, and generated profile pages.
+- **Repair:** Removed the brittle numeric count. Added tests requiring exact question JSON, required-state field names, and expected-label rows to match across all 48 pages; added catalog-wide checks for the v2 shared evidence/guard precedence and for avoiding another hard-coded test count.
+- **Verification:** `python3 bug-hunting/evaluate.py` still verifies all 288 initial/refinement request digests and preserves the BH41-2 disagreement. `python3 -m unittest discover -s bug-hunting -p 'test_*.py' -v` passes 21 tests, including 48-page/144-fixture parity. The first full-catalog audit passes 65/65 commands across 390 profiles and 30 catalogs in `reviews/2026-09-27/wave24-final-checks-precommit.json`; `git diff --check` passes. The synthetic scenarios do not execute buggy/fixed code or establish discovery accuracy.
+- **Prevention/limits:** Derive exact contract text from one catalog source and test rendered pages against it. Avoid manually maintained counts when they can drift. Keep BH41-2 provisional and preserve the original provider errors; a matching screen is not proof that a bug-hunting profile finds real defects.
 
 ## 2026-09-22 — Iteration 1 question contracts and guarded controllers
 

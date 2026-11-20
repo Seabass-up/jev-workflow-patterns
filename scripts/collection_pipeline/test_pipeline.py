@@ -170,16 +170,33 @@ class SourceDriftTests(unittest.TestCase):
 
 
 class AuthoringCheckTests(unittest.TestCase):
-    """The electrical collection, with its design split and module staged in the work directory."""
+    """An Electrical draft snapshot with its design split and module staged in the work directory."""
 
     @classmethod
     def setUpClass(cls):
         fixtures = json.loads((REPO / "electrical/fixtures.json").read_text())
         (WORK / "design_electrical.json").write_text(json.dumps([f for f in fixtures if f["split"] == "design"]))
         shutil.copy(REPO / "skills/jev-question-kernel-catalog/references/electrical.md", WORK / "module_electrical.md")
+        cls.exemplar_repo = WORK / "exemplar-repo"
+        exemplar = cls.exemplar_repo / "electrical"
+        exemplar.mkdir(parents=True)
+        catalog = json.loads((REPO / "electrical/catalog.json").read_text())
+        sources = json.loads((REPO / "electrical/sources.json").read_text())
+        draft_source_ids = {source["id"] for source in sources[:6]}
+        for pattern in catalog["patterns"]:
+            pattern["source_ids"] = [source_id for source_id in pattern["source_ids"] if source_id in draft_source_ids]
+        (exemplar / "catalog.json").write_text(json.dumps(catalog))
+        shutil.copy(REPO / "electrical/collection.json", exemplar / "collection.json")
+        (exemplar / "sources.json").write_text(json.dumps(sources[:6]))
+        cls.original_repo = check_authoring.REPO
+        cls.original_prior_ids = check_authoring.prior_ids
+        check_authoring.REPO = cls.exemplar_repo
+        check_authoring.prior_ids = lambda _repo: cls.original_prior_ids(cls.original_repo)
 
     @classmethod
     def tearDownClass(cls):
+        check_authoring.REPO = cls.original_repo
+        check_authoring.prior_ids = cls.original_prior_ids
         shutil.rmtree(WORK, ignore_errors=True)
 
     def test_exemplar_passes_at_its_own_version(self):

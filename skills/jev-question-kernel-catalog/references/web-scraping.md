@@ -52,8 +52,11 @@ contracts state a precedence order for inputs that fit two labels (a permission 
 a condition, a stop notice with a contact route, allowed with excluded personal data,
 structure with values, a variant against a different entity); keep those sentences
 when adapting. Keep raw markup excerpts short and limited to the elements the fields
-are read from. Before inference, code validates `required_state_fields` and returns a
-local `unknown` for absent or empty evidence.
+are read from. `required_state_fields` describes an input contract; it does not
+enforce itself. Before calling Jev, the consuming application must check each field
+and return a local `unknown` when a value is absent or empty under that field's
+schema. This module and the collection screen do not implement or verify that
+consumer preflight; valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

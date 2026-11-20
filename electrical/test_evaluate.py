@@ -1,6 +1,9 @@
 import copy
+import hashlib
 import importlib.util
+import json
 from pathlib import Path
+import re
 import unittest
 
 spec = importlib.util.spec_from_file_location("collection_evaluate", Path(__file__).with_name("evaluate.py"))
@@ -36,6 +39,32 @@ class CollectionTests(unittest.TestCase):
     def test_policy_option_counts_match_contracts(self):
         for p in self.catalog["patterns"]:
             self.assertEqual(p["policy"]["option_count"], len(p["questions"]["decision"]["criteria"]))
+
+    def test_el07_has_primary_cpsc_device_function_sources(self):
+        source_map = {source["id"]: source for source in self.sources}
+        el07 = next(pattern for pattern in self.catalog["patterns"] if pattern["id"] == "EL07")
+        self.assertIn("ES-7", el07["source_ids"])
+        self.assertIn("ES-8", el07["source_ids"])
+        for source_id in ("ES-7", "ES-8"):
+            source = source_map[source_id]
+            with self.subTest(source=source_id):
+                self.assertIn("CPSC", source["title"])
+                self.assertEqual(source["representation"], "browser_excerpt")
+                self.assertEqual(hashlib.sha256(source["excerpt"].encode("utf-8")).hexdigest(), source["sha256"])
+                self.assertIn("not current installation requirements", source["summary"])
+
+    def test_all_electrical_pages_match_catalog_question_and_preflight_boundary(self):
+        patterns = {pattern["id"]: pattern for pattern in self.catalog["patterns"]}
+        for pattern_id, pattern in patterns.items():
+            page_path = Path(__file__).resolve().parent / "patterns" / (pattern_id.lower() + ".md")
+            page = page_path.read_text(encoding="utf-8")
+            with self.subTest(pattern=pattern_id):
+                match = re.search(r"## Exact question JSON\s+Reproduced from contract v\d+.*?```json\s*(.*?)\s*```", page, re.S)
+                self.assertIsNotNone(match)
+                self.assertEqual(json.loads(match.group(1)), pattern["questions"])
+                self.assertIn("Consumer code must deterministically return `unknown`", page)
+                self.assertIn("this collection does not implement or verify that gate", page)
+                self.assertNotIn("Code deterministically returns `unknown`", page)
 
     def test_changed_state(self):
         self.r["request"]["state"] = {"unrelated": "replacement"}

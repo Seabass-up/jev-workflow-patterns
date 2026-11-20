@@ -39,7 +39,8 @@ def answer_value(answer: Any) -> Any:
 
 
 def probability_distribution(values: Any, keys: set[str]) -> bool:
-    return isinstance(values, dict) and set(values) == keys and all(probability(v) for v in values.values()) and abs(sum(values.values()) - 1) <= 0.000001
+    # Each provider probability is rounded to two decimal places.
+    return isinstance(values, dict) and set(values) == keys and all(probability(v) for v in values.values()) and abs(sum(values.values()) - 1) <= .005 * len(keys) + 1e-12
 
 
 def valid_answers(questions: Any, response: Any) -> bool:
@@ -59,6 +60,8 @@ def valid_answers(questions: Any, response: Any) -> bool:
             if not isinstance(criteria, dict) or not isinstance(answer.get("choice"), str) or answer["choice"] not in criteria:
                 return False
             if not probability(answer.get("confidence")) or not probability_distribution(answer.get("probabilities"), set(criteria)):
+                return False
+            if answer["probabilities"][answer["choice"]] < max(answer["probabilities"].values()):
                 return False
         elif kind == "score":
             criteria = question.get("criteria")
@@ -109,10 +112,10 @@ def validate_catalog_and_fixtures() -> tuple[dict[str, dict], dict[str, dict]]:
     got = {domain: sum(item.get("domain") == domain for item in patterns) for domain in wanted}
     if got != wanted:
         raise ValueError(f"unexpected domain counts: {got}")
-    if not isinstance(fixtures, list) or len(fixtures) != 60:
-        raise ValueError("expected exactly 60 frozen fixtures")
+    if not isinstance(fixtures, list) or len(fixtures) != 86:
+        raise ValueError("expected exactly 86 frozen fixtures")
     by_fixture = {item.get("id"): item for item in fixtures}
-    if len(by_fixture) != 60 or None in by_fixture:
+    if len(by_fixture) != 86 or None in by_fixture:
         raise ValueError("fixture IDs must be unique")
     for item in fixtures:
         pattern = by_pattern.get(item.get("pattern_id"))
@@ -120,6 +123,9 @@ def validate_catalog_and_fixtures() -> tuple[dict[str, dict], dict[str, dict]]:
         expected = item.get("expected")
         if pattern is None or not isinstance(state, dict) or contains_expected(state):
             raise ValueError("invalid fixture state: " + str(item.get("id")))
+        version = item.get("contract_version", pattern.get("contract_version"))
+        if version != pattern.get("contract_version"):
+            raise ValueError("fixture contract version mismatch: " + str(item.get("id")))
         if not set(pattern.get("required_state_fields", [])) <= set(state):
             raise ValueError("missing state field: " + str(item.get("id")))
         if not isinstance(expected, dict) or set(expected) != set(pattern.get("questions", {})):
@@ -155,8 +161,27 @@ def check_receipt(row: dict[str, Any], screen: str) -> dict[str, int]:
     return {"requests": 1, "fixture_matches": int(all(matches)), "questions": len(checks), "question_matches": sum(matches), "request_digests_verified": 1}
 
 
-def plan(pattern: dict[str, Any], response: dict[str, Any]) -> dict[str, str]:
+def state_ready(pattern, state):
+    """Check top-level evidence presence, not truth, freshness or authority."""
+    required = pattern.get("required_state_fields")
+    if (not isinstance(state, dict) or not isinstance(required, list) or not required
+            or any(not isinstance(field, str) or not field for field in required)):
+        return False
+    for field in required:
+        if field not in state or state[field] is None:
+            return False
+        value = state[field]
+        if isinstance(value, str) and not value.strip():
+            return False
+        if isinstance(value, (list, dict)) and not value:
+            return False
+    return True
+
+
+def plan(pattern: dict[str, Any], response: dict[str, Any], *, state=None) -> dict[str, str]:
     """A deliberately non-actioning controller used only by pure tests."""
+    if not state_ready(pattern, state):
+        return {"next": "review", "reason": "missing_required_state"}
     if not valid_answers(pattern.get("questions"), response):
         return {"next": "review"}
     return {"next": "review_or_code_owned_branch"}

@@ -49,8 +49,11 @@ Fair-housing rules apply to the state as well as to the label: keep protected
 characteristics, names, and contact details out of the state, and limit the required
 fields to the text the judgment needs. Several contracts state a precedence order for
 messages, clauses, or items that fit more than one label; keep those sentences when
-adapting. Before inference, code validates `required_state_fields` and returns a local
-`unknown` for absent or empty evidence.
+adapting. `required_state_fields` describes an input contract; it does not enforce
+itself. Before calling Jev, the consuming application must check each field and
+return a local `unknown` when a value is absent or empty under that field's schema.
+This module and the collection screen do not implement or verify that consumer
+preflight; valid `0` or `false` values must not be treated as missing.
 
 ## Use the labels without taking over
 

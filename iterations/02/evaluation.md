@@ -6,7 +6,7 @@ permalink: /iterations/02/evaluation/
 kicker: "Evaluation · Synthetic design checks"
 ---
 
-[← Iteration 2 catalog]({{ '/iterations/02/' | relative_url }}) · [Question kernel]({{ '/iterations/02/question-kernel/' | relative_url }}) · [Raw summary JSON]({{ '/iterations/02/results/summary.json' | relative_url }})
+[← Iteration 2 catalog]({{ '/iterations/02/' | relative_url }}) · [Question kernel]({{ '/iterations/02/question-kernel/' | relative_url }}) · [Raw summary JSON]({{ '/iterations/02/results/summary.json' | relative_url }}) · [Kernel authoring guide](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md)
 
 # Evaluation: preserve the miss, repair the contract, rerun the affected case
 

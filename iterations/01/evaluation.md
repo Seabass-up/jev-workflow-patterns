@@ -5,7 +5,7 @@ description: "What the Jev pattern tests establish, what failed, and what remain
 permalink: /iterations/01/evaluation/
 ---
 
-[Catalog]({{ '/iterations/01/' | relative_url }})
+[Catalog]({{ '/iterations/01/' | relative_url }}) · [Kernel authoring guide](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md)
 
 ## Outcome
 

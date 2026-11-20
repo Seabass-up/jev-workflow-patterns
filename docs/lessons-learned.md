@@ -1,5 +1,32 @@
 # Lessons learned
 
+## 2026-11-20 — Preserve Git history and measurement inputs in local CI
+
+The clean review commit `d281847` failed three CI steps. The disposable
+repository discarded two Git ancestors used by the iteration and semantic
+review checks. Five live inputs had also changed since the discovery report.
+A separate working tree passed while its generated-file guard accepted an
+untracked replacement and its link checker skipped four broken relative links.
+
+- The local runner fetches the submitted commit and its ancestors from disk.
+  Clean sources keep the original commit ID. The snapshot retains Git tracking
+  status for dirty sources. CI checks each generated output before rebuilding.
+- The discovery loader parses and hashes the same bytes. Five originals from
+  `e42fdb2` are stored by digest for historical replay. Each iteration
+  evaluation links to the published guide, and the page verifier resolves
+  internal links from the rendered URL.
+- Docker inspection, build and cleanup use one explicit local socket. The
+  runner writes the active step and its terminal status when interrupted.
+- `python3 -B -m unittest discover -s scripts -p 'test_ci_local.py'` passed
+  12 tests. The discovery suite passed 13 tests and the link suite passed four.
+  The historical replay matched all 25 inputs. A fresh baseline bound all 42
+  current inputs to their actual bytes and reproduced its report on replay.
+
+For release verification, run `python3 scripts/ci-local.py --run --keep-going`
+on the committed branch. Check the receipt's source HEAD, clean status,
+snapshot commit and step results together. Hosted publication has a separate
+deployment receipt.
+
 ## 2026-09-28 — Keep research acceptance separate from kernel qualification
 
 - **Component:** Kernel 2.9.0 audit-pending import, exact-version loader, installed skill and guide.

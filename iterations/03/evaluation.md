@@ -6,7 +6,7 @@ permalink: /iterations/03/evaluation/
 kicker: "Evaluation · frozen fixtures and versioned contract repair"
 ---
 
-[← Iteration 3 catalog]({{ '/iterations/03/' | relative_url }}) · [Question kernel]({{ '/iterations/03/question-kernel/' | relative_url }}) · [Raw summary]({{ '/iterations/03/results/summary.json' | relative_url }})
+[← Iteration 3 catalog]({{ '/iterations/03/' | relative_url }}) · [Question kernel]({{ '/iterations/03/question-kernel/' | relative_url }}) · [Raw summary]({{ '/iterations/03/results/summary.json' | relative_url }}) · [Kernel authoring guide](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md)
 
 # Evaluation: preserve the initial miss, repair only the demonstrated boundary
 

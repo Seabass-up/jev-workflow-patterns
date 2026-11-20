@@ -6,7 +6,7 @@ permalink: /iterations/04/evaluation/
 kicker: "Iteration 4 · test evidence"
 ---
 
-[← Iteration 4 catalog]({{ '/iterations/04/' | relative_url }}) · [Question kernel]({{ '/iterations/04/question-kernel/' | relative_url }}) · [Sources]({{ '/iterations/04/sources/' | relative_url }})
+[← Iteration 4 catalog]({{ '/iterations/04/' | relative_url }}) · [Question kernel]({{ '/iterations/04/question-kernel/' | relative_url }}) · [Sources]({{ '/iterations/04/sources/' | relative_url }}) · [Kernel authoring guide](https://github.com/Seabass-up/jev-workflow-patterns/blob/main/skills/jev-question-kernel-catalog/references/authoring.md)
 
 # Evaluation: freeze first, then preserve every result
 

@@ -24,6 +24,20 @@ class ProjectLinkTests(unittest.TestCase):
             check_local_link(site, "source.html", "//example.org/unrelated/")
             check_local_link(site, "source.html", "#heading")
 
+    def test_relative_and_same_site_links_resolve_from_rendered_page(self):
+        with tempfile.TemporaryDirectory() as folder:
+            site = Path(folder)
+            page = site / "iterations/01/evaluation/index.html"
+            guide = site / "kernel/guide/index.html"
+            guide.parent.mkdir(parents=True)
+            guide.touch()
+            check_local_link(site, page, "../../../kernel/guide/?view=all#heading")
+            check_local_link(site, page, "https://seabass-up.github.io/jev-workflow-patterns/kernel/guide/")
+            for link in ("../../skills/authoring.md", "../missing/", "/jev-workflow-patterns/missing.js",
+                         "//seabass-up.github.io/jev-workflow-patterns/missing/"):
+                with self.subTest(link=link), self.assertRaisesRegex(ValueError, "broken internal link"):
+                    check_local_link(site, page, link)
+
 
 if __name__ == "__main__":
     unittest.main()
